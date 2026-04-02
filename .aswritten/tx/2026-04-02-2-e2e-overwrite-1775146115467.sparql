@@ -1,0 +1,140 @@
+PREFIX narr: <https://aswritten.ai/narrative#>
+PREFIX rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX prov: <http://www.w3.org/ns/prov#>
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+PREFIX dct:  <http://purl.org/dc/terms/>
+PREFIX xsd:  <http://www.w3.org/2001/XMLSchema#>
+PREFIX oa:   <http://www.w3.org/ns/oa#>
+
+# ── Transaction provenance (default graph) ──────────────────────
+INSERT DATA {
+  narr:Tx_20250714T120000Z a prov:Activity ;
+    dct:title "Extraction: Second version document with reviewer frontmatter" ;
+    prov:generatedAtTime "2025-07-14T12:00:00Z"^^xsd:dateTime ;
+    prov:wasAssociatedWith "aswritten.ai" ;
+    prov:wasAttributedTo "n8n.aswritten.ai" ;
+    narr:originPath "unknown" ;
+    narr:originRef "unknown" ;
+    prov:generated
+      narr:Sample_SecondVersion,
+      narr:StyleMetrics_SecondVersion,
+      narr:StyleObs_SecondVersion_MinimalRegister,
+      narr:StyleObs_SecondVersion_NounPhraseOnly,
+      narr:StyleObs_SecondVersion_VersioningConvention,
+      narr:Claim_DocumentAtSecondVersion .
+} ;
+
+# ── New Sample for second version document ───────────────────────
+INSERT DATA {
+  GRAPH narr:Tx_20250714T120000Z {
+
+    narr:Sample_SecondVersion a narr:Sample ;
+      dct:title "Second version document with reviewer frontmatter" ;
+      dct:description "Minimal document consisting of YAML frontmatter assigning the same expert reviewer and a two-word body declaring 'Second version'. Successor to the first version document." ;
+      narr:inputLength 68 .
+
+    # ── Style Metrics ────────────────────────────────────────────
+    narr:StyleMetrics_SecondVersion a narr:StyleMetrics ;
+      skos:broader narr:StyleMetrics ;
+      dct:source narr:Sample_SecondVersion ;
+      narr:AverageSentenceLength 2 ;
+      narr:ActiveVoiceRatio "0.0"^^xsd:decimal ;
+      narr:JargonDensity "0.0"^^xsd:decimal ;
+      skos:note "Corpus is a single two-word noun phrase ('Second version'). No verbs present, so active voice ratio is 0. No domain jargon detected. Register: minimal/administrative. Structurally identical to first version metrics." .
+
+    # ── Style Observation 1: Minimal/administrative register ─────
+    narr:StyleObs_SecondVersion_MinimalRegister a narr:StyleObservation ;
+      skos:broader narr:RegisterFormality ;
+      dct:source narr:Sample_SecondVersion ;
+      skos:note "Bare noun phrase body with no predicate or elaboration — extreme economy of expression, consistent with administrative versioning convention." ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_SecondVersion ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start 44 ;
+          oa:end 58
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "Second version" ;
+          oa:prefix "---\n\n" ;
+          oa:suffix ""
+        ]
+      ] .
+
+    # ── Style Observation 2: Noun-phrase-only body ───────────────
+    narr:StyleObs_SecondVersion_NounPhraseOnly a narr:StyleObservation ;
+      skos:broader narr:GrammarSyntax ;
+      dct:source narr:Sample_SecondVersion ;
+      skos:note "Document body is a standalone noun phrase with no verb, subject, or predicate structure. Sentence mood is absent; clause complexity is zero." ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_SecondVersion ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start 44 ;
+          oa:end 58
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "Second version" ;
+          oa:prefix "---\n\n" ;
+          oa:suffix ""
+        ]
+      ] .
+
+    # ── Style Observation 3: Ordinal versioning convention ───────
+    narr:StyleObs_SecondVersion_VersioningConvention a narr:StyleObservation ;
+      skos:broader narr:NamingConventions ;
+      dct:source narr:Sample_SecondVersion ;
+      skos:note "Ordinal adjective + noun ('Second version') used as the entire document body. Mirrors the prior 'First version' pattern, establishing a consistent versioning label convention." ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_SecondVersion ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start 44 ;
+          oa:end 58
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "Second version" ;
+          oa:prefix "---\n\n" ;
+          oa:suffix ""
+        ]
+      ] .
+
+    # ── New Claim for second version ─────────────────────────────
+    narr:Claim_DocumentAtSecondVersion a narr:Claim ;
+      dct:source narr:Sample_SecondVersion ;
+      narr:aboutNode narr:Narrative_FirstVersionDocument ;
+      narr:hasConvictionLevel narr:Conviction_Notion ;
+      narr:supports narr:Process ;
+      skos:note "The body text 'Second version' asserts this document has been revised once. Conviction remains Notion — content is still minimal. This claim supersedes Claim_DocumentAtFirstVersion as the current version state." .
+
+  }
+} ;
+
+# ── UPDATE: Narrative theme — temporal supersession ──────────────
+# Justification: 'Second version' temporally supersedes 'First version'
+# as the document's declared state. The narrative theme must advance.
+DELETE {
+  GRAPH ?g {
+    narr:Narrative_FirstVersionDocument narr:theme ?oldTheme ;
+      skos:note ?oldNote .
+  }
+}
+INSERT {
+  GRAPH narr:Tx_20250714T120000Z {
+    narr:Narrative_FirstVersionDocument narr:theme "Document versioning progression — second version declaration" ;
+      skos:note "The document has advanced from first to second version with the same expert reviewer assigned, signalling an iterative review-gated authoring process. The versioning label convention (ordinal + 'version') is now established across two iterations." ;
+      dct:source narr:Sample_SecondVersion .
+  }
+}
+WHERE {
+  GRAPH ?g {
+    narr:Narrative_FirstVersionDocument narr:theme ?oldTheme .
+    OPTIONAL { narr:Narrative_FirstVersionDocument skos:note ?oldNote . }
+  }
+}
