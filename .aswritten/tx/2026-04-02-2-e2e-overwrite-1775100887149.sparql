@@ -1,0 +1,67 @@
+PREFIX narr: <https://aswritten.ai/narrative#>
+PREFIX prov: <http://www.w3.org/ns/prov#>
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+PREFIX dct: <http://purl.org/dc/terms/>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+PREFIX oa: <http://www.w3.org/ns/oa#>
+
+# Transaction provenance (default graph)
+INSERT DATA {
+  narr:Tx_20250522T120000Z a prov:Activity ;
+    prov:generatedAtTime "2025-05-22T12:00:00Z"^^xsd:dateTime ;
+    prov:wasAssociatedWith "aswritten.ai" ;
+    prov:wasAttributedTo "test+expert-gh@aswritten.ai" ;
+    narr:originPath ".aswritten/memories/2025-05-22-test-expert-review.md" ;
+    narr:originRef "main" ;
+    prov:generated narr:Sample_FrontmatterReview_20250522, narr:StyleObservation_FrontmatterYAML, narr:StyleObservation_ReviewerTag, narr:StyleObservation_Dashes, narr:StyleMetrics_FrontmatterReview .
+} ;
+
+# Extracted entities (named graph)
+INSERT DATA {
+  GRAPH narr:Tx_20250522T120000Z {
+    narr:Sample_FrontmatterReview_20250522 a narr:Sample ;
+      dct:title "Frontmatter Review" ;
+      narr:inputLength 45 .
+
+    narr:StyleObservation_FrontmatterYAML a narr:StyleObservation ;
+      skos:broader narr:OrthographySpelling ;
+      dct:source narr:Sample_FrontmatterReview_20250522 ;
+      skos:note "Use of YAML frontmatter for metadata" ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_FrontmatterReview_20250522 ;
+        oa:hasSelector [ a oa:TextPositionSelector ; oa:start 0 ; oa:end 45 ] ;
+        oa:hasSelector [ a oa:TextQuoteSelector ; oa:exact "---\nreviewers:\n  - test+expert-gh@aswritten.ai\n---\n" ]
+      ] .
+
+    narr:StyleObservation_ReviewerTag a narr:StyleObservation ;
+      skos:broader narr:TerminologyControl ;
+      dct:source narr:Sample_FrontmatterReview_20250522 ;
+      skos:note "Reviewer identification via email-style identifier" ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_FrontmatterReview_20250522 ;
+        oa:hasSelector [ a oa:TextPositionSelector ; oa:start 17 ; oa:end 41 ] ;
+        oa:hasSelector [ a oa:TextQuoteSelector ; oa:exact "test+expert-gh@aswritten.ai" ; oa:prefix "  - " ; oa:suffix "\n" ]
+      ] .
+
+    narr:StyleObservation_Dashes a narr:StyleObservation ;
+      skos:broader narr:PunctuationTypography ;
+      dct:source narr:Sample_FrontmatterReview_20250522 ;
+      skos:note "Triple-dash delimiters for frontmatter" ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_FrontmatterReview_20250522 ;
+        oa:hasSelector [ a oa:TextPositionSelector ; oa:start 0 ; oa:end 3 ] ;
+        oa:hasSelector [ a oa:TextQuoteSelector ; oa:exact "---" ]
+      ] .
+
+    narr:StyleMetrics_FrontmatterReview a narr:StyleMetrics ;
+      skos:broader narr:StyleMetrics ;
+      dct:source narr:Sample_FrontmatterReview_20250522 ;
+      narr:AverageSentenceLength 0 ;
+      narr:ActiveVoiceRatio 0.0 ;
+      narr:JargonDensity 0.5 ;
+      skos:note "Non-prose technical frontmatter" .
+  }
+}
