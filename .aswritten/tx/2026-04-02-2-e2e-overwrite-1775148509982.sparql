@@ -1,0 +1,183 @@
+PREFIX narr: <https://aswritten.ai/narrative#>
+PREFIX rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX prov: <http://www.w3.org/ns/prov#>
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+PREFIX dct:  <http://purl.org/dc/terms/>
+PREFIX xsd:  <http://www.w3.org/2001/XMLSchema#>
+PREFIX oa:   <http://www.w3.org/ns/oa#>
+
+# ── Transaction provenance (default graph) ──────────────────────
+INSERT DATA {
+  narr:Tx_20250730T120000Z a prov:Activity ;
+    dct:title "Extraction: Second version stub document" ;
+    prov:generatedAtTime "2025-07-30T12:00:00Z"^^xsd:dateTime ;
+    prov:wasAssociatedWith "aswritten.ai" ;
+    prov:wasAttributedTo "n8n.aswritten.ai" ;
+    narr:originPath "unknown" ;
+    narr:originRef "unknown" ;
+    prov:generated
+      narr:Sample_SecondVersion,
+      narr:Narrative_SecondVersionStub,
+      narr:Claim_SecondVersionPlaceholder,
+      narr:StyleMetrics_SecondVersion,
+      narr:StyleObs_SecondVersion_ShortPunchy,
+      narr:StyleObs_SecondVersion_Versioning,
+      narr:StyleObs_SecondVersion_RegisterFormality .
+} ;
+
+# ── UPDATE: Sample — body text changed from 'First version' to 'Second version' ──
+DELETE {
+  GRAPH ?g {
+    narr:Sample_FirstVersion dct:title ?oldTitle ;
+      dct:description ?oldDesc ;
+      narr:inputLength ?oldLen .
+  }
+}
+INSERT {
+  GRAPH narr:Tx_20250730T120000Z {
+    narr:Sample_SecondVersion a narr:Sample ;
+      dct:title "Second version stub document" ;
+      dct:description "Minimal stub document with YAML front-matter reviewer metadata and a two-word body reading 'Second version'." ;
+      narr:inputLength 59 .
+  }
+}
+WHERE {
+  GRAPH ?g {
+    narr:Sample_FirstVersion dct:title ?oldTitle ;
+      dct:description ?oldDesc ;
+      narr:inputLength ?oldLen .
+  }
+} ;
+
+# ── UPDATE: Narrative — theme and note updated to reflect second version ──
+DELETE {
+  GRAPH ?g {
+    narr:Narrative_FirstVersionStub narr:theme ?oldTheme ;
+      skos:note ?oldNote ;
+      dct:source ?oldSrc .
+  }
+}
+INSERT {
+  GRAPH narr:Tx_20250730T120000Z {
+    narr:Narrative_SecondVersionStub a narr:Narrative ;
+      dct:source narr:Sample_SecondVersion ;
+      skos:broader narr:Process ;
+      skos:note "The document body contains only the phrase 'Second version', indicating this is a second-iteration stub still awaiting substantive content. The YAML front-matter retains the same reviewer, suggesting continuity in the review workflow." ;
+      narr:theme "Document iteration / second-version placeholder" .
+  }
+}
+WHERE {
+  GRAPH ?g {
+    narr:Narrative_FirstVersionStub narr:theme ?oldTheme ;
+      skos:note ?oldNote ;
+      dct:source ?oldSrc .
+  }
+} ;
+
+# ── UPDATE: Claim — note updated to reflect second version body text ──
+DELETE {
+  GRAPH ?g {
+    narr:Claim_FirstVersionPlaceholder skos:note ?oldNote ;
+      dct:source ?oldSrc ;
+      narr:aboutNode ?oldAbout .
+  }
+}
+INSERT {
+  GRAPH narr:Tx_20250730T120000Z {
+    narr:Claim_SecondVersionPlaceholder a narr:Claim ;
+      dct:source narr:Sample_SecondVersion ;
+      skos:note "The body text 'Second version' asserts only that this is a second iteration draft; no substantive claims are made. Conviction remains Notion — the weakest level — because the document is still a placeholder." ;
+      narr:aboutNode narr:Narrative_SecondVersionStub ;
+      narr:hasConvictionLevel narr:Conviction_Notion ;
+      narr:supports narr:Process .
+  }
+}
+WHERE {
+  GRAPH ?g {
+    narr:Claim_FirstVersionPlaceholder skos:note ?oldNote ;
+      dct:source ?oldSrc ;
+      narr:aboutNode ?oldAbout .
+  }
+} ;
+
+# ── New entities: StyleMetrics + StyleObservations for second version ──
+INSERT DATA {
+  GRAPH narr:Tx_20250730T120000Z {
+
+    # Style Metrics — same two-word body, same computed values
+    narr:StyleMetrics_SecondVersion a narr:StyleMetrics ;
+      dct:source narr:Sample_SecondVersion ;
+      skos:broader narr:StyleMetrics ;
+      skos:note "Computed over body text only ('Second version'). Single fragment of 2 words; no passive constructions; zero technical jargon. Identical profile to first version." ;
+      narr:AverageSentenceLength "2"^^xsd:integer ;
+      narr:ActiveVoiceRatio "1.0"^^xsd:decimal ;
+      narr:JargonDensity "0.0"^^xsd:decimal .
+
+    # Style Observation 1: Short punchy cadence — two-word body fragment
+    narr:StyleObs_SecondVersion_ShortPunchy a narr:StyleObservation ;
+      skos:broader narr:ShortPunchyCadence ;
+      dct:source narr:Sample_SecondVersion ;
+      skos:note "Body text is a two-word nominal phrase with no verb — maximally compressed cadence." ;
+      rdf:value true ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_SecondVersion ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start 45 ;
+          oa:end 59
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "Second version" ;
+          oa:prefix "---\n\n" ;
+          oa:suffix ""
+        ]
+      ] .
+
+    # Style Observation 2: Versioning label as naming convention
+    narr:StyleObs_SecondVersion_Versioning a narr:StyleObservation ;
+      skos:broader narr:NamingConventions ;
+      dct:source narr:Sample_SecondVersion ;
+      skos:note "Ordinal versioning label ('Second version') used as document body — a naming/labelling convention signalling iteration state rather than content." ;
+      rdf:value true ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_SecondVersion ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start 45 ;
+          oa:end 59
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "Second version" ;
+          oa:prefix "---\n\n" ;
+          oa:suffix ""
+        ]
+      ] .
+
+    # Style Observation 3: Register formality — YAML front-matter editorial convention
+    narr:StyleObs_SecondVersion_RegisterFormality a narr:StyleObservation ;
+      skos:broader narr:RegisterFormality ;
+      dct:source narr:Sample_SecondVersion ;
+      skos:note "YAML front-matter with a 'reviewers' key signals a formal editorial workflow register — structured metadata governance even on minimal stub documents." ;
+      rdf:value true ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_SecondVersion ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start 0 ;
+          oa:end 43
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "reviewers:\n  - test+expert-gh@aswritten.ai" ;
+          oa:prefix "---\n" ;
+          oa:suffix "\n---"
+        ]
+      ] .
+
+  }
+}
