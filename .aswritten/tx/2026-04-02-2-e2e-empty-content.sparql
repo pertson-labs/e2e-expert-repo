@@ -1,0 +1,66 @@
+PREFIX narr: <https://aswritten.ai/narrative#>
+PREFIX prov: <http://www.w3.org/ns/prov#>
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+PREFIX dct: <http://purl.org/dc/terms/>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+PREFIX oa: <http://www.w3.org/ns/oa#>
+
+INSERT DATA {
+  narr:Tx_20250522T120000Z a prov:Activity ;
+    prov:generatedAtTime "2025-05-22T12:00:00Z"^^xsd:dateTime ;
+    prov:wasAssociatedWith "aswritten.ai" ;
+    prov:wasAttributedTo "test+expert-gh@aswritten.ai" ;
+    narr:originPath ".aswritten/memories/2025-05-22-test-expert.md" ;
+    narr:originRef "main" ;
+    prov:generated narr:Sample_ExpertReview_20250522, narr:StyleObs_FrontmatterUsage, narr:StyleObs_YamlMetadata, narr:StyleObs_ReviewerTag, narr:StyleMetrics_ExpertReview .
+} ;
+
+INSERT DATA {
+  GRAPH narr:Tx_20250522T120000Z {
+    narr:Sample_ExpertReview_20250522 a narr:Sample ;
+      dct:title "Expert Review Frontmatter" ;
+      dct:created "2025-05-22"^^xsd:date ;
+      narr:inputLength 45 .
+
+    narr:StyleObs_FrontmatterUsage a narr:StyleObservation ;
+      skos:broader narr:OrthographySpelling ;
+      dct:source narr:Sample_ExpertReview_20250522 ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_ExpertReview_20250522 ;
+        oa:hasSelector [ a oa:TextPositionSelector ; oa:start 0 ; oa:end 45 ] ;
+        oa:hasSelector [ a oa:TextQuoteSelector ; oa:exact "---\nreviewers:\n  - test+expert-gh@aswritten.ai\n---\n" ]
+      ] ;
+      skos:note "Use of YAML frontmatter for reviewer attribution." .
+
+    narr:StyleObs_YamlMetadata a narr:StyleObservation ;
+      skos:broader narr:TechnicalDocumentation ;
+      dct:source narr:Sample_ExpertReview_20250522 ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_ExpertReview_20250522 ;
+        oa:hasSelector [ a oa:TextPositionSelector ; oa:start 4 ; oa:end 41 ] ;
+        oa:hasSelector [ a oa:TextQuoteSelector ; oa:exact "reviewers:\n  - test+expert-gh@aswritten.ai" ]
+      ] ;
+      skos:note "Structured metadata block for process automation." .
+
+    narr:StyleObs_ReviewerTag a narr:StyleObservation ;
+      skos:broader narr:NamingConventions ;
+      dct:source narr:Sample_ExpertReview_20250522 ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_ExpertReview_20250522 ;
+        oa:hasSelector [ a oa:TextPositionSelector ; oa:start 17 ; oa:end 41 ] ;
+        oa:hasSelector [ a oa:TextQuoteSelector ; oa:exact "test+expert-gh@aswritten.ai" ]
+      ] ;
+      skos:note "Email-based reviewer identifier." .
+
+    narr:StyleMetrics_ExpertReview a narr:StyleMetrics ;
+      skos:broader narr:StyleMetrics ;
+      dct:source narr:Sample_ExpertReview_20250522 ;
+      narr:AverageSentenceLength 0 ;
+      narr:ActiveVoiceRatio 0.0 ;
+      narr:JargonDensity 1.0 ;
+      skos:note "Purely structural/metadata content." .
+  }
+}
