@@ -1,0 +1,185 @@
+PREFIX narr: <https://aswritten.ai/narrative#>
+PREFIX rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX prov: <http://www.w3.org/ns/prov#>
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+PREFIX dct:  <http://purl.org/dc/terms/>
+PREFIX xsd:  <http://www.w3.org/2001/XMLSchema#>
+PREFIX oa:   <http://www.w3.org/ns/oa#>
+
+# ── Transaction provenance (default graph) ──────────────────────────────────
+INSERT DATA {
+  narr:Tx_20250714T120000Z a prov:Activity ;
+    dct:title "Extraction: Second version draft document" ;
+    prov:generatedAtTime "2025-07-14T12:00:00Z"^^xsd:dateTime ;
+    prov:wasAssociatedWith "aswritten.ai" ;
+    prov:wasAttributedTo "n8n.aswritten.ai" ;
+    narr:originPath "unknown" ;
+    narr:originRef "unknown" ;
+    prov:generated
+      narr:Sample_SecondVersion,
+      narr:StyleMetrics_SecondVersion,
+      narr:StyleObs_SecondVersion_PlaceholderBody,
+      narr:StyleObs_SecondVersion_FrontmatterReviewer,
+      narr:StyleObs_SecondVersion_MinimalRegister .
+} ;
+
+# ── New Sample: Second version document ─────────────────────────────────────
+INSERT DATA {
+  GRAPH narr:Tx_20250714T120000Z {
+    narr:Sample_SecondVersion a narr:Sample ;
+      dct:title "Second version" ;
+      dct:description "Minimal draft document with YAML frontmatter listing a reviewer and a two-word body: 'Second version'. Successor to the First version stub." ;
+      narr:inputLength 66 .
+  }
+} ;
+
+# ── UPDATE: Narrative_FirstVersionDraft → now reflects Second version ────────
+DELETE {
+  GRAPH ?g {
+    narr:Narrative_FirstVersionDraft
+      dct:source ?oldSource ;
+      skos:note ?oldNote ;
+      narr:theme ?oldTheme .
+  }
+}
+INSERT {
+  GRAPH narr:Tx_20250714T120000Z {
+    narr:Narrative_FirstVersionDraft
+      dct:source narr:Sample_SecondVersion ;
+      skos:note "The document has progressed to a second version under review, with the same named expert reviewer assigned via frontmatter. The body now contains only the phrase 'Second version', indicating continued early-stage placeholder content advancing through a review cycle." ;
+      narr:theme "Iterative draft progression under expert review" .
+  }
+}
+WHERE {
+  GRAPH ?g {
+    narr:Narrative_FirstVersionDraft
+      dct:source ?oldSource ;
+      skos:note ?oldNote ;
+      narr:theme ?oldTheme .
+  }
+} ;
+
+# ── UPDATE: Observation_FirstVersionBody → body text is now 'Second version' ─
+DELETE {
+  GRAPH ?g {
+    narr:Observation_FirstVersionBody
+      dct:source ?oldSource ;
+      skos:note ?oldNote .
+  }
+}
+INSERT {
+  GRAPH narr:Tx_20250714T120000Z {
+    narr:Observation_FirstVersionBody
+      dct:source narr:Sample_SecondVersion ;
+      skos:note "The entire document body now consists of the two-word phrase 'Second version', indicating the placeholder stub has advanced one iteration but remains minimal content." ;
+      oa:hasSelector [
+        a oa:TextPositionSelector ;
+        oa:start 52 ;
+        oa:end 65
+      ] ;
+      oa:hasSelector [
+        a oa:TextQuoteSelector ;
+        oa:exact "Second version" ;
+        oa:prefix "---\n\n" ;
+        oa:suffix ""
+      ] .
+  }
+}
+WHERE {
+  GRAPH ?g {
+    narr:Observation_FirstVersionBody
+      dct:source ?oldSource ;
+      skos:note ?oldNote .
+  }
+} ;
+
+# ── New StyleMetrics for Second version ─────────────────────────────────────
+INSERT DATA {
+  GRAPH narr:Tx_20250714T120000Z {
+    narr:StyleMetrics_SecondVersion a narr:StyleMetrics ;
+      skos:broader narr:StyleMetrics ;
+      dct:source narr:Sample_SecondVersion ;
+      skos:note "Extremely short document body (2 words). No passive voice, no jargon. Metrics reflect stub/placeholder content only. Structurally identical to first version metrics." ;
+      narr:AverageSentenceLength 2 ;
+      narr:ActiveVoiceRatio "1.0"^^xsd:decimal ;
+      narr:JargonDensity "0.0"^^xsd:decimal .
+  }
+} ;
+
+# ── StyleObservation 1: Placeholder body cadence ────────────────────────────
+INSERT DATA {
+  GRAPH narr:Tx_20250714T120000Z {
+    narr:StyleObs_SecondVersion_PlaceholderBody a narr:StyleObservation ;
+      skos:broader narr:ShortPunchyCadence ;
+      dct:source narr:Sample_SecondVersion ;
+      skos:note "Two-word body 'Second version' continues the ultra-minimal placeholder cadence established in the first version. No elaboration, no punctuation." ;
+      rdf:value true ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_SecondVersion ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start 52 ;
+          oa:end 65
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "Second version" ;
+          oa:prefix "---\n\n" ;
+          oa:suffix ""
+        ]
+      ] .
+  }
+} ;
+
+# ── StyleObservation 2: YAML frontmatter reviewer convention ────────────────
+INSERT DATA {
+  GRAPH narr:Tx_20250714T120000Z {
+    narr:StyleObs_SecondVersion_FrontmatterReviewer a narr:StyleObservation ;
+      skos:broader narr:EditorialRules ;
+      dct:source narr:Sample_SecondVersion ;
+      skos:note "Reviewer assignment via YAML frontmatter key 'reviewers' with email value is a recurring editorial convention. Signals structured review workflow embedded in document metadata." ;
+      rdf:value true ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_SecondVersion ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start 4 ;
+          oa:end 45
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "reviewers:\n  - test+expert-gh@aswritten.ai" ;
+          oa:prefix "---\n" ;
+          oa:suffix "\n---"
+        ]
+      ] .
+  }
+} ;
+
+# ── StyleObservation 3: Minimal register / stub formality ───────────────────
+INSERT DATA {
+  GRAPH narr:Tx_20250714T120000Z {
+    narr:StyleObs_SecondVersion_MinimalRegister a narr:StyleObservation ;
+      skos:broader narr:RegisterFormality ;
+      dct:source narr:Sample_SecondVersion ;
+      skos:note "Document register is entirely neutral and non-committal. The body phrase 'Second version' carries no evaluative, directive, or descriptive content — consistent with a stub awaiting substantive authoring." ;
+      rdf:value false ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_SecondVersion ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start 52 ;
+          oa:end 65
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "Second version" ;
+          oa:prefix "---\n\n" ;
+          oa:suffix ""
+        ]
+      ] .
+  }
+}
