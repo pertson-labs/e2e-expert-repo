@@ -1,0 +1,67 @@
+PREFIX narr: <https://aswritten.ai/narrative#>
+PREFIX prov: <http://www.w3.org/ns/prov#>
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+PREFIX dct: <http://purl.org/dc/terms/>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+PREFIX oa: <http://www.w3.org/ns/oa#>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+
+# Transaction provenance
+INSERT DATA {
+  narr:Tx_20250514T120000Z a prov:Activity ;
+    prov:generatedAtTime "2025-05-14T12:00:00Z"^^xsd:dateTime ;
+    prov:wasAssociatedWith "aswritten.ai" ;
+    prov:wasAttributedTo "test+expert-gh@aswritten.ai" ;
+    narr:originPath "---/reviewers:/  - test+expert-gh@aswritten.ai/---" ;
+    narr:originRef "main" ;
+    prov:generated narr:Sample_ReviewerFrontmatter_20250514, narr:StyleMetrics_Frontmatter_20250514, narr:StyleObs_YAML_Frontmatter, narr:StyleObs_List_Formatting, narr:StyleObs_Email_Reviewer .
+} ;
+
+# Extracted entities
+INSERT DATA {
+  GRAPH narr:Tx_20250514T120000Z {
+    narr:Sample_ReviewerFrontmatter_20250514 a narr:Sample ;
+      dct:title "Reviewer Frontmatter" ;
+      narr:inputLength 58 .
+
+    narr:StyleMetrics_Frontmatter_20250514 a narr:StyleMetrics ;
+      skos:broader narr:StyleMetrics ;
+      dct:source narr:Sample_ReviewerFrontmatter_20250514 ;
+      narr:AverageSentenceLength 4 ;
+      narr:ActiveVoiceRatio 1.0 ;
+      narr:JargonDensity 0.5 .
+
+    narr:StyleObs_YAML_Frontmatter a narr:StyleObservation ;
+      skos:broader narr:OrthographySpelling ;
+      skos:note "Use of YAML frontmatter for metadata" ;
+      dct:source narr:Sample_ReviewerFrontmatter_20250514 ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_ReviewerFrontmatter_20250514 ;
+        oa:hasSelector [ a oa:TextPositionSelector ; oa:start 0 ; oa:end 3 ] ;
+        oa:hasSelector [ a oa:TextQuoteSelector ; oa:exact "---" ; oa:suffix "reviewers:" ]
+      ] .
+
+    narr:StyleObs_List_Formatting a narr:StyleObservation ;
+      skos:broader narr:PunctuationTypography ;
+      skos:note "Bullet point list for reviewers" ;
+      dct:source narr:Sample_ReviewerFrontmatter_20250514 ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_ReviewerFrontmatter_20250514 ;
+        oa:hasSelector [ a oa:TextPositionSelector ; oa:start 17 ; oa:end 19 ] ;
+        oa:hasSelector [ a oa:TextQuoteSelector ; oa:exact "  -" ; oa:prefix "reviewers:\n" ; oa:suffix " test+expert" ]
+      ] .
+
+    narr:StyleObs_Email_Reviewer a narr:StyleObservation ;
+      skos:broader narr:TerminologyControl ;
+      skos:note "Email address used as reviewer identifier" ;
+      dct:source narr:Sample_ReviewerFrontmatter_20250514 ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_ReviewerFrontmatter_20250514 ;
+        oa:hasSelector [ a oa:TextPositionSelector ; oa:start 20 ; oa:end 47 ] ;
+        oa:hasSelector [ a oa:TextQuoteSelector ; oa:exact "test+expert-gh@aswritten.ai" ; oa:prefix "- " ]
+      ] .
+  }
+}
