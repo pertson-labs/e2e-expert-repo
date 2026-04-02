@@ -1,0 +1,97 @@
+PREFIX narr: <https://aswritten.ai/narrative#>
+PREFIX prov: <http://www.w3.org/ns/prov#>
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+PREFIX dct: <http://purl.org/dc/terms/>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+PREFIX oa: <http://www.w3.org/ns/oa#>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+
+# Transaction provenance
+INSERT DATA {
+  narr:Tx_20250514T120000Z a prov:Activity ;
+    prov:generatedAtTime "2025-05-14T12:00:00Z"^^xsd:dateTime ;
+    prov:wasAssociatedWith "aswritten.ai" ;
+    prov:wasAttributedTo "test+expert-gh@aswritten.ai" ;
+    narr:originPath "---\nreviewers:\n  - test+expert-gh@aswritten.ai\n---\n\n" ;
+    narr:originRef "main" ;
+    prov:generated narr:Sample_ReviewMetadata_20250514, narr:Actor_ExpertReviewer_GH, narr:StyleMetrics_ReviewMetadata_20250514, narr:StyleObs_YAMLFrontmatter .
+} ;
+
+# Extracted entities
+INSERT DATA {
+  GRAPH narr:Tx_20250514T120000Z {
+    narr:Sample_ReviewMetadata_20250514 a narr:Sample ;
+      dct:title "Reviewer Metadata" ;
+      narr:inputLength 55 .
+
+    narr:Actor_ExpertReviewer_GH a narr:Actor ;
+      skos:prefLabel "test+expert-gh@aswritten.ai" ;
+      skos:note "Reviewer identified in document frontmatter" .
+
+    narr:StyleObs_YAMLFrontmatter a narr:StyleObservation ;
+      skos:broader narr:OrthographySpelling ;
+      dct:source narr:Sample_ReviewMetadata_20250514 ;
+      skos:note "Use of YAML frontmatter for reviewer metadata" ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_ReviewMetadata_20250514 ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start 0 ;
+          oa:end 48
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "---\nreviewers:\n  - test+expert-gh@aswritten.ai\n---" ;
+          oa:suffix "\n\n"
+        ]
+      ] .
+
+    narr:StyleObs_ListFormatting a narr:StyleObservation ;
+      skos:broader narr:PunctuationTypography ;
+      dct:source narr:Sample_ReviewMetadata_20250514 ;
+      skos:note "Hyphenated list style in YAML" ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_ReviewMetadata_20250514 ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start 17 ;
+          oa:end 44
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "  - test+expert-gh@aswritten.ai" ;
+          oa:prefix "reviewers:\n" ;
+          oa:suffix "\n---"
+        ]
+      ] .
+
+    narr:StyleObs_Dashes a narr:StyleObservation ;
+      skos:broader narr:PunctuationTypography ;
+      dct:source narr:Sample_ReviewMetadata_20250514 ;
+      skos:note "Triple-dash delimiters for metadata block" ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_ReviewMetadata_20250514 ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start 0 ;
+          oa:end 3
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "---" ;
+          oa:suffix "\nreviewers"
+        ]
+      ] .
+
+    narr:StyleMetrics_ReviewMetadata_20250514 a narr:StyleMetrics ;
+      skos:broader narr:StyleMetrics ;
+      dct:source narr:Sample_ReviewMetadata_20250514 ;
+      narr:AverageSentenceLength 0 ;
+      narr:ActiveVoiceRatio 0.0 ;
+      narr:JargonDensity 0.5 ;
+      skos:note "Metrics reflect a structured metadata block rather than prose." .
+  }
+}
