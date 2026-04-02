@@ -1,0 +1,82 @@
+PREFIX narr: <https://aswritten.ai/narrative#>
+PREFIX prov: <http://www.w3.org/ns/prov#>
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+PREFIX dct: <http://purl.org/dc/terms/>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+PREFIX oa: <http://www.w3.org/ns/oa#>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+
+# Transaction provenance
+INSERT DATA {
+  narr:Tx_20250522T120000Z a prov:Activity ;
+    prov:generatedAtTime "2025-05-22T12:00:00Z"^^xsd:dateTime ;
+    prov:wasAssociatedWith "aswritten.ai" ;
+    prov:wasAttributedTo "test+expert-gh@aswritten.ai" ;
+    narr:originPath ".aswritten/memories/2025-05-22-test-review.md" ;
+    narr:originRef "main" ;
+    prov:generated narr:Sample_TestReview_20250522, narr:StyleMetrics_TestReview_20250522, narr:StyleObs_YAML_Frontmatter, narr:StyleObs_Dashes_Separator, narr:StyleObs_Reviewer_Metadata .
+} ;
+
+# Update existing Sample and Metrics (Scale 1 & 2)
+DELETE {
+  GRAPH ?g {
+    narr:Sample_TestReview_20250522 narr:inputLength ?oldLen .
+    narr:StyleMetrics_TestReview_20250522 narr:JargonDensity ?oldJargon .
+  }
+}
+INSERT {
+  GRAPH narr:Tx_20250522T120000Z {
+    narr:Sample_TestReview_20250522 a narr:Sample ;
+      dct:title "Test Review Memory" ;
+      narr:inputLength 45 .
+    
+    narr:StyleMetrics_TestReview_20250522 a narr:StyleMetrics ;
+      dct:source narr:Sample_TestReview_20250522 ;
+      skos:broader narr:StyleMetrics ;
+      narr:AverageSentenceLength 0 ;
+      narr:ActiveVoiceRatio 0.0 ;
+      narr:JargonDensity 0.1 .
+  }
+}
+WHERE {
+  OPTIONAL { GRAPH ?g { narr:Sample_TestReview_20250522 narr:inputLength ?oldLen . } }
+  OPTIONAL { GRAPH ?g { narr:StyleMetrics_TestReview_20250522 narr:JargonDensity ?oldJargon . } }
+} ;
+
+# Style Observations (Scale 3)
+INSERT DATA {
+  GRAPH narr:Tx_20250522T120000Z {
+    narr:StyleObs_YAML_Frontmatter a narr:StyleObservation ;
+      skos:broader narr:OrthographySpelling ;
+      dct:source narr:Sample_TestReview_20250522 ;
+      skos:note "Use of YAML frontmatter for metadata" ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_TestReview_20250522 ;
+        oa:hasSelector [ a oa:TextPositionSelector ; oa:start 0 ; oa:end 41 ] ;
+        oa:hasSelector [ a oa:TextQuoteSelector ; oa:exact "---\nreviewers:\n  - test+expert-gh@aswritten.ai\n---" ]
+      ] .
+
+    narr:StyleObs_Dashes_Separator a narr:StyleObservation ;
+      skos:broader narr:PunctuationTypography ;
+      dct:source narr:Sample_TestReview_20250522 ;
+      skos:note "Triple dashes used as structural delimiters" ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_TestReview_20250522 ;
+        oa:hasSelector [ a oa:TextPositionSelector ; oa:start 0 ; oa:end 3 ] ;
+        oa:hasSelector [ oa:exact "---" ]
+      ] .
+
+    narr:StyleObs_Reviewer_Metadata a narr:StyleObservation ;
+      skos:broader narr:NamingConventions ;
+      dct:source narr:Sample_TestReview_20250522 ;
+      skos:note "Reviewer attribution using email-style identifiers" ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_TestReview_20250522 ;
+        oa:hasSelector [ a oa:TextPositionSelector ; oa:start 17 ; oa:end 40 ] ;
+        oa:hasSelector [ oa:exact "test+expert-gh@aswritten.ai" ]
+      ] .
+  }
+}
