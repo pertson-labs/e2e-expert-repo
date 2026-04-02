@@ -1,0 +1,145 @@
+PREFIX narr: <https://aswritten.ai/narrative#>
+PREFIX rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX prov: <http://www.w3.org/ns/prov#>
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+PREFIX dct:  <http://purl.org/dc/terms/>
+PREFIX xsd:  <http://www.w3.org/2001/XMLSchema#>
+PREFIX oa:   <http://www.w3.org/ns/oa#>
+
+# Transaction provenance (default graph)
+INSERT DATA {
+  narr:Tx_20250115T130000Z a prov:Activity ;
+    dct:title "Extraction: Second version document with reviewer metadata" ;
+    prov:generatedAtTime "2025-01-15T13:00:00Z"^^xsd:dateTime ;
+    prov:wasAssociatedWith "aswritten.ai" ;
+    prov:wasAttributedTo "n8n.aswritten.ai" ;
+    narr:originPath "unknown" ;
+    narr:originRef "unknown" ;
+    prov:generated
+      narr:Sample_SecondVersion,
+      narr:Narrative_SecondVersionDeclaration,
+      narr:Observation_ReviewerAttribution_SecondVersion,
+      narr:StyleObs_ShortPunchyCadence_SecondVersion,
+      narr:StyleObs_ReviewerFrontMatter_SecondVersion,
+      narr:StyleObs_MinimalRegister_SecondVersion,
+      narr:StyleMetrics_SecondVersion .
+} ;
+
+# Extracted entities (named graph)
+INSERT DATA {
+  GRAPH narr:Tx_20250115T130000Z {
+
+    # ── Sample ──────────────────────────────────────────────────
+    narr:Sample_SecondVersion a narr:Sample ;
+      dct:title "Second version" ;
+      dct:description "Minimal document with YAML front-matter declaring a reviewer and a two-word body stating 'Second version'. Follows the same review-gated versioning pattern as the first version document." ;
+      dct:created "2025-01-15"^^xsd:date ;
+      narr:inputLength 68 .
+
+    # ── Narrative ────────────────────────────────────────────────
+    narr:Narrative_SecondVersionDeclaration a narr:Narrative ;
+      dct:source narr:Sample_SecondVersion ;
+      skos:broader narr:NarrativeDrivenRoadmap ;
+      narr:theme "Second version declaration" ;
+      skos:note "The document body consists solely of 'Second version', asserting a versioning progression from the first version. Combined with the reviewer front-matter, the document continues the review-gated versioning workflow pattern established in the prior version." .
+
+    # ── Actor (reuse existing IRI) ───────────────────────────────
+    # narr:Actor_ExpertReviewer_GH already exists in snapshot — no new triple needed for the actor itself.
+    # We assert the actor's participation in this document via the Observation below.
+
+    # ── Observation ──────────────────────────────────────────────
+    narr:Observation_ReviewerAttribution_SecondVersion a narr:Observation ;
+      dct:source narr:Sample_SecondVersion ;
+      skos:broader narr:RACIDecisionRights ;
+      skos:note "YAML front-matter assigns the same named reviewer as the first version, reinforcing the review-gated authorship pattern across document versions." ;
+      oa:hasSelector [
+        a oa:TextPositionSelector ;
+        oa:start 0 ;
+        oa:end 47
+      ] ;
+      oa:hasSelector [
+        a oa:TextQuoteSelector ;
+        oa:exact "reviewers:\n  - test+expert-gh@aswritten.ai" ;
+        oa:prefix "---\n" ;
+        oa:suffix "\n---"
+      ] .
+
+    # ── Style Observations ───────────────────────────────────────
+
+    # 1. Short punchy cadence — two-word body
+    narr:StyleObs_ShortPunchyCadence_SecondVersion a narr:StyleObservation ;
+      skos:broader narr:ShortPunchyCadence ;
+      dct:source narr:Sample_SecondVersion ;
+      skos:note "Body text is exactly two words ('Second version'), exhibiting an extremely compressed, declarative cadence consistent with draft-stage minimal documents." ;
+      rdf:value true ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_SecondVersion ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start 52 ;
+          oa:end 66
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "Second version" ;
+          oa:prefix "---\n\n" ;
+          oa:suffix ""
+        ]
+      ] .
+
+    # 2. Editorial rules — YAML front-matter reviewer convention
+    narr:StyleObs_ReviewerFrontMatter_SecondVersion a narr:StyleObservation ;
+      skos:broader narr:EditorialRules ;
+      dct:source narr:Sample_SecondVersion ;
+      skos:note "YAML front-matter reviewer field follows a consistent editorial convention: structured metadata block preceding body content, using a GitHub-style email alias for reviewer attribution." ;
+      rdf:value true ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_SecondVersion ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start 0 ;
+          oa:end 50
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "---\nreviewers:\n  - test+expert-gh@aswritten.ai\n---" ;
+          oa:prefix "" ;
+          oa:suffix "\n\nSecond version"
+        ]
+      ] .
+
+    # 3. Minimal/informal register — draft-stage tone
+    narr:StyleObs_MinimalRegister_SecondVersion a narr:StyleObservation ;
+      skos:broader narr:RegisterFormality ;
+      dct:source narr:Sample_SecondVersion ;
+      skos:note "Register is informal and minimal: no prose elaboration, no punctuation beyond the version label. Consistent with a draft placeholder document awaiting content." ;
+      rdf:value false ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_SecondVersion ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start 52 ;
+          oa:end 66
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "Second version" ;
+          oa:prefix "---\n\n" ;
+          oa:suffix ""
+        ]
+      ] .
+
+    # ── Style Metrics ────────────────────────────────────────────
+    narr:StyleMetrics_SecondVersion a narr:StyleMetrics ;
+      dct:source narr:Sample_SecondVersion ;
+      skos:broader narr:StyleMetrics ;
+      narr:AverageSentenceLength 2 ;
+      narr:ActiveVoiceRatio "1.0"^^xsd:decimal ;
+      narr:JargonDensity "0.0"^^xsd:decimal ;
+      skos:note "Extremely short document (2-word body). Metrics computed on body text only. Register: informal, minimal, draft-stage. Identical metric profile to first version document." .
+
+  }
+}
