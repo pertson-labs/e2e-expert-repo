@@ -1,0 +1,35 @@
+PREFIX narr: <https://aswritten.ai/ns/narrative#>
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+PREFIX dct: <http://purl.org/dc/terms/>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+PREFIX prov: <http://www.w3.org/ns/prov#>
+PREFIX sb: <http://storytwin.com/ontology#>
+
+INSERT DATA {
+  narr:Tx_E2E_AlphaAssessment a prov:Activity ;
+    prov:generatedAtTime "2026-03-20T10:00:00.000Z"^^xsd:dateTime ;
+    sb:originPath "client-alpha/.aswritten/memories/2026-03-20-alpha-digital-transformation.md" ;
+    sb:originRef "refs/heads/main" ;
+    prov:used <anthropic/claude-sonnet-4.5> .
+
+narr:Actor_MarcusWebb a narr:Actor ;
+    dct:title "Marcus Webb" ;
+    narr:role "CTO, Alpha Industries" ;
+    skos:note "Client stakeholder. Manufacturing company transitioning to digital-first." ;
+    prov:wasGeneratedBy narr:Tx_E2E_AlphaAssessment .
+
+narr:Decision_AlphaKnowledgeCapture a narr:Decision ;
+    dct:title "Capture Manufacturing Process Knowledge" ;
+    skos:broader narr:Strategy ;
+    narr:conviction "decision" ;
+    narr:attributedTo narr:Actor_XenaGithubber ;
+    skos:note "Xena: 'Alpha Industries is a textbook case. Extract process parameters before the next retirement wave hits in Q4.'" ;
+    prov:wasGeneratedBy narr:Tx_E2E_AlphaAssessment .
+
+narr:Observation_AlphaKnowledgeLoss a narr:Observation ;
+    dct:title "Alpha Industries Knowledge Loss Rate" ;
+    skos:broader narr:Strategy ;
+    skos:note "3 senior experts departed in 12 months. 6 months recovery per departure. Manufacturing process parameters stored in personal notebooks." ;
+    prov:wasGeneratedBy narr:Tx_E2E_AlphaAssessment .
+
+}

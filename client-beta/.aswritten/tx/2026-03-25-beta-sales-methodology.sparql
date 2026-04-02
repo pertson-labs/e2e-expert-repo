@@ -1,0 +1,35 @@
+PREFIX narr: <https://aswritten.ai/ns/narrative#>
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+PREFIX dct: <http://purl.org/dc/terms/>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+PREFIX prov: <http://www.w3.org/ns/prov#>
+PREFIX sb: <http://storytwin.com/ontology#>
+
+INSERT DATA {
+  narr:Tx_E2E_BetaAudit a prov:Activity ;
+    prov:generatedAtTime "2026-03-25T10:00:00.000Z"^^xsd:dateTime ;
+    sb:originPath "client-beta/.aswritten/memories/2026-03-25-beta-sales-methodology.md" ;
+    sb:originRef "refs/heads/main" ;
+    prov:used <anthropic/claude-sonnet-4.5> .
+
+narr:Actor_PriyaSharma a narr:Actor ;
+    dct:title "Priya Sharma" ;
+    narr:role "VP Sales, Beta Corp" ;
+    skos:note "Client stakeholder. SaaS company with undocumented sales methodology." ;
+    prov:wasGeneratedBy narr:Tx_E2E_BetaAudit .
+
+narr:Decision_BetaSalesPlaybook a narr:Decision ;
+    dct:title "Extract Top Performer Sales Methodology" ;
+    skos:broader narr:Strategy ;
+    narr:conviction "decision" ;
+    narr:attributedTo narr:Actor_XenaGithubber ;
+    skos:note "Xena: 'Beta Corp's entire revenue depends on one person's intuition. Make the star's methodology explicit and teachable.'" ;
+    prov:wasGeneratedBy narr:Tx_E2E_BetaAudit .
+
+narr:Observation_BetaOnboardingGap a narr:Observation ;
+    dct:title "Beta Corp Onboarding Failure" ;
+    skos:broader narr:Strategy ;
+    skos:note "4 months actual onboarding vs 6 week target. Top performer closes 3x team average but can't explain why." ;
+    prov:wasGeneratedBy narr:Tx_E2E_BetaAudit .
+
+}
