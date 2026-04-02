@@ -1,0 +1,147 @@
+PREFIX narr: <https://aswritten.ai/narrative#>
+PREFIX rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX prov: <http://www.w3.org/ns/prov#>
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+PREFIX dct:  <http://purl.org/dc/terms/>
+PREFIX xsd:  <http://www.w3.org/2001/XMLSchema#>
+PREFIX oa:   <http://www.w3.org/ns/oa#>
+
+# Transaction provenance (default graph)
+INSERT DATA {
+  narr:Tx_20250714T000000Z a prov:Activity ;
+    prov:generatedAtTime "2025-07-14T00:00:00Z"^^xsd:dateTime ;
+    prov:wasAssociatedWith "aswritten.ai" ;
+    prov:wasAttributedTo "n8n.aswritten.ai" ;
+    narr:originPath "unknown" ;
+    narr:originRef "unknown" ;
+    dct:title "Extraction: First version draft document" ;
+    prov:generated
+      narr:Sample_FirstVersion,
+      narr:Narrative_FirstVersionDraft,
+      narr:Actor_ExpertReviewer_Redacted,
+      narr:Observation_FirstVersionBody,
+      narr:StyleObservation_MinimalRegister,
+      narr:StyleObservation_InformalDraftMarker,
+      narr:StyleObservation_YAMLFrontmatterConvention,
+      narr:StyleMetrics_FirstVersion .
+} ;
+
+# Extracted entities (named graph)
+INSERT DATA {
+  GRAPH narr:Tx_20250714T000000Z {
+
+    # ── Sample ──────────────────────────────────────────────────
+    narr:Sample_FirstVersion a narr:Sample ;
+      dct:title "First version" ;
+      narr:inputLength 93 ;
+      dct:description "Minimal draft document with YAML frontmatter listing a reviewer and a two-word body: 'First version'." .
+
+    # ── Actor ───────────────────────────────────────────────────
+    # Reviewer email redacted per PII policy (allow_pii=false)
+    narr:Actor_ExpertReviewer_Redacted a narr:Actor ;
+      skos:prefLabel "Expert Reviewer (test+expert-gh)" ;
+      skos:note "Reviewer listed in YAML frontmatter as test+expert-gh@[redacted]. Email redacted per PII policy. Role: document reviewer." .
+
+    # ── Narrative ────────────────────────────────────────────────
+    narr:Narrative_FirstVersionDraft a narr:Narrative ;
+      narr:theme "Initial draft submission" ;
+      skos:broader narr:QualityReviewGates ;
+      skos:note "The document signals it is a first version under review, with a named expert reviewer assigned via frontmatter. The body contains only the phrase 'First version', indicating early-stage content with no substantive body yet." ;
+      dct:source narr:Sample_FirstVersion .
+
+    # ── Observation ─────────────────────────────────────────────
+    narr:Observation_FirstVersionBody a narr:Observation ;
+      skos:broader narr:QualityReviewGates ;
+      skos:note "The entire document body consists of the two-word phrase 'First version', indicating a placeholder or stub at initial draft stage." ;
+      dct:source narr:Sample_FirstVersion ;
+      oa:hasSelector [
+        a oa:TextPositionSelector ;
+        oa:start 56 ;
+        oa:end 69
+      ] ;
+      oa:hasSelector [
+        a oa:TextQuoteSelector ;
+        oa:exact "First version" ;
+        oa:prefix "---\n\n" ;
+        oa:suffix ""
+      ] .
+
+    # ── Style Observations ───────────────────────────────────────
+
+    # 1. Minimal / terse register
+    narr:StyleObservation_MinimalRegister a narr:StyleObservation ;
+      skos:broader narr:RegisterFormality ;
+      skos:note "extreme-minimal: body is two words only; register is placeholder-level, no elaboration" ;
+      rdf:value false ;
+      dct:source narr:Sample_FirstVersion ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_FirstVersion ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start 56 ;
+          oa:end 69
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "First version" ;
+          oa:prefix "---\n\n" ;
+          oa:suffix ""
+        ]
+      ] .
+
+    # 2. Informal draft marker phrasing
+    narr:StyleObservation_InformalDraftMarker a narr:StyleObservation ;
+      skos:broader narr:ToneDirectPersonal ;
+      skos:note "draft-marker: 'First version' functions as an informal status label rather than substantive prose; signals work-in-progress convention" ;
+      rdf:value false ;
+      dct:source narr:Sample_FirstVersion ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_FirstVersion ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start 56 ;
+          oa:end 69
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "First version" ;
+          oa:prefix "---\n\n" ;
+          oa:suffix ""
+        ]
+      ] .
+
+    # 3. YAML frontmatter convention
+    narr:StyleObservation_YAMLFrontmatterConvention a narr:StyleObservation ;
+      skos:broader narr:EditorialRules ;
+      skos:note "yaml-frontmatter: document uses triple-dash YAML block for metadata (reviewers list), consistent with static-site-generator or docs-as-code conventions" ;
+      rdf:value true ;
+      dct:source narr:Sample_FirstVersion ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_FirstVersion ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start 0 ;
+          oa:end 55
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "---\nreviewers:\n  - test+expert-gh@aswritten.ai\n---" ;
+          oa:prefix "" ;
+          oa:suffix "\n\nFirst version"
+        ]
+      ] .
+
+    # ── Style Metrics ────────────────────────────────────────────
+    narr:StyleMetrics_FirstVersion a narr:StyleMetrics ;
+      skos:broader narr:StyleMetrics ;
+      dct:source narr:Sample_FirstVersion ;
+      narr:AverageSentenceLength 2 ;
+      narr:ActiveVoiceRatio "1.0"^^xsd:decimal ;
+      narr:JargonDensity "0.0"^^xsd:decimal ;
+      skos:note "Extremely short document body (2 words). No passive voice, no jargon. Metrics reflect stub/placeholder content only." .
+
+  }
+}
