@@ -1,0 +1,123 @@
+PREFIX narr: <https://aswritten.ai/narrative#>
+PREFIX rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX prov: <http://www.w3.org/ns/prov#>
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+PREFIX dct:  <http://purl.org/dc/terms/>
+PREFIX xsd:  <http://www.w3.org/2001/XMLSchema#>
+PREFIX oa:   <http://www.w3.org/ns/oa#>
+
+# Transaction provenance (default graph)
+INSERT DATA {
+  narr:Tx_20250714T120000Z a prov:Activity ;
+    prov:generatedAtTime "2025-07-14T12:00:00Z"^^xsd:dateTime ;
+    prov:wasAssociatedWith "aswritten.ai" ;
+    prov:wasAttributedTo "test+expert-gh@aswritten.ai" ;
+    narr:originPath "" ;
+    narr:originRef "unknown" ;
+    dct:title "Second version extraction" ;
+    prov:generated
+      narr:Sample_SecondVersion_20250714,
+      narr:Narrative_SecondVersionRelease,
+      narr:StyleObs_SecondVersion_Conciseness,
+      narr:StyleObs_SecondVersion_RegisterFormality,
+      narr:StyleObs_SecondVersion_PlainLanguage,
+      narr:Metrics_SecondVersion .
+} ;
+
+# Extracted entities (named graph)
+INSERT DATA {
+  GRAPH narr:Tx_20250714T120000Z {
+
+    # ── Sample ──────────────────────────────────────────────────
+    narr:Sample_SecondVersion_20250714 a narr:Sample ;
+      dct:title "Second version" ;
+      narr:inputLength 67 .
+
+    # ── Narrative ────────────────────────────────────────────────
+    # "Second version" is a new version-release event, distinct from
+    # narr:Narrative_InitialVersionRelease (first version). New entity.
+    narr:Narrative_SecondVersionRelease a narr:Narrative ;
+      dct:source narr:Sample_SecondVersion_20250714 ;
+      skos:broader narr:Process ;
+      narr:theme "Second Version Release" ;
+      skos:note "The second recorded version of the document or process, succeeding the initial version. Reviewer: test+expert-gh@aswritten.ai." .
+
+    # ── Style Observations ───────────────────────────────────────
+
+    # 1. Extreme conciseness — body is two words only
+    narr:StyleObs_SecondVersion_Conciseness a narr:StyleObservation ;
+      skos:broader narr:Conciseness ;
+      dct:source narr:Sample_SecondVersion_20250714 ;
+      skos:note "Body text is exactly two words ('Second version'), exemplifying maximal conciseness." ;
+      rdf:value true ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_SecondVersion_20250714 ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start 52 ;
+          oa:end 66
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "Second version" ;
+          oa:prefix "---\n\n" ;
+          oa:suffix ""
+        ]
+      ] .
+
+    # 2. Plain/informal register — no technical jargon, no elaboration
+    narr:StyleObs_SecondVersion_RegisterFormality a narr:StyleObservation ;
+      skos:broader narr:RegisterFormality ;
+      dct:source narr:Sample_SecondVersion_20250714 ;
+      skos:note "Register is informal and minimal; no formal framing, headers, or elaboration beyond a bare version label." ;
+      rdf:value false ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_SecondVersion_20250714 ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start 52 ;
+          oa:end 66
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "Second version" ;
+          oa:prefix "---\n\n" ;
+          oa:suffix ""
+        ]
+      ] .
+
+    # 3. Plain language — no jargon, no domain-specific terminology
+    narr:StyleObs_SecondVersion_PlainLanguage a narr:StyleObservation ;
+      skos:broader narr:PlainLanguage ;
+      dct:source narr:Sample_SecondVersion_20250714 ;
+      skos:note "Document uses only plain, everyday language. Zero jargon density. Reviewer email in frontmatter is the only structured metadata." ;
+      rdf:value true ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_SecondVersion_20250714 ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start 0 ;
+          oa:end 66
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "reviewers:\n  - test+expert-gh@aswritten.ai" ;
+          oa:prefix "---\n" ;
+          oa:suffix "\n---"
+        ]
+      ] .
+
+    # ── Style Metrics ────────────────────────────────────────────
+    narr:Metrics_SecondVersion a narr:StyleMetrics ;
+      skos:broader narr:StyleMetrics ;
+      dct:source narr:Sample_SecondVersion_20250714 ;
+      narr:AverageSentenceLength 2 ;
+      narr:ActiveVoiceRatio "1.0"^^xsd:decimal ;
+      narr:JargonDensity "0.0"^^xsd:decimal ;
+      skos:note "Single two-word body sentence. Active voice. No jargon. Minimal register." .
+
+  }
+}
