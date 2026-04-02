@@ -1,0 +1,37 @@
+PREFIX narr: <https://aswritten.ai/ns/narrative#>
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+PREFIX dct: <http://purl.org/dc/terms/>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+PREFIX prov: <http://www.w3.org/ns/prov#>
+PREFIX sb: <http://storytwin.com/ontology#>
+
+INSERT DATA {
+  narr:Tx_E2E_XenaMethodology a prov:Activity ;
+    prov:generatedAtTime "2026-03-01T10:00:00.000Z"^^xsd:dateTime ;
+    sb:originPath ".aswritten/memories/2026-03-01-xena-methodology.md" ;
+    sb:originRef "refs/heads/main" ;
+    prov:used <anthropic/claude-sonnet-4.5> .
+
+narr:Actor_XenaGithubber a narr:Actor ;
+    dct:title "Xena Githubber" ;
+    narr:role "Founder, Pertson Labs" ;
+    skos:note "Independent consultant specializing in knowledge mapping and organizational diagnostics." ;
+    prov:wasGeneratedBy narr:Tx_E2E_XenaMethodology .
+
+narr:Decision_DiagnosticFirst a narr:Decision ;
+    dct:title "Diagnostic First Methodology" ;
+    skos:broader narr:Strategy ;
+    narr:conviction "principle" ;
+    narr:attributedTo narr:Actor_XenaGithubber ;
+    skos:note "Xena: 'Every engagement starts with a diagnostic phase. Never propose solutions before understanding the system.' Two weeks, $5K, 8+ stakeholder interviews." ;
+    prov:wasGeneratedBy narr:Tx_E2E_XenaMethodology .
+
+narr:Decision_KnowledgeMapping a narr:Decision ;
+    dct:title "Knowledge Gap Mapping" ;
+    skos:broader narr:Strategy ;
+    narr:conviction "decision" ;
+    narr:attributedTo narr:Actor_XenaGithubber ;
+    skos:note "Visualize where decisions happen and where knowledge lives. Deliverable: knowledge gap report with prioritized recommendations." ;
+    prov:wasGeneratedBy narr:Tx_E2E_XenaMethodology .
+
+}
