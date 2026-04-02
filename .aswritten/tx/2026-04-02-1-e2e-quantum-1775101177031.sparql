@@ -1,0 +1,83 @@
+PREFIX narr: <https://aswritten.ai/narrative#>
+PREFIX prov: <http://www.w3.org/ns/prov#>
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+PREFIX dct: <http://purl.org/dc/terms/>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+PREFIX oa: <http://www.w3.org/ns/oa#>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+
+# Transaction provenance (default graph)
+INSERT DATA {
+  narr:Tx_20250522T143000Z a prov:Activity ;
+    prov:generatedAtTime "2025-05-22T14:30:00Z"^^xsd:dateTime ;
+    prov:wasAssociatedWith "aswritten.ai" ;
+    prov:wasAttributedTo "test+expert-gh@aswritten.ai" ;
+    narr:originPath ".aswritten/memories/2025-05-22-test-expert-review.md" ;
+    narr:originRef "main" ;
+    prov:generated narr:Sample_TestExpertReview_20250522, 
+                   narr:Actor_TestExpert, 
+                   narr:Narrative_ExpertReviewProcess,
+                   narr:StyleObservation_FrontmatterUsage,
+                   narr:StyleObservation_YamlReviewerList,
+                   narr:StyleObservation_DashedSeparator,
+                   narr:StyleMetrics_TestExpertReview .
+} ;
+
+# Extracted entities (named graph)
+INSERT DATA {
+  GRAPH narr:Tx_20250522T143000Z {
+    narr:Sample_TestExpertReview_20250522 a narr:Sample ;
+      dct:title "Expert Review Frontmatter" ;
+      narr:inputLength 55 .
+
+    narr:Actor_TestExpert a narr:Actor ;
+      skos:prefLabel "test+expert-gh@aswritten.ai" ;
+      skos:note "Reviewer identified in document frontmatter" .
+
+    narr:Narrative_ExpertReviewProcess a narr:Narrative ;
+      dct:source narr:Sample_TestExpertReview_20250522 ;
+      narr:theme "Expert Review Metadata" ;
+      skos:broader narr:QualityReviewGates ;
+      skos:note "The document establishes a formal review process via YAML frontmatter." .
+
+    narr:StyleObservation_FrontmatterUsage a narr:StyleObservation ;
+      skos:broader narr:OrthographySpelling ;
+      dct:source narr:Sample_TestExpertReview_20250522 ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_TestExpertReview_20250522 ;
+        oa:hasSelector [ a oa:TextPositionSelector ; oa:start 0 ; oa:end 3 ] ;
+        oa:hasSelector [ a oa:TextQuoteSelector ; oa:exact "---" ; oa:suffix "\nreviewers:" ]
+      ] ;
+      skos:note "Use of triple-dash delimiters for metadata blocks." .
+
+    narr:StyleObservation_YamlReviewerList a narr:StyleObservation ;
+      skos:broader narr:EditorialRules ;
+      dct:source narr:Sample_TestExpertReview_20250522 ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_TestExpertReview_20250522 ;
+        oa:hasSelector [ a oa:TextPositionSelector ; oa:start 17 ; oa:end 45 ] ;
+        oa:hasSelector [ a oa:TextQuoteSelector ; oa:exact "- test+expert-gh@aswritten.ai" ; oa:prefix "reviewers:\n  " ; oa:suffix "\n---" ]
+      ] ;
+      skos:note "Structured YAML list for reviewer attribution." .
+
+    narr:StyleObservation_DashedSeparator a narr:StyleObservation ;
+      skos:broader narr:PunctuationTypography ;
+      dct:source narr:Sample_TestExpertReview_20250522 ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_TestExpertReview_20250522 ;
+        oa:hasSelector [ a oa:TextPositionSelector ; oa:start 46 ; oa:end 49 ] ;
+        oa:hasSelector [ a oa:TextQuoteSelector ; oa:exact "---" ; oa:prefix "aswritten.ai\n" ]
+      ] ;
+      skos:note "Closing frontmatter delimiter." .
+
+    narr:StyleMetrics_TestExpertReview a narr:StyleMetrics ;
+      skos:broader narr:StyleMetrics ;
+      dct:source narr:Sample_TestExpertReview_20250522 ;
+      narr:AverageSentenceLength 0 ;
+      narr:ActiveVoiceRatio 0.0 ;
+      narr:JargonDensity 0.5 .
+  }
+}
