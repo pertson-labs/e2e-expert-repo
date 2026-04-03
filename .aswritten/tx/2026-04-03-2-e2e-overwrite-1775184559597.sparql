@@ -1,0 +1,131 @@
+PREFIX narr: <https://aswritten.ai/narrative#>
+PREFIX rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX prov: <http://www.w3.org/ns/prov#>
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+PREFIX dct:  <http://purl.org/dc/terms/>
+PREFIX xsd:  <http://www.w3.org/2001/XMLSchema#>
+PREFIX oa:   <http://www.w3.org/ns/oa#>
+
+# Transaction provenance (default graph)
+INSERT DATA {
+  narr:Tx_20250715T120000Z a prov:Activity ;
+    prov:generatedAtTime "2025-07-15T12:00:00Z"^^xsd:dateTime ;
+    prov:wasAssociatedWith "aswritten.ai" ;
+    prov:wasAttributedTo "n8n.aswritten.ai" ;
+    narr:originPath "(unknown)" ;
+    narr:originRef "unknown" ;
+    dct:title "Extraction: Second version document with reviewer frontmatter" ;
+    prov:generated
+      narr:Sample_SecondVersion,
+      narr:Narrative_SecondVersionDeclaration,
+      narr:Claim_ReviewerAssigned_SecondVersion,
+      narr:StyleMetrics_SecondVersion,
+      narr:StyleObs_SecondVersion_PlainLanguage,
+      narr:StyleObs_SecondVersion_Capitalization,
+      narr:StyleObs_SecondVersion_MinimalRegister .
+} ;
+
+# Extracted entities (named graph)
+INSERT DATA {
+  GRAPH narr:Tx_20250715T120000Z {
+
+    # ── Sample ──────────────────────────────────────────────────
+    narr:Sample_SecondVersion a narr:Sample ;
+      dct:title "Second version" ;
+      dct:description "Minimal document with YAML frontmatter assigning a reviewer and a two-word body declaring second version status. Structurally identical to first version document." ;
+      narr:inputLength 67 .
+
+    # ── Narrative ───────────────────────────────────────────────
+    narr:Narrative_SecondVersionDeclaration a narr:Narrative ;
+      dct:source narr:Sample_SecondVersion ;
+      skos:broader narr:NarrativeDrivenRoadmap ;
+      narr:theme "Second version declaration" ;
+      skos:note "The document body consists solely of the phrase 'Second version', asserting that this artifact has progressed to its second iteration. No substantive content beyond version status and reviewer assignment is present. Follows the same structural pattern as the first version document." .
+
+    # ── Claim ───────────────────────────────────────────────────
+    narr:Claim_ReviewerAssigned_SecondVersion a narr:Claim ;
+      dct:source narr:Sample_SecondVersion ;
+      narr:aboutNode narr:Actor_Reviewer_ExpertGH ;
+      narr:hasConvictionLevel narr:Conviction_Stake ;
+      narr:supports narr:Narrative_SecondVersionDeclaration ;
+      skos:note "The same reviewer (email redacted, PII policy) is assigned in the YAML frontmatter of the second version, indicating the review workflow persists across document iterations." .
+
+    # ── Style Metrics ───────────────────────────────────────────
+    narr:StyleMetrics_SecondVersion a narr:StyleMetrics ;
+      dct:source narr:Sample_SecondVersion ;
+      skos:broader narr:StyleMetrics ;
+      narr:AverageSentenceLength 2 ;
+      narr:ActiveVoiceRatio "1.0"^^xsd:decimal ;
+      narr:JargonDensity "0.0"^^xsd:decimal ;
+      skos:note "Extremely minimal document. Body is a two-word declarative label. No jargon, no passive constructions, no complex syntax. Register: placeholder/status label. Metrics identical to first version." .
+
+    # ── Style Observations ──────────────────────────────────────
+
+    # 1. Plain language — two-word body
+    narr:StyleObs_SecondVersion_PlainLanguage a narr:StyleObservation ;
+      skos:broader narr:PlainLanguage ;
+      dct:source narr:Sample_SecondVersion ;
+      rdf:value true ;
+      skos:note "Body text is a two-word plain-language status label with no jargon, subordinate clauses, or rhetorical complexity." ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_SecondVersion ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start 53 ;
+          oa:end 67
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "Second version" ;
+          oa:prefix "---\n\n" ;
+          oa:suffix ""
+        ]
+      ] .
+
+    # 2. Capitalization — sentence-initial / title-style capitalisation
+    narr:StyleObs_SecondVersion_Capitalization a narr:StyleObservation ;
+      skos:broader narr:CapitalizationCase ;
+      dct:source narr:Sample_SecondVersion ;
+      rdf:value true ;
+      skos:note "'Second' is capitalised (sentence-initial / title-style), while 'version' is lowercase. Matches the capitalisation pattern of the first version document ('First version')." ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_SecondVersion ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start 53 ;
+          oa:end 67
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "Second version" ;
+          oa:prefix "---\n\n" ;
+          oa:suffix ""
+        ]
+      ] .
+
+    # 3. Minimal / placeholder register
+    narr:StyleObs_SecondVersion_MinimalRegister a narr:StyleObservation ;
+      skos:broader narr:RegisterFormality ;
+      dct:source narr:Sample_SecondVersion ;
+      rdf:value false ;
+      skos:note "Document register is a bare placeholder/status label. No prose, no argument, no rhetorical structure. Consistent with a version-tracking stub rather than a substantive document." ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_SecondVersion ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start 53 ;
+          oa:end 67
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "Second version" ;
+          oa:prefix "---\n\n" ;
+          oa:suffix ""
+        ]
+      ] .
+
+  }
+}
