@@ -1,0 +1,122 @@
+PREFIX narr: <https://aswritten.ai/narrative#>
+PREFIX rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX prov: <http://www.w3.org/ns/prov#>
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+PREFIX dct:  <http://purl.org/dc/terms/>
+PREFIX xsd:  <http://www.w3.org/2001/XMLSchema#>
+PREFIX oa:   <http://www.w3.org/ns/oa#>
+
+# Transaction provenance (default graph)
+INSERT DATA {
+  narr:Tx_20250715T120000Z a prov:Activity ;
+    dct:title "Extraction: Second version document (minimal content)" ;
+    prov:generatedAtTime "2025-07-15T12:00:00Z"^^xsd:dateTime ;
+    prov:wasAssociatedWith "aswritten.ai" ;
+    prov:wasAttributedTo "n8n.aswritten.ai" ;
+    narr:originPath "unknown" ;
+    narr:originRef "unknown" ;
+    prov:generated
+      narr:Sample_SecondVersion,
+      narr:Narrative_SecondVersionInitialization,
+      narr:StyleMetrics_SecondVersion,
+      narr:StyleObs_SecondVersion_ShortPunchyCadence,
+      narr:StyleObs_SecondVersion_ToneAuthoritative,
+      narr:StyleObs_SecondVersion_RegisterFormality .
+} ;
+
+# Extracted entities (named graph)
+INSERT DATA {
+  GRAPH narr:Tx_20250715T120000Z {
+
+    # ── Sample ──────────────────────────────────────────────────
+    narr:Sample_SecondVersion a narr:Sample ;
+      dct:title "Second version" ;
+      dct:description "Minimal document with YAML frontmatter listing a reviewer (email redacted) and a two-word body declaring the second version." ;
+      narr:inputLength 14 .
+
+    # ── Narrative ────────────────────────────────────────────────
+    narr:Narrative_SecondVersionInitialization a narr:Narrative ;
+      dct:source narr:Sample_SecondVersion ;
+      skos:broader narr:NarrativeDrivenRoadmap ;
+      narr:theme "Document initialization — second version declaration" ;
+      skos:note "The document body consists solely of the phrase 'Second version', indicating this is a successor stub or placeholder to the first version. No substantive narrative content is present beyond the versioning declaration. The reviewer email in the frontmatter is redacted per PII policy." .
+
+    # ── Style Observations ───────────────────────────────────────
+
+    # 1. Short punchy cadence — two-word declarative body
+    narr:StyleObs_SecondVersion_ShortPunchyCadence a narr:StyleObservation ;
+      skos:broader narr:ShortPunchyCadence ;
+      dct:source narr:Sample_SecondVersion ;
+      skos:note "Two-word body is maximally concise; exemplifies short punchy cadence." ;
+      rdf:value true ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_SecondVersion ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start 0 ;
+          oa:end 14
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "Second version" ;
+          oa:prefix "" ;
+          oa:suffix ""
+        ]
+      ] .
+
+    # 2. Authoritative tone — declarative version statement
+    narr:StyleObs_SecondVersion_ToneAuthoritative a narr:StyleObservation ;
+      skos:broader narr:ToneAuthoritative ;
+      dct:source narr:Sample_SecondVersion ;
+      skos:note "Bare declarative noun phrase asserts version status without hedging or qualification; tone is authoritative by omission of qualifiers." ;
+      rdf:value true ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_SecondVersion ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start 0 ;
+          oa:end 14
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "Second version" ;
+          oa:prefix "" ;
+          oa:suffix ""
+        ]
+      ] .
+
+    # 3. Register formality — structured YAML frontmatter
+    narr:StyleObs_SecondVersion_RegisterFormality a narr:StyleObservation ;
+      skos:broader narr:RegisterFormality ;
+      dct:source narr:Sample_SecondVersion ;
+      skos:note "YAML frontmatter with a 'reviewers' key signals a formal document-management register, consistent with structured editorial workflows." ;
+      rdf:value true ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_SecondVersion ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start 0 ;
+          oa:end 46
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "reviewers:" ;
+          oa:prefix "---\n" ;
+          oa:suffix "\n  - [redacted]"
+        ]
+      ] .
+
+    # ── Style Metrics ────────────────────────────────────────────
+    narr:StyleMetrics_SecondVersion a narr:StyleMetrics ;
+      dct:source narr:Sample_SecondVersion ;
+      skos:broader narr:StyleMetrics ;
+      narr:AverageSentenceLength 2 ;
+      narr:ActiveVoiceRatio "1.0"^^xsd:decimal ;
+      narr:JargonDensity "0.0"^^xsd:decimal ;
+      skos:note "Computed on a 2-word, 1-sentence body. Metrics are trivially minimal. No jargon present. Implied active voice (noun-phrase declaration). Mirrors metrics of the first version document." .
+
+  }
+}
