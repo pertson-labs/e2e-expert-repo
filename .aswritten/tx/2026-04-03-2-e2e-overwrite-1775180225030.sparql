@@ -1,0 +1,131 @@
+PREFIX narr: <https://aswritten.ai/narrative#>
+PREFIX rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX prov: <http://www.w3.org/ns/prov#>
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+PREFIX dct:  <http://purl.org/dc/terms/>
+PREFIX xsd:  <http://www.w3.org/2001/XMLSchema#>
+PREFIX oa:   <http://www.w3.org/ns/oa#>
+
+# Transaction provenance (default graph)
+INSERT DATA {
+  narr:Tx_20250724T120000Z a prov:Activity ;
+    dct:title "Extraction: stub document — Second version" ;
+    prov:generatedAtTime "2025-07-24T12:00:00Z"^^xsd:dateTime ;
+    prov:wasAssociatedWith "aswritten.ai" ;
+    prov:wasAttributedTo "n8n.aswritten.ai" ;
+    narr:originPath "(no id provided)" ;
+    narr:originRef "unknown" ;
+    prov:generated
+      narr:Sample_SecondVersion_Stub,
+      narr:Narrative_SecondVersionStub,
+      narr:Claim_SecondVersionState,
+      narr:StyleMetrics_SecondVersionStub,
+      narr:StyleObs_SecondVersion_Terse,
+      narr:StyleObs_SecondVersion_Register,
+      narr:StyleObs_SecondVersion_Cadence .
+} ;
+
+# Extracted entities (named graph)
+INSERT DATA {
+  GRAPH narr:Tx_20250724T120000Z {
+
+    # ── Sample ──────────────────────────────────────────────────
+    narr:Sample_SecondVersion_Stub a narr:Sample ;
+      dct:title "Second version (stub document)" ;
+      dct:description "Minimal stub document with YAML front-matter reviewer metadata and a two-word body reading 'Second version'. Structurally identical to the first version stub." ;
+      narr:inputLength 66 .
+
+    # ── Narrative ────────────────────────────────────────────────
+    narr:Narrative_SecondVersionStub a narr:Narrative ;
+      dct:source narr:Sample_SecondVersion_Stub ;
+      skos:broader narr:Process ;
+      skos:note "Document declares itself a second version with no substantive content beyond reviewer assignment. Signals document lifecycle progression from first to second version — still in stub/placeholder state." ;
+      narr:theme "Second version stub / document lifecycle progression" .
+
+    # ── Claim ────────────────────────────────────────────────────
+    narr:Claim_SecondVersionState a narr:Claim ;
+      dct:source narr:Sample_SecondVersion_Stub ;
+      skos:note "The document has advanced to a second version but remains unpopulated. Conviction is Notion — no substantive assertions have been made yet." ;
+      narr:aboutNode narr:Narrative_SecondVersionStub ;
+      narr:hasConvictionLevel narr:Conviction_Notion ;
+      narr:supports narr:Process .
+
+    # ── Style Observations ───────────────────────────────────────
+
+    # SO-1: Extreme terseness / minimal body
+    narr:StyleObs_SecondVersion_Terse a narr:StyleObservation ;
+      skos:broader narr:ShortPunchyCadence ;
+      dct:source narr:Sample_SecondVersion_Stub ;
+      skos:note "Body consists of a single two-word fragment. Maximally terse — no elaboration, no punctuation beyond the phrase itself." ;
+      rdf:value true ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_SecondVersion_Stub ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start 52 ;
+          oa:end 66
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "Second version" ;
+          oa:prefix "---\n\n" ;
+          oa:suffix ""
+        ]
+      ] .
+
+    # SO-2: Formal/structured register via YAML front-matter
+    narr:StyleObs_SecondVersion_Register a narr:StyleObservation ;
+      skos:broader narr:RegisterFormality ;
+      dct:source narr:Sample_SecondVersion_Stub ;
+      skos:note "YAML front-matter block signals a structured, machine-readable editorial convention. Reviewer assignment via structured metadata rather than prose indicates a formal document lifecycle register." ;
+      rdf:value true ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_SecondVersion_Stub ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start 0 ;
+          oa:end 50
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "---\nreviewers:\n  - test+expert-gh@aswritten.ai\n---" ;
+          oa:prefix "" ;
+          oa:suffix "\n\nSecond version"
+        ]
+      ] .
+
+    # SO-3: Editorial rules — versioning convention in body text
+    narr:StyleObs_SecondVersion_Cadence a narr:StyleObservation ;
+      skos:broader narr:EditorialRules ;
+      dct:source narr:Sample_SecondVersion_Stub ;
+      skos:note "The body text 'Second version' follows the same versioning label convention as the prior stub ('First version' → 'Second version'). Suggests an editorial rule of using ordinal version labels as placeholder body text during document lifecycle initiation." ;
+      rdf:value true ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_SecondVersion_Stub ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start 52 ;
+          oa:end 66
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "Second version" ;
+          oa:prefix "---\n\n" ;
+          oa:suffix ""
+        ]
+      ] .
+
+    # ── Style Metrics ────────────────────────────────────────────
+    narr:StyleMetrics_SecondVersionStub a narr:StyleMetrics ;
+      dct:source narr:Sample_SecondVersion_Stub ;
+      skos:broader narr:StyleMetrics ;
+      skos:note "Computed over the two-word body only. AverageSentenceLength=2 (single fragment). ActiveVoiceRatio=1.0 (no passive constructions). JargonDensity=0.0 (no domain jargon present). Metrics identical to first version stub — both are minimal placeholders." ;
+      narr:AverageSentenceLength 2 ;
+      narr:ActiveVoiceRatio "1.0"^^xsd:decimal ;
+      narr:JargonDensity "0.0"^^xsd:decimal .
+
+  }
+}
