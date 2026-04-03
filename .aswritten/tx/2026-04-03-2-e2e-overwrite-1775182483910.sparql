@@ -1,0 +1,146 @@
+PREFIX narr: <https://aswritten.ai/narrative#>
+PREFIX rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX prov: <http://www.w3.org/ns/prov#>
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+PREFIX dct:  <http://purl.org/dc/terms/>
+PREFIX xsd:  <http://www.w3.org/2001/XMLSchema#>
+PREFIX oa:   <http://www.w3.org/ns/oa#>
+
+# ── Transaction provenance (default graph) ──────────────────────
+INSERT DATA {
+  narr:Tx_20250716T120000Z a prov:Activity ;
+    dct:title "Extraction: Second version reviewer document" ;
+    prov:generatedAtTime "2025-07-16T12:00:00Z"^^xsd:dateTime ;
+    prov:wasAssociatedWith "aswritten.ai" ;
+    prov:wasAttributedTo "n8n.aswritten.ai" ;
+    narr:originPath "unknown" ;
+    narr:originRef "unknown" ;
+    prov:generated
+      narr:Sample_SecondVersion,
+      narr:Narrative_SecondVersionDeclaration,
+      narr:Observation_SecondVersionBody,
+      narr:Claim_ReviewerAssignment_V2,
+      narr:StyleMetrics_SecondVersion,
+      narr:StyleObs_SecondVersion_PlainLanguage,
+      narr:StyleObs_SecondVersion_ShortCadence,
+      narr:StyleObs_SecondVersion_YAMLFrontMatter .
+} ;
+
+# ── New Sample node for the second-version document ─────────────
+INSERT DATA {
+  GRAPH narr:Tx_20250716T120000Z {
+
+    narr:Sample_SecondVersion a narr:Sample ;
+      dct:title "Second version reviewer document" ;
+      dct:description "Minimal document with YAML front-matter declaring a reviewer and a single-line body 'Second version'. Successor to the First version artifact." ;
+      narr:inputLength 55 .
+
+    # ── Narrative: version declaration updated to second iteration ──
+    narr:Narrative_SecondVersionDeclaration a narr:Narrative ;
+      dct:source narr:Sample_SecondVersion ;
+      skos:broader narr:Process ;
+      narr:theme "Document versioning — second iteration declaration" ;
+      skos:note "The document body consists solely of the phrase 'Second version', asserting this is the second iteration of the artifact. The YAML front-matter retains the same reviewer-assignment pattern as the first version." .
+
+    # ── Observation: body text is now 'Second version' ──────────────
+    narr:Observation_SecondVersionBody a narr:Observation ;
+      dct:source narr:Sample_SecondVersion ;
+      skos:broader narr:Process ;
+      skos:note "The entire document body is the two-word phrase 'Second version', signalling a second draft status and progression from the initial 'First version' artifact." ;
+      oa:hasSelector [
+        a oa:TextPositionSelector ;
+        oa:start 46 ;
+        oa:end 60
+      ] ;
+      oa:hasSelector [
+        a oa:TextQuoteSelector ;
+        oa:exact "Second version" ;
+        oa:prefix "---\n\n" ;
+        oa:suffix ""
+      ] .
+
+    # ── Claim: reviewer still assigned in this version ──────────────
+    narr:Claim_ReviewerAssignment_V2 a narr:Claim ;
+      dct:source narr:Sample_SecondVersion ;
+      narr:aboutNode narr:Actor_ExpertReviewer ;
+      narr:hasConvictionLevel narr:Conviction_Foundation ;
+      narr:supports narr:Narrative_SecondVersionDeclaration ;
+      skos:note "The YAML front-matter of the second version explicitly assigns the same reviewer role (email redacted per PII policy: [REDACTED_EMAIL @aswritten.ai domain]), confirming the review workflow persists across versions." .
+
+    # ── Style Metrics ────────────────────────────────────────────────
+    narr:StyleMetrics_SecondVersion a narr:StyleMetrics ;
+      dct:source narr:Sample_SecondVersion ;
+      skos:broader narr:StyleMetrics ;
+      narr:AverageSentenceLength 2 ;
+      narr:ActiveVoiceRatio "0.0"^^xsd:decimal ;
+      narr:JargonDensity "0.0"^^xsd:decimal ;
+      skos:note "Minimal document: 2-word body, no verbs (active voice ratio undefined/0), no domain jargon. Identical register profile to the first version. YAML front-matter adds structured metadata but no prose register." .
+
+    # ── Style Observation 1: Plain Language ──────────────────────────
+    narr:StyleObs_SecondVersion_PlainLanguage a narr:StyleObservation ;
+      skos:broader narr:PlainLanguage ;
+      dct:source narr:Sample_SecondVersion ;
+      skos:note "Body uses maximally plain, two-word declarative phrasing with no subordinate clauses, qualifiers, or technical vocabulary." ;
+      rdf:value true ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_SecondVersion ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start 46 ;
+          oa:end 60
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "Second version" ;
+          oa:prefix "---\n\n" ;
+          oa:suffix ""
+        ]
+      ] .
+
+    # ── Style Observation 2: Short Punchy Cadence ────────────────────
+    narr:StyleObs_SecondVersion_ShortCadence a narr:StyleObservation ;
+      skos:broader narr:ShortPunchyCadence ;
+      dct:source narr:Sample_SecondVersion ;
+      skos:note "The entire prose body is two words. Sentence length is at its theoretical minimum, producing maximum cadence compression." ;
+      rdf:value true ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_SecondVersion ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start 46 ;
+          oa:end 60
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "Second version" ;
+          oa:prefix "---\n\n" ;
+          oa:suffix ""
+        ]
+      ] .
+
+    # ── Style Observation 3: YAML Front-Matter Editorial Convention ──
+    narr:StyleObs_SecondVersion_YAMLFrontMatter a narr:StyleObservation ;
+      skos:broader narr:EditorialRules ;
+      dct:source narr:Sample_SecondVersion ;
+      skos:note "YAML front-matter block used to declare structured reviewer metadata, consistent with an editorial workflow convention. Reviewer email follows a test+role@domain pattern (redacted)." ;
+      rdf:value true ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_SecondVersion ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start 0 ;
+          oa:end 44
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "reviewers:\n  - [REDACTED_EMAIL]" ;
+          oa:prefix "---\n" ;
+          oa:suffix "\n---"
+        ]
+      ] .
+
+  }
+}
