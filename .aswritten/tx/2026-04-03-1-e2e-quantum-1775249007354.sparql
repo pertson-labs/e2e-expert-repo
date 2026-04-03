@@ -1,0 +1,176 @@
+PREFIX narr: <https://aswritten.ai/narrative#>
+PREFIX rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX prov: <http://www.w3.org/ns/prov#>
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+PREFIX dct:  <http://purl.org/dc/terms/>
+PREFIX xsd:  <http://www.w3.org/2001/XMLSchema#>
+PREFIX oa:   <http://www.w3.org/ns/oa#>
+
+# ── Transaction provenance (default graph) ──────────────────────────────────
+INSERT DATA {
+  narr:Tx_20250714T000000Z a prov:Activity ;
+    prov:generatedAtTime "2025-07-14T00:00:00Z"^^xsd:dateTime ;
+    prov:wasAssociatedWith "aswritten.ai" ;
+    prov:wasAttributedTo "n8n.aswritten.ai" ;
+    narr:originPath "(no id field provided in input — fallback: e2e-test-quantum-widget-decision)" ;
+    narr:originRef "main" ;
+    dct:title "E2E Test: Quantum Widget Decision" ;
+    prov:generated
+      narr:Sample_E2ETest_QuantumWidgetDecision,
+      narr:Actor_DaveQuantum,
+      narr:Narrative_DatabaseMigrationPostgresToQuantumDB,
+      narr:Claim_10xQueryPerformance,
+      narr:Claim_LowerLicensingCost,
+      narr:Claim_Q3_2026_Timeline,
+      narr:Obs_DaveQuote_SwitchingDecision,
+      narr:StyleObs_DirectDeclarativeTone,
+      narr:StyleObs_BulletedKeyDecisions,
+      narr:StyleObs_QuantifiedPerformanceClaim,
+      narr:StyleMetrics_E2ETest_QuantumWidget .
+} ;
+
+# ── Extracted entities (named graph) ────────────────────────────────────────
+INSERT DATA {
+  GRAPH narr:Tx_20250714T000000Z {
+
+    # ── Sample ──────────────────────────────────────────────────────────────
+    narr:Sample_E2ETest_QuantumWidgetDecision a narr:Sample ;
+      dct:title "E2E Test: Quantum Widget Decision" ;
+      dct:created "2026-04-01"^^xsd:date ;
+      narr:inputLength 390 ;
+      dct:description "End-to-end test memory capturing a database migration decision from PostgreSQL to QuantumDB, presented by Dave Quantum (VP Engineering)." .
+
+    # ── Actor ────────────────────────────────────────────────────────────────
+    narr:Actor_DaveQuantum a narr:Actor ;
+      skos:prefLabel "Dave Quantum" ;
+      skos:note "VP Engineering; decision-maker for the PostgreSQL → QuantumDB analytics pipeline migration." .
+
+    # ── Narrative ────────────────────────────────────────────────────────────
+    narr:Narrative_DatabaseMigrationPostgresToQuantumDB a narr:Narrative ;
+      dct:source narr:Sample_E2ETest_QuantumWidgetDecision ;
+      narr:theme "Database migration from PostgreSQL to QuantumDB for analytics pipeline performance" ;
+      skos:broader narr:StackOverview ;
+      skos:note "The organisation is switching its analytics pipeline database from PostgreSQL to QuantumDB, motivated by a claimed 10x query performance improvement and lower licensing cost, targeting Q3 2026." .
+
+    # ── Claims ───────────────────────────────────────────────────────────────
+    narr:Claim_10xQueryPerformance a narr:Claim ;
+      narr:aboutNode narr:Narrative_DatabaseMigrationPostgresToQuantumDB ;
+      narr:hasConvictionLevel narr:Conviction_Stake ;
+      narr:supports narr:Narrative_DatabaseMigrationPostgresToQuantumDB ;
+      dct:source narr:Sample_E2ETest_QuantumWidgetDecision ;
+      skos:note "Dave Quantum asserts QuantumDB delivers 10x query performance for analytical workloads compared to PostgreSQL." .
+
+    narr:Claim_LowerLicensingCost a narr:Claim ;
+      narr:aboutNode narr:Narrative_DatabaseMigrationPostgresToQuantumDB ;
+      narr:hasConvictionLevel narr:Conviction_Stake ;
+      narr:supports narr:Narrative_DatabaseMigrationPostgresToQuantumDB ;
+      dct:source narr:Sample_E2ETest_QuantumWidgetDecision ;
+      skos:note "QuantumDB is asserted to have lower licensing cost than PostgreSQL, cited as a migration driver." .
+
+    narr:Claim_Q3_2026_Timeline a narr:Claim ;
+      narr:aboutNode narr:Narrative_DatabaseMigrationPostgresToQuantumDB ;
+      narr:hasConvictionLevel narr:Conviction_Notion ;
+      narr:supports narr:Narrative_DatabaseMigrationPostgresToQuantumDB ;
+      dct:source narr:Sample_E2ETest_QuantumWidgetDecision ;
+      skos:note "The database migration is planned for Q3 2026; no further detail on milestones or dependencies provided." .
+
+    # ── Observation (verbatim quote) ─────────────────────────────────────────
+    narr:Obs_DaveQuote_SwitchingDecision a narr:Observation ;
+      skos:broader narr:FrictionFailure ;
+      dct:source narr:Sample_E2ETest_QuantumWidgetDecision ;
+      skos:note "Dave Quantum's direct statement announcing the migration decision and its rationale." ;
+      oa:hasSelector [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_E2ETest_QuantumWidgetDecision ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start 175 ;
+          oa:end 272
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "We're switching from PostgreSQL to QuantumDB for the analytics pipeline. 10x query performance, lower licensing cost." ;
+          oa:prefix "Dave: \"" ;
+          oa:suffix "\""
+        ]
+      ] .
+
+    # ── Style Observations ───────────────────────────────────────────────────
+
+    # Style Obs 1: Direct declarative tone
+    narr:StyleObs_DirectDeclarativeTone a narr:StyleObservation ;
+      skos:broader narr:ToneDirectPersonal ;
+      dct:source narr:Sample_E2ETest_QuantumWidgetDecision ;
+      skos:note "Speaker uses a blunt, first-person declarative to announce a major infrastructure decision without hedging." ;
+      rdf:value true ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_E2ETest_QuantumWidgetDecision ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start 175 ;
+          oa:end 210
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "We're switching from PostgreSQL to QuantumDB" ;
+          oa:prefix "Dave: \"" ;
+          oa:suffix " for the analytics pipeline."
+        ]
+      ] .
+
+    # Style Obs 2: Bulleted key decisions format
+    narr:StyleObs_BulletedKeyDecisions a narr:StyleObservation ;
+      skos:broader narr:GrammarSyntax ;
+      dct:source narr:Sample_E2ETest_QuantumWidgetDecision ;
+      skos:note "Document uses a bold-label bullet list to enumerate key decisions, a structured meeting-notes convention." ;
+      rdf:value true ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_E2ETest_QuantumWidgetDecision ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start 275 ;
+          oa:end 390
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "Key decisions:\n- **Database migration**: PostgreSQL → QuantumDB\n- **Performance gain**: 10x analytical queries\n- **Timeline**: Q3 2026" ;
+          oa:prefix "lower licensing cost.\"\n\n" ;
+          oa:suffix ""
+        ]
+      ] .
+
+    # Style Obs 3: Quantified performance claim as rhetorical anchor
+    narr:StyleObs_QuantifiedPerformanceClaim a narr:StyleObservation ;
+      skos:broader narr:ToneAuthoritative ;
+      dct:source narr:Sample_E2ETest_QuantumWidgetDecision ;
+      skos:note "The '10x query performance' figure is used as a rhetorical anchor to justify the migration, lending authority through quantification without citing a source." ;
+      rdf:value true ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_E2ETest_QuantumWidgetDecision ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start 237 ;
+          oa:end 258
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "10x query performance" ;
+          oa:prefix "analytics pipeline. " ;
+          oa:suffix ", lower licensing cost."
+        ]
+      ] .
+
+    # ── Style Metrics ────────────────────────────────────────────────────────
+    narr:StyleMetrics_E2ETest_QuantumWidget a narr:StyleMetrics ;
+      skos:broader narr:StyleMetrics ;
+      dct:source narr:Sample_E2ETest_QuantumWidgetDecision ;
+      narr:AverageSentenceLength 12 ;
+      narr:ActiveVoiceRatio "0.90"^^xsd:decimal ;
+      narr:JargonDensity "0.15"^^xsd:decimal ;
+      skos:note "Short, punchy sentences; predominantly active voice; moderate technical jargon (PostgreSQL, QuantumDB, analytics pipeline). Register: informal meeting notes with structured decision summary." .
+
+  }
+}
