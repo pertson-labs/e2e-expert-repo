@@ -1,0 +1,156 @@
+PREFIX narr: <https://aswritten.ai/narrative#>
+PREFIX rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX prov: <http://www.w3.org/ns/prov#>
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+PREFIX dct:  <http://purl.org/dc/terms/>
+PREFIX xsd:  <http://www.w3.org/2001/XMLSchema#>
+PREFIX oa:   <http://www.w3.org/ns/oa#>
+
+# Transaction provenance (default graph)
+INSERT DATA {
+  narr:Tx_20250115T120000Z a prov:Activity ;
+    prov:generatedAtTime "2025-01-15T12:00:00Z"^^xsd:dateTime ;
+    prov:wasAssociatedWith "aswritten.ai" ;
+    prov:wasAttributedTo "n8n.aswritten.ai" ;
+    narr:originPath "unknown" ;
+    narr:originRef "unknown" ;
+    dct:title "Extraction: minimal reviewer-frontmatter document" ;
+    prov:generated
+      narr:Sample_FirstVersionDoc,
+      narr:Actor_ExpertReviewer_GH,
+      narr:Narrative_FirstVersionDocument,
+      narr:Claim_DocumentAtFirstVersion,
+      narr:Obs_FirstVersionBody,
+      narr:StyleObs_MinimalBodyText,
+      narr:StyleObs_YAMLFrontmatterConvention,
+      narr:StyleObs_EmailReviewerPattern,
+      narr:StyleMetrics_FirstVersionDoc .
+} ;
+
+# Extracted entities (named graph)
+INSERT DATA {
+  GRAPH narr:Tx_20250115T120000Z {
+
+    # ── Sample ──────────────────────────────────────────────────
+    narr:Sample_FirstVersionDoc a narr:Sample ;
+      dct:title "First version (reviewer-frontmatter document)" ;
+      narr:inputLength 55 ;
+      dct:description "Minimal document with YAML frontmatter declaring a reviewer and a two-word body 'First version'." .
+
+    # ── Actor ───────────────────────────────────────────────────
+    # PII redacted: reviewer email contains personal address; redacted per verbatim policy
+    narr:Actor_ExpertReviewer_GH a narr:Actor ;
+      skos:prefLabel "Expert Reviewer (GitHub)" ;
+      skos:note "Reviewer declared in YAML frontmatter. Email redacted (PII policy). Role: document reviewer assigned via frontmatter metadata." .
+
+    # ── Narrative ────────────────────────────────────────────────
+    narr:Narrative_FirstVersionDocument a narr:Narrative ;
+      dct:source narr:Sample_FirstVersionDoc ;
+      narr:theme "Document versioning — initial draft declaration" ;
+      skos:broader narr:Process ;
+      skos:note "The document declares itself as a first version, establishing an initial state in a versioning or review workflow. A named reviewer is assigned via frontmatter, suggesting a structured review process." .
+
+    # ── Claim ───────────────────────────────────────────────────
+    narr:Claim_DocumentAtFirstVersion a narr:Claim ;
+      narr:aboutNode narr:Narrative_FirstVersionDocument ;
+      narr:hasConvictionLevel narr:Conviction_Notion ;
+      narr:supports narr:Narrative_FirstVersionDocument ;
+      dct:source narr:Sample_FirstVersionDoc ;
+      skos:note "The body text 'First version' asserts this document is at its initial iteration. Conviction is Notion — the document is sparse and provides no corroborating context." .
+
+    # ── Observation ─────────────────────────────────────────────
+    narr:Obs_FirstVersionBody a narr:Observation ;
+      skos:broader narr:Process ;
+      dct:source narr:Sample_FirstVersionDoc ;
+      skos:note "Body text asserting document version state." ;
+      oa:hasSelector [
+        a oa:TextPositionSelector ;
+        oa:start 31 ;
+        oa:end 44
+      ] ;
+      oa:hasSelector [
+        a oa:TextQuoteSelector ;
+        oa:exact "First version" ;
+        oa:prefix "---\n\n" ;
+        oa:suffix ""
+      ] .
+
+    # ── Style Observations (minimum 3) ──────────────────────────
+
+    # 1. YAML frontmatter convention
+    narr:StyleObs_YAMLFrontmatterConvention a narr:StyleObservation ;
+      skos:broader narr:EditorialRules ;
+      dct:source narr:Sample_FirstVersionDoc ;
+      skos:note "Document uses YAML frontmatter delimited by triple-dashes to declare structured metadata (reviewer assignment). This is a machine-readable editorial convention common in static-site and documentation workflows." ;
+      rdf:value true ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_FirstVersionDoc ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start 0 ;
+          oa:end 3
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "---" ;
+          oa:prefix "" ;
+          oa:suffix "\nreviewers:"
+        ]
+      ] .
+
+    # 2. Minimal body text / extreme conciseness
+    narr:StyleObs_MinimalBodyText a narr:StyleObservation ;
+      skos:broader narr:Conciseness ;
+      dct:source narr:Sample_FirstVersionDoc ;
+      skos:note "The document body consists of exactly two words ('First version'), representing an extreme case of conciseness — a placeholder or stub entry rather than substantive prose." ;
+      rdf:value true ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_FirstVersionDoc ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start 31 ;
+          oa:end 44
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "First version" ;
+          oa:prefix "---\n\n" ;
+          oa:suffix ""
+        ]
+      ] .
+
+    # 3. Reviewer declared via structured metadata (not inline prose)
+    narr:StyleObs_EmailReviewerPattern a narr:StyleObservation ;
+      skos:broader narr:EditorialRules ;
+      dct:source narr:Sample_FirstVersionDoc ;
+      skos:note "Reviewer is declared as a list item under a 'reviewers' key in YAML frontmatter using an email address format, rather than being named in prose. This reflects a workflow-integrated editorial convention where review assignment is machine-parseable." ;
+      rdf:value true ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_FirstVersionDoc ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start 4 ;
+          oa:end 29
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "reviewers:" ;
+          oa:prefix "---\n" ;
+          oa:suffix "\n  - "
+        ]
+      ] .
+
+    # ── Style Metrics ────────────────────────────────────────────
+    narr:StyleMetrics_FirstVersionDoc a narr:StyleMetrics ;
+      skos:broader narr:StyleMetrics ;
+      dct:source narr:Sample_FirstVersionDoc ;
+      narr:AverageSentenceLength 2 ;
+      narr:ActiveVoiceRatio "1.0"^^xsd:decimal ;
+      narr:JargonDensity "0.0"^^xsd:decimal ;
+      skos:note "Extremely short document body (2 words, 1 sentence). No jargon. Active voice by default. Metrics reflect stub/placeholder content rather than substantive prose." .
+
+  }
+}
