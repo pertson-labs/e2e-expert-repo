@@ -1,0 +1,138 @@
+PREFIX narr: <https://aswritten.ai/narrative#>
+PREFIX rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX prov: <http://www.w3.org/ns/prov#>
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+PREFIX dct:  <http://purl.org/dc/terms/>
+PREFIX xsd:  <http://www.w3.org/2001/XMLSchema#>
+PREFIX oa:   <http://www.w3.org/ns/oa#>
+
+# Transaction provenance (default graph)
+INSERT DATA {
+  narr:Tx_20250115T120000Z a prov:Activity ;
+    prov:generatedAtTime "2025-01-15T12:00:00Z"^^xsd:dateTime ;
+    prov:wasAssociatedWith "aswritten.ai" ;
+    prov:wasAttributedTo "n8n.aswritten.ai" ;
+    narr:originPath "unknown" ;
+    narr:originRef "unknown" ;
+    dct:title "Extraction: First Version Review Document" ;
+    prov:generated
+      narr:Sample_FirstVersionDoc,
+      narr:Actor_ExpertReviewer_GH,
+      narr:Narrative_FirstVersionDocumentState,
+      narr:Claim_FirstVersionInitialState,
+      narr:StyleObs_MinimalRegister,
+      narr:StyleObs_YAMLFrontmatterConvention,
+      narr:StyleObs_BrevityDeclarative,
+      narr:StyleMetrics_FirstVersionDoc .
+} ;
+
+# Extracted entities (named graph)
+INSERT DATA {
+  GRAPH narr:Tx_20250115T120000Z {
+
+    # ── Sample ──────────────────────────────────────────────────
+    narr:Sample_FirstVersionDoc a narr:Sample ;
+      dct:title "First Version Review Document" ;
+      dct:description "Minimal YAML-frontmatter document declaring a reviewer and initial version state." ;
+      narr:inputLength 52 .
+
+    # ── Actor ───────────────────────────────────────────────────
+    # PII redacted: reviewer email (test+expert-gh@aswritten.ai) → role descriptor
+    narr:Actor_ExpertReviewer_GH a narr:Actor ;
+      skos:prefLabel "Expert Reviewer (GitHub, aswritten.ai)" ;
+      skos:note "Reviewer listed in YAML frontmatter. Email redacted per PII policy (allow_pii not set). Role: external expert reviewer on the aswritten.ai domain, identified via GitHub-style handle suffix." .
+
+    # ── Narrative ────────────────────────────────────────────────
+    narr:Narrative_FirstVersionDocumentState a narr:Narrative ;
+      dct:source narr:Sample_FirstVersionDoc ;
+      narr:theme "Initial document version with designated reviewer" ;
+      skos:broader narr:QualityReviewGates ;
+      skos:note "The document asserts its own first-version status and assigns a named reviewer, establishing a review-gated workflow pattern at document inception." .
+
+    # ── Claim ────────────────────────────────────────────────────
+    narr:Claim_FirstVersionInitialState a narr:Claim ;
+      narr:aboutNode narr:Narrative_FirstVersionDocumentState ;
+      narr:hasConvictionLevel narr:Conviction_Notion ;
+      narr:supports narr:QualityReviewGates ;
+      dct:source narr:Sample_FirstVersionDoc ;
+      skos:note "The body 'First version' signals this is an initial draft state. Conviction is Notion — minimal content, no corroborating evidence beyond the declaration itself." .
+
+    # ── Style Observations ───────────────────────────────────────
+
+    # SO-1: YAML frontmatter convention
+    narr:StyleObs_YAMLFrontmatterConvention a narr:StyleObservation ;
+      skos:broader narr:EditorialRules ;
+      dct:source narr:Sample_FirstVersionDoc ;
+      skos:note "Document uses YAML frontmatter delimited by triple-dashes to declare structured metadata (reviewers list). This is a structured editorial convention." ;
+      rdf:value true ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_FirstVersionDoc ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start 0 ;
+          oa:end 44
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "---\nreviewers:\n  - [REDACTED]\n---" ;
+          oa:prefix "" ;
+          oa:suffix "\n\nFirst version"
+        ]
+      ] .
+
+    # SO-2: Minimal/declarative register
+    narr:StyleObs_BrevityDeclarative a narr:StyleObservation ;
+      skos:broader narr:ToneDirectPersonal ;
+      dct:source narr:Sample_FirstVersionDoc ;
+      skos:note "Body consists of a single two-word declarative phrase. Extremely terse register; no elaboration, no hedging. Signals placeholder or stub document state." ;
+      rdf:value true ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_FirstVersionDoc ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start 46 ;
+          oa:end 58
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "First version" ;
+          oa:prefix "---\n\n" ;
+          oa:suffix ""
+        ]
+      ] .
+
+    # SO-3: Lowercase version label (no capitalisation of 'version')
+    narr:StyleObs_MinimalRegister a narr:StyleObservation ;
+      skos:broader narr:CapitalizationCase ;
+      dct:source narr:Sample_FirstVersionDoc ;
+      skos:note "'First version' uses sentence case with lowercase 'version', indicating an informal or internal labelling convention rather than a formal versioning scheme (e.g., 'Version 1.0')." ;
+      rdf:value false ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_FirstVersionDoc ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start 46 ;
+          oa:end 58
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "First version" ;
+          oa:prefix "---\n\n" ;
+          oa:suffix ""
+        ]
+      ] .
+
+    # ── Style Metrics ────────────────────────────────────────────
+    narr:StyleMetrics_FirstVersionDoc a narr:StyleMetrics ;
+      skos:broader narr:StyleMetrics ;
+      dct:source narr:Sample_FirstVersionDoc ;
+      narr:AverageSentenceLength 2 ;
+      narr:ActiveVoiceRatio "1.0"^^xsd:decimal ;
+      narr:JargonDensity "0.0"^^xsd:decimal ;
+      skos:note "Single two-word sentence in the body. Active voice (declarative noun phrase). No domain jargon. Extremely short document — metrics reflect stub/placeholder state." .
+
+  }
+}
