@@ -1,0 +1,164 @@
+PREFIX narr: <https://aswritten.ai/narrative#>
+PREFIX rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX prov: <http://www.w3.org/ns/prov#>
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+PREFIX dct:  <http://purl.org/dc/terms/>
+PREFIX xsd:  <http://www.w3.org/2001/XMLSchema#>
+PREFIX oa:   <http://www.w3.org/ns/oa#>
+
+# ── Transaction provenance (default graph) ──────────────────────────────────
+INSERT DATA {
+  narr:Tx_20250715T120000Z a prov:Activity ;
+    dct:title "Extraction: Second version document with reviewer frontmatter" ;
+    prov:generatedAtTime "2025-07-15T12:00:00Z"^^xsd:dateTime ;
+    prov:wasAssociatedWith "aswritten.ai" ;
+    prov:wasAttributedTo "n8n.aswritten.ai" ;
+    narr:originPath "unknown" ;
+    narr:originRef "unknown" ;
+    prov:generated
+      narr:Sample_SecondVersion,
+      narr:Claim_DocumentSecondVersion,
+      narr:Observation_SecondVersionBody,
+      narr:StyleMetrics_SecondVersion,
+      narr:StyleObs_SecondVersion_Terse,
+      narr:StyleObs_SecondVersion_ShortCadence,
+      narr:StyleObs_SecondVersion_FrontmatterReviewer .
+} ;
+
+# ── New Sample for "Second version" document ────────────────────────────────
+INSERT DATA {
+  GRAPH narr:Tx_20250715T120000Z {
+
+    narr:Sample_SecondVersion a narr:Sample ;
+      dct:title "Second version" ;
+      dct:description "Minimal markdown document with YAML frontmatter listing a reviewer and a two-word body: 'Second version'." ;
+      dct:created "2025-07-15"^^xsd:date ;
+      narr:inputLength 68 ;
+      narr:styleProfile narr:RegisterFormality, narr:ShortPunchyCadence, narr:EditorialRules .
+
+    # ── New Claim: second version state assertion ──────────────────────────
+    narr:Claim_DocumentSecondVersion a narr:Claim ;
+      dct:source narr:Sample_SecondVersion ;
+      narr:aboutNode narr:Narrative_FirstVersionDocument ;
+      narr:hasConvictionLevel narr:Conviction_Notion ;
+      narr:supports narr:Narrative_FirstVersionDocument ;
+      skos:note "The body text 'Second version' asserts this is the second iteration of the document, confirming a versioned, review-gated workflow pattern. Conviction is Notion given the absence of supporting detail." .
+
+    # ── Observation: body text ─────────────────────────────────────────────
+    narr:Observation_SecondVersionBody a narr:Observation ;
+      skos:broader narr:Process ;
+      dct:source narr:Sample_SecondVersion ;
+      skos:note "The entire prose body of the document is the two-word phrase 'Second version', indicating a second draft state." ;
+      oa:hasSelector [
+        a oa:TextPositionSelector ;
+        oa:start 51 ;
+        oa:end 65
+      ] ;
+      oa:hasSelector [
+        a oa:TextQuoteSelector ;
+        oa:exact "Second version" ;
+        oa:prefix "\n\n" ;
+        oa:suffix ""
+      ] .
+
+    # ── Style Observation 1: extreme terseness / plain language ────────────
+    narr:StyleObs_SecondVersion_Terse a narr:StyleObservation ;
+      skos:broader narr:PlainLanguage ;
+      dct:source narr:Sample_SecondVersion ;
+      skos:note "Two-word prose body exemplifies maximum concision; no elaboration, no verb, no context beyond the version label." ;
+      rdf:value true ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_SecondVersion ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start 51 ;
+          oa:end 65
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "Second version" ;
+          oa:prefix "\n\n" ;
+          oa:suffix ""
+        ]
+      ] .
+
+    # ── Style Observation 2: short punchy cadence ──────────────────────────
+    narr:StyleObs_SecondVersion_ShortCadence a narr:StyleObservation ;
+      skos:broader narr:ShortPunchyCadence ;
+      dct:source narr:Sample_SecondVersion ;
+      skos:note "The document body is a single noun phrase of two words, representing the shortest possible cadence unit — a label, not a sentence." ;
+      rdf:value true ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_SecondVersion ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start 51 ;
+          oa:end 65
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "Second version" ;
+          oa:prefix "\n\n" ;
+          oa:suffix ""
+        ]
+      ] .
+
+    # ── Style Observation 3: frontmatter reviewer attribution pattern ──────
+    narr:StyleObs_SecondVersion_FrontmatterReviewer a narr:StyleObservation ;
+      skos:broader narr:EditorialRules ;
+      dct:source narr:Sample_SecondVersion ;
+      skos:note "YAML frontmatter is used to declare a named reviewer, establishing a structured editorial attribution convention consistent with the first version." ;
+      rdf:value true ;
+      skos:related narr:Actor_Reviewer_ExpertGH ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_SecondVersion ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start 0 ;
+          oa:end 49
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "reviewers:\n  - test+expert-gh@aswritten.ai" ;
+          oa:prefix "---\n" ;
+          oa:suffix "\n---"
+        ]
+      ] .
+
+    # ── Style Metrics ──────────────────────────────────────────────────────
+    narr:StyleMetrics_SecondVersion a narr:StyleMetrics ;
+      skos:broader narr:StyleMetrics ;
+      dct:source narr:Sample_SecondVersion ;
+      narr:AverageSentenceLength 2 ;
+      narr:ActiveVoiceRatio "1.0"^^xsd:decimal ;
+      narr:JargonDensity "0.0"^^xsd:decimal ;
+      skos:note "Extremely terse document: one noun phrase of 2 words. Active voice by default (no verb present). Zero jargon density. YAML metadata not counted in prose metrics. Mirrors style profile of first version." .
+
+  }
+} ;
+
+# ── UPDATE: Narrative_FirstVersionDocument — broaden theme to cover v1+v2 ──
+DELETE {
+  GRAPH ?g {
+    narr:Narrative_FirstVersionDocument
+      narr:theme ?oldTheme ;
+      skos:note ?oldNote .
+  }
+}
+INSERT {
+  GRAPH narr:Tx_20250715T120000Z {
+    narr:Narrative_FirstVersionDocument
+      narr:theme "Document versioning, reviewer attribution, and iterative draft progression" ;
+      skos:note "The document series establishes a versioned state pattern (first → second version) with a consistent designated reviewer, signalling a review-gated iterative workflow. The second version confirms the pattern is recurring, not incidental." .
+  }
+}
+WHERE {
+  GRAPH ?g {
+    narr:Narrative_FirstVersionDocument
+      narr:theme ?oldTheme ;
+      skos:note ?oldNote .
+  }
+}
