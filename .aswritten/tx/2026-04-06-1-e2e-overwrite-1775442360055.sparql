@@ -1,0 +1,127 @@
+PREFIX narr: <https://aswritten.ai/narrative#>
+PREFIX rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX prov: <http://www.w3.org/ns/prov#>
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+PREFIX dct:  <http://purl.org/dc/terms/>
+PREFIX xsd:  <http://www.w3.org/2001/XMLSchema#>
+PREFIX oa:   <http://www.w3.org/ns/oa#>
+
+INSERT DATA {
+  narr:Tx_20250115T120000Z a prov:Activity ;
+    prov:generatedAtTime "2025-01-15T12:00:00Z"^^xsd:dateTime ;
+    prov:wasAssociatedWith "aswritten.ai" ;
+    prov:wasAttributedTo "n8n.aswritten.ai" ;
+    narr:originPath "(no id provided)" ;
+    narr:originRef "main" ;
+    dct:title "First version stub extraction" ;
+    prov:generated
+      narr:Sample_FirstVersionStub,
+      narr:Actor_Reviewer_ExpertGH,
+      narr:Narrative_FirstVersionDocumentStub,
+      narr:StyleObs_YAMLFrontmatterConvention,
+      narr:StyleObs_MinimalBodyCadence,
+      narr:StyleObs_ReviewerMetadataPattern,
+      narr:StyleMetrics_FirstVersionStub .
+} ;
+
+INSERT DATA {
+  GRAPH narr:Tx_20250115T120000Z {
+
+    # ── Sample ──────────────────────────────────────────────────
+    narr:Sample_FirstVersionStub a narr:Sample ;
+      dct:title "First version (stub document)" ;
+      narr:inputLength 62 ;
+      dct:description "Minimal document stub containing YAML frontmatter with a reviewer field and a two-word body: 'First version'." .
+
+    # ── Actor ───────────────────────────────────────────────────
+    # PII redacted: reviewer email omitted per verbatim policy (allow_pii not set)
+    narr:Actor_Reviewer_ExpertGH a narr:Actor ;
+      skos:prefLabel "Expert Reviewer (GH)" ;
+      skos:note "Reviewer listed in YAML frontmatter of the source document. Email redacted (PII policy). Role: document reviewer." .
+
+    # ── Narrative ───────────────────────────────────────────────
+    narr:Narrative_FirstVersionDocumentStub a narr:Narrative ;
+      dct:source narr:Sample_FirstVersionStub ;
+      narr:theme "Document initialisation — first version stub" ;
+      skos:broader narr:Process ;
+      skos:note "The document asserts itself as a first version, accompanied only by reviewer metadata. No substantive content is present beyond the version label and reviewer assignment. This pattern signals a document lifecycle initialisation event." .
+
+    # ── Style Observations ──────────────────────────────────────
+
+    # 1. YAML frontmatter convention
+    narr:StyleObs_YAMLFrontmatterConvention a narr:StyleObservation ;
+      skos:broader narr:EditorialRules ;
+      dct:source narr:Sample_FirstVersionStub ;
+      skos:note "Document uses YAML frontmatter delimited by triple-dashes to encode structured metadata (reviewer list). This is a machine-readable editorial convention." ;
+      rdf:value true ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_FirstVersionStub ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start 0 ;
+          oa:end 46
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "---\nreviewers:\n  - test+expert-gh@aswritten.ai\n---" ;
+          oa:prefix "" ;
+          oa:suffix "\n\nFirst version"
+        ]
+      ] .
+
+    # 2. Minimal body cadence — two-word declarative label
+    narr:StyleObs_MinimalBodyCadence a narr:StyleObservation ;
+      skos:broader narr:ShortPunchyCadence ;
+      dct:source narr:Sample_FirstVersionStub ;
+      skos:note "Body consists of a single two-word noun phrase ('First version') with no verb, no punctuation, and no elaboration. Extremely compressed register — label rather than sentence." ;
+      rdf:value true ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_FirstVersionStub ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start 48 ;
+          oa:end 61
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "First version" ;
+          oa:prefix "---\n\n" ;
+          oa:suffix ""
+        ]
+      ] .
+
+    # 3. Reviewer metadata pattern — list-style frontmatter field
+    narr:StyleObs_ReviewerMetadataPattern a narr:StyleObservation ;
+      skos:broader narr:MicrocopyGuidelines ;
+      dct:source narr:Sample_FirstVersionStub ;
+      skos:note "The 'reviewers' key uses a YAML sequence (dash-prefixed list) rather than a scalar, implying the schema anticipates multiple reviewers. This is a structural style choice in the document template." ;
+      rdf:value true ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_FirstVersionStub ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start 4 ;
+          oa:end 44
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "reviewers:\n  - test+expert-gh@aswritten.ai" ;
+          oa:prefix "---\n" ;
+          oa:suffix "\n---"
+        ]
+      ] .
+
+    # ── Style Metrics ───────────────────────────────────────────
+    narr:StyleMetrics_FirstVersionStub a narr:StyleMetrics ;
+      skos:broader narr:StyleMetrics ;
+      dct:source narr:Sample_FirstVersionStub ;
+      narr:AverageSentenceLength 2 ;
+      narr:ActiveVoiceRatio "1.0"^^xsd:decimal ;
+      narr:JargonDensity "0.0"^^xsd:decimal ;
+      skos:note "Document is a two-word stub. Average sentence length = 2 words (the body phrase 'First version'). No full sentences exist, so active/passive ratio defaults to 1.0. Jargon density is 0 — no domain-specific terminology in the body." .
+
+  }
+}
