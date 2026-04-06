@@ -1,0 +1,218 @@
+PREFIX narr: <https://aswritten.ai/narrative#>
+PREFIX rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX prov: <http://www.w3.org/ns/prov#>
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+PREFIX dct:  <http://purl.org/dc/terms/>
+PREFIX xsd:  <http://www.w3.org/2001/XMLSchema#>
+PREFIX oa:   <http://www.w3.org/ns/oa#>
+
+# Transaction provenance (default graph)
+INSERT DATA {
+  narr:Tx_20260401T120000Z a prov:Activity ;
+    prov:generatedAtTime "2026-04-01T12:00:00Z"^^xsd:dateTime ;
+    prov:wasAssociatedWith "aswritten.ai" ;
+    prov:wasAttributedTo "n8n.aswritten.ai" ;
+    narr:originPath "inline" ;
+    narr:originRef "main" ;
+    dct:title "E2E Test: Quantum Widget Decision" ;
+    prov:generated
+      narr:Sample_QuantumWidgetDecision_20260401,
+      narr:Actor_DaveQuantum,
+      narr:Narrative_PostgreSQLToQuantumDBMigration,
+      narr:Claim_10xQueryPerformance,
+      narr:Claim_LowerLicensingCost,
+      narr:Claim_Q3Timeline,
+      narr:Obs_DaveQuote_MigrationRationale,
+      narr:Obs_KeyDecisions_DatabaseMigration,
+      narr:Obs_KeyDecisions_PerformanceGain,
+      narr:Obs_KeyDecisions_Timeline,
+      narr:StyleObs_BulletStructure,
+      narr:StyleObs_DirectDeclarativeTone,
+      narr:StyleObs_TechnicalJargon,
+      narr:StyleMetrics_QuantumWidgetDecision .
+} ;
+
+# Extracted entities (named graph)
+INSERT DATA {
+  GRAPH narr:Tx_20260401T120000Z {
+
+    # ── Sample ──────────────────────────────────────────────────
+    narr:Sample_QuantumWidgetDecision_20260401 a narr:Sample ;
+      dct:title "E2E Test: Quantum Widget Decision" ;
+      dct:created "2026-04-01"^^xsd:date ;
+      narr:inputLength 370 .
+
+    # ── Actor ───────────────────────────────────────────────────
+    narr:Actor_DaveQuantum a narr:Actor ;
+      skos:prefLabel "Dave Quantum" ;
+      skos:note "VP Engineering; decision-maker for analytics infrastructure migration" .
+
+    # ── Narrative ───────────────────────────────────────────────
+    narr:Narrative_PostgreSQLToQuantumDBMigration a narr:Narrative ;
+      narr:theme "Database migration from PostgreSQL to QuantumDB for analytics pipeline" ;
+      skos:broader narr:StackOverview ;
+      skos:note "Engineering leadership decision to replace PostgreSQL with QuantumDB, citing 10x analytical query performance and lower licensing cost, targeting Q3 2026." ;
+      dct:source narr:Sample_QuantumWidgetDecision_20260401 .
+
+    # ── Claims ──────────────────────────────────────────────────
+    narr:Claim_10xQueryPerformance a narr:Claim ;
+      narr:aboutNode narr:Narrative_PostgreSQLToQuantumDBMigration ;
+      narr:hasConvictionLevel narr:Conviction_Stake ;
+      narr:supports narr:Narrative_PostgreSQLToQuantumDBMigration ;
+      dct:source narr:Sample_QuantumWidgetDecision_20260401 ;
+      skos:note "QuantumDB delivers 10x query performance on analytical workloads compared to PostgreSQL" .
+
+    narr:Claim_LowerLicensingCost a narr:Claim ;
+      narr:aboutNode narr:Narrative_PostgreSQLToQuantumDBMigration ;
+      narr:hasConvictionLevel narr:Conviction_Stake ;
+      narr:supports narr:Narrative_PostgreSQLToQuantumDBMigration ;
+      dct:source narr:Sample_QuantumWidgetDecision_20260401 ;
+      skos:note "QuantumDB carries lower licensing cost than PostgreSQL for this use case" .
+
+    narr:Claim_Q3Timeline a narr:Claim ;
+      narr:aboutNode narr:Narrative_PostgreSQLToQuantumDBMigration ;
+      narr:hasConvictionLevel narr:Conviction_Stake ;
+      narr:supports narr:Narrative_PostgreSQLToQuantumDBMigration ;
+      dct:source narr:Sample_QuantumWidgetDecision_20260401 ;
+      skos:note "Database migration to QuantumDB is targeted for Q3 2026" .
+
+    # ── Observations ────────────────────────────────────────────
+    narr:Obs_DaveQuote_MigrationRationale a narr:Observation ;
+      skos:broader narr:FrictionFailure ;
+      dct:source narr:Sample_QuantumWidgetDecision_20260401 ;
+      skos:note "Dave Quantum's direct quote articulating the migration rationale: performance and cost" ;
+      oa:hasSelector [
+        a oa:TextPositionSelector ;
+        oa:start 131 ;
+        oa:end 248
+      ] ;
+      oa:hasSelector [
+        a oa:TextQuoteSelector ;
+        oa:exact "We're switching from PostgreSQL to QuantumDB for the analytics pipeline. 10x query performance, lower licensing cost." ;
+        oa:prefix "Dave: \"" ;
+        oa:suffix "\""
+      ] .
+
+    narr:Obs_KeyDecisions_DatabaseMigration a narr:Observation ;
+      skos:broader narr:StackOverview ;
+      dct:source narr:Sample_QuantumWidgetDecision_20260401 ;
+      skos:note "Explicit key decision: database migration from PostgreSQL to QuantumDB" ;
+      oa:hasSelector [
+        a oa:TextPositionSelector ;
+        oa:start 268 ;
+        oa:end 312
+      ] ;
+      oa:hasSelector [
+        a oa:TextQuoteSelector ;
+        oa:exact "Database migration: PostgreSQL → QuantumDB" ;
+        oa:prefix "- **" ;
+        oa:suffix "\n"
+      ] .
+
+    narr:Obs_KeyDecisions_PerformanceGain a narr:Observation ;
+      skos:broader narr:ScalabilityPerformance ;
+      dct:source narr:Sample_QuantumWidgetDecision_20260401 ;
+      skos:note "Explicit key decision: 10x performance gain on analytical queries" ;
+      oa:hasSelector [
+        a oa:TextPositionSelector ;
+        oa:start 313 ;
+        oa:end 350
+      ] ;
+      oa:hasSelector [
+        a oa:TextQuoteSelector ;
+        oa:exact "Performance gain: 10x analytical queries" ;
+        oa:prefix "- **" ;
+        oa:suffix "\n"
+      ] .
+
+    narr:Obs_KeyDecisions_Timeline a narr:Observation ;
+      skos:broader narr:TimingThesis ;
+      dct:source narr:Sample_QuantumWidgetDecision_20260401 ;
+      skos:note "Explicit key decision: Q3 2026 migration timeline" ;
+      oa:hasSelector [
+        a oa:TextPositionSelector ;
+        oa:start 351 ;
+        oa:end 370
+      ] ;
+      oa:hasSelector [
+        a oa:TextQuoteSelector ;
+        oa:exact "Timeline: Q3 2026" ;
+        oa:prefix "- **" ;
+        oa:suffix "\n"
+      ] .
+
+    # ── Style Observations ──────────────────────────────────────
+    narr:StyleObs_BulletStructure a narr:StyleObservation ;
+      skos:broader narr:GrammarSyntax ;
+      dct:source narr:Sample_QuantumWidgetDecision_20260401 ;
+      skos:note "Document uses bold-label bullet points to enumerate decisions, a structured list format that foregrounds key outcomes" ;
+      rdf:value true ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_QuantumWidgetDecision_20260401 ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start 250 ;
+          oa:end 370
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "Key decisions:\n- **Database migration**: PostgreSQL → QuantumDB" ;
+          oa:prefix "cost.\"\n\n" ;
+          oa:suffix "\n- **Performance"
+        ]
+      ] .
+
+    narr:StyleObs_DirectDeclarativeTone a narr:StyleObservation ;
+      skos:broader narr:ToneAuthoritative ;
+      dct:source narr:Sample_QuantumWidgetDecision_20260401 ;
+      skos:note "Speaker uses first-person declarative present tense ('We're switching') with no hedging, projecting confident authority" ;
+      rdf:value true ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_QuantumWidgetDecision_20260401 ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start 131 ;
+          oa:end 155
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "We're switching from PostgreSQL to QuantumDB" ;
+          oa:prefix "Dave: \"" ;
+          oa:suffix " for the analytics"
+        ]
+      ] .
+
+    narr:StyleObs_TechnicalJargon a narr:StyleObservation ;
+      skos:broader narr:JargonPolicy ;
+      dct:source narr:Sample_QuantumWidgetDecision_20260401 ;
+      skos:note "Document uses domain-specific technical terms (PostgreSQL, QuantumDB, analytics pipeline) without definition, assuming engineering audience" ;
+      rdf:value true ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_QuantumWidgetDecision_20260401 ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start 155 ;
+          oa:end 200
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "for the analytics pipeline. 10x query performance, lower licensing cost" ;
+          oa:prefix "to QuantumDB " ;
+          oa:suffix ".\""
+        ]
+      ] .
+
+    # ── Style Metrics ───────────────────────────────────────────
+    narr:StyleMetrics_QuantumWidgetDecision a narr:StyleMetrics ;
+      skos:broader narr:StyleMetrics ;
+      dct:source narr:Sample_QuantumWidgetDecision_20260401 ;
+      narr:AverageSentenceLength 12 ;
+      narr:ActiveVoiceRatio "0.90"^^xsd:decimal ;
+      narr:JargonDensity "0.25"^^xsd:decimal ;
+      skos:note "Short declarative sentences; high active voice ratio; moderate-to-high jargon density reflecting engineering-internal register" .
+
+  }
+}
