@@ -1,0 +1,124 @@
+PREFIX narr: <https://aswritten.ai/narrative#>
+PREFIX prov: <http://www.w3.org/ns/prov#>
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+PREFIX dct: <http://purl.org/dc/terms/>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+PREFIX oa: <http://www.w3.org/ns/oa#>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+
+# Transaction provenance
+INSERT DATA {
+  narr:Tx_20260406T143000Z a prov:Activity ;
+    prov:generatedAtTime "2026-04-06T14:30:00Z"^^xsd:dateTime ;
+    prov:wasAssociatedWith "aswritten.ai" ;
+    prov:wasAttributedTo "test+expert-gh@aswritten.ai" ;
+    narr:originPath ".aswritten/memories/2026-04-06-database-pivot.md" ;
+    narr:originRef "main@abc1234" ;
+    prov:generated narr:Sample_MeridianPivot_20260406, narr:Narrative_MeridianAdoption, narr:Claim_MeridianReplacement, narr:Claim_StreamingIngestionGap, narr:StyleMetrics_MeridianPivot, narr:StyleObs_DirectCTOVoice, narr:StyleObs_TechnicalJustification, narr:StyleObs_SupersessionMarker .
+} ;
+
+# Updates to existing entities
+DELETE {
+  GRAPH ?g {
+    narr:Narrative_ZypherionAdoption skos:note ?oldNote ;
+      narr:theme ?oldTheme .
+    narr:Claim_DatabaseZypherion narr:hasConvictionLevel ?oldConv .
+  }
+}
+INSERT {
+  GRAPH narr:Tx_20260406T143000Z {
+    narr:Narrative_ZypherionAdoption skos:note "REVISED: Zypherion adoption was cancelled in favor of Meridian due to streaming ingestion gaps." ;
+      narr:theme "Cancelled technology adoption: Zypherion replaced by Meridian" .
+    narr:Claim_DatabaseZypherion narr:hasConvictionLevel narr:Conviction_Notion ;
+      skos:note "SUPERSEDED: Zypherion is no longer the chosen database." .
+  }
+}
+WHERE {
+  GRAPH ?g {
+    narr:Narrative_ZypherionAdoption skos:note ?oldNote ;
+      narr:theme ?oldTheme .
+    narr:Claim_DatabaseZypherion narr:hasConvictionLevel ?oldConv .
+  }
+} ;
+
+# New entities
+INSERT DATA {
+  GRAPH narr:Tx_20260406T143000Z {
+    narr:Sample_MeridianPivot_20260406 a narr:Sample ;
+      dct:title "Database Decision REVISED: Switching from Zypherion to Meridian" ;
+      dct:created "2026-04-06"^^xsd:date ;
+      narr:inputLength 412 .
+
+    narr:Narrative_MeridianAdoption a narr:Narrative ;
+      dct:source narr:Sample_MeridianPivot_20260406 ;
+      skos:broader narr:StackOverview ;
+      narr:theme "Technology adoption decision: Meridian for unified batch and streaming" ;
+      skos:note "The organization is switching to Meridian for analytics because it handles both batch and streaming natively, addressing gaps found in Zypherion." .
+
+    narr:Claim_MeridianReplacement a narr:Claim ;
+      narr:aboutNode narr:Narrative_MeridianAdoption ;
+      narr:hasConvictionLevel narr:Conviction_Foundation ;
+      narr:challenges narr:Claim_DatabaseZypherion ;
+      dct:source narr:Sample_MeridianPivot_20260406 ;
+      skos:note "Meridian replaces Zypherion for analytics in the Q3 2026 migration window." .
+
+    narr:Claim_StreamingIngestionGap a narr:Claim ;
+      narr:aboutNode narr:Narrative_MeridianAdoption ;
+      narr:hasConvictionLevel narr:Conviction_Boulder ;
+      dct:source narr:Sample_MeridianPivot_20260406 ;
+      skos:note "Zypherion was found to have critical gaps in streaming ingestion." .
+
+    narr:Obs_QuintonMeridianStatement a narr:Observation ;
+      skos:broader narr:CoreNarratives ;
+      dct:source narr:Sample_MeridianPivot_20260406 ;
+      oa:hasSelector [
+        a oa:TextPositionSelector ;
+        oa:start 166 ;
+        oa:end 305
+      ] ;
+      oa:hasSelector [
+        a oa:TextQuoteSelector ;
+        oa:exact "We evaluated Zypherion further and found critical gaps in its streaming ingestion. We are now switching to Meridian instead. Meridian handles both batch and streaming natively." ;
+        oa:prefix "Quinton: \"" ;
+        oa:suffix "\""
+      ] .
+
+    narr:StyleObs_DirectCTOVoice a narr:StyleObservation ;
+      skos:broader narr:ToneDirectPersonal ;
+      dct:source narr:Sample_MeridianPivot_20260406 ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_MeridianPivot_20260406 ;
+        oa:hasSelector [ a oa:TextPositionSelector ; oa:start 166 ; oa:end 190 ] ;
+        oa:hasSelector [ a oa:TextQuoteSelector ; oa:exact "We evaluated Zypherion further" ]
+      ] .
+
+    narr:StyleObs_TechnicalJustification a narr:StyleObservation ;
+      skos:broader narr:JargonPolicy ;
+      dct:source narr:Sample_MeridianPivot_20260406 ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_MeridianPivot_20260406 ;
+        oa:hasSelector [ a oa:TextPositionSelector ; oa:start 212 ; oa:end 241 ] ;
+        oa:hasSelector [ a oa:TextQuoteSelector ; oa:exact "gaps in its streaming ingestion" ]
+      ] .
+
+    narr:StyleObs_SupersessionMarker a narr:StyleObservation ;
+      skos:broader narr:FlowCoherence ;
+      dct:source narr:Sample_MeridianPivot_20260406 ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_MeridianPivot_20260406 ;
+        oa:hasSelector [ a oa:TextPositionSelector ; oa:start 309 ; oa:end 356 ] ;
+        oa:hasSelector [ a oa:TextQuoteSelector ; oa:exact "This supersedes the previous Zypherion decision." ]
+      ] .
+
+    narr:StyleMetrics_MeridianPivot a narr:StyleMetrics ;
+      skos:broader narr:StyleMetrics ;
+      dct:source narr:Sample_MeridianPivot_20260406 ;
+      narr:AverageSentenceLength 12 ;
+      narr:ActiveVoiceRatio 0.85 ;
+      narr:JargonDensity 0.18 ;
+      skos:note "Concise, decision-oriented register with explicit supersession markers." .
+  }
+}
