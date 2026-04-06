@@ -1,0 +1,208 @@
+PREFIX narr: <https://aswritten.ai/narrative#>
+PREFIX rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX prov: <http://www.w3.org/ns/prov#>
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+PREFIX dct:  <http://purl.org/dc/terms/>
+PREFIX xsd:  <http://www.w3.org/2001/XMLSchema#>
+PREFIX oa:   <http://www.w3.org/ns/oa#>
+
+# ── Transaction provenance (default graph) ──────────────────────
+INSERT DATA {
+  narr:Tx_20250714T120000Z a prov:Activity ;
+    dct:title "Second version document extraction" ;
+    prov:generatedAtTime "2025-07-14T12:00:00Z"^^xsd:dateTime ;
+    prov:wasAssociatedWith "aswritten.ai" ;
+    prov:wasAttributedTo "n8n.aswritten.ai" ;
+    narr:originPath "(no id field provided in input)" ;
+    narr:originRef "unknown" ;
+    prov:generated
+      narr:Sample_SecondVersion,
+      narr:Narrative_DocumentVersioningProgression,
+      narr:Claim_SecondVersionStatus,
+      narr:StyleMetrics_SecondVersion,
+      narr:StyleObs_SecondVersion_ShortPunchy,
+      narr:StyleObs_SecondVersion_ToneDirectPersonal,
+      narr:StyleObs_SecondVersion_EditorialFrontmatter .
+} ;
+
+# ── New Sample (Second version document) ────────────────────────
+INSERT DATA {
+  GRAPH narr:Tx_20250714T120000Z {
+
+    narr:Sample_SecondVersion a narr:Sample ;
+      dct:title "Second version" ;
+      dct:description "Minimal markdown document with YAML frontmatter declaring a reviewer and a two-word body. Supersedes the First version document." ;
+      narr:inputLength 55 .
+
+  }
+} ;
+
+# ── Update versioning narrative to reflect v2 progression ───────
+# Justification: narr:Narrative_FirstVersionDeclaration has theme
+# "Document versioning: initial state declaration" and note referencing
+# "first version" as nascent. The memory asserts "Second version",
+# which temporally supersedes the initial-state framing. We update
+# the theme and note to reflect the versioning lifecycle has progressed.
+DELETE {
+  GRAPH ?g {
+    narr:Narrative_FirstVersionDeclaration
+      narr:theme ?oldTheme ;
+      skos:note ?oldNote .
+  }
+}
+INSERT {
+  GRAPH narr:Tx_20250714T120000Z {
+    narr:Narrative_FirstVersionDeclaration
+      narr:theme "Document versioning: lifecycle progression from first to second version" ;
+      skos:note "The document has progressed from an initial 'First version' declaration to a 'Second version', confirming an active versioned authoring lifecycle. The same reviewer (expert-gh) is retained in frontmatter, indicating review-gated workflow continuity across versions." ;
+      dct:source narr:Sample_SecondVersion .
+  }
+}
+WHERE {
+  GRAPH ?g {
+    narr:Narrative_FirstVersionDeclaration
+      narr:theme ?oldTheme ;
+      skos:note ?oldNote .
+  }
+} ;
+
+# ── Update claim: First version status superseded by Second version ──
+# Justification: narr:Claim_FirstVersionStatus asserts "First version"
+# as the document body. The memory body now reads "Second version" —
+# a temporal supersession of the same functional property (body text
+# version declaration). The old claim is updated to reflect v2.
+DELETE {
+  GRAPH ?g {
+    narr:Claim_FirstVersionStatus
+      skos:note ?oldNote ;
+      dct:source ?oldSource ;
+      narr:aboutNode ?oldAbout ;
+      narr:supports ?oldSupports .
+  }
+}
+INSERT {
+  GRAPH narr:Tx_20250714T120000Z {
+    narr:Claim_FirstVersionStatus
+      skos:note "The body text 'Second version' supersedes the prior 'First version' declaration. Conviction remains Notion — the document is still a minimal placeholder with no supporting evidence beyond the version label itself." ;
+      dct:source narr:Sample_SecondVersion ;
+      narr:aboutNode narr:Narrative_FirstVersionDeclaration ;
+      narr:supports narr:Narrative_FirstVersionDeclaration .
+  }
+}
+WHERE {
+  GRAPH ?g {
+    narr:Claim_FirstVersionStatus
+      skos:note ?oldNote ;
+      dct:source ?oldSource ;
+      narr:aboutNode ?oldAbout ;
+      narr:supports ?oldSupports .
+  }
+} ;
+
+# ── New Narrative: Second version as distinct progression event ──
+INSERT DATA {
+  GRAPH narr:Tx_20250714T120000Z {
+
+    narr:Narrative_DocumentVersioningProgression a narr:Narrative ;
+      dct:source narr:Sample_SecondVersion ;
+      skos:broader narr:NarrativeDrivenRoadmap ;
+      narr:theme "Document versioning: second version marks active iteration" ;
+      skos:note "The appearance of 'Second version' as body text confirms the document is under active revision. The retained reviewer in frontmatter signals a consistent review-gated workflow. This is a milestone in a versioned authoring lifecycle, not a new document." .
+
+    narr:Claim_SecondVersionStatus a narr:Claim ;
+      dct:source narr:Sample_SecondVersion ;
+      skos:note "Body text 'Second version' asserts this is the second iteration of the document. Conviction is Notion — minimal content, no elaboration beyond the version label." ;
+      narr:aboutNode narr:Narrative_DocumentVersioningProgression ;
+      narr:hasConvictionLevel narr:Conviction_Notion ;
+      narr:supports narr:Narrative_DocumentVersioningProgression .
+
+  }
+} ;
+
+# ── Style Metrics (Second version) ──────────────────────────────
+INSERT DATA {
+  GRAPH narr:Tx_20250714T120000Z {
+
+    narr:StyleMetrics_SecondVersion a narr:StyleMetrics ;
+      dct:source narr:Sample_SecondVersion ;
+      skos:broader narr:StyleMetrics ;
+      skos:note "Computed over body text only ('Second version'). Single two-word phrase; no passive constructions; zero domain jargon. Register: minimal placeholder, identical profile to first version." ;
+      narr:AverageSentenceLength "2"^^xsd:integer ;
+      narr:ActiveVoiceRatio "1.0"^^xsd:decimal ;
+      narr:JargonDensity "0.0"^^xsd:decimal .
+
+  }
+} ;
+
+# ── Style Observations (minimum 3) ──────────────────────────────
+INSERT DATA {
+  GRAPH narr:Tx_20250714T120000Z {
+
+    # SO-1: Short punchy cadence — two-word body
+    narr:StyleObs_SecondVersion_ShortPunchy a narr:StyleObservation ;
+      skos:broader narr:ShortPunchyCadence ;
+      dct:source narr:Sample_SecondVersion ;
+      skos:note "Body text is a two-word declarative phrase with no elaboration. Maximally compressed cadence." ;
+      rdf:value true ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_SecondVersion ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start 32 ;
+          oa:end 46
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "Second version" ;
+          oa:prefix "---\n\n" ;
+          oa:suffix ""
+        ]
+      ] .
+
+    # SO-2: Direct personal tone — declarative version statement
+    narr:StyleObs_SecondVersion_ToneDirectPersonal a narr:StyleObservation ;
+      skos:broader narr:ToneDirectPersonal ;
+      dct:source narr:Sample_SecondVersion ;
+      skos:note "The body asserts version status directly with no hedging, qualification, or attribution. Tone is declarative and unambiguous." ;
+      rdf:value true ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_SecondVersion ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start 32 ;
+          oa:end 46
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "Second version" ;
+          oa:prefix "---\n\n" ;
+          oa:suffix ""
+        ]
+      ] .
+
+    # SO-3: Editorial rules — YAML frontmatter reviewer field
+    narr:StyleObs_SecondVersion_EditorialFrontmatter a narr:StyleObservation ;
+      skos:broader narr:EditorialRules ;
+      dct:source narr:Sample_SecondVersion ;
+      skos:note "YAML frontmatter uses a structured 'reviewers' list field, indicating an editorial workflow convention. Reviewer email redacted per PII policy." ;
+      rdf:value true ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_SecondVersion ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start 0 ;
+          oa:end 46
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "reviewers:" ;
+          oa:prefix "---\n" ;
+          oa:suffix "\n  - [REDACTED]"
+        ]
+      ] .
+
+  }
+}
