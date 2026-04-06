@@ -1,0 +1,122 @@
+PREFIX narr: <https://aswritten.ai/narrative#>
+PREFIX rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX prov: <http://www.w3.org/ns/prov#>
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+PREFIX dct:  <http://purl.org/dc/terms/>
+PREFIX xsd:  <http://www.w3.org/2001/XMLSchema#>
+PREFIX oa:   <http://www.w3.org/ns/oa#>
+
+# Transaction provenance (default graph)
+INSERT DATA {
+  narr:Tx_20250714T120000Z a prov:Activity ;
+    dct:title "Second version stub extraction" ;
+    prov:generatedAtTime "2025-07-14T12:00:00Z"^^xsd:dateTime ;
+    prov:wasAssociatedWith "aswritten.ai" ;
+    prov:wasAttributedTo "n8n.aswritten.ai" ;
+    narr:originPath "(no id provided)" ;
+    narr:originRef "main" ;
+    prov:generated
+      narr:Sample_SecondVersionStub,
+      narr:Narrative_SecondVersionDocumentStub,
+      narr:StyleObs_SecondVersion_ShortPunchyCadence,
+      narr:StyleObs_SecondVersion_EditorialRules,
+      narr:StyleObs_SecondVersion_MicrocopyGuidelines,
+      narr:StyleMetrics_SecondVersionStub .
+} ;
+
+# Extracted entities (named graph)
+INSERT DATA {
+  GRAPH narr:Tx_20250714T120000Z {
+
+    # ── Sample ──────────────────────────────────────────────────
+    narr:Sample_SecondVersionStub a narr:Sample ;
+      dct:title "Second version (stub document)" ;
+      dct:description "Minimal document stub containing YAML frontmatter with a reviewer field and a two-word body: 'Second version'. Successor to the first version stub." ;
+      narr:inputLength 68 .
+
+    # ── Narrative ────────────────────────────────────────────────
+    narr:Narrative_SecondVersionDocumentStub a narr:Narrative ;
+      dct:source narr:Sample_SecondVersionStub ;
+      skos:broader narr:Process ;
+      narr:theme "Document lifecycle progression — second version stub" ;
+      skos:note "The document asserts itself as a second version, accompanied only by reviewer metadata. No substantive content is present beyond the version label and reviewer assignment. This pattern signals a document lifecycle iteration event, succeeding the first version stub." .
+
+    # ── Style Observations ───────────────────────────────────────
+
+    # 1. ShortPunchyCadence — two-word body
+    narr:StyleObs_SecondVersion_ShortPunchyCadence a narr:StyleObservation ;
+      skos:broader narr:ShortPunchyCadence ;
+      dct:source narr:Sample_SecondVersionStub ;
+      skos:note "Body consists of exactly two words ('Second version'), continuing the ultra-minimal cadence pattern of the document series." ;
+      rdf:value true ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_SecondVersionStub ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start 54 ;
+          oa:end 68
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "Second version" ;
+          oa:prefix "---\n\n" ;
+          oa:suffix ""
+        ]
+      ] .
+
+    # 2. EditorialRules — YAML frontmatter reviewer convention
+    narr:StyleObs_SecondVersion_EditorialRules a narr:StyleObservation ;
+      skos:broader narr:EditorialRules ;
+      dct:source narr:Sample_SecondVersionStub ;
+      skos:note "YAML frontmatter reviewer field follows a structured metadata convention, assigning a named reviewer via email address. PII redacted per policy." ;
+      rdf:value true ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_SecondVersionStub ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start 0 ;
+          oa:end 52
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "---\nreviewers:\n  - [REDACTED]\n---" ;
+          oa:prefix "" ;
+          oa:suffix "\n\nSecond version"
+        ]
+      ] .
+
+    # 3. MicrocopyGuidelines — version label as entire body
+    narr:StyleObs_SecondVersion_MicrocopyGuidelines a narr:StyleObservation ;
+      skos:broader narr:MicrocopyGuidelines ;
+      dct:source narr:Sample_SecondVersionStub ;
+      skos:note "The entire document body is a two-word version label. This microcopy pattern uses the minimum viable text to communicate document state, consistent with a stub or placeholder lifecycle stage." ;
+      rdf:value true ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_SecondVersionStub ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start 54 ;
+          oa:end 68
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "Second version" ;
+          oa:prefix "---\n\n" ;
+          oa:suffix ""
+        ]
+      ] .
+
+    # ── Style Metrics ────────────────────────────────────────────
+    narr:StyleMetrics_SecondVersionStub a narr:StyleMetrics ;
+      dct:source narr:Sample_SecondVersionStub ;
+      skos:broader narr:StyleMetrics ;
+      skos:note "Document is a two-word stub. Average sentence length = 2 words (the body phrase 'Second version'). No full sentences exist, so active/passive ratio defaults to 1.0. Jargon density is 0 — no domain-specific terminology in the body." ;
+      narr:AverageSentenceLength 2 ;
+      narr:ActiveVoiceRatio "1.0"^^xsd:decimal ;
+      narr:JargonDensity "0.0"^^xsd:decimal .
+
+  }
+}
