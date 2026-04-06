@@ -1,0 +1,157 @@
+PREFIX narr: <https://aswritten.ai/narrative#>
+PREFIX rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX prov: <http://www.w3.org/ns/prov#>
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+PREFIX dct:  <http://purl.org/dc/terms/>
+PREFIX xsd:  <http://www.w3.org/2001/XMLSchema#>
+PREFIX oa:   <http://www.w3.org/ns/oa#>
+
+# ── Transaction provenance (default graph) ──────────────────────────────────
+INSERT DATA {
+  narr:Tx_20250117T130000Z a prov:Activity ;
+    dct:title "Extraction: Second version document with reviewer metadata" ;
+    prov:generatedAtTime "2025-01-17T13:00:00Z"^^xsd:dateTime ;
+    prov:wasAssociatedWith "aswritten.ai" ;
+    prov:wasAttributedTo "n8n.aswritten.ai" ;
+    narr:originPath "unknown" ;
+    narr:originRef "unknown" ;
+    prov:generated
+      narr:Sample_SecondVersion,
+      narr:Observation_SecondVersionBody,
+      narr:Claim_ReviewerAssigned_V2,
+      narr:StyleMetrics_SecondVersion,
+      narr:StyleObs_SecondVersion_NominalBody,
+      narr:StyleObs_SecondVersion_FrontmatterReviewer,
+      narr:StyleObs_SecondVersion_VersionLabel .
+} ;
+
+# ── New Sample: Second Version ───────────────────────────────────────────────
+INSERT DATA {
+  GRAPH narr:Tx_20250117T130000Z {
+
+    narr:Sample_SecondVersion a narr:Sample ;
+      dct:title "Second version" ;
+      dct:description "Minimal document with YAML frontmatter listing a reviewer (email redacted) and a two-word body stating 'Second version'. Structurally identical to the first version document; body text incremented to indicate a new revision." ;
+      narr:inputLength 75 .
+
+    # ── Observation: body text ───────────────────────────────────────────────
+    narr:Observation_SecondVersionBody a narr:Observation ;
+      skos:broader narr:CoreWorkflows ;
+      dct:source narr:Sample_SecondVersion ;
+      skos:note "The body of the document consists solely of the phrase 'Second version', indicating this is a second stub or placeholder in the same review lifecycle as the first version." ;
+      oa:hasSelector [
+        a oa:TextPositionSelector ;
+        oa:start 57 ;
+        oa:end 71
+      ] ;
+      oa:hasSelector [
+        a oa:TextQuoteSelector ;
+        oa:exact "Second version" ;
+        oa:prefix "---\n\n" ;
+        oa:suffix ""
+      ] .
+
+    # ── Claim: reviewer still assigned in second version ────────────────────
+    narr:Claim_ReviewerAssigned_V2 a narr:Claim ;
+      dct:source narr:Sample_SecondVersion ;
+      skos:note "The same reviewer role (identity redacted) is assigned in the YAML frontmatter of the second version, confirming the review process persists across document revisions." ;
+      narr:aboutNode narr:Narrative_FirstVersionDocument ;
+      narr:hasConvictionLevel narr:Conviction_Stake ;
+      narr:supports narr:Process .
+
+    # ── Style Observations ───────────────────────────────────────────────────
+
+    narr:StyleObs_SecondVersion_NominalBody a narr:StyleObservation ;
+      skos:broader narr:GrammarSyntax ;
+      dct:source narr:Sample_SecondVersion ;
+      skos:note "Body is a bare noun phrase with no verb, clause, or punctuation — pure nominal register." ;
+      rdf:value false ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_SecondVersion ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start 57 ;
+          oa:end 71
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "Second version" ;
+          oa:prefix "---\n\n" ;
+          oa:suffix ""
+        ]
+      ] .
+
+    narr:StyleObs_SecondVersion_FrontmatterReviewer a narr:StyleObservation ;
+      skos:broader narr:RegisterFormality ;
+      dct:source narr:Sample_SecondVersion ;
+      skos:note "YAML frontmatter used for structured metadata (reviewer assignment), indicating a formal, machine-readable document governance convention." ;
+      rdf:value true ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_SecondVersion ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start 0 ;
+          oa:end 55
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "---\nreviewers:\n  - test+expert-gh@aswritten.ai\n---" ;
+          oa:prefix "" ;
+          oa:suffix "\n\nSecond version"
+        ]
+      ] .
+
+    narr:StyleObs_SecondVersion_VersionLabel a narr:StyleObservation ;
+      skos:broader narr:NamingConventions ;
+      dct:source narr:Sample_SecondVersion ;
+      skos:note "Version labelling uses plain ordinal English ('Second version') rather than semantic versioning (e.g., v2.0), consistent with informal stub/placeholder convention." ;
+      rdf:value false ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_SecondVersion ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start 57 ;
+          oa:end 71
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "Second version" ;
+          oa:prefix "---\n\n" ;
+          oa:suffix ""
+        ]
+      ] .
+
+    # ── Style Metrics ────────────────────────────────────────────────────────
+    narr:StyleMetrics_SecondVersion a narr:StyleMetrics ;
+      skos:broader narr:StyleMetrics ;
+      dct:source narr:Sample_SecondVersion ;
+      skos:note "Metrics computed on a 2-word nominal body. No full sentences present; active/passive ratio indeterminate for noun phrases (defaulted to 0.5). Zero jargon density. Identical profile to first version." ;
+      narr:AverageSentenceLength "2"^^xsd:integer ;
+      narr:ActiveVoiceRatio "0.5"^^xsd:decimal ;
+      narr:JargonDensity "0.0"^^xsd:decimal .
+
+  }
+} ;
+
+# ── UPDATE: Narrative_FirstVersionDocument — extend to cover versioning lifecycle ──
+DELETE {
+  GRAPH ?g {
+    narr:Narrative_FirstVersionDocument narr:theme ?oldTheme ;
+      skos:note ?oldNote .
+  }
+}
+INSERT {
+  GRAPH narr:Tx_20250117T130000Z {
+    narr:Narrative_FirstVersionDocument narr:theme "Document versioning — review lifecycle across multiple versions" ;
+      skos:note "The document has progressed from a first version stub to a second version stub, with the same reviewer assigned in both. This confirms an active review lifecycle: documents are created with reviewer metadata and iterated through named versions." .
+  }
+}
+WHERE {
+  GRAPH ?g {
+    narr:Narrative_FirstVersionDocument narr:theme ?oldTheme .
+    OPTIONAL { narr:Narrative_FirstVersionDocument skos:note ?oldNote . }
+  }
+}
