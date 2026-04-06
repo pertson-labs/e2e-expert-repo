@@ -1,0 +1,122 @@
+PREFIX narr: <https://aswritten.ai/narrative#>
+PREFIX rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX prov: <http://www.w3.org/ns/prov#>
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+PREFIX dct:  <http://purl.org/dc/terms/>
+PREFIX xsd:  <http://www.w3.org/2001/XMLSchema#>
+PREFIX oa:   <http://www.w3.org/ns/oa#>
+
+# Transaction provenance (default graph)
+INSERT DATA {
+  narr:Tx_20250115T120000Z a prov:Activity ;
+    prov:generatedAtTime "2025-01-15T12:00:00Z"^^xsd:dateTime ;
+    prov:wasAssociatedWith "aswritten.ai" ;
+    prov:wasAttributedTo "n8n.aswritten.ai" ;
+    narr:originPath "(no id provided)" ;
+    narr:originRef "unknown" ;
+    dct:title "Extraction: First version stub document" ;
+    prov:generated
+      narr:Sample_FirstVersionStub,
+      narr:Narrative_FirstVersionStub,
+      narr:StyleObs_MinimalBody,
+      narr:StyleObs_YAMLFrontmatter,
+      narr:StyleObs_ImperativeVersionLabel,
+      narr:StyleMetrics_FirstVersionStub .
+} ;
+
+# Extracted entities (named graph)
+INSERT DATA {
+  GRAPH narr:Tx_20250115T120000Z {
+
+    # ── Sample ────────────────────────────────────────────────────
+    narr:Sample_FirstVersionStub a narr:Sample ;
+      dct:title "First version stub document" ;
+      dct:description "Minimal document with YAML frontmatter (reviewer metadata) and a single body line 'First version'." ;
+      narr:inputLength 60 .
+
+    # ── Narrative ─────────────────────────────────────────────────
+    # The only assertable document-level claim is that this is an
+    # initial/stub version of a document under review.
+    narr:Narrative_FirstVersionStub a narr:Narrative ;
+      dct:source narr:Sample_FirstVersionStub ;
+      narr:theme "Document versioning: initial stub under expert review" ;
+      skos:broader narr:Process ;
+      skos:note "The document declares itself a first version and names a reviewer via YAML frontmatter. No substantive narrative content is present beyond this version status." .
+
+    # ── Style Observation 1: Minimal body / extreme brevity ───────
+    narr:StyleObs_MinimalBody a narr:StyleObservation ;
+      skos:broader narr:Conciseness ;
+      dct:source narr:Sample_FirstVersionStub ;
+      skos:note "Body consists of a single two-word phrase, indicating a stub or placeholder document at maximum brevity." ;
+      rdf:value true ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_FirstVersionStub ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start 50 ;
+          oa:end 63
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "First version" ;
+          oa:prefix "---\n\n" ;
+          oa:suffix ""
+        ]
+      ] .
+
+    # ── Style Observation 2: YAML frontmatter structural convention
+    narr:StyleObs_YAMLFrontmatter a narr:StyleObservation ;
+      skos:broader narr:EditorialRules ;
+      dct:source narr:Sample_FirstVersionStub ;
+      skos:note "Document uses YAML frontmatter delimited by triple-dashes to encode reviewer metadata, indicating a structured authoring convention (e.g., static site generator or CMS pipeline)." ;
+      rdf:value true ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_FirstVersionStub ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start 0 ;
+          oa:end 3
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "---" ;
+          oa:prefix "" ;
+          oa:suffix "\nreviewers:"
+        ]
+      ] .
+
+    # ── Style Observation 3: Noun-phrase version label (no verb) ──
+    narr:StyleObs_ImperativeVersionLabel a narr:StyleObservation ;
+      skos:broader narr:GrammarSyntax ;
+      dct:source narr:Sample_FirstVersionStub ;
+      skos:note "Body text is a bare noun phrase ('First version') with no verb, subject, or predicate — a label rather than a sentence. Reflects placeholder/stub register." ;
+      rdf:value false ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_FirstVersionStub ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start 50 ;
+          oa:end 63
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "First version" ;
+          oa:prefix "\n\n" ;
+          oa:suffix ""
+        ]
+      ] .
+
+    # ── Style Metrics ─────────────────────────────────────────────
+    narr:StyleMetrics_FirstVersionStub a narr:StyleMetrics ;
+      skos:broader narr:StyleMetrics ;
+      dct:source narr:Sample_FirstVersionStub ;
+      narr:AverageSentenceLength 2 ;
+      narr:ActiveVoiceRatio "0.0"^^xsd:decimal ;
+      narr:JargonDensity "0.0"^^xsd:decimal ;
+      skos:note "Single two-word body phrase. No complete sentences, no verbs, no jargon. Metrics reflect stub/placeholder register." .
+
+  }
+}
