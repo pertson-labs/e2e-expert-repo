@@ -1,0 +1,147 @@
+PREFIX narr: <https://aswritten.ai/narrative#>
+PREFIX rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX prov: <http://www.w3.org/ns/prov#>
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+PREFIX dct:  <http://purl.org/dc/terms/>
+PREFIX xsd:  <http://www.w3.org/2001/XMLSchema#>
+PREFIX oa:   <http://www.w3.org/ns/oa#>
+
+# Transaction provenance (default graph)
+INSERT DATA {
+  narr:Tx_20250714T120000Z a prov:Activity ;
+    prov:generatedAtTime "2025-07-14T12:00:00Z"^^xsd:dateTime ;
+    prov:wasAssociatedWith "aswritten.ai" ;
+    prov:wasAttributedTo "n8n.aswritten.ai" ;
+    narr:originPath "unknown" ;
+    narr:originRef "unknown" ;
+    dct:title "First version document — reviewer assignment" ;
+    prov:generated
+      narr:Sample_FirstVersion,
+      narr:Actor_ExpertReviewer_GH,
+      narr:Narrative_FirstVersionDocument,
+      narr:Observation_FirstVersionBody,
+      narr:StyleObs_PlainDeclarativeRegister,
+      narr:StyleObs_MinimalBodyLength,
+      narr:StyleObs_YAMLFrontmatterConvention,
+      narr:StyleMetrics_FirstVersion .
+} ;
+
+# Extracted entities (named graph)
+INSERT DATA {
+  GRAPH narr:Tx_20250714T120000Z {
+
+    # ── Sample ──────────────────────────────────────────────────
+    narr:Sample_FirstVersion a narr:Sample ;
+      dct:title "First version" ;
+      narr:inputLength 60 ;
+      dct:description "Minimal document with YAML frontmatter (reviewer assignment) and body text 'First version'." .
+
+    # ── Actor ───────────────────────────────────────────────────
+    # Email redacted per PII policy (allow_pii not set)
+    narr:Actor_ExpertReviewer_GH a narr:Actor ;
+      skos:prefLabel "Expert Reviewer (GitHub)" ;
+      skos:note "Reviewer listed in YAML frontmatter. Email redacted per PII policy. Role: document reviewer assigned via frontmatter metadata." .
+
+    # ── Narrative ────────────────────────────────────────────────
+    narr:Narrative_FirstVersionDocument a narr:Narrative ;
+      dct:source narr:Sample_FirstVersion ;
+      narr:theme "Document versioning — initial state" ;
+      skos:broader narr:Process ;
+      skos:note "The document declares itself as 'First version', signalling an initial draft state with a reviewer assigned. This is the foundational version marker for the document lifecycle." .
+
+    # ── Observation: body text ───────────────────────────────────
+    narr:Observation_FirstVersionBody a narr:Observation ;
+      skos:broader narr:Milestones ;
+      dct:source narr:Sample_FirstVersion ;
+      skos:note "The body of the document consists solely of the phrase 'First version', indicating an initial draft milestone." ;
+      oa:hasSelector [
+        a oa:TextPositionSelector ;
+        oa:start 50 ;
+        oa:end 63
+      ] ;
+      oa:hasSelector [
+        a oa:TextQuoteSelector ;
+        oa:exact "First version" ;
+        oa:prefix "---\n\n" ;
+        oa:suffix ""
+      ] .
+
+    # ── Style Observations ───────────────────────────────────────
+
+    # 1. Plain declarative register — body is a bare noun phrase
+    narr:StyleObs_PlainDeclarativeRegister a narr:StyleObservation ;
+      skos:broader narr:RegisterFormality ;
+      dct:source narr:Sample_FirstVersion ;
+      rdf:value true ;
+      skos:note "Body text uses a plain, unadorned noun phrase with no verb, article, or qualifier. Register is minimal/informal." ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_FirstVersion ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start 50 ;
+          oa:end 63
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "First version" ;
+          oa:prefix "---\n\n" ;
+          oa:suffix ""
+        ]
+      ] .
+
+    # 2. YAML frontmatter convention — structured metadata header
+    narr:StyleObs_YAMLFrontmatterConvention a narr:StyleObservation ;
+      skos:broader narr:EditorialRules ;
+      dct:source narr:Sample_FirstVersion ;
+      rdf:value true ;
+      skos:note "Document uses YAML frontmatter delimited by triple-dashes (---) to encode reviewer metadata. This is a structured editorial convention for embedding machine-readable metadata in prose documents." ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_FirstVersion ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start 0 ;
+          oa:end 46
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "---" ;
+          oa:prefix "" ;
+          oa:suffix "\nreviewers:"
+        ]
+      ] .
+
+    # 3. Minimal body length — extremely short prose body
+    narr:StyleObs_MinimalBodyLength a narr:StyleObservation ;
+      skos:broader narr:Conciseness ;
+      dct:source narr:Sample_FirstVersion ;
+      rdf:value true ;
+      skos:note "The prose body is two words ('First version'), representing the minimum viable content body. Cadence is maximally compressed." ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_FirstVersion ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start 50 ;
+          oa:end 63
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "First version" ;
+          oa:prefix "---\n\n" ;
+          oa:suffix ""
+        ]
+      ] .
+
+    # ── Style Metrics ────────────────────────────────────────────
+    narr:StyleMetrics_FirstVersion a narr:StyleMetrics ;
+      skos:broader narr:StyleMetrics ;
+      dct:source narr:Sample_FirstVersion ;
+      narr:AverageSentenceLength 2 ;
+      narr:ActiveVoiceRatio "1.0"^^xsd:decimal ;
+      narr:JargonDensity "0.0"^^xsd:decimal ;
+      skos:note "Body is a 2-word noun phrase. No passive constructions. No jargon. Register: minimal/plain." .
+
+  }
+}
