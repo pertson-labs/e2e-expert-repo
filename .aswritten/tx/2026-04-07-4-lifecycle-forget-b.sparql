@@ -1,0 +1,154 @@
+PREFIX narr: <https://aswritten.ai/narrative#>
+PREFIX rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX prov: <http://www.w3.org/ns/prov#>
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+PREFIX dct:  <http://purl.org/dc/terms/>
+PREFIX xsd:  <http://www.w3.org/2001/XMLSchema#>
+PREFIX oa:   <http://www.w3.org/ns/oa#>
+
+# ── Retraction transaction node (default graph) ──────────────────────────────
+INSERT DATA {
+  narr:Tx_20250714T153000Z a prov:Activity ;
+    dct:title "RETRACTION: Forget Zypherion, Meridian, Quinton Fairweather, analytics pipeline migration" ;
+    prov:generatedAtTime "2025-07-14T15:30:00Z"^^xsd:dateTime ;
+    prov:wasAssociatedWith "aswritten.ai" ;
+    prov:wasAttributedTo "test+expert-gh@aswritten.ai" ;
+    narr:originPath "retract:inline" ;
+    narr:originRef "main" ;
+    prov:generated
+      narr:Actor_QuintonFairweather,
+      narr:Claim_MeridianBatchAndStreamingNative,
+      narr:Claim_MeridianMigrationQ32026,
+      narr:Claim_MeridianSelectedForAnalytics,
+      narr:Claim_ZypherionColumnar15xPerformance,
+      narr:Claim_ZypherionLacksStreamingIngestion,
+      narr:Claim_ZypherionMigrationQ32026,
+      narr:Claim_ZypherionSelectedForAnalytics,
+      narr:Narrative_ZypherionAdoption,
+      narr:Obs_QuintonAdoptionStatement,
+      narr:Obs_QuintonMeridianStatement,
+      narr:Sample_ZypherionDecision_20260406,
+      narr:StyleMetrics_ZypherionDecision,
+      narr:StyleMetrics_ZypherionDecision_Revised,
+      narr:Tx_20260406T120000Z,
+      narr:Tx_20260406T140000Z .
+} ;
+
+# ── Remove Actor: Quinton Fairweather ─────────────────────────────────────────
+DELETE WHERE {
+  narr:Actor_QuintonFairweather ?p ?o .
+} ;
+
+# ── Remove Claim: Meridian batch and streaming native ─────────────────────────
+DELETE WHERE {
+  narr:Claim_MeridianBatchAndStreamingNative ?p ?o .
+} ;
+
+# ── Remove Claim: Meridian migration Q3 2026 ──────────────────────────────────
+DELETE WHERE {
+  narr:Claim_MeridianMigrationQ32026 ?p ?o .
+} ;
+
+# ── Remove Claim: Meridian selected for analytics ─────────────────────────────
+DELETE WHERE {
+  narr:Claim_MeridianSelectedForAnalytics ?p ?o .
+} ;
+
+# ── Remove Claim: Zypherion 15x columnar performance ─────────────────────────
+DELETE WHERE {
+  narr:Claim_ZypherionColumnar15xPerformance ?p ?o .
+} ;
+
+# ── Remove Claim: Zypherion lacks streaming ingestion ─────────────────────────
+DELETE WHERE {
+  narr:Claim_ZypherionLacksStreamingIngestion ?p ?o .
+} ;
+
+# ── Remove Claim: Zypherion migration Q3 2026 ────────────────────────────────
+DELETE WHERE {
+  narr:Claim_ZypherionMigrationQ32026 ?p ?o .
+} ;
+
+# ── Remove Claim: Zypherion selected for analytics ───────────────────────────
+DELETE WHERE {
+  narr:Claim_ZypherionSelectedForAnalytics ?p ?o .
+} ;
+
+# ── Remove Narrative: Zypherion adoption ─────────────────────────────────────
+DELETE WHERE {
+  narr:Narrative_ZypherionAdoption ?p ?o .
+} ;
+
+# ── Remove Observation: Quinton adoption statement ───────────────────────────
+DELETE WHERE {
+  narr:Obs_QuintonAdoptionStatement ?p ?o .
+} ;
+
+# ── Remove blank nodes hanging off Obs_QuintonAdoptionStatement ──────────────
+DELETE WHERE {
+  narr:Obs_QuintonAdoptionStatement oa:hasSelector ?bn .
+  ?bn ?p ?o .
+} ;
+
+# ── Remove Observation: Quinton Meridian statement ───────────────────────────
+DELETE WHERE {
+  narr:Obs_QuintonMeridianStatement ?p ?o .
+} ;
+
+# ── Remove blank nodes hanging off Obs_QuintonMeridianStatement ──────────────
+DELETE WHERE {
+  narr:Obs_QuintonMeridianStatement oa:hasSelector ?bn .
+  ?bn ?p ?o .
+} ;
+
+# ── Remove Sample: Zypherion decision ────────────────────────────────────────
+DELETE WHERE {
+  narr:Sample_ZypherionDecision_20260406 ?p ?o .
+} ;
+
+# ── Remove StyleMetrics: Zypherion decision (original) ───────────────────────
+DELETE WHERE {
+  narr:StyleMetrics_ZypherionDecision ?p ?o .
+} ;
+
+# ── Remove StyleMetrics: Zypherion decision (revised) ────────────────────────
+DELETE WHERE {
+  narr:StyleMetrics_ZypherionDecision_Revised ?p ?o .
+} ;
+
+# ── Remove Transaction: Zypherion decision (original) ────────────────────────
+DELETE WHERE {
+  narr:Tx_20260406T120000Z ?p ?o .
+} ;
+
+# ── Remove Transaction: Zypherion → Meridian switch ──────────────────────────
+DELETE WHERE {
+  narr:Tx_20260406T140000Z ?p ?o .
+} ;
+
+# ── Remove any named-graph triples for the Zypherion transactions ─────────────
+DELETE WHERE {
+  GRAPH narr:Tx_20260406T120000Z { ?s ?p ?o }
+} ;
+
+DELETE WHERE {
+  GRAPH narr:Tx_20260406T140000Z { ?s ?p ?o }
+} ;
+
+# ── Remove any dangling references to retracted entities from surviving nodes ─
+# (e.g., if any surviving claim still points to Narrative_ZypherionAdoption)
+DELETE WHERE {
+  ?s ?p narr:Narrative_ZypherionAdoption .
+} ;
+
+DELETE WHERE {
+  ?s ?p narr:Claim_ZypherionSelectedForAnalytics .
+} ;
+
+DELETE WHERE {
+  ?s ?p narr:Claim_MeridianSelectedForAnalytics .
+} ;
+
+DELETE WHERE {
+  ?s ?p narr:Sample_ZypherionDecision_20260406 .
+}
