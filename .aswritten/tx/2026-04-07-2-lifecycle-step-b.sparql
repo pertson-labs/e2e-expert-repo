@@ -1,0 +1,122 @@
+PREFIX narr: <https://aswritten.ai/narrative#>
+PREFIX prov: <http://www.w3.org/ns/prov#>
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+PREFIX dct: <http://purl.org/dc/terms/>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+PREFIX oa: <http://www.w3.org/ns/oa#>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+
+# Transaction provenance
+INSERT DATA {
+  narr:Tx_20250514T100000Z a prov:Activity ;
+    prov:generatedAtTime "2025-05-14T10:00:00Z"^^xsd:dateTime ;
+    prov:wasAssociatedWith "aswritten.ai" ;
+    prov:wasAttributedTo "n8n.aswritten.ai" ;
+    narr:originPath ".aswritten/memories/2026-04-06-database-pivot.md" ;
+    narr:originRef "main@abc1234" ;
+    prov:generated narr:Sample_MeridianPivot_20260406, narr:Narrative_MeridianDBAdoption, narr:Claim_MeridianSelected, narr:Claim_ZypherionGaps, narr:StyleMetrics_MeridianPivot .
+} ;
+
+# Update existing claims and narratives to reflect the pivot
+DELETE {
+  GRAPH ?g {
+    narr:Claim_ZypherionSelected narr:hasConvictionLevel ?oldConv .
+    narr:Narrative_ZypherionDBAdoption skos:note ?oldNote .
+  }
+}
+INSERT {
+  GRAPH narr:Tx_20250514T100000Z {
+    narr:Claim_ZypherionSelected narr:hasConvictionLevel narr:Conviction_Notion ;
+      skos:note "SUPERSEDED: Zypherion was previously selected but replaced by Meridian due to streaming gaps." .
+    narr:Narrative_ZypherionDBAdoption skos:note "SUPERSEDED: This strategy was replaced by the Meridian adoption on 2026-04-06." .
+    narr:Claim_MeridianSelected narr:challenges narr:Claim_ZypherionSelected .
+  }
+}
+WHERE {
+  GRAPH ?g {
+    narr:Claim_ZypherionSelected narr:hasConvictionLevel ?oldConv .
+    narr:Narrative_ZypherionDBAdoption skos:note ?oldNote .
+  }
+} ;
+
+# Insert new data for Meridian
+INSERT DATA {
+  GRAPH narr:Tx_20250514T100000Z {
+    narr:Sample_MeridianPivot_20260406 a narr:Sample ;
+      dct:title "Database Decision REVISED: Switching from Zypherion to Meridian" ;
+      dct:created "2026-04-06"^^xsd:date ;
+      narr:inputLength 450 .
+
+    narr:Narrative_MeridianDBAdoption a narr:Narrative ;
+      dct:source narr:Sample_MeridianPivot_20260406 ;
+      skos:broader narr:StrategyOverview ;
+      narr:theme "Strategic pivot to Meridian for unified batch and streaming analytics" ;
+      skos:note "Organization is switching to Meridian for analytics to address Zypherion's streaming ingestion gaps." .
+
+    narr:Claim_MeridianSelected a narr:Claim ;
+      narr:aboutNode narr:Narrative_MeridianDBAdoption ;
+      narr:hasConvictionLevel narr:Conviction_Boulder ;
+      dct:source narr:Sample_MeridianPivot_20260406 ;
+      skos:note "Meridian replaces Zypherion for analytics; handles both batch and streaming natively." .
+
+    narr:Claim_ZypherionGaps a narr:Claim ;
+      narr:aboutNode narr:Narrative_ZypherionDBAdoption ;
+      narr:hasConvictionLevel narr:Conviction_Foundation ;
+      dct:source narr:Sample_MeridianPivot_20260406 ;
+      skos:note "Zypherion found to have critical gaps in streaming ingestion." .
+
+    narr:Observation_QuintonMeridianStatement a narr:Observation ;
+      skos:broader narr:StrategyOverview ;
+      dct:source narr:Sample_MeridianPivot_20260406 ;
+      oa:hasSelector [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_MeridianPivot_20260406 ;
+        oa:hasSelector [ a oa:TextPositionSelector ; oa:start 144 ; oa:end 286 ] ;
+        oa:hasSelector [ a oa:TextQuoteSelector ; 
+          oa:exact "We evaluated Zypherion further and found critical gaps in its streaming ingestion. We are now switching to Meridian instead." ;
+          oa:prefix "Quinton: \"" ;
+          oa:suffix "\" This supersedes"
+        ]
+      ] .
+
+    narr:StyleObservation_DirectAttribution a narr:StyleObservation ;
+      skos:broader narr:ToneAuthoritative ;
+      dct:source narr:Sample_MeridianPivot_20260406 ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_MeridianPivot_20260406 ;
+        oa:hasSelector [ a oa:TextPositionSelector ; oa:start 135 ; oa:end 143 ] ;
+        oa:hasSelector [ oa:exact "Quinton:" ]
+      ] ;
+      skos:note "Direct attribution to CTO signals authoritative decision-making." .
+
+    narr:StyleObservation_TechnicalJargon a narr:StyleObservation ;
+      skos:broader narr:JargonPolicy ;
+      dct:source narr:Sample_MeridianPivot_20260406 ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_MeridianPivot_20260406 ;
+        oa:hasSelector [ a oa:TextPositionSelector ; oa:start 206 ; oa:end 225 ] ;
+        oa:hasSelector [ oa:exact "streaming ingestion" ]
+      ] .
+
+    narr:StyleObservation_RevisionMarker a narr:StyleObservation ;
+      skos:broader narr:CapitalizationCase ;
+      dct:source narr:Sample_MeridianPivot_20260406 ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_MeridianPivot_20260406 ;
+        oa:hasSelector [ a oa:TextPositionSelector ; oa:start 24 ; oa:end 31 ] ;
+        oa:hasSelector [ oa:exact "REVISED" ]
+      ] ;
+      skos:note "Use of all-caps 'REVISED' in header emphasizes the pivot." .
+
+    narr:StyleMetrics_MeridianPivot a narr:StyleMetrics ;
+      skos:broader narr:StyleMetrics ;
+      dct:source narr:Sample_MeridianPivot_20260406 ;
+      narr:AverageSentenceLength 11 ;
+      narr:ActiveVoiceRatio 0.90 ;
+      narr:JargonDensity 0.15 ;
+      skos:note "Concise, active-voice executive summary of a technical pivot." .
+  }
+}
