@@ -1,0 +1,210 @@
+PREFIX narr: <https://aswritten.ai/narrative#>
+PREFIX rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX prov: <http://www.w3.org/ns/prov#>
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+PREFIX dct:  <http://purl.org/dc/terms/>
+PREFIX xsd:  <http://www.w3.org/2001/XMLSchema#>
+PREFIX oa:   <http://www.w3.org/ns/oa#>
+
+# ── Transaction provenance (default graph) ──────────────────────────────────
+INSERT DATA {
+  narr:Tx_20250714T130000Z a prov:Activity ;
+    dct:title "Extraction: Second version stub document" ;
+    prov:generatedAtTime "2025-07-14T13:00:00Z"^^xsd:dateTime ;
+    prov:wasAssociatedWith "aswritten.ai" ;
+    prov:wasAttributedTo "n8n.aswritten.ai" ;
+    narr:originPath "unknown" ;
+    narr:originRef "unknown" ;
+    prov:generated
+      narr:Sample_SecondVersion,
+      narr:StyleMetrics_SecondVersion,
+      narr:StyleObs_SecondVersion_NounPhrase,
+      narr:StyleObs_SecondVersion_Register,
+      narr:StyleObs_SecondVersion_Frontmatter .
+} ;
+
+# ── New Sample node for the second-version document ─────────────────────────
+INSERT DATA {
+  GRAPH narr:Tx_20250714T130000Z {
+    narr:Sample_SecondVersion a narr:Sample ;
+      dct:title "Second version" ;
+      dct:description "Minimal stub document with YAML frontmatter listing a reviewer and a single-phrase body ('Second version'). Successor to the First version stub." ;
+      narr:inputLength 68 .
+  }
+} ;
+
+# ── UPDATE: Narrative theme/note — First→Second version ─────────────────────
+DELETE {
+  GRAPH ?g {
+    narr:Narrative_FirstVersionStub
+      narr:theme ?oldTheme ;
+      skos:note  ?oldNote ;
+      dct:source ?oldSrc .
+  }
+}
+INSERT {
+  GRAPH narr:Tx_20250714T130000Z {
+    narr:Narrative_FirstVersionStub
+      narr:theme "Document iteration — second version stub" ;
+      skos:note  "The document has advanced from its initial stub ('First version') to a second iteration ('Second version'). Reviewer assignment via frontmatter is unchanged. No substantive content has been authored yet." ;
+      dct:source narr:Sample_SecondVersion .
+  }
+}
+WHERE {
+  GRAPH ?g {
+    narr:Narrative_FirstVersionStub
+      narr:theme ?oldTheme ;
+      skos:note  ?oldNote ;
+      dct:source ?oldSrc .
+  }
+} ;
+
+# ── UPDATE: Claim — document is no longer the initial version ───────────────
+DELETE {
+  GRAPH ?g {
+    narr:Claim_DocumentIsInitialVersion
+      skos:note  ?oldNote ;
+      dct:source ?oldSrc .
+  }
+}
+INSERT {
+  GRAPH narr:Tx_20250714T130000Z {
+    narr:Claim_DocumentIsInitialVersion
+      skos:note  "The phrase 'Second version' supersedes the earlier 'First version' marker. The document is now in its second iteration. Conviction remains Foundation because the version label is directly stated in the source." ;
+      dct:source narr:Sample_SecondVersion .
+  }
+}
+WHERE {
+  GRAPH ?g {
+    narr:Claim_DocumentIsInitialVersion
+      skos:note  ?oldNote ;
+      dct:source ?oldSrc .
+  }
+} ;
+
+# ── UPDATE: Observation — phrase changed from 'First version' to 'Second version' ──
+DELETE {
+  GRAPH ?g {
+    narr:Obs_FirstVersionPhrase
+      skos:note  ?oldNote ;
+      dct:source ?oldSrc ;
+      oa:hasSelector ?oldSel .
+  }
+}
+INSERT {
+  GRAPH narr:Tx_20250714T130000Z {
+    narr:Obs_FirstVersionPhrase
+      skos:note  "The sole body content of the document is now the phrase 'Second version', confirming the document has advanced one iteration from its prior stub state." ;
+      dct:source narr:Sample_SecondVersion ;
+      oa:hasSelector [
+        a oa:TextPositionSelector ;
+        oa:start 47 ;
+        oa:end 61
+      ] ;
+      oa:hasSelector [
+        a oa:TextQuoteSelector ;
+        oa:exact "Second version" ;
+        oa:prefix "---\n\n" ;
+        oa:suffix ""
+      ] .
+  }
+}
+WHERE {
+  GRAPH ?g {
+    narr:Obs_FirstVersionPhrase
+      skos:note  ?oldNote ;
+      dct:source ?oldSrc .
+    OPTIONAL { narr:Obs_FirstVersionPhrase oa:hasSelector ?oldSel . }
+  }
+} ;
+
+# ── New StyleMetrics node for second-version sample ─────────────────────────
+INSERT DATA {
+  GRAPH narr:Tx_20250714T130000Z {
+    narr:StyleMetrics_SecondVersion a narr:StyleMetrics ;
+      skos:broader narr:StyleMetrics ;
+      dct:source narr:Sample_SecondVersion ;
+      skos:note "Stub document; body is a single two-word noun phrase with no sentences, no passive constructions, and no jargon. Metrics are structurally identical to the first-version stub." ;
+      narr:AverageSentenceLength "2"^^xsd:integer ;
+      narr:ActiveVoiceRatio "1.0"^^xsd:decimal ;
+      narr:JargonDensity "0.0"^^xsd:decimal .
+  }
+} ;
+
+# ── Style Observation 1: Noun-phrase-only body (cadence) ─────────────────────
+INSERT DATA {
+  GRAPH narr:Tx_20250714T130000Z {
+    narr:StyleObs_SecondVersion_NounPhrase a narr:StyleObservation ;
+      skos:broader narr:ShortPunchyCadence ;
+      dct:source narr:Sample_SecondVersion ;
+      skos:note "Body consists of a bare two-word noun phrase with no verb or predicate, functioning as a version label rather than a sentence." ;
+      rdf:value false ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_SecondVersion ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start 47 ;
+          oa:end 61
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "Second version" ;
+          oa:prefix "---\n\n" ;
+          oa:suffix ""
+        ]
+      ] .
+  }
+} ;
+
+# ── Style Observation 2: YAML frontmatter register ───────────────────────────
+INSERT DATA {
+  GRAPH narr:Tx_20250714T130000Z {
+    narr:StyleObs_SecondVersion_Register a narr:StyleObservation ;
+      skos:broader narr:RegisterFormality ;
+      dct:source narr:Sample_SecondVersion ;
+      skos:note "Document uses structured YAML frontmatter for metadata (reviewer field), indicating a technical/formal document convention rather than prose authoring." ;
+      rdf:value true ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_SecondVersion ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start 0 ;
+          oa:end 45
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "---\nreviewers:\n  - test+expert-gh@aswritten.ai\n---" ;
+          oa:prefix "" ;
+          oa:suffix "\n\nSecond version"
+        ]
+      ] .
+  }
+} ;
+
+# ── Style Observation 3: Citation/frontmatter convention (email redacted) ────
+INSERT DATA {
+  GRAPH narr:Tx_20250714T130000Z {
+    narr:StyleObs_SecondVersion_Frontmatter a narr:StyleObservation ;
+      skos:broader narr:CitationConventions ;
+      dct:source narr:Sample_SecondVersion ;
+      skos:note "Reviewer attribution is encoded in YAML frontmatter using a 'reviewers' list key. Email address redacted per PII policy. Pattern is consistent with the first-version stub." ;
+      rdf:value true ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_SecondVersion ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start 16 ;
+          oa:end 44
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "  - test+expert-gh@aswritten.ai" ;
+          oa:prefix "reviewers:\n" ;
+          oa:suffix "\n---"
+        ]
+      ] .
+  }
+}
