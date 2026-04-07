@@ -1,0 +1,132 @@
+PREFIX narr: <https://aswritten.ai/narrative#>
+PREFIX rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX prov: <http://www.w3.org/ns/prov#>
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+PREFIX dct:  <http://purl.org/dc/terms/>
+PREFIX xsd:  <http://www.w3.org/2001/XMLSchema#>
+PREFIX oa:   <http://www.w3.org/ns/oa#>
+
+# ── Retraction transaction node (default graph) ──────────────────────────────
+INSERT DATA {
+  narr:Tx_20250714T000000Z a prov:Activity ;
+    prov:generatedAtTime "2025-07-14T00:00:00Z"^^xsd:dateTime ;
+    prov:wasAssociatedWith "aswritten.ai" ;
+    prov:wasAttributedTo "test+expert-gh@aswritten.ai" ;
+    narr:originPath "retract" ;
+    narr:originRef "main" ;
+    dct:title "RETRACTION: Forget database decision — Zypherion, Meridian, Quinton Fairweather, analytics pipeline migration" ;
+    prov:generated narr:Tx_20250714T000000Z .
+} ;
+
+# ── DELETE: Actor_QuintonFairweather_CTO ─────────────────────────────────────
+DELETE WHERE {
+  narr:Actor_QuintonFairweather_CTO ?p ?o .
+} ;
+
+# ── DELETE: Narrative_ZypherionAdoption ──────────────────────────────────────
+DELETE WHERE {
+  narr:Narrative_ZypherionAdoption ?p ?o .
+} ;
+
+# ── DELETE: Narrative_MeridianAdoption ───────────────────────────────────────
+DELETE WHERE {
+  narr:Narrative_MeridianAdoption ?p ?o .
+} ;
+
+# ── DELETE: Claim_ZypherionDatabaseChoice ────────────────────────────────────
+DELETE WHERE {
+  narr:Claim_ZypherionDatabaseChoice ?p ?o .
+} ;
+
+# ── DELETE: Claim_ZypherionMigrationQ3 ───────────────────────────────────────
+DELETE WHERE {
+  narr:Claim_ZypherionMigrationQ3 ?p ?o .
+} ;
+
+# ── DELETE: Claim_ZypherionPerformance15x ────────────────────────────────────
+DELETE WHERE {
+  narr:Claim_ZypherionPerformance15x ?p ?o .
+} ;
+
+# ── DELETE: Claim_ZypherionStreamingGap ──────────────────────────────────────
+DELETE WHERE {
+  narr:Claim_ZypherionStreamingGap ?p ?o .
+} ;
+
+# ── DELETE: Claim_MeridianDatabaseChoice ─────────────────────────────────────
+DELETE WHERE {
+  narr:Claim_MeridianDatabaseChoice ?p ?o .
+} ;
+
+# ── DELETE: Claim_MeridianMigrationQ3 ────────────────────────────────────────
+DELETE WHERE {
+  narr:Claim_MeridianMigrationQ3 ?p ?o .
+} ;
+
+# ── DELETE: Sample_ZypherionDecision_20260406 ────────────────────────────────
+DELETE WHERE {
+  narr:Sample_ZypherionDecision_20260406 ?p ?o .
+} ;
+
+# ── DELETE: Sample_MeridianDecision_20260406 ─────────────────────────────────
+DELETE WHERE {
+  narr:Sample_MeridianDecision_20260406 ?p ?o .
+} ;
+
+# ── DELETE: Obs_AdoptionStatement (Zypherion source) ─────────────────────────
+DELETE WHERE {
+  narr:Obs_AdoptionStatement ?p ?o .
+} ;
+
+# ── DELETE: Obs_ColumnarPerformance ──────────────────────────────────────────
+DELETE WHERE {
+  narr:Obs_ColumnarPerformance ?p ?o .
+} ;
+
+# ── DELETE: Obs_MigrationTimeline ────────────────────────────────────────────
+DELETE WHERE {
+  narr:Obs_MigrationTimeline ?p ?o .
+} ;
+
+# ── DELETE: StyleMetrics_ZypherionDecision ───────────────────────────────────
+DELETE WHERE {
+  narr:StyleMetrics_ZypherionDecision ?p ?o .
+} ;
+
+# ── DELETE: StyleMetrics_MeridianDecision ────────────────────────────────────
+DELETE WHERE {
+  narr:StyleMetrics_MeridianDecision ?p ?o .
+} ;
+
+# ── DELETE: Tx_20260406T120000Z (Zypherion extraction transaction) ────────────
+DELETE WHERE {
+  narr:Tx_20260406T120000Z ?p ?o .
+} ;
+
+# ── DELETE: Tx_20260406T140000Z (Meridian extraction transaction) ─────────────
+DELETE WHERE {
+  narr:Tx_20260406T140000Z ?p ?o .
+} ;
+
+# ── DELETE: any dangling triples that reference retracted entities as objects ─
+DELETE WHERE {
+  ?s ?p narr:Narrative_ZypherionAdoption .
+} ;
+DELETE WHERE {
+  ?s ?p narr:Narrative_MeridianAdoption .
+} ;
+DELETE WHERE {
+  ?s ?p narr:Claim_ZypherionDatabaseChoice .
+} ;
+DELETE WHERE {
+  ?s ?p narr:Claim_MeridianDatabaseChoice .
+} ;
+DELETE WHERE {
+  ?s ?p narr:Actor_QuintonFairweather_CTO .
+} ;
+DELETE WHERE {
+  ?s ?p narr:Sample_ZypherionDecision_20260406 .
+} ;
+DELETE WHERE {
+  ?s ?p narr:Sample_MeridianDecision_20260406 .
+}
