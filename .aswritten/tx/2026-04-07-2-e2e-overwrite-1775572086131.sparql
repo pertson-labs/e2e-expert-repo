@@ -1,0 +1,77 @@
+PREFIX narr: <https://aswritten.ai/narrative#>
+PREFIX prov: <http://www.w3.org/ns/prov#>
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+PREFIX dct: <http://purl.org/dc/terms/>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+PREFIX oa: <http://www.w3.org/ns/oa#>
+
+# Transaction provenance
+INSERT DATA {
+  narr:Tx_20250522T120000Z a prov:Activity ;
+    prov:generatedAtTime "2025-05-22T12:00:00Z"^^xsd:dateTime ;
+    prov:wasAssociatedWith "aswritten.ai" ;
+    prov:wasAttributedTo "test+expert-gh@aswritten.ai" ;
+    narr:originPath ".aswritten/memories/2025-05-22-second-version.md" ;
+    narr:originRef "main" ;
+    prov:generated narr:Sample_SecondVersion, narr:Narrative_SecondVersionIteration, narr:Claim_IterativeUpdate, narr:StyleMetrics_SecondVersion, narr:StyleObs_MinimalistBody, narr:StyleObs_FrontmatterConsistency, narr:StyleObs_OrdinalNaming .
+} ;
+
+# Extracted entities
+INSERT DATA {
+  GRAPH narr:Tx_20250522T120000Z {
+    narr:Sample_SecondVersion a narr:Sample ;
+      dct:title "Second version" ;
+      dct:description "A follow-up version of the document, maintaining the reviewer assignment and minimalist body." ;
+      narr:inputLength 58 .
+
+    narr:Narrative_SecondVersionIteration a narr:Narrative ;
+      dct:source narr:Sample_SecondVersion ;
+      narr:theme "Iterative document progression" ;
+      skos:broader narr:Process ;
+      skos:note "The document has progressed to a 'Second version', signaling a sequence in the documentation lifecycle." .
+
+    narr:Claim_IterativeUpdate a narr:Claim ;
+      narr:aboutNode narr:Narrative_SecondVersionIteration ;
+      narr:hasConvictionLevel narr:Conviction_Notion ;
+      dct:source narr:Sample_SecondVersion ;
+      skos:note "The transition from first to second version suggests an active update process." .
+
+    narr:StyleMetrics_SecondVersion a narr:StyleMetrics ;
+      dct:source narr:Sample_SecondVersion ;
+      skos:broader narr:StyleMetrics ;
+      narr:AverageSentenceLength 2 ;
+      narr:ActiveVoiceRatio "1.0"^^xsd:decimal ;
+      narr:JargonDensity "0.0"^^xsd:decimal ;
+      skos:note "Maintains the ultra-minimalist profile of the previous version." .
+
+    narr:StyleObs_MinimalistBody a narr:StyleObservation ;
+      skos:broader narr:ShortPunchyCadence ;
+      dct:source narr:Sample_SecondVersion ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_SecondVersion ;
+        oa:hasSelector [ a oa:TextPositionSelector ; oa:start 48 ; oa:end 62 ] ;
+        oa:hasSelector [ a oa:TextQuoteSelector ; oa:exact "Second version" ; oa:prefix "---\n\n" ; oa:suffix "" ]
+      ] .
+
+    narr:StyleObs_FrontmatterConsistency a narr:StyleObservation ;
+      skos:broader narr:EditorialRules ;
+      dct:source narr:Sample_SecondVersion ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_SecondVersion ;
+        oa:hasSelector [ a oa:TextPositionSelector ; oa:start 0 ; oa:end 45 ] ;
+        oa:hasSelector [ a oa:TextQuoteSelector ; oa:exact "reviewers:\n  - test+expert-gh@aswritten.ai" ; oa:prefix "---" ; oa:suffix "\n---" ]
+      ] .
+
+    narr:StyleObs_OrdinalNaming a narr:StyleObservation ;
+      skos:broader narr:NamingConventions ;
+      dct:source narr:Sample_SecondVersion ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_SecondVersion ;
+        oa:hasSelector [ a oa:TextPositionSelector ; oa:start 48 ; oa:end 54 ] ;
+        oa:hasSelector [ a oa:TextQuoteSelector ; oa:exact "Second" ; oa:prefix "\n\n" ; oa:suffix " version" ]
+      ] .
+  }
+}
