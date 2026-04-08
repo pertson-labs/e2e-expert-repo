@@ -1,0 +1,145 @@
+PREFIX narr: <https://aswritten.ai/narrative#>
+PREFIX rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX prov: <http://www.w3.org/ns/prov#>
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+PREFIX dct:  <http://purl.org/dc/terms/>
+PREFIX xsd:  <http://www.w3.org/2001/XMLSchema#>
+PREFIX oa:   <http://www.w3.org/ns/oa#>
+
+# Transaction provenance (default graph)
+INSERT DATA {
+  narr:Tx_20250115T120000Z a prov:Activity ;
+    prov:generatedAtTime "2025-01-15T12:00:00Z"^^xsd:dateTime ;
+    prov:wasAssociatedWith "aswritten.ai" ;
+    prov:wasAttributedTo "n8n.aswritten.ai" ;
+    narr:originPath "(no id field provided in input)" ;
+    narr:originRef "unknown" ;
+    dct:title "First Version Document — Minimal Content Extraction" ;
+    prov:generated
+      narr:Sample_FirstVersion,
+      narr:Actor_ExpertReviewer_GH,
+      narr:Narrative_FirstVersionDocument,
+      narr:Observation_ReviewerFrontmatter,
+      narr:StyleObs_YAMLFrontmatterConvention,
+      narr:StyleObs_TerseVersionLabel,
+      narr:StyleObs_ReviewerListPattern,
+      narr:StyleMetrics_FirstVersion .
+} ;
+
+# Extracted entities (named graph)
+INSERT DATA {
+  GRAPH narr:Tx_20250115T120000Z {
+
+    # ── Sample ──────────────────────────────────────────────────
+    narr:Sample_FirstVersion a narr:Sample ;
+      dct:title "First Version" ;
+      dct:description "Minimal document with YAML frontmatter listing a reviewer and a single body phrase 'First version'." ;
+      narr:inputLength 54 .
+
+    # ── Actor ───────────────────────────────────────────────────
+    # PII redacted: email address suppressed per verbatim policy (allow_pii=false)
+    narr:Actor_ExpertReviewer_GH a narr:Actor ;
+      skos:prefLabel "Expert Reviewer (GitHub)" ;
+      skos:note "Reviewer listed in YAML frontmatter under 'reviewers:'. Email redacted (PII policy). Domain: aswritten.ai. Handle suffix: expert-gh." .
+
+    # ── Narrative ────────────────────────────────────────────────
+    narr:Narrative_FirstVersionDocument a narr:Narrative ;
+      dct:source narr:Sample_FirstVersion ;
+      narr:theme "Document initialization with reviewer attribution" ;
+      skos:broader narr:Process ;
+      skos:note "The document asserts it is a first version and names a reviewer, establishing an initial review-gated workflow pattern. Content is minimal — this is a bootstrapping or template instantiation event." .
+
+    # ── Observation: Reviewer frontmatter ───────────────────────
+    narr:Observation_ReviewerFrontmatter a narr:Observation ;
+      skos:broader narr:QualityReviewGates ;
+      dct:source narr:Sample_FirstVersion ;
+      skos:note "YAML frontmatter declares a 'reviewers' list, signalling a structured review process is expected for this document." ;
+      oa:hasSelector [
+        a oa:TextPositionSelector ;
+        oa:start 4 ;
+        oa:end 46
+      ] ;
+      oa:hasSelector [
+        a oa:TextQuoteSelector ;
+        oa:exact "reviewers:\n  - test+expert-gh@aswritten.ai" ;
+        oa:prefix "---\n" ;
+        oa:suffix "\n---"
+      ] .
+
+    # ── Style Observation 1: YAML frontmatter convention ────────
+    narr:StyleObs_YAMLFrontmatterConvention a narr:StyleObservation ;
+      skos:broader narr:EditorialRules ;
+      dct:source narr:Sample_FirstVersion ;
+      skos:note "Document uses YAML frontmatter delimited by '---' to encode structured metadata (reviewer list). This is a machine-readable editorial convention." ;
+      rdf:value true ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_FirstVersion ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start 0 ;
+          oa:end 50
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "---\nreviewers:\n  - test+expert-gh@aswritten.ai\n---" ;
+          oa:prefix "" ;
+          oa:suffix "\n\nFirst version"
+        ]
+      ] .
+
+    # ── Style Observation 2: Terse version label ────────────────
+    narr:StyleObs_TerseVersionLabel a narr:StyleObservation ;
+      skos:broader narr:Conciseness ;
+      dct:source narr:Sample_FirstVersion ;
+      skos:note "Body text is a single two-word phrase 'First version' — maximally terse, no elaboration. Signals a placeholder or stub register." ;
+      rdf:value true ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_FirstVersion ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start 51 ;
+          oa:end 64
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "First version" ;
+          oa:prefix "---\n\n" ;
+          oa:suffix ""
+        ]
+      ] .
+
+    # ── Style Observation 3: Reviewer list pattern ──────────────
+    narr:StyleObs_ReviewerListPattern a narr:StyleObservation ;
+      skos:broader narr:MicrocopyGuidelines ;
+      dct:source narr:Sample_FirstVersion ;
+      skos:note "Reviewer attribution uses a YAML list under 'reviewers:' key — a structured microcopy pattern that implies multi-reviewer support and machine-parseable ownership." ;
+      rdf:value true ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_FirstVersion ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start 4 ;
+          oa:end 46
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "reviewers:\n  - test+expert-gh@aswritten.ai" ;
+          oa:prefix "---\n" ;
+          oa:suffix "\n---"
+        ]
+      ] .
+
+    # ── Style Metrics ────────────────────────────────────────────
+    narr:StyleMetrics_FirstVersion a narr:StyleMetrics ;
+      skos:broader narr:StyleMetrics ;
+      dct:source narr:Sample_FirstVersion ;
+      narr:AverageSentenceLength 2 ;
+      narr:ActiveVoiceRatio "1.0"^^xsd:decimal ;
+      narr:JargonDensity "0.0"^^xsd:decimal ;
+      skos:note "Extremely minimal document. Body is a single 2-word phrase. No sentences in conventional sense. No jargon. YAML frontmatter is structured metadata, not prose. Register: stub/placeholder." .
+
+  }
+}
