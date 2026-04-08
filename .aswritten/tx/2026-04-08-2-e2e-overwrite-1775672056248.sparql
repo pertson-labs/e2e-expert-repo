@@ -1,0 +1,128 @@
+PREFIX narr: <https://aswritten.ai/narrative#>
+PREFIX rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX prov: <http://www.w3.org/ns/prov#>
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+PREFIX dct:  <http://purl.org/dc/terms/>
+PREFIX xsd:  <http://www.w3.org/2001/XMLSchema#>
+PREFIX oa:   <http://www.w3.org/ns/oa#>
+
+# Transaction provenance (default graph)
+INSERT DATA {
+  narr:Tx_20250115T130000Z a prov:Activity ;
+    dct:title "Extraction: Second version document with reviewer front-matter" ;
+    prov:generatedAtTime "2025-01-15T13:00:00Z"^^xsd:dateTime ;
+    prov:wasAssociatedWith "aswritten.ai" ;
+    prov:wasAttributedTo "n8n.aswritten.ai" ;
+    narr:originPath "(not provided — no id field in input)" ;
+    narr:originRef "unknown" ;
+    prov:generated
+      narr:Sample_SecondVersion,
+      narr:Narrative_SecondVersionDraft,
+      narr:Claim_ReviewerAssignedSecondVersion,
+      narr:StyleMetrics_SecondVersion,
+      narr:StyleObs_SecondVersion_ShortCadence,
+      narr:StyleObs_SecondVersion_CapitalizationCase,
+      narr:StyleObs_SecondVersion_ReviewerFrontMatter .
+} ;
+
+# Extracted entities (named graph)
+INSERT DATA {
+  GRAPH narr:Tx_20250115T130000Z {
+
+    # ── Sample ──────────────────────────────────────────────────────────────
+    narr:Sample_SecondVersion a narr:Sample ;
+      dct:title "Second version" ;
+      dct:description "Minimal document with YAML front-matter declaring the same reviewer as the first version and a two-word body asserting second-version status. Represents a lifecycle progression from the first version." ;
+      narr:inputLength 76 .
+
+    # ── Narrative ────────────────────────────────────────────────────────────
+    narr:Narrative_SecondVersionDraft a narr:Narrative ;
+      dct:source narr:Sample_SecondVersion ;
+      skos:broader narr:Process ;
+      narr:theme "Document lifecycle: second-version milestone" ;
+      skos:note "The document declares itself a second version, signalling progression past the initial draft stage in a review lifecycle. The same reviewer remains assigned via front-matter metadata, indicating continuity of the review process." .
+
+    # ── Claim ────────────────────────────────────────────────────────────────
+    narr:Claim_ReviewerAssignedSecondVersion a narr:Claim ;
+      dct:source narr:Sample_SecondVersion ;
+      narr:aboutNode narr:Actor_ExpertReviewer ;
+      narr:hasConvictionLevel narr:Conviction_Foundation ;
+      narr:supports narr:Narrative_SecondVersionDraft ;
+      skos:note "The YAML front-matter of the second version explicitly re-assigns the same reviewer (test+expert-gh@aswritten.ai, redacted), confirming continued reviewer assignment at the second-version stage." .
+
+    # ── Style Observations ───────────────────────────────────────────────────
+
+    # 1. Short punchy cadence — body is a two-word milestone label
+    narr:StyleObs_SecondVersion_ShortCadence a narr:StyleObservation ;
+      skos:broader narr:ShortPunchyCadence ;
+      dct:source narr:Sample_SecondVersion ;
+      skos:note "Body text is a two-word milestone label with no verb, exemplifying minimal placeholder cadence." ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_SecondVersion ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start 44 ;
+          oa:end 58
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "Second version" ;
+          oa:prefix "---\n\n" ;
+          oa:suffix ""
+        ]
+      ] .
+
+    # 2. Capitalization — sentence-case milestone label
+    narr:StyleObs_SecondVersion_CapitalizationCase a narr:StyleObservation ;
+      skos:broader narr:CapitalizationCase ;
+      dct:source narr:Sample_SecondVersion ;
+      skos:note "Milestone label uses sentence case ('Second version'), consistent with the first-version document's capitalization pattern." ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_SecondVersion ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start 44 ;
+          oa:end 58
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "Second version" ;
+          oa:prefix "---\n\n" ;
+          oa:suffix ""
+        ]
+      ] .
+
+    # 3. Editorial convention — YAML front-matter reviewer assignment
+    narr:StyleObs_SecondVersion_ReviewerFrontMatter a narr:StyleObservation ;
+      skos:broader narr:EditorialRules ;
+      dct:source narr:Sample_SecondVersion ;
+      skos:note "Reviewer assignment is encoded in YAML front-matter using a list under the 'reviewers' key, consistent with an editorial workflow convention carried over from the first version." ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_SecondVersion ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start 4 ;
+          oa:end 41
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "reviewers:\n  - test+expert-gh@aswritten.ai" ;
+          oa:prefix "---\n" ;
+          oa:suffix "\n---"
+        ]
+      ] .
+
+    # ── Style Metrics ────────────────────────────────────────────────────────
+    narr:StyleMetrics_SecondVersion a narr:StyleMetrics ;
+      dct:source narr:Sample_SecondVersion ;
+      skos:broader narr:StyleMetrics ;
+      narr:AverageSentenceLength "2"^^xsd:integer ;
+      narr:ActiveVoiceRatio "1.0"^^xsd:decimal ;
+      narr:JargonDensity "0.0"^^xsd:decimal ;
+      skos:note "Metrics computed on body text only (2 tokens, 1 sentence). YAML front-matter excluded from prose metrics. Register: placeholder/milestone label — minimal register, no jargon, no passive constructions. Identical profile to first version." .
+
+  }
+}
