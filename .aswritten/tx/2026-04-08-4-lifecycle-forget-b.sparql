@@ -1,0 +1,154 @@
+PREFIX narr: <https://aswritten.ai/narrative#>
+PREFIX rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX prov: <http://www.w3.org/ns/prov#>
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+PREFIX dct:  <http://purl.org/dc/terms/>
+PREFIX xsd:  <http://www.w3.org/2001/XMLSchema#>
+PREFIX oa:   <http://www.w3.org/ns/oa#>
+
+# ── Retraction transaction (default graph) ──────────────────────────────────
+INSERT DATA {
+  narr:Tx_20250717T000000Z a prov:Activity ;
+    prov:generatedAtTime "2025-07-17T00:00:00Z"^^xsd:dateTime ;
+    prov:wasAssociatedWith "aswritten.ai" ;
+    prov:wasAttributedTo "test+expert-gh@aswritten.ai" ;
+    narr:originPath "retract:inline" ;
+    narr:originRef "main" ;
+    dct:title "RETRACTION: Forget Zypherion, Meridian, Quinton Fairweather, analytics pipeline migration" ;
+    prov:generated narr:Tx_20250717T000000Z .
+} ;
+
+# ── DELETE all triples about narr:Actor_QuintonFairweather ──────────────────
+DELETE WHERE {
+  narr:Actor_QuintonFairweather ?p ?o .
+} ;
+
+DELETE WHERE {
+  ?s ?p narr:Actor_QuintonFairweather .
+} ;
+
+# ── DELETE all triples about narr:Narrative_ZypherionAdoption ───────────────
+DELETE WHERE {
+  narr:Narrative_ZypherionAdoption ?p ?o .
+} ;
+
+DELETE WHERE {
+  ?s ?p narr:Narrative_ZypherionAdoption .
+} ;
+
+# ── DELETE all triples about narr:Claim_ZypherionDBChoice ───────────────────
+DELETE WHERE {
+  narr:Claim_ZypherionDBChoice ?p ?o .
+} ;
+
+DELETE WHERE {
+  ?s ?p narr:Claim_ZypherionDBChoice .
+} ;
+
+# ── DELETE all triples about narr:Claim_ZypherionMigrationQ3 ────────────────
+DELETE WHERE {
+  narr:Claim_ZypherionMigrationQ3 ?p ?o .
+} ;
+
+DELETE WHERE {
+  ?s ?p narr:Claim_ZypherionMigrationQ3 .
+} ;
+
+# ── DELETE all triples about narr:Claim_ZypherionPerformance15x ─────────────
+DELETE WHERE {
+  narr:Claim_ZypherionPerformance15x ?p ?o .
+} ;
+
+DELETE WHERE {
+  ?s ?p narr:Claim_ZypherionPerformance15x .
+} ;
+
+# ── DELETE all triples about narr:Claim_ZypherionStreamingGap ───────────────
+DELETE WHERE {
+  narr:Claim_ZypherionStreamingGap ?p ?o .
+} ;
+
+DELETE WHERE {
+  ?s ?p narr:Claim_ZypherionStreamingGap .
+} ;
+
+# ── DELETE all triples about narr:Claim_MeridianBatchStreaming ───────────────
+DELETE WHERE {
+  narr:Claim_MeridianBatchStreaming ?p ?o .
+} ;
+
+DELETE WHERE {
+  ?s ?p narr:Claim_MeridianBatchStreaming .
+} ;
+
+# ── DELETE all triples about narr:Obs_QuintonAdoptionStatement ──────────────
+DELETE WHERE {
+  narr:Obs_QuintonAdoptionStatement ?p ?o .
+} ;
+
+DELETE WHERE {
+  ?s ?p narr:Obs_QuintonAdoptionStatement .
+} ;
+
+# ── DELETE all triples about narr:Obs_QuintonMeridianStatement ──────────────
+DELETE WHERE {
+  narr:Obs_QuintonMeridianStatement ?p ?o .
+} ;
+
+DELETE WHERE {
+  ?s ?p narr:Obs_QuintonMeridianStatement .
+} ;
+
+# ── DELETE all triples about narr:Sample_ZypherionDecision_20260406 ─────────
+DELETE WHERE {
+  narr:Sample_ZypherionDecision_20260406 ?p ?o .
+} ;
+
+DELETE WHERE {
+  ?s ?p narr:Sample_ZypherionDecision_20260406 .
+} ;
+
+# ── DELETE all triples about narr:Sample_MeridianDecision_20260406 ──────────
+DELETE WHERE {
+  narr:Sample_MeridianDecision_20260406 ?p ?o .
+} ;
+
+DELETE WHERE {
+  ?s ?p narr:Sample_MeridianDecision_20260406 .
+} ;
+
+# ── DELETE all triples about narr:StyleMetrics_ZypherionDecision ────────────
+DELETE WHERE {
+  narr:StyleMetrics_ZypherionDecision ?p ?o .
+} ;
+
+DELETE WHERE {
+  ?s ?p narr:StyleMetrics_ZypherionDecision .
+} ;
+
+# ── DELETE all triples about narr:StyleMetrics_MeridianDecision ─────────────
+DELETE WHERE {
+  narr:StyleMetrics_MeridianDecision ?p ?o .
+} ;
+
+DELETE WHERE {
+  ?s ?p narr:StyleMetrics_MeridianDecision .
+} ;
+
+# ── DELETE all triples about narr:Tx_20260406T120000Z (Zypherion Tx) ────────
+DELETE WHERE {
+  narr:Tx_20260406T120000Z ?p ?o .
+} ;
+
+DELETE WHERE {
+  ?s ?p narr:Tx_20260406T120000Z .
+} ;
+
+# ── DELETE all triples about narr:Tx_20260406T150000Z (Meridian Tx) ─────────
+DELETE WHERE {
+  narr:Tx_20260406T150000Z ?p ?o .
+} ;
+
+DELETE WHERE {
+  ?s ?p narr:Tx_20260406T150000Z .
+}
