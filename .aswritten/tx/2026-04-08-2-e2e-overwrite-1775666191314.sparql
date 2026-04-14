@@ -1,0 +1,137 @@
+PREFIX narr: <https://aswritten.ai/narrative#>
+PREFIX rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX prov: <http://www.w3.org/ns/prov#>
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+PREFIX dct:  <http://purl.org/dc/terms/>
+PREFIX xsd:  <http://www.w3.org/2001/XMLSchema#>
+PREFIX oa:   <http://www.w3.org/ns/oa#>
+
+# ── Transaction provenance (default graph) ──────────────────────
+INSERT DATA {
+  narr:Tx_20250115T130000Z a prov:Activity ;
+    dct:title "Extraction: Second version document with reviewer metadata" ;
+    prov:generatedAtTime "2025-01-15T13:00:00Z"^^xsd:dateTime ;
+    prov:wasAssociatedWith "aswritten.ai" ;
+    prov:wasAttributedTo "n8n.aswritten.ai" ;
+    narr:originPath "" ;
+    narr:originRef "main" ;
+    prov:generated
+      narr:Sample_SecondVersion,
+      narr:Narrative_SecondVersionDocument,
+      narr:Observation_BodySecondVersion,
+      narr:StyleObservation_VersionLabel,
+      narr:StyleObservation_ReviewerFrontmatterSecond,
+      narr:StyleObservation_MinimalBodySecond,
+      narr:StyleMetrics_SecondVersion .
+} ;
+
+# ── New Sample node for the second version ───────────────────────
+INSERT DATA {
+  GRAPH narr:Tx_20250115T130000Z {
+
+    narr:Sample_SecondVersion a narr:Sample ;
+      dct:title "Second version" ;
+      dct:description "Minimal document with YAML frontmatter specifying the same reviewer as the first version, with body text updated to 'Second version'." ;
+      narr:inputLength 76 .
+
+    # ── Narrative: second-version document ──────────────────────
+    narr:Narrative_SecondVersionDocument a narr:Narrative ;
+      dct:source narr:Sample_SecondVersion ;
+      skos:broader narr:Process ;
+      narr:theme "Incremental document version with retained expert reviewer" ;
+      skos:note "The document advances from 'First version' to 'Second version' while retaining the same reviewer in YAML frontmatter, signalling a review-gated iterative workflow pattern." .
+
+    # ── Observation: body text ───────────────────────────────────
+    narr:Observation_BodySecondVersion a narr:Observation ;
+      dct:source narr:Sample_SecondVersion ;
+      skos:broader narr:CoreWorkflows ;
+      skos:note "The document body consists solely of the phrase 'Second version', indicating this is an incremental draft placeholder superseding the first version." ;
+      oa:hasSelector [
+        a oa:TextPositionSelector ;
+        oa:start 56 ;
+        oa:end 70
+      ] ;
+      oa:hasSelector [
+        a oa:TextQuoteSelector ;
+        oa:exact "Second version" ;
+        oa:prefix "---\n\n" ;
+        oa:suffix ""
+      ] .
+
+    # ── Style Observation 1: version label cadence ───────────────
+    narr:StyleObservation_VersionLabel a narr:StyleObservation ;
+      skos:broader narr:ShortPunchyCadence ;
+      dct:source narr:Sample_SecondVersion ;
+      skos:note "Two-word declarative body ('Second version') mirrors the prior draft pattern, confirming a terse placeholder cadence." ;
+      rdf:value true ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_SecondVersion ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start 56 ;
+          oa:end 70
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "Second version" ;
+          oa:prefix "---\n\n" ;
+          oa:suffix ""
+        ]
+      ] .
+
+    # ── Style Observation 2: YAML frontmatter reviewer pattern ───
+    narr:StyleObservation_ReviewerFrontmatterSecond a narr:StyleObservation ;
+      skos:broader narr:EditorialRules ;
+      dct:source narr:Sample_SecondVersion ;
+      skos:note "YAML frontmatter reviewer field retained across versions, indicating a stable editorial convention for review-gated documents." ;
+      rdf:value true ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_SecondVersion ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start 0 ;
+          oa:end 54
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "reviewers:\n  - test+expert-gh@aswritten.ai" ;
+          oa:prefix "---\n" ;
+          oa:suffix "\n---"
+        ]
+      ] .
+
+    # ── Style Observation 3: minimal body / placeholder tone ─────
+    narr:StyleObservation_MinimalBodySecond a narr:StyleObservation ;
+      skos:broader narr:ToneAuthoritative ;
+      dct:source narr:Sample_SecondVersion ;
+      skos:note "Bare declarative body with no elaboration signals authoritative placeholder convention — the version label stands alone without qualification." ;
+      rdf:value true ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_SecondVersion ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start 56 ;
+          oa:end 70
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "Second version" ;
+          oa:prefix "---\n\n" ;
+          oa:suffix ""
+        ]
+      ] .
+
+    # ── Style Metrics ────────────────────────────────────────────
+    narr:StyleMetrics_SecondVersion a narr:StyleMetrics ;
+      dct:source narr:Sample_SecondVersion ;
+      skos:broader narr:StyleMetrics ;
+      narr:AverageSentenceLength 2 ;
+      narr:ActiveVoiceRatio "1.0"^^xsd:decimal ;
+      narr:JargonDensity "0.0"^^xsd:decimal ;
+      skos:note "Identical metrics to first version: 2-word body, no jargon, implied active/declarative voice. Metrics reflect placeholder draft content only." .
+
+  }
+}
