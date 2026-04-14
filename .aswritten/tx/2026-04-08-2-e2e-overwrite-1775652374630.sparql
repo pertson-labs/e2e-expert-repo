@@ -1,0 +1,173 @@
+PREFIX narr: <https://aswritten.ai/narrative#>
+PREFIX rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX prov: <http://www.w3.org/ns/prov#>
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+PREFIX dct:  <http://purl.org/dc/terms/>
+PREFIX xsd:  <http://www.w3.org/2001/XMLSchema#>
+PREFIX oa:   <http://www.w3.org/ns/oa#>
+
+# ── Transaction provenance (default graph) ──────────────────────
+INSERT DATA {
+  narr:Tx_20250715T120000Z a prov:Activity ;
+    dct:title "Second version stub — reviewer assignment (v2)" ;
+    prov:generatedAtTime "2025-07-15T12:00:00Z"^^xsd:dateTime ;
+    prov:wasAssociatedWith "aswritten.ai" ;
+    prov:wasAttributedTo "n8n.aswritten.ai" ;
+    narr:originPath "unknown" ;
+    narr:originRef "unknown" ;
+    prov:generated
+      narr:Sample_SecondVersionStub,
+      narr:Narrative_SecondVersionInitialization,
+      narr:StyleMetrics_SecondVersionStub,
+      narr:StyleObs_SecondVersion_ToneDirectPersonal,
+      narr:StyleObs_SecondVersion_RegisterFormality,
+      narr:StyleObs_SecondVersion_VersionIncrement .
+} ;
+
+# ── UPDATE: Sample — title and description evolve from v1 to v2 ──
+DELETE {
+  GRAPH ?g {
+    narr:Sample_FirstVersionStub dct:title ?oldTitle ;
+      dct:description ?oldDesc ;
+      narr:inputLength ?oldLen .
+  }
+}
+INSERT {
+  GRAPH narr:Tx_20250715T120000Z {
+    narr:Sample_SecondVersionStub a narr:Sample ;
+      dct:title "Second version" ;
+      dct:description "Minimal document stub with YAML front-matter declaring a reviewer and a two-word body 'Second version'. Successor to the 'First version' stub." ;
+      narr:inputLength 55 .
+  }
+}
+WHERE {
+  GRAPH ?g {
+    narr:Sample_FirstVersionStub dct:title ?oldTitle ;
+      dct:description ?oldDesc ;
+      narr:inputLength ?oldLen .
+  }
+} ;
+
+# ── UPDATE: Narrative — theme and note updated for second version ─
+DELETE {
+  GRAPH ?g {
+    narr:Narrative_FirstVersionInitialization
+      narr:theme ?oldTheme ;
+      skos:note ?oldNote ;
+      dct:source ?oldSrc .
+  }
+}
+INSERT {
+  GRAPH narr:Tx_20250715T120000Z {
+    narr:Narrative_SecondVersionInitialization a narr:Narrative ;
+      dct:source narr:Sample_SecondVersionStub ;
+      skos:broader narr:Process ;
+      skos:note "The document now declares itself a 'Second version', indicating the authoring workflow has advanced past the initial stub. The same reviewer is retained in YAML front-matter, confirming continuity of the review-gated process." ;
+      narr:theme "Document iteration — second version stub with retained reviewer assignment" .
+  }
+}
+WHERE {
+  GRAPH ?g {
+    narr:Narrative_FirstVersionInitialization
+      narr:theme ?oldTheme ;
+      skos:note ?oldNote ;
+      dct:source ?oldSrc .
+  }
+} ;
+
+# ── UPDATE: StyleMetrics — updated for second version body ───────
+DELETE {
+  GRAPH ?g {
+    narr:StyleMetrics_FirstVersionStub
+      dct:source ?oldSrc ;
+      skos:note ?oldNote .
+  }
+}
+INSERT {
+  GRAPH narr:Tx_20250715T120000Z {
+    narr:StyleMetrics_SecondVersionStub a narr:StyleMetrics ;
+      dct:source narr:Sample_SecondVersionStub ;
+      skos:broader narr:StyleMetrics ;
+      skos:note "Prose body is two words ('Second version'). No sentences, no passive constructions, no jargon. Metrics are structurally identical to v1 stub; content has incremented version label only." ;
+      narr:AverageSentenceLength 2 ;
+      narr:ActiveVoiceRatio "1.0"^^xsd:decimal ;
+      narr:JargonDensity "0.0"^^xsd:decimal .
+  }
+}
+WHERE {
+  GRAPH ?g {
+    narr:StyleMetrics_FirstVersionStub
+      dct:source ?oldSrc ;
+      skos:note ?oldNote .
+  }
+} ;
+
+# ── INSERT: Style observations (required minimum 3) ──────────────
+INSERT DATA {
+  GRAPH narr:Tx_20250715T120000Z {
+
+    narr:StyleObs_SecondVersion_ToneDirectPersonal a narr:StyleObservation ;
+      skos:broader narr:ToneDirectPersonal ;
+      dct:source narr:Sample_SecondVersionStub ;
+      skos:note "Bare declarative label with no hedging or elaboration — consistent with direct, minimal register." ;
+      rdf:value true ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_SecondVersionStub ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start 38 ;
+          oa:end 52
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "Second version" ;
+          oa:prefix "---\n\n" ;
+          oa:suffix ""
+        ]
+      ] .
+
+    narr:StyleObs_SecondVersion_RegisterFormality a narr:StyleObservation ;
+      skos:broader narr:RegisterFormality ;
+      dct:source narr:Sample_SecondVersionStub ;
+      skos:note "Document uses structured YAML front-matter for metadata, signalling a formal, machine-readable authoring convention rather than informal prose." ;
+      rdf:value true ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_SecondVersionStub ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start 0 ;
+          oa:end 37
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "---\nreviewers:\n  - test+expert-gh@" ;
+          oa:prefix "" ;
+          oa:suffix "aswritten.ai\n---"
+        ]
+      ] .
+
+    narr:StyleObs_SecondVersion_VersionIncrement a narr:StyleObservation ;
+      skos:broader narr:NamingConventions ;
+      dct:source narr:Sample_SecondVersionStub ;
+      skos:note "Version label incremented from 'First version' to 'Second version' using ordinal adjective + noun pattern — a consistent naming convention across document lifecycle stages." ;
+      rdf:value true ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_SecondVersionStub ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start 38 ;
+          oa:end 52
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "Second version" ;
+          oa:prefix "---\n\n" ;
+          oa:suffix ""
+        ]
+      ] .
+
+  }
+}
