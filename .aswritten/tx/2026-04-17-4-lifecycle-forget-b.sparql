@@ -1,0 +1,195 @@
+PREFIX narr: <https://aswritten.ai/narrative#>
+PREFIX rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX prov: <http://www.w3.org/ns/prov#>
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+PREFIX dct:  <http://purl.org/dc/terms/>
+PREFIX xsd:  <http://www.w3.org/2001/XMLSchema#>
+PREFIX oa:   <http://www.w3.org/ns/oa#>
+
+# ── Retraction transaction (default graph) ──────────────────────────────────
+INSERT DATA {
+  narr:Tx_20250115T000000Z a prov:Activity ;
+    prov:generatedAtTime "2025-01-15T00:00:00Z"^^xsd:dateTime ;
+    prov:wasAssociatedWith "aswritten.ai" ;
+    prov:wasAttributedTo "test+expert-gh@aswritten.ai" ;
+    narr:originPath "(no id field supplied in input)" ;
+    narr:originRef "main" ;
+    dct:title "RETRACTION: Forget database decision — Zypherion, Meridian, Quinton Fairweather, analytics pipeline migration" ;
+    prov:generated
+      narr:Actor_QuintonFairweather_CTO,
+      narr:Claim_MeridianBatchAndStreaming,
+      narr:Claim_Zypherion15xColumnarPerformance,
+      narr:Claim_ZypherionLacksStreaming,
+      narr:Claim_ZypherionMigrationQ3_2026,
+      narr:Claim_ZypherionSelectedForAnalytics,
+      narr:Narrative_ZypherionAnalyticsAdoption,
+      narr:Obs_QuintonAdoptionQuote,
+      narr:Sample_MeridianDBDecision_20260406,
+      narr:Sample_ZypherionDBDecision_20260406,
+      narr:StyleMetrics_ZypherionDBDecision,
+      narr:Tx_20260406T120000Z,
+      narr:Tx_20260406T140000Z .
+} ;
+
+# ── DELETE Actor: Quinton Fairweather ────────────────────────────────────────
+DELETE WHERE {
+  narr:Actor_QuintonFairweather_CTO ?p ?o .
+} ;
+DELETE WHERE {
+  GRAPH ?g {
+    narr:Actor_QuintonFairweather_CTO ?p ?o .
+  }
+} ;
+
+# ── DELETE Claim: Meridian batch and streaming ───────────────────────────────
+DELETE WHERE {
+  narr:Claim_MeridianBatchAndStreaming ?p ?o .
+} ;
+DELETE WHERE {
+  GRAPH ?g {
+    narr:Claim_MeridianBatchAndStreaming ?p ?o .
+  }
+} ;
+
+# ── DELETE Claim: Zypherion 15x columnar performance ────────────────────────
+DELETE WHERE {
+  narr:Claim_Zypherion15xColumnarPerformance ?p ?o .
+} ;
+DELETE WHERE {
+  GRAPH ?g {
+    narr:Claim_Zypherion15xColumnarPerformance ?p ?o .
+  }
+} ;
+
+# ── DELETE Claim: Zypherion lacks streaming ──────────────────────────────────
+DELETE WHERE {
+  narr:Claim_ZypherionLacksStreaming ?p ?o .
+} ;
+DELETE WHERE {
+  GRAPH ?g {
+    narr:Claim_ZypherionLacksStreaming ?p ?o .
+  }
+} ;
+
+# ── DELETE Claim: Zypherion migration Q3 2026 ───────────────────────────────
+DELETE WHERE {
+  narr:Claim_ZypherionMigrationQ3_2026 ?p ?o .
+} ;
+DELETE WHERE {
+  GRAPH ?g {
+    narr:Claim_ZypherionMigrationQ3_2026 ?p ?o .
+  }
+} ;
+
+# ── DELETE Claim: Zypherion selected for analytics ──────────────────────────
+DELETE WHERE {
+  narr:Claim_ZypherionSelectedForAnalytics ?p ?o .
+} ;
+DELETE WHERE {
+  GRAPH ?g {
+    narr:Claim_ZypherionSelectedForAnalytics ?p ?o .
+  }
+} ;
+
+# ── DELETE Narrative: Zypherion analytics adoption ──────────────────────────
+DELETE WHERE {
+  narr:Narrative_ZypherionAnalyticsAdoption ?p ?o .
+} ;
+DELETE WHERE {
+  GRAPH ?g {
+    narr:Narrative_ZypherionAnalyticsAdoption ?p ?o .
+  }
+} ;
+
+# ── DELETE Observation: Quinton adoption quote ───────────────────────────────
+DELETE WHERE {
+  narr:Obs_QuintonAdoptionQuote ?p ?o .
+} ;
+DELETE WHERE {
+  GRAPH ?g {
+    narr:Obs_QuintonAdoptionQuote ?p ?o .
+  }
+} ;
+
+# ── DELETE Sample: Meridian DB decision ─────────────────────────────────────
+DELETE WHERE {
+  narr:Sample_MeridianDBDecision_20260406 ?p ?o .
+} ;
+DELETE WHERE {
+  GRAPH ?g {
+    narr:Sample_MeridianDBDecision_20260406 ?p ?o .
+  }
+} ;
+
+# ── DELETE Sample: Zypherion DB decision ────────────────────────────────────
+DELETE WHERE {
+  narr:Sample_ZypherionDBDecision_20260406 ?p ?o .
+} ;
+DELETE WHERE {
+  GRAPH ?g {
+    narr:Sample_ZypherionDBDecision_20260406 ?p ?o .
+  }
+} ;
+
+# ── DELETE StyleMetrics: Zypherion DB decision ──────────────────────────────
+DELETE WHERE {
+  narr:StyleMetrics_ZypherionDBDecision ?p ?o .
+} ;
+DELETE WHERE {
+  GRAPH ?g {
+    narr:StyleMetrics_ZypherionDBDecision ?p ?o .
+  }
+} ;
+
+# ── DELETE Transaction: Zypherion DB decision (original) ────────────────────
+DELETE WHERE {
+  narr:Tx_20260406T120000Z ?p ?o .
+} ;
+DELETE WHERE {
+  GRAPH ?g {
+    narr:Tx_20260406T120000Z ?p ?o .
+  }
+} ;
+
+# ── DELETE Transaction: Meridian revised decision ───────────────────────────
+DELETE WHERE {
+  narr:Tx_20260406T140000Z ?p ?o .
+} ;
+DELETE WHERE {
+  GRAPH ?g {
+    narr:Tx_20260406T140000Z ?p ?o .
+  }
+} ;
+
+# ── DELETE any dangling references to retracted entities ────────────────────
+# Remove any triples where retracted entities appear as objects (back-references)
+DELETE WHERE {
+  ?s ?p narr:Actor_QuintonFairweather_CTO .
+} ;
+DELETE WHERE {
+  GRAPH ?g { ?s ?p narr:Actor_QuintonFairweather_CTO . }
+} ;
+DELETE WHERE {
+  ?s ?p narr:Narrative_ZypherionAnalyticsAdoption .
+} ;
+DELETE WHERE {
+  GRAPH ?g { ?s ?p narr:Narrative_ZypherionAnalyticsAdoption . }
+} ;
+DELETE WHERE {
+  ?s ?p narr:Claim_ZypherionSelectedForAnalytics .
+} ;
+DELETE WHERE {
+  GRAPH ?g { ?s ?p narr:Claim_ZypherionSelectedForAnalytics . }
+} ;
+DELETE WHERE {
+  ?s ?p narr:Sample_ZypherionDBDecision_20260406 .
+} ;
+DELETE WHERE {
+  GRAPH ?g { ?s ?p narr:Sample_ZypherionDBDecision_20260406 . }
+} ;
+DELETE WHERE {
+  ?s ?p narr:Sample_MeridianDBDecision_20260406 .
+} ;
+DELETE WHERE {
+  GRAPH ?g { ?s ?p narr:Sample_MeridianDBDecision_20260406 . }
+}
