@@ -1,0 +1,136 @@
+PREFIX narr: <https://aswritten.ai/narrative#>
+PREFIX rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX prov: <http://www.w3.org/ns/prov#>
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+PREFIX dct:  <http://purl.org/dc/terms/>
+PREFIX xsd:  <http://www.w3.org/2001/XMLSchema#>
+PREFIX oa:   <http://www.w3.org/ns/oa#>
+
+# Transaction provenance (default graph)
+INSERT DATA {
+  narr:Tx_20250115T120000Z a prov:Activity ;
+    prov:generatedAtTime "2025-01-15T12:00:00Z"^^xsd:dateTime ;
+    prov:wasAssociatedWith "aswritten.ai" ;
+    prov:wasAttributedTo "n8n.aswritten.ai" ;
+    narr:originPath "(no id field provided in input)" ;
+    narr:originRef "main" ;
+    dct:title "Extraction: First version stub document" ;
+    prov:generated
+      narr:Sample_FirstVersionStub,
+      narr:Actor_ReviewerExpert_Redacted,
+      narr:Narrative_FirstVersionDocumentStub,
+      narr:Claim_ReviewerAssigned,
+      narr:StyleObs_YAMLFrontmatterConvention,
+      narr:StyleObs_TerseVersionLabel,
+      narr:StyleObs_ReviewerFieldPattern,
+      narr:StyleMetrics_FirstVersionStub .
+} ;
+
+# Extracted entities (named graph)
+INSERT DATA {
+  GRAPH narr:Tx_20250115T120000Z {
+
+    # ── Sample ──────────────────────────────────────────────────
+    narr:Sample_FirstVersionStub a narr:Sample ;
+      dct:title "First version stub document" ;
+      narr:inputLength 75 ;
+      dct:description "Minimal stub document with YAML frontmatter assigning a reviewer and body text 'First version'." .
+
+    # ── Actor ───────────────────────────────────────────────────
+    # Email redacted per PII policy (allow_pii not set)
+    narr:Actor_ReviewerExpert_Redacted a narr:Actor ;
+      skos:prefLabel "[REDACTED reviewer — test+expert-gh domain]" ;
+      skos:note "Reviewer assigned in YAML frontmatter. Email redacted per PII policy. Domain suffix: aswritten.ai." .
+
+    # ── Narrative ────────────────────────────────────────────────
+    narr:Narrative_FirstVersionDocumentStub a narr:Narrative ;
+      dct:source narr:Sample_FirstVersionStub ;
+      narr:theme "Document initialisation: first-version stub with reviewer assignment" ;
+      skos:broader narr:Process ;
+      skos:note "The memory represents the earliest state of a document — a stub marked 'First version' with a single reviewer assigned via YAML frontmatter. No substantive content is present beyond the version label and workflow metadata." .
+
+    # ── Claim ────────────────────────────────────────────────────
+    narr:Claim_ReviewerAssigned a narr:Claim ;
+      narr:aboutNode narr:Actor_ReviewerExpert_Redacted ;
+      narr:hasConvictionLevel narr:Conviction_Foundation ;
+      narr:supports narr:Narrative_FirstVersionDocumentStub ;
+      dct:source narr:Sample_FirstVersionStub ;
+      skos:note "A reviewer is explicitly assigned in the YAML frontmatter, indicating this document is part of a structured review workflow." .
+
+    # ── Style Observation 1: YAML Frontmatter Convention ─────────
+    narr:StyleObs_YAMLFrontmatterConvention a narr:StyleObservation ;
+      skos:broader narr:EditorialRules ;
+      dct:source narr:Sample_FirstVersionStub ;
+      skos:note "Document uses YAML frontmatter delimited by triple-dashes to encode structured metadata (reviewer assignment). This is a machine-readable workflow convention embedded in a prose document." ;
+      rdf:value true ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_FirstVersionStub ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start 0 ;
+          oa:end 52
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "---\nreviewers:\n  - test+expert-gh@aswritten.ai\n---" ;
+          oa:prefix "" ;
+          oa:suffix "\n\nFirst version"
+        ]
+      ] .
+
+    # ── Style Observation 2: Terse Version Label ─────────────────
+    narr:StyleObs_TerseVersionLabel a narr:StyleObservation ;
+      skos:broader narr:ShortPunchyCadence ;
+      dct:source narr:Sample_FirstVersionStub ;
+      skos:note "Body text is a two-word declarative label ('First version') with no elaboration. Extremely terse register; functions as a placeholder or status marker rather than substantive prose." ;
+      rdf:value true ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_FirstVersionStub ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start 54 ;
+          oa:end 67
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "First version" ;
+          oa:prefix "---\n\n" ;
+          oa:suffix ""
+        ]
+      ] .
+
+    # ── Style Observation 3: Reviewer Field Pattern ───────────────
+    narr:StyleObs_ReviewerFieldPattern a narr:StyleObservation ;
+      skos:broader narr:NamingConventions ;
+      dct:source narr:Sample_FirstVersionStub ;
+      skos:note "The 'reviewers' key uses a YAML list pattern (dash-prefixed items), consistent with multi-reviewer support even when only one reviewer is present. Institutional workflow convention." ;
+      rdf:value true ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_FirstVersionStub ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start 4 ;
+          oa:end 51
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "reviewers:\n  - test+expert-gh@aswritten.ai" ;
+          oa:prefix "---\n" ;
+          oa:suffix "\n---"
+        ]
+      ] .
+
+    # ── Style Metrics ─────────────────────────────────────────────
+    narr:StyleMetrics_FirstVersionStub a narr:StyleMetrics ;
+      skos:broader narr:StyleMetrics ;
+      dct:source narr:Sample_FirstVersionStub ;
+      narr:AverageSentenceLength 2 ;
+      narr:ActiveVoiceRatio "1.0"^^xsd:decimal ;
+      narr:JargonDensity "0.0"^^xsd:decimal ;
+      skos:note "Body is a single two-word phrase. No sentences in conventional sense. Active voice ratio and jargon density computed on body text only (YAML frontmatter excluded as metadata)." .
+
+  }
+}
