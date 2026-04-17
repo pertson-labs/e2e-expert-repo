@@ -1,0 +1,147 @@
+PREFIX narr: <https://aswritten.ai/narrative#>
+PREFIX rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX prov: <http://www.w3.org/ns/prov#>
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+PREFIX dct:  <http://purl.org/dc/terms/>
+PREFIX xsd:  <http://www.w3.org/2001/XMLSchema#>
+PREFIX oa:   <http://www.w3.org/ns/oa#>
+
+# Transaction provenance (default graph)
+INSERT DATA {
+  narr:Tx_20250115T120000Z a prov:Activity ;
+    prov:generatedAtTime "2025-01-15T12:00:00Z"^^xsd:dateTime ;
+    prov:wasAssociatedWith "aswritten.ai" ;
+    prov:wasAttributedTo "n8n.aswritten.ai" ;
+    narr:originPath "(no id field provided in input)" ;
+    narr:originRef "unknown" ;
+    dct:title "Extraction: First version document" ;
+    prov:generated
+      narr:Sample_FirstVersion,
+      narr:Narrative_FirstVersion_InitialDraft,
+      narr:Observation_FirstVersion_BodyText,
+      narr:Actor_ExpertReviewer,
+      narr:StyleObs_FirstVersion_MinimalRegister,
+      narr:StyleObs_FirstVersion_DeclarativeTone,
+      narr:StyleObs_FirstVersion_FrontmatterConvention,
+      narr:StyleMetrics_FirstVersion .
+} ;
+
+# Extracted entities (named graph)
+INSERT DATA {
+  GRAPH narr:Tx_20250115T120000Z {
+
+    # ── Sample ──────────────────────────────────────────────────
+    narr:Sample_FirstVersion a narr:Sample ;
+      dct:title "First version" ;
+      dct:description "Minimal document with YAML frontmatter listing a reviewer and a single body phrase." ;
+      narr:inputLength "57"^^xsd:integer .
+
+    # ── Actor ───────────────────────────────────────────────────
+    # Reviewer email redacted per PII policy (allow_pii=false)
+    narr:Actor_ExpertReviewer a narr:Actor ;
+      skos:prefLabel "Expert Reviewer (redacted)" ;
+      skos:note "Reviewer listed in YAML frontmatter. Email redacted per PII policy. Role: document reviewer." .
+
+    # ── Narrative ───────────────────────────────────────────────
+    narr:Narrative_FirstVersion_InitialDraft a narr:Narrative ;
+      dct:source narr:Sample_FirstVersion ;
+      narr:theme "Initial draft versioning" ;
+      skos:broader narr:Process ;
+      skos:note "The document declares itself a first version, signalling the start of a review or drafting process. A named reviewer is assigned via frontmatter, establishing a lightweight governance pattern." .
+
+    # ── Observation ─────────────────────────────────────────────
+    narr:Observation_FirstVersion_BodyText a narr:Observation ;
+      skos:broader narr:CoreWorkflows ;
+      dct:source narr:Sample_FirstVersion ;
+      skos:note "The sole body content of the document is the phrase 'First version', indicating this is a stub or placeholder at the start of a drafting workflow." ;
+      oa:hasSelector [
+        a oa:TextPositionSelector ;
+        oa:start "47"^^xsd:integer ;
+        oa:end "60"^^xsd:integer
+      ] ;
+      oa:hasSelector [
+        a oa:TextQuoteSelector ;
+        oa:exact "First version" ;
+        oa:prefix "---\n\n" ;
+        oa:suffix ""
+      ] .
+
+    # ── Style Observations ──────────────────────────────────────
+
+    # 1. Minimal register / plain language
+    narr:StyleObs_FirstVersion_MinimalRegister a narr:StyleObservation ;
+      skos:broader narr:PlainLanguage ;
+      dct:source narr:Sample_FirstVersion ;
+      skos:note "Body text is a single two-word declarative phrase with no elaboration, exemplifying an extremely minimal plain-language register." ;
+      rdf:value true ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_FirstVersion ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start "47"^^xsd:integer ;
+          oa:end "60"^^xsd:integer
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "First version" ;
+          oa:prefix "---\n\n" ;
+          oa:suffix ""
+        ]
+      ] .
+
+    # 2. Declarative / authoritative tone
+    narr:StyleObs_FirstVersion_DeclarativeTone a narr:StyleObservation ;
+      skos:broader narr:ToneAuthoritative ;
+      dct:source narr:Sample_FirstVersion ;
+      skos:note "The phrase 'First version' is a bare declarative statement with no hedging, softening, or elaboration — a confident, authoritative labelling convention." ;
+      rdf:value true ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_FirstVersion ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start "47"^^xsd:integer ;
+          oa:end "60"^^xsd:integer
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "First version" ;
+          oa:prefix "---\n\n" ;
+          oa:suffix ""
+        ]
+      ] .
+
+    # 3. YAML frontmatter convention (structural/formatting style)
+    narr:StyleObs_FirstVersion_FrontmatterConvention a narr:StyleObservation ;
+      skos:broader narr:EditorialRules ;
+      dct:source narr:Sample_FirstVersion ;
+      skos:note "The document uses YAML frontmatter delimited by triple-dashes to declare metadata (reviewers), a structural formatting convention common in static-site generators and documentation pipelines." ;
+      rdf:value true ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_FirstVersion ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start "0"^^xsd:integer ;
+          oa:end "46"^^xsd:integer
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "---\nreviewers:\n  - [REDACTED]\n---" ;
+          oa:prefix "" ;
+          oa:suffix "\n\nFirst version"
+        ]
+      ] .
+
+    # ── Style Metrics ───────────────────────────────────────────
+    narr:StyleMetrics_FirstVersion a narr:StyleMetrics ;
+      skos:broader narr:StyleMetrics ;
+      dct:source narr:Sample_FirstVersion ;
+      narr:AverageSentenceLength "2"^^xsd:integer ;
+      narr:ActiveVoiceRatio "1.0"^^xsd:decimal ;
+      narr:JargonDensity "0.0"^^xsd:decimal ;
+      skos:note "Extremely short document: one two-word body phrase. Active voice ratio is 1.0 (no passive constructions). Jargon density is 0.0 (no domain-specific terminology in body text)." .
+
+  }
+}
