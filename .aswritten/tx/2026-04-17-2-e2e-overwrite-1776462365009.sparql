@@ -1,0 +1,154 @@
+PREFIX narr: <https://aswritten.ai/narrative#>
+PREFIX rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX prov: <http://www.w3.org/ns/prov#>
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+PREFIX dct:  <http://purl.org/dc/terms/>
+PREFIX xsd:  <http://www.w3.org/2001/XMLSchema#>
+PREFIX oa:   <http://www.w3.org/ns/oa#>
+
+# ── Transaction provenance (default graph) ──────────────────────
+INSERT DATA {
+  narr:Tx_20250130T000100Z a prov:Activity ;
+    dct:title "Extraction: Second version document with reviewer frontmatter" ;
+    prov:generatedAtTime "2025-01-30T00:01:00Z"^^xsd:dateTime ;
+    prov:wasAssociatedWith "aswritten.ai" ;
+    prov:wasAttributedTo "n8n.aswritten.ai" ;
+    narr:originPath "unknown" ;
+    narr:originRef "unknown" ;
+    prov:generated
+      narr:Sample_SecondVersion,
+      narr:Narrative_SecondVersionDocument,
+      narr:Claim_DocumentAtSecondVersion,
+      narr:StyleMetrics_SecondVersion,
+      narr:StyleObs_SecondVersion_ShortPunchy,
+      narr:StyleObs_SecondVersion_PlainLanguage,
+      narr:StyleObs_SecondVersion_EditorialRules .
+} ;
+
+# ── Extracted entities (named graph) ────────────────────────────
+INSERT DATA {
+  GRAPH narr:Tx_20250130T000100Z {
+
+    # ── Sample ──────────────────────────────────────────────────
+    narr:Sample_SecondVersion
+      a narr:Sample ;
+      dct:title "Second version document with reviewer frontmatter" ;
+      dct:description "Minimal document consisting of YAML frontmatter declaring a reviewer and a two-word body 'Second version'." ;
+      narr:inputLength 63 .
+
+    # ── Narrative ───────────────────────────────────────────────
+    narr:Narrative_SecondVersionDocument
+      a narr:Narrative ;
+      dct:source narr:Sample_SecondVersion ;
+      skos:broader narr:NarrativeDrivenRoadmap ;
+      narr:theme "Second document version declaration" ;
+      skos:note "The document body 'Second version' signals a versioned content lifecycle has advanced from the first version. Same reviewer metadata is embedded in YAML frontmatter, indicating continuity of authorship/review process." .
+
+    # ── Claim ───────────────────────────────────────────────────
+    narr:Claim_DocumentAtSecondVersion
+      a narr:Claim ;
+      dct:source narr:Sample_SecondVersion ;
+      narr:aboutNode narr:Narrative_SecondVersionDocument ;
+      narr:hasConvictionLevel narr:Conviction_Notion ;
+      narr:supports narr:Narrative_SecondVersionDocument ;
+      skos:note "The body text 'Second version' declares this as a second iteration. Conviction is Notion — minimal content, no corroborating evidence beyond the version label." .
+
+    # ── Style Observations ──────────────────────────────────────
+
+    # SO-1: Short punchy cadence — two-word body
+    narr:StyleObs_SecondVersion_ShortPunchy
+      a narr:StyleObservation ;
+      skos:broader narr:ShortPunchyCadence ;
+      dct:source narr:Sample_SecondVersion ;
+      skos:note "Body consists of exactly two words, exemplifying maximally compressed declarative cadence." ;
+      rdf:value true ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_SecondVersion ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start 38 ;
+          oa:end 52
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "Second version" ;
+          oa:prefix "---\n\n" ;
+          oa:suffix ""
+        ]
+      ] .
+
+    # SO-2: Plain language register
+    narr:StyleObs_SecondVersion_PlainLanguage
+      a narr:StyleObservation ;
+      skos:broader narr:PlainLanguage ;
+      dct:source narr:Sample_SecondVersion ;
+      skos:note "Body uses the simplest possible declarative phrasing with no jargon, subordinate clauses, or hedging." ;
+      rdf:value true ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_SecondVersion ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start 38 ;
+          oa:end 52
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "Second version" ;
+          oa:prefix "---\n\n" ;
+          oa:suffix ""
+        ]
+      ] .
+
+    # SO-3: Editorial rules — YAML frontmatter reviewer convention
+    narr:StyleObs_SecondVersion_EditorialRules
+      a narr:StyleObservation ;
+      skos:broader narr:EditorialRules ;
+      dct:source narr:Sample_SecondVersion ;
+      skos:note "YAML frontmatter uses a 'reviewers' key with a list value, consistent with an editorial workflow convention for assigning document reviewers." ;
+      rdf:value true ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_SecondVersion ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start 4 ;
+          oa:end 34
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "reviewers:\n  - [REDACTED_EMAIL]" ;
+          oa:prefix "---\n" ;
+          oa:suffix "\n---"
+        ]
+      ] .
+
+    # ── Style Metrics ───────────────────────────────────────────
+    narr:StyleMetrics_SecondVersion
+      a narr:StyleMetrics ;
+      dct:source narr:Sample_SecondVersion ;
+      skos:broader narr:StyleMetrics ;
+      narr:AverageSentenceLength "2"^^xsd:integer ;
+      narr:ActiveVoiceRatio "1.0"^^xsd:decimal ;
+      narr:JargonDensity "0.0"^^xsd:decimal ;
+      skos:note "Extremely short body (2 words). No passive constructions. Zero jargon. Register: minimal/declarative. Mirrors first version metrics." .
+  }
+} ;
+
+# ── Update existing Narrative to reflect versioned lifecycle progression ──
+DELETE {
+  GRAPH ?g {
+    narr:Narrative_FirstVersionDocument skos:note ?oldNote .
+  }
+}
+INSERT {
+  GRAPH narr:Tx_20250130T000100Z {
+    narr:Narrative_FirstVersionDocument skos:note "The document asserts itself as a first version, signalling the start of a versioned content lifecycle. Reviewer metadata is embedded in YAML frontmatter. A second version of this document has since been observed (narr:Narrative_SecondVersionDocument), confirming the lifecycle is active." .
+  }
+}
+WHERE {
+  GRAPH ?g {
+    narr:Narrative_FirstVersionDocument skos:note ?oldNote .
+  }
+}
