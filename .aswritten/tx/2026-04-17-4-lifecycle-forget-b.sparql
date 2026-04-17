@@ -1,0 +1,141 @@
+PREFIX narr: <https://aswritten.ai/narrative#>
+PREFIX rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX prov: <http://www.w3.org/ns/prov#>
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+PREFIX dct:  <http://purl.org/dc/terms/>
+PREFIX xsd:  <http://www.w3.org/2001/XMLSchema#>
+PREFIX oa:   <http://www.w3.org/ns/oa#>
+
+# ── Retraction transaction (default graph) ──────────────────────────────────
+INSERT DATA {
+  narr:Tx_20260603T120000Z a prov:Activity ;
+    prov:generatedAtTime "2026-06-03T12:00:00Z"^^xsd:dateTime ;
+    prov:wasAssociatedWith "aswritten.ai" ;
+    prov:wasAttributedTo "test+expert-gh@aswritten.ai" ;
+    narr:originPath "retract:inline" ;
+    narr:originRef "main" ;
+    dct:title "RETRACTION: Forget database decision — Zypherion, Meridian, Quinton Fairweather, analytics pipeline migration" ;
+    prov:generated narr:Tx_20260603T120000Z .
+} ;
+
+# ── Remove Actor: Quinton Fairweather ───────────────────────────────────────
+DELETE WHERE {
+  narr:Actor_QuintonFairweather ?p ?o .
+} ;
+
+# ── Remove Sample: Zypherion DB Decision ────────────────────────────────────
+DELETE WHERE {
+  narr:Sample_ZypherionDBDecision_20260406 ?p ?o .
+} ;
+
+# ── Remove Sample: Meridian DB Decision ─────────────────────────────────────
+DELETE WHERE {
+  narr:Sample_MeridianDBDecision_20260406 ?p ?o .
+} ;
+
+# ── Remove Narrative: Zypherion Adoption ────────────────────────────────────
+DELETE WHERE {
+  narr:Narrative_ZypherionAdoption ?p ?o .
+} ;
+
+# ── Remove Claim: DB Choice Zypherion ───────────────────────────────────────
+DELETE WHERE {
+  narr:Claim_DBChoiceZypherion ?p ?o .
+} ;
+
+# ── Remove Claim: DB Choice Meridian ────────────────────────────────────────
+DELETE WHERE {
+  narr:Claim_DBChoiceMeridian ?p ?o .
+} ;
+
+# ── Remove Claim: 15x Columnar Performance ──────────────────────────────────
+DELETE WHERE {
+  narr:Claim_15xColumnarPerformance ?p ?o .
+} ;
+
+# ── Remove Claim: Migration Q3 2026 (Zypherion) ─────────────────────────────
+DELETE WHERE {
+  narr:Claim_MigrationQ32026 ?p ?o .
+} ;
+
+# ── Remove Claim: Migration Q3 2026 (Meridian) ──────────────────────────────
+DELETE WHERE {
+  narr:Claim_MigrationQ32026_Meridian ?p ?o .
+} ;
+
+# ── Remove Claim: Zypherion Streaming Gap ───────────────────────────────────
+DELETE WHERE {
+  narr:Claim_ZypherionStreamingGap ?p ?o .
+} ;
+
+# ── Remove Observation: Quinton Adoption Quote ──────────────────────────────
+DELETE WHERE {
+  narr:Obs_QuintonAdoptionQuote ?p ?o .
+} ;
+
+# ── Remove StyleMetrics: Zypherion DB Decision ──────────────────────────────
+DELETE WHERE {
+  narr:StyleMetrics_ZypherionDBDecision ?p ?o .
+} ;
+
+# ── Remove StyleMetrics: Meridian DB Decision ───────────────────────────────
+DELETE WHERE {
+  narr:StyleMetrics_MeridianDBDecision ?p ?o .
+} ;
+
+# ── Remove Transaction: Zypherion DB Decision ───────────────────────────────
+DELETE WHERE {
+  narr:Tx_20260406T000000Z ?p ?o .
+} ;
+
+# ── Remove Transaction: Meridian Revision ───────────────────────────────────
+DELETE WHERE {
+  narr:Tx_20260406T120000Z ?p ?o .
+} ;
+
+# ── Remove any triples where retracted entities appear as objects ─────────────
+DELETE WHERE {
+  ?s ?p narr:Actor_QuintonFairweather .
+} ;
+DELETE WHERE {
+  ?s ?p narr:Sample_ZypherionDBDecision_20260406 .
+} ;
+DELETE WHERE {
+  ?s ?p narr:Sample_MeridianDBDecision_20260406 .
+} ;
+DELETE WHERE {
+  ?s ?p narr:Narrative_ZypherionAdoption .
+} ;
+DELETE WHERE {
+  ?s ?p narr:Claim_DBChoiceZypherion .
+} ;
+DELETE WHERE {
+  ?s ?p narr:Claim_DBChoiceMeridian .
+} ;
+DELETE WHERE {
+  ?s ?p narr:Claim_15xColumnarPerformance .
+} ;
+DELETE WHERE {
+  ?s ?p narr:Claim_MigrationQ32026 .
+} ;
+DELETE WHERE {
+  ?s ?p narr:Claim_MigrationQ32026_Meridian .
+} ;
+DELETE WHERE {
+  ?s ?p narr:Claim_ZypherionStreamingGap .
+} ;
+DELETE WHERE {
+  ?s ?p narr:Obs_QuintonAdoptionQuote .
+} ;
+DELETE WHERE {
+  ?s ?p narr:StyleMetrics_ZypherionDBDecision .
+} ;
+DELETE WHERE {
+  ?s ?p narr:StyleMetrics_MeridianDBDecision .
+} ;
+DELETE WHERE {
+  ?s ?p narr:Tx_20260406T000000Z .
+} ;
+DELETE WHERE {
+  ?s ?p narr:Tx_20260406T120000Z .
+}
