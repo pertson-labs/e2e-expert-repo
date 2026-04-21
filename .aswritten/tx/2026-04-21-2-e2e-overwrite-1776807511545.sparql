@@ -1,0 +1,149 @@
+PREFIX narr: <https://aswritten.ai/narrative#>
+PREFIX rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX prov: <http://www.w3.org/ns/prov#>
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+PREFIX dct:  <http://purl.org/dc/terms/>
+PREFIX xsd:  <http://www.w3.org/2001/XMLSchema#>
+PREFIX oa:   <http://www.w3.org/ns/oa#>
+
+# Transaction provenance (default graph)
+INSERT DATA {
+  narr:Tx_20250716T120000Z a prov:Activity ;
+    dct:title "Second version document extraction" ;
+    prov:generatedAtTime "2025-07-16T12:00:00Z"^^xsd:dateTime ;
+    prov:wasAssociatedWith "aswritten.ai" ;
+    prov:wasAttributedTo "n8n.aswritten.ai" ;
+    narr:originPath "" ;
+    narr:originRef "main" ;
+    prov:generated
+      narr:Sample_SecondVersion,
+      narr:Narrative_SecondVersionDeclaration,
+      narr:Claim_ReviewerAssignment_V2,
+      narr:Obs_SecondVersionBody,
+      narr:StyleObs_BareVersionLabel_V2,
+      narr:StyleObs_MinimalRegister_V2,
+      narr:StyleObs_NamingConvention_V2,
+      narr:StyleMetrics_SecondVersion .
+} ;
+
+# Extracted entities (named graph)
+INSERT DATA {
+  GRAPH narr:Tx_20250716T120000Z {
+
+    # ── Sample ──────────────────────────────────────────────────
+    narr:Sample_SecondVersion a narr:Sample ;
+      dct:title "Second version" ;
+      dct:description "Minimal document with YAML frontmatter declaring a reviewer and a bare version label body. Second iteration of the versioned artifact." ;
+      narr:inputLength 62 .
+
+    # ── Narrative ───────────────────────────────────────────────
+    narr:Narrative_SecondVersionDeclaration a narr:Narrative ;
+      dct:source narr:Sample_SecondVersion ;
+      skos:broader narr:NarrativeDrivenRoadmap ;
+      narr:theme "Document versioning — second iteration declaration" ;
+      skos:note "The document body consists solely of the phrase 'Second version', asserting this is the second iteration of the artifact. The reviewer assignment in the frontmatter is unchanged from the first version. No substantive content beyond the version label is present." .
+
+    # ── Claim: reviewer assignment persists into second version ──
+    narr:Claim_ReviewerAssignment_V2 a narr:Claim ;
+      dct:source narr:Sample_SecondVersion ;
+      narr:aboutNode narr:Actor_ExpertReviewer ;
+      narr:hasConvictionLevel narr:Conviction_Foundation ;
+      narr:supports narr:Narrative_SecondVersionDeclaration ;
+      skos:note "The YAML frontmatter of the second version continues to assign the same reviewer (test+expert-gh@aswritten.ai, email redacted), confirming the review workflow persists across versions." .
+
+    # ── Observation: body text ───────────────────────────────────
+    narr:Obs_SecondVersionBody a narr:Observation ;
+      dct:source narr:Sample_SecondVersion ;
+      skos:broader narr:Milestones ;
+      skos:note "The entire document body is the bare phrase 'Second version', signalling the second iteration with no substantive content yet." ;
+      oa:hasSelector [
+        a oa:TextPositionSelector ;
+        oa:start 43 ;
+        oa:end 57
+      ] ;
+      oa:hasSelector [
+        a oa:TextQuoteSelector ;
+        oa:exact "Second version" ;
+        oa:prefix "---\n\n" ;
+        oa:suffix ""
+      ] .
+
+    # ── Style Observations ───────────────────────────────────────
+
+    # 1. Bare version label as naming convention
+    narr:StyleObs_BareVersionLabel_V2 a narr:StyleObservation ;
+      skos:broader narr:NamingConventions ;
+      dct:source narr:Sample_SecondVersion ;
+      skos:note "Ordinal version label used as sole body content, consistent with the 'First version' pattern. Establishes a naming convention of bare ordinal labels for document iteration markers." ;
+      rdf:value true ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_SecondVersion ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start 43 ;
+          oa:end 57
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "Second version" ;
+          oa:prefix "---\n\n" ;
+          oa:suffix ""
+        ]
+      ] .
+
+    # 2. Minimal register / plain language
+    narr:StyleObs_MinimalRegister_V2 a narr:StyleObservation ;
+      skos:broader narr:RegisterFormality ;
+      dct:source narr:Sample_SecondVersion ;
+      skos:note "Extremely low register: two-word body, no punctuation, no elaboration. Consistent with the minimal register established in the first version." ;
+      rdf:value false ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_SecondVersion ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start 43 ;
+          oa:end 57
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "Second version" ;
+          oa:prefix "---\n\n" ;
+          oa:suffix ""
+        ]
+      ] .
+
+    # 3. YAML frontmatter editorial convention
+    narr:StyleObs_NamingConvention_V2 a narr:StyleObservation ;
+      skos:broader narr:EditorialRules ;
+      dct:source narr:Sample_SecondVersion ;
+      skos:note "YAML frontmatter block used to assign reviewers, establishing a structured metadata convention separate from document body content." ;
+      rdf:value true ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_SecondVersion ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start 0 ;
+          oa:end 42
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "---\nreviewers:\n  - test+expert-gh@aswritten.ai\n---" ;
+          oa:prefix "" ;
+          oa:suffix "\n\nSecond version"
+        ]
+      ] .
+
+    # ── Style Metrics ────────────────────────────────────────────
+    narr:StyleMetrics_SecondVersion a narr:StyleMetrics ;
+      dct:source narr:Sample_SecondVersion ;
+      skos:broader narr:StyleMetrics ;
+      skos:note "Single two-word sentence body. No passive constructions. No jargon. Minimal register throughout. Identical profile to first version." ;
+      narr:AverageSentenceLength 2 ;
+      narr:ActiveVoiceRatio "1.0"^^xsd:decimal ;
+      narr:JargonDensity "0.0"^^xsd:decimal .
+
+  }
+}
