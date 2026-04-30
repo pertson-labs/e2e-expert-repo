@@ -1,0 +1,30 @@
+PREFIX narr: <https://aswritten.ai/narrative#>
+PREFIX rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX prov: <http://www.w3.org/ns/prov#>
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+PREFIX dct:  <http://purl.org/dc/terms/>
+PREFIX xsd:  <http://www.w3.org/2001/XMLSchema#>
+PREFIX oa:   <http://www.w3.org/ns/oa#>
+
+# Transaction provenance (default graph) — documents the retraction attempt
+INSERT DATA {
+  narr:Tx_20250117T120000Z a prov:Activity ;
+    prov:generatedAtTime "2025-01-17T12:00:00Z"^^xsd:dateTime ;
+    prov:wasAssociatedWith "aswritten.ai" ;
+    prov:wasAttributedTo "test+expert-gh@aswritten.ai" ;
+    narr:originPath "inline-retraction-request" ;
+    narr:originRef "main" ;
+    dct:title "Retraction: Quantum Widget Decision and PostgreSQL-to-QuantumDB migration" ;
+    skos:note "Retraction requested for Quantum Widget Decision and PostgreSQL to QuantumDB migration knowledge. Snapshot was empty at time of retraction — no matching entities found; no triples deleted." ;
+    prov:generated narr:RetractionRecord_QuantumWidgetDecision_20250117 .
+} ;
+
+# Retraction record entity (named graph)
+INSERT DATA {
+  GRAPH narr:Tx_20250117T120000Z {
+    narr:RetractionRecord_QuantumWidgetDecision_20250117 a prov:Activity ;
+      skos:prefLabel "Retraction Record: Quantum Widget Decision" ;
+      skos:note "User requested removal of all knowledge about the Quantum Widget Decision and the PostgreSQL to QuantumDB migration. At the time of this retraction, the graph snapshot was empty — no entities matching these topics existed. No triples were deleted. This record documents the retraction intent for audit purposes." ;
+      dct:description "Topics targeted for retraction: (1) Quantum Widget Decision, (2) PostgreSQL to QuantumDB migration. Entities found in snapshot: 0. Triples deleted: 0." .
+  }
+}
