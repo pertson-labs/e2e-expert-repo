@@ -1,0 +1,146 @@
+PREFIX narr: <https://aswritten.ai/narrative#>
+PREFIX rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX prov: <http://www.w3.org/ns/prov#>
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+PREFIX dct:  <http://purl.org/dc/terms/>
+PREFIX xsd:  <http://www.w3.org/2001/XMLSchema#>
+PREFIX oa:   <http://www.w3.org/ns/oa#>
+
+# Transaction provenance (default graph)
+INSERT DATA {
+  narr:Tx_20250714T120000Z a prov:Activity ;
+    dct:title "Extraction: Second version stub document" ;
+    prov:generatedAtTime "2025-07-14T12:00:00Z"^^xsd:dateTime ;
+    prov:wasAssociatedWith "aswritten.ai" ;
+    prov:wasAttributedTo "n8n.aswritten.ai" ;
+    narr:originPath "unknown" ;
+    narr:originRef "unknown" ;
+    prov:generated
+      narr:Sample_SecondVersionStub,
+      narr:Narrative_SecondVersionDeclaration,
+      narr:Observation_SecondVersionPhrase,
+      narr:Actor_ReviewerExpert_SecondVersion,
+      narr:StyleObs_SecondVersion_RegisterFormality,
+      narr:StyleObs_SecondVersion_FrontmatterConvention,
+      narr:StyleObs_SecondVersion_MinimalCadence,
+      narr:StyleMetrics_SecondVersionStub .
+} ;
+
+# Extracted entities (named graph)
+INSERT DATA {
+  GRAPH narr:Tx_20250714T120000Z {
+
+    # ── Sample ──────────────────────────────────────────────────
+    narr:Sample_SecondVersionStub a narr:Sample ;
+      dct:title "Second version stub document" ;
+      dct:description "Minimal stub document with YAML frontmatter (reviewer metadata) and a single body phrase 'Second version'. Successor to the first version stub; no substantive narrative content beyond version declaration." ;
+      narr:inputLength 63 .
+
+    # ── Narrative ────────────────────────────────────────────────
+    narr:Narrative_SecondVersionDeclaration a narr:Narrative ;
+      dct:source narr:Sample_SecondVersionStub ;
+      skos:broader narr:NarrativeDrivenRoadmap ;
+      narr:theme "Second document version declaration" ;
+      skos:note "The document declares itself as 'Second version' — a versioning milestone marker with no elaborated content. The frontmatter assigns a reviewer role, consistent with a review-gated workflow pattern also seen in the first version stub." .
+
+    # ── Observation ─────────────────────────────────────────────
+    narr:Observation_SecondVersionPhrase a narr:Observation ;
+      dct:source narr:Sample_SecondVersionStub ;
+      skos:broader narr:Milestones ;
+      skos:note "The sole body content is the phrase 'Second version', functioning as a version milestone marker. Structurally identical pattern to the first version stub." ;
+      oa:hasSelector [
+        a oa:TextPositionSelector ;
+        oa:start 47 ;
+        oa:end 61
+      ] ;
+      oa:hasSelector [
+        a oa:TextQuoteSelector ;
+        oa:exact "Second version" ;
+        oa:prefix "---\n\n" ;
+        oa:suffix ""
+      ] .
+
+    # ── Actor ────────────────────────────────────────────────────
+    narr:Actor_ReviewerExpert_SecondVersion a narr:Actor ;
+      skos:prefLabel "Expert Reviewer (test+expert-gh)" ;
+      skos:note "Reviewer assigned in YAML frontmatter of the second version stub document. Email redacted per PII policy." .
+
+    # ── Style Observations ───────────────────────────────────────
+
+    # Style Obs 1: Register / Formality — bare imperative stub register
+    narr:StyleObs_SecondVersion_RegisterFormality a narr:StyleObservation ;
+      skos:broader narr:RegisterFormality ;
+      dct:source narr:Sample_SecondVersionStub ;
+      skos:note "Bare declarative register: the entire body is a two-word noun phrase with no verb, article, or elaboration. Signals placeholder / draft-stage formality." ;
+      rdf:value false ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_SecondVersionStub ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start 47 ;
+          oa:end 61
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "Second version" ;
+          oa:prefix "---\n\n" ;
+          oa:suffix ""
+        ]
+      ] .
+
+    # Style Obs 2: Naming Conventions — YAML frontmatter reviewer key
+    narr:StyleObs_SecondVersion_FrontmatterConvention a narr:StyleObservation ;
+      skos:broader narr:NamingConventions ;
+      dct:source narr:Sample_SecondVersionStub ;
+      skos:note "YAML frontmatter uses a 'reviewers' list key with email-format values, establishing a structured metadata convention for review-gated workflows." ;
+      rdf:value true ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_SecondVersionStub ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start 4 ;
+          oa:end 43
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "reviewers:" ;
+          oa:prefix "---\n" ;
+          oa:suffix "\n  - test+expert-gh"
+        ]
+      ] .
+
+    # Style Obs 3: Short Punchy Cadence — two-word milestone body
+    narr:StyleObs_SecondVersion_MinimalCadence a narr:StyleObservation ;
+      skos:broader narr:ShortPunchyCadence ;
+      dct:source narr:Sample_SecondVersionStub ;
+      skos:note "Body content is a two-word noun phrase ('Second version'), the shortest possible milestone declaration. Cadence is maximally compressed — no sentence structure, no punctuation." ;
+      rdf:value true ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_SecondVersionStub ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start 47 ;
+          oa:end 61
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "Second version" ;
+          oa:prefix "---\n\n" ;
+          oa:suffix ""
+        ]
+      ] .
+
+    # ── Style Metrics ────────────────────────────────────────────
+    narr:StyleMetrics_SecondVersionStub a narr:StyleMetrics ;
+      dct:source narr:Sample_SecondVersionStub ;
+      skos:broader narr:StyleMetrics ;
+      skos:note "Stub document: 2-word body, no complete sentences, no jargon. Metrics reflect placeholder content only. Structurally identical to first version stub metrics." ;
+      narr:AverageSentenceLength 2 ;
+      narr:ActiveVoiceRatio "1.0"^^xsd:decimal ;
+      narr:JargonDensity "0.0"^^xsd:decimal .
+
+  }
+}
