@@ -1,0 +1,137 @@
+PREFIX narr: <https://aswritten.ai/narrative#>
+PREFIX rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX prov: <http://www.w3.org/ns/prov#>
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+PREFIX dct:  <http://purl.org/dc/terms/>
+PREFIX xsd:  <http://www.w3.org/2001/XMLSchema#>
+PREFIX oa:   <http://www.w3.org/ns/oa#>
+
+# Transaction provenance (default graph)
+INSERT DATA {
+  narr:Tx_20250522T110000Z a prov:Activity ;
+    prov:generatedAtTime "2025-05-22T11:00:00Z"^^xsd:dateTime ;
+    prov:wasAssociatedWith "aswritten.ai" ;
+    prov:wasAttributedTo "test+expert-gh@aswritten.ai" ;
+    narr:originPath "(no id provided in input)" ;
+    narr:originRef "main" ;
+    dct:title "Second Version Memory Extraction" ;
+    prov:generated
+      narr:Sample_SecondVersion,
+      narr:Actor_TestExpertGH,
+      narr:Narrative_SecondVersionReview,
+      narr:Claim_SecondVersionIteration,
+      narr:StyleObs_MinimalBodyText,
+      narr:StyleObs_YAMLFrontmatterConvention,
+      narr:StyleObs_TerseVersionLabel,
+      narr:StyleMetrics_SecondVersion .
+} ;
+
+# Extracted entities (named graph)
+INSERT DATA {
+  GRAPH narr:Tx_20250522T110000Z {
+
+    # ── Sample ──────────────────────────────────────────────────
+    narr:Sample_SecondVersion a narr:Sample ;
+      dct:title "Second version" ;
+      narr:inputLength 62 ;
+      dct:description "Minimal memory document with YAML frontmatter declaring a reviewer and a two-word body asserting document version." .
+
+    # ── Actor ───────────────────────────────────────────────────
+    narr:Actor_TestExpertGH a narr:Actor ;
+      skos:prefLabel "test+expert-gh@aswritten.ai" ;
+      skos:note "Reviewer listed in YAML frontmatter of the second-version memory document." .
+
+    # ── Narrative ───────────────────────────────────────────────
+    narr:Narrative_SecondVersionReview a narr:Narrative ;
+      dct:source narr:Sample_SecondVersion ;
+      skos:broader narr:QualityReviewGates ;
+      narr:theme "Second Version Document Review" ;
+      skos:note "The document represents a second iteration of a review process, succeeding the first version captured in narr:Sample_FirstVersion. A named reviewer is declared via YAML frontmatter." .
+
+    # ── Claim ───────────────────────────────────────────────────
+    narr:Claim_SecondVersionIteration a narr:Claim ;
+      narr:aboutNode narr:Narrative_SecondVersionReview ;
+      narr:hasConvictionLevel narr:Conviction_Notion ;
+      narr:supports narr:Narrative_SecondVersionReview ;
+      dct:source narr:Sample_SecondVersion ;
+      skos:note "The body text 'Second version' asserts this document is a successor iteration. Conviction is Notion — minimal supporting detail provided." .
+
+    # ── Style Observations ──────────────────────────────────────
+
+    # SO-1: Minimal body text — terse, single-phrase document body
+    narr:StyleObs_MinimalBodyText a narr:StyleObservation ;
+      skos:broader narr:ShortPunchyCadence ;
+      dct:source narr:Sample_SecondVersion ;
+      skos:note "Body consists of exactly two words. Extreme brevity; no elaboration or context beyond the version label." ;
+      rdf:value true ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_SecondVersion ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start 48 ;
+          oa:end 62
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "Second version" ;
+          oa:prefix "---\n\n" ;
+          oa:suffix ""
+        ]
+      ] .
+
+    # SO-2: YAML frontmatter convention for reviewer metadata
+    narr:StyleObs_YAMLFrontmatterConvention a narr:StyleObservation ;
+      skos:broader narr:EditorialRules ;
+      dct:source narr:Sample_SecondVersion ;
+      skos:note "Document uses YAML frontmatter delimited by triple-dashes to declare structured reviewer metadata, consistent with static-site or documentation toolchain conventions." ;
+      rdf:value true ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_SecondVersion ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start 0 ;
+          oa:end 46
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "reviewers:\n  - test+expert-gh@aswritten.ai" ;
+          oa:prefix "---\n" ;
+          oa:suffix "\n---"
+        ]
+      ] .
+
+    # SO-3: Lowercase version label — orthographic convention
+    narr:StyleObs_TerseVersionLabel a narr:StyleObservation ;
+      skos:broader narr:CapitalizationCase ;
+      dct:source narr:Sample_SecondVersion ;
+      skos:note "Version label uses sentence case ('Second version') with only the first word capitalised, consistent with a minimal, non-title-case editorial style." ;
+      rdf:value false ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_SecondVersion ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start 48 ;
+          oa:end 62
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "Second version" ;
+          oa:prefix "---\n\n" ;
+          oa:suffix ""
+        ]
+      ] .
+
+    # ── Style Metrics ───────────────────────────────────────────
+    narr:StyleMetrics_SecondVersion a narr:StyleMetrics ;
+      dct:source narr:Sample_SecondVersion ;
+      skos:broader narr:StyleMetrics ;
+      narr:AverageSentenceLength 2 ;
+      narr:ActiveVoiceRatio "1.0"^^xsd:decimal ;
+      narr:JargonDensity "0.0"^^xsd:decimal ;
+      skos:note "Extremely short document (two-word body). No jargon detected. Single implicit declarative sentence. Register: minimal/administrative." .
+
+  }
+}
