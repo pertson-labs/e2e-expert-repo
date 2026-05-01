@@ -1,0 +1,111 @@
+PREFIX narr: <https://aswritten.ai/narrative#>
+PREFIX rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX prov: <http://www.w3.org/ns/prov#>
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+PREFIX dct:  <http://purl.org/dc/terms/>
+PREFIX xsd:  <http://www.w3.org/2001/XMLSchema#>
+PREFIX oa:   <http://www.w3.org/ns/oa#>
+
+# Transaction provenance (default graph)
+INSERT DATA {
+  narr:Tx_20250714T120000Z a prov:Activity ;
+    dct:title "Second version stub document extraction" ;
+    prov:generatedAtTime "2025-07-14T12:00:00Z"^^xsd:dateTime ;
+    prov:wasAssociatedWith "aswritten.ai" ;
+    prov:wasAttributedTo "n8n.aswritten.ai" ;
+    narr:originPath "" ;
+    narr:originRef "main" ;
+    prov:generated
+      narr:Sample_SecondVersion,
+      narr:StyleMetrics_SecondVersion,
+      narr:StyleObs_SecondVersion_RegisterFormality,
+      narr:StyleObs_SecondVersion_NamingConventions,
+      narr:StyleObs_SecondVersion_StubCadence .
+} ;
+
+# Extracted entities (named graph)
+INSERT DATA {
+  GRAPH narr:Tx_20250714T120000Z {
+
+    # ── Sample ──────────────────────────────────────────────────
+    narr:Sample_SecondVersion a narr:Sample ;
+      dct:title "Second version" ;
+      dct:description "Minimal stub document with YAML frontmatter reviewer assignment and a two-word body. Second iteration of the versioned stub pattern." ;
+      narr:inputLength 57 ;
+      narr:styleProfile narr:EditorialRules, narr:RegisterFormality, narr:NamingConventions .
+
+    # ── Style Metrics ───────────────────────────────────────────
+    narr:StyleMetrics_SecondVersion a narr:StyleMetrics ;
+      skos:broader narr:StyleMetrics ;
+      dct:source narr:Sample_SecondVersion ;
+      narr:AverageSentenceLength 2 ;
+      narr:ActiveVoiceRatio "1.0"^^xsd:decimal ;
+      narr:JargonDensity "0.0"^^xsd:decimal ;
+      skos:note "Metrics computed on body text only ('Second version'). Single two-word fragment; no verbs, no jargon, no passive constructions. Metrics are degenerate due to stub content, mirroring the First version pattern." .
+
+    # ── Style Observation 1: Register / Formality ────────────────
+    narr:StyleObs_SecondVersion_RegisterFormality a narr:StyleObservation ;
+      skos:broader narr:RegisterFormality ;
+      dct:source narr:Sample_SecondVersion ;
+      skos:note "Body text is a bare noun phrase with no predicate — maximally terse, register-neutral stub content." ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_SecondVersion ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start 43 ;
+          oa:end 57
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "Second version" ;
+          oa:prefix "\n\n" ;
+          oa:suffix ""
+        ]
+      ] .
+
+    # ── Style Observation 2: Naming Conventions (versioning label) ─
+    narr:StyleObs_SecondVersion_NamingConventions a narr:StyleObservation ;
+      skos:broader narr:NamingConventions ;
+      dct:source narr:Sample_SecondVersion ;
+      skos:note "Document body uses an ordinal versioning label ('Second version') as its sole content — a naming convention pattern consistent with the prior 'First version' stub." ;
+      rdf:value true ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_SecondVersion ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start 43 ;
+          oa:end 57
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "Second version" ;
+          oa:prefix "\n\n" ;
+          oa:suffix ""
+        ]
+      ] .
+
+    # ── Style Observation 3: Short Punchy Cadence (stub body) ────
+    narr:StyleObs_SecondVersion_StubCadence a narr:StyleObservation ;
+      skos:broader narr:ShortPunchyCadence ;
+      dct:source narr:Sample_SecondVersion ;
+      skos:note "Two-word body achieves maximum brevity. Cadence is degenerate — no sentence rhythm, no clause structure. Consistent with stub/placeholder document pattern." ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_SecondVersion ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start 43 ;
+          oa:end 57
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "Second version" ;
+          oa:prefix "\n\n" ;
+          oa:suffix ""
+        ]
+      ] .
+
+  }
+}
