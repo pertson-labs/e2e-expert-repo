@@ -1,0 +1,223 @@
+PREFIX narr: <https://aswritten.ai/narrative#>
+PREFIX rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX prov: <http://www.w3.org/ns/prov#>
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+PREFIX dct:  <http://purl.org/dc/terms/>
+PREFIX xsd:  <http://www.w3.org/2001/XMLSchema#>
+PREFIX oa:   <http://www.w3.org/ns/oa#>
+
+# ── Transaction provenance (default graph) ──────────────────────
+INSERT DATA {
+  narr:Tx_20250115T130000Z a prov:Activity ;
+    dct:title "Second version document extraction" ;
+    prov:generatedAtTime "2025-01-15T13:00:00Z"^^xsd:dateTime ;
+    prov:wasAssociatedWith "aswritten.ai" ;
+    prov:wasAttributedTo "n8n.aswritten.ai" ;
+    narr:originPath "unknown" ;
+    narr:originRef "unknown" ;
+    prov:generated
+      narr:Sample_SecondVersion,
+      narr:Narrative_SecondVersionDocument,
+      narr:Claim_SecondVersionStatus,
+      narr:Obs_ReviewerAssigned_SecondVersion,
+      narr:StyleObs_MinimalDeclaration_SecondVersion,
+      narr:StyleObs_PlainRegister_SecondVersion,
+      narr:StyleObs_ActiveVoice_SecondVersion,
+      narr:StyleMetrics_SecondVersion .
+} ;
+
+# ── New Sample node for second version ──────────────────────────
+INSERT DATA {
+  GRAPH narr:Tx_20250115T130000Z {
+    narr:Sample_SecondVersion a narr:Sample ;
+      dct:title "Second version" ;
+      dct:description "Minimal markdown document with YAML frontmatter assigning a reviewer and a single body line declaring second version status. Structurally identical to first version document." ;
+      narr:inputLength 67 .
+  }
+} ;
+
+# ── UPDATE: Narrative — version label superseded ─────────────────
+# Memory asserts 'Second version'; snapshot narr:Narrative_FirstVersionDocument
+# asserts theme 'Initial document version with assigned reviewer'.
+# The version has advanced; update theme and note to reflect second version.
+DELETE {
+  GRAPH ?g {
+    narr:Narrative_FirstVersionDocument narr:theme ?oldTheme ;
+      skos:note ?oldNote .
+  }
+}
+INSERT {
+  GRAPH narr:Tx_20250115T130000Z {
+    narr:Narrative_FirstVersionDocument narr:theme "Second document version with assigned reviewer" ;
+      skos:note "Document declares itself as 'Second version' with the same reviewer assigned via YAML frontmatter. Represents an incremental advancement in the document lifecycle from first to second version." .
+  }
+}
+WHERE {
+  GRAPH ?g {
+    narr:Narrative_FirstVersionDocument narr:theme ?oldTheme .
+    OPTIONAL { narr:Narrative_FirstVersionDocument skos:note ?oldNote . }
+  }
+} ;
+
+# ── New Narrative for second version document ────────────────────
+INSERT DATA {
+  GRAPH narr:Tx_20250115T130000Z {
+    narr:Narrative_SecondVersionDocument a narr:Narrative ;
+      dct:source narr:Sample_SecondVersion ;
+      skos:broader narr:Process ;
+      skos:note "Document declares itself as 'Second version' with a single reviewer assigned via YAML frontmatter. Represents the second state of a document lifecycle, superseding the first version." ;
+      narr:theme "Second document version with assigned reviewer" .
+  }
+} ;
+
+# ── UPDATE: Claim — version status superseded ────────────────────
+# Memory body 'Second version' directly contradicts snapshot claim
+# narr:Claim_FirstVersionStatus which asserts 'First version' status.
+# This is an enumerated status swap (version number advanced).
+DELETE {
+  GRAPH ?g {
+    narr:Claim_FirstVersionStatus skos:note ?oldNote ;
+      dct:source ?oldSource ;
+      narr:aboutNode ?oldAbout ;
+      narr:supports ?oldSupports .
+  }
+}
+INSERT {
+  GRAPH narr:Tx_20250115T130000Z {
+    narr:Claim_FirstVersionStatus skos:note "The document body now asserts 'Second version' — superseding the prior 'First version' declaration. Conviction remains Notion given the absence of supporting detail beyond the version label." ;
+      dct:source narr:Sample_SecondVersion ;
+      narr:aboutNode narr:Narrative_SecondVersionDocument ;
+      narr:supports narr:Narrative_SecondVersionDocument .
+  }
+}
+WHERE {
+  GRAPH ?g {
+    narr:Claim_FirstVersionStatus skos:note ?oldNote .
+    OPTIONAL { narr:Claim_FirstVersionStatus dct:source ?oldSource . }
+    OPTIONAL { narr:Claim_FirstVersionStatus narr:aboutNode ?oldAbout . }
+    OPTIONAL { narr:Claim_FirstVersionStatus narr:supports ?oldSupports . }
+  }
+} ;
+
+# ── New Claim for second version status ─────────────────────────
+INSERT DATA {
+  GRAPH narr:Tx_20250115T130000Z {
+    narr:Claim_SecondVersionStatus a narr:Claim ;
+      dct:source narr:Sample_SecondVersion ;
+      skos:note "The document body asserts 'Second version' — a minimal status declaration with no further elaboration. Conviction is Notion given the absence of supporting detail." ;
+      narr:aboutNode narr:Narrative_SecondVersionDocument ;
+      narr:hasConvictionLevel narr:Conviction_Notion ;
+      narr:supports narr:Narrative_SecondVersionDocument .
+  }
+} ;
+
+# ── Observation: reviewer assigned (second version) ──────────────
+INSERT DATA {
+  GRAPH narr:Tx_20250115T130000Z {
+    narr:Obs_ReviewerAssigned_SecondVersion a narr:Observation ;
+      dct:source narr:Sample_SecondVersion ;
+      skos:broader narr:QualityReviewGates ;
+      skos:note "YAML frontmatter assigns the same reviewer as first version, indicating a consistent review gate is in place for this document across versions." ;
+      oa:hasSelector [
+        a oa:TextPositionSelector ;
+        oa:start 0 ;
+        oa:end 46
+      ] ;
+      oa:hasSelector [
+        a oa:TextQuoteSelector ;
+        oa:exact "reviewers:\n  - test+expert-gh@aswritten.ai" ;
+        oa:prefix "---\n" ;
+        oa:suffix "\n---"
+      ] .
+  }
+} ;
+
+# ── Style Observation 1: Minimal declarative body ────────────────
+INSERT DATA {
+  GRAPH narr:Tx_20250115T130000Z {
+    narr:StyleObs_MinimalDeclaration_SecondVersion a narr:StyleObservation ;
+      skos:broader narr:ToneDirectPersonal ;
+      dct:source narr:Sample_SecondVersion ;
+      skos:note "Body consists of a single two-word declarative phrase. Extremely terse, no elaboration." ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_SecondVersion ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start 52 ;
+          oa:end 66
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "Second version" ;
+          oa:prefix "---\n\n" ;
+          oa:suffix ""
+        ]
+      ] .
+  }
+} ;
+
+# ── Style Observation 2: Plain register / no jargon ──────────────
+INSERT DATA {
+  GRAPH narr:Tx_20250115T130000Z {
+    narr:StyleObs_PlainRegister_SecondVersion a narr:StyleObservation ;
+      skos:broader narr:PlainLanguage ;
+      dct:source narr:Sample_SecondVersion ;
+      skos:note "Document uses plain everyday English with zero technical jargon. Register is informal and accessible." ;
+      rdf:value true ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_SecondVersion ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start 52 ;
+          oa:end 66
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "Second version" ;
+          oa:prefix "---\n\n" ;
+          oa:suffix ""
+        ]
+      ] .
+  }
+} ;
+
+# ── Style Observation 3: Active voice ────────────────────────────
+INSERT DATA {
+  GRAPH narr:Tx_20250115T130000Z {
+    narr:StyleObs_ActiveVoice_SecondVersion a narr:StyleObservation ;
+      skos:broader narr:VoiceActive ;
+      dct:source narr:Sample_SecondVersion ;
+      skos:note "The single body sentence is an active declarative statement. No passive constructions present." ;
+      rdf:value true ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_SecondVersion ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start 52 ;
+          oa:end 66
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "Second version" ;
+          oa:prefix "---\n\n" ;
+          oa:suffix ""
+        ]
+      ] .
+  }
+} ;
+
+# ── Style Metrics: Second version ────────────────────────────────
+INSERT DATA {
+  GRAPH narr:Tx_20250115T130000Z {
+    narr:StyleMetrics_SecondVersion a narr:StyleMetrics ;
+      dct:source narr:Sample_SecondVersion ;
+      skos:broader narr:StyleMetrics ;
+      skos:note "Extremely short document (2-word body). Active voice ratio maximal. Zero jargon. Register is informal plain-English. Structurally identical to first version metrics." ;
+      narr:AverageSentenceLength 2 ;
+      narr:ActiveVoiceRatio "1.0"^^xsd:decimal ;
+      narr:JargonDensity "0.0"^^xsd:decimal .
+  }
+}
