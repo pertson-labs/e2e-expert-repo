@@ -1,0 +1,234 @@
+PREFIX narr: <https://aswritten.ai/narrative#>
+PREFIX rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX prov: <http://www.w3.org/ns/prov#>
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+PREFIX dct:  <http://purl.org/dc/terms/>
+PREFIX xsd:  <http://www.w3.org/2001/XMLSchema#>
+PREFIX oa:   <http://www.w3.org/ns/oa#>
+
+# ── Transaction provenance (default graph) ──────────────────────────────────
+INSERT DATA {
+  narr:Tx_20260406T140000Z a prov:Activity ;
+    dct:title "Database Decision REVISED: Switching from Zypherion to Meridian" ;
+    prov:generatedAtTime "2026-04-06T14:00:00Z"^^xsd:dateTime ;
+    prov:wasAssociatedWith "aswritten.ai" ;
+    prov:wasAttributedTo "n8n.aswritten.ai" ;
+    narr:originPath "inline-memory-2026-04-06-revised" ;
+    narr:originRef "main" ;
+    prov:generated
+      narr:Sample_MeridianDBDecision_20260406,
+      narr:Narrative_MeridianAdoption,
+      narr:Claim_MeridianDBChoice,
+      narr:Claim_MeridianMigrationQ3,
+      narr:Claim_ZypherionStreamingGap,
+      narr:StyleObs_DirectDeclaration,
+      narr:StyleObs_SupersessionMarker,
+      narr:StyleObs_BulletKeyDecisions,
+      narr:StyleMetrics_MeridianDBDecision .
+} ;
+
+# ── New Sample node ──────────────────────────────────────────────────────────
+INSERT DATA {
+  GRAPH narr:Tx_20260406T140000Z {
+    narr:Sample_MeridianDBDecision_20260406 a narr:Sample ;
+      dct:title "Database Decision REVISED: Switching from Zypherion to Meridian" ;
+      dct:created "2026-04-06"^^xsd:date ;
+      dct:description "Revised meeting notes from 2026-04-06 in which CTO Quinton Fairweather announces that Zypherion is being dropped in favour of Meridian due to critical gaps in streaming ingestion. Meridian handles both batch and streaming natively. Same Q3 2026 migration window. Explicitly supersedes the prior Zypherion decision." ;
+      narr:inputLength 553 .
+  }
+} ;
+
+# ── UPDATE: Narrative_ZypherionAdoption → Meridian adoption ─────────────────
+# Justified: memory explicitly states "This supersedes the previous Zypherion decision"
+# and asserts Meridian replaces Zypherion. Functional change on narr:theme and skos:note.
+DELETE {
+  GRAPH ?g {
+    narr:Narrative_ZypherionAdoption narr:theme ?oldTheme ;
+      skos:note ?oldNote .
+  }
+}
+INSERT {
+  GRAPH narr:Tx_20260406T140000Z {
+    narr:Narrative_ZypherionAdoption narr:theme "Technology adoption: replacing Zypherion with Meridian for analytics — Meridian handles both batch and streaming natively" ;
+      skos:note "The organisation is switching from Zypherion to Meridian as its analytics database. Zypherion was found to have critical gaps in streaming ingestion; Meridian handles both batch and streaming natively. Migration remains scheduled for Q3 2026. This decision supersedes the prior Zypherion adoption decision." .
+  }
+}
+WHERE {
+  GRAPH ?g {
+    narr:Narrative_ZypherionAdoption narr:theme ?oldTheme ;
+      skos:note ?oldNote .
+  }
+} ;
+
+# ── UPDATE: Claim_ZypherionDBChoice → Meridian selected ─────────────────────
+# Justified: memory explicitly states Meridian replaces Zypherion (functional change on skos:note).
+DELETE {
+  GRAPH ?g {
+    narr:Claim_ZypherionDBChoice skos:note ?oldNote ;
+      narr:aboutNode ?oldAbout ;
+      narr:supports ?oldSupports .
+  }
+}
+INSERT {
+  GRAPH narr:Tx_20260406T140000Z {
+    narr:Claim_ZypherionDBChoice skos:note "Meridian replaces Zypherion as the database for the analytics pipeline; decision attributed to CTO Quinton Fairweather. Zypherion was dropped due to critical streaming ingestion gaps." ;
+      narr:aboutNode narr:Narrative_ZypherionAdoption ;
+      narr:supports narr:Narrative_ZypherionAdoption .
+  }
+}
+WHERE {
+  GRAPH ?g {
+    narr:Claim_ZypherionDBChoice skos:note ?oldNote .
+    OPTIONAL { narr:Claim_ZypherionDBChoice narr:aboutNode ?oldAbout . }
+    OPTIONAL { narr:Claim_ZypherionDBChoice narr:supports ?oldSupports . }
+  }
+} ;
+
+# ── UPDATE: Claim_ZypherionMigrationQ3 — same window, now for Meridian ───────
+# Justified: migration timeline unchanged (Q3 2026) but now applies to Meridian, not Zypherion.
+DELETE {
+  GRAPH ?g {
+    narr:Claim_ZypherionMigrationQ3 skos:note ?oldNote .
+  }
+}
+INSERT {
+  GRAPH narr:Tx_20260406T140000Z {
+    narr:Claim_ZypherionMigrationQ3 skos:note "Migration to Meridian (replacing Zypherion) remains in the Q3 2026 window — same timeline as the prior Zypherion decision." .
+  }
+}
+WHERE {
+  GRAPH ?g {
+    narr:Claim_ZypherionMigrationQ3 skos:note ?oldNote .
+  }
+} ;
+
+# ── UPDATE: Sample_ZypherionDBDecision_20260406 — mark as superseded ─────────
+# Justified: memory explicitly states this supersedes the previous decision.
+DELETE {
+  GRAPH ?g {
+    narr:Sample_ZypherionDBDecision_20260406 dct:description ?oldDesc .
+  }
+}
+INSERT {
+  GRAPH narr:Tx_20260406T140000Z {
+    narr:Sample_ZypherionDBDecision_20260406 dct:description "[SUPERSEDED by narr:Sample_MeridianDBDecision_20260406] Original meeting notes from 2026-04-06 in which CTO Quinton Fairweather announced adoption of Zypherion for the analytics pipeline, citing 15x columnar query performance improvement and a Q3 2026 migration start. This decision was subsequently revised — Meridian was selected instead due to Zypherion streaming ingestion gaps." ;
+      dct:isReplacedBy narr:Sample_MeridianDBDecision_20260406 .
+  }
+}
+WHERE {
+  GRAPH ?g {
+    narr:Sample_ZypherionDBDecision_20260406 dct:description ?oldDesc .
+  }
+} ;
+
+# ── New entities: Meridian narrative, claims, style ──────────────────────────
+INSERT DATA {
+  GRAPH narr:Tx_20260406T140000Z {
+
+    # Narrative (new IRI to represent the Meridian-specific framing)
+    narr:Narrative_MeridianAdoption a narr:Narrative ;
+      dct:source narr:Sample_MeridianDBDecision_20260406 ;
+      skos:broader narr:StackOverview ;
+      narr:theme "Technology pivot: Meridian selected over Zypherion for analytics due to native batch-and-streaming support" ;
+      skos:note "Meridian is adopted as the analytics database after Zypherion was found to have critical streaming ingestion gaps. Meridian handles both batch and streaming natively. Migration window: Q3 2026. Supersedes prior Zypherion adoption narrative." .
+
+    # Claim: Meridian selected
+    narr:Claim_MeridianDBChoice a narr:Claim ;
+      dct:source narr:Sample_MeridianDBDecision_20260406 ;
+      narr:aboutNode narr:Narrative_MeridianAdoption ;
+      narr:hasConvictionLevel narr:Conviction_Boulder ;
+      narr:supports narr:Narrative_MeridianAdoption ;
+      skos:note "Meridian is selected as the replacement analytics database; decision attributed to CTO Quinton Fairweather on 2026-04-06." .
+
+    # Claim: Q3 2026 migration window (Meridian)
+    narr:Claim_MeridianMigrationQ3 a narr:Claim ;
+      dct:source narr:Sample_MeridianDBDecision_20260406 ;
+      narr:aboutNode narr:Narrative_MeridianAdoption ;
+      narr:hasConvictionLevel narr:Conviction_Stake ;
+      narr:supports narr:Claim_MeridianDBChoice ;
+      skos:note "Migration to Meridian is planned for the same Q3 2026 window originally set for Zypherion." .
+
+    # Claim: Zypherion streaming gap (reason for switch)
+    narr:Claim_ZypherionStreamingGap a narr:Claim ;
+      dct:source narr:Sample_MeridianDBDecision_20260406 ;
+      narr:aboutNode narr:Narrative_MeridianAdoption ;
+      narr:hasConvictionLevel narr:Conviction_Boulder ;
+      narr:supports narr:Claim_MeridianDBChoice ;
+      skos:note "Zypherion was found to have critical gaps in streaming ingestion — the stated reason for switching to Meridian." .
+
+    # Style Observation 1: Direct declarative voice in the quote
+    narr:StyleObs_DirectDeclaration a narr:StyleObservation ;
+      skos:broader narr:ToneAuthoritative ;
+      dct:source narr:Sample_MeridianDBDecision_20260406 ;
+      skos:note "CTO speaks in short, declarative first-person plural sentences asserting decisions without hedging." ;
+      rdf:value true ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_MeridianDBDecision_20260406 ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start 175 ;
+          oa:end 310
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "We are now switching to Meridian instead. Meridian handles both batch and streaming natively." ;
+          oa:prefix "its streaming ingestion. " ;
+          oa:suffix "\"\n\nThis supersedes"
+        ]
+      ] .
+
+    # Style Observation 2: Explicit supersession marker
+    narr:StyleObs_SupersessionMarker a narr:StyleObservation ;
+      skos:broader narr:ToneDirectPersonal ;
+      dct:source narr:Sample_MeridianDBDecision_20260406 ;
+      skos:note "The document uses a single declarative sentence to formally retract the prior decision — a terse institutional retraction pattern." ;
+      rdf:value true ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_MeridianDBDecision_20260406 ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start 315 ;
+          oa:end 358
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "This supersedes the previous Zypherion decision." ;
+          oa:prefix "natively.\"\n\n" ;
+          oa:suffix "\n\nKey decisions:"
+        ]
+      ] .
+
+    # Style Observation 3: Bullet-list key decisions format
+    narr:StyleObs_BulletKeyDecisions a narr:StyleObservation ;
+      skos:broader narr:GrammarSyntax ;
+      dct:source narr:Sample_MeridianDBDecision_20260406 ;
+      skos:note "Key decisions are formatted as a bold-label bullet list (Database / Reason / Timeline), a structured engineering-memo convention that separates decision from rationale from schedule." ;
+      rdf:value true ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_MeridianDBDecision_20260406 ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start 360 ;
+          oa:end 553
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "Key decisions:\n- **Database**: Meridian replaces Zypherion for analytics\n- **Reason**: Zypherion lacks streaming ingestion" ;
+          oa:prefix "Zypherion decision.\n\n" ;
+          oa:suffix "\n- **Timeline**:"
+        ]
+      ] .
+
+    # Style Metrics
+    narr:StyleMetrics_MeridianDBDecision a narr:StyleMetrics ;
+      dct:source narr:Sample_MeridianDBDecision_20260406 ;
+      skos:broader narr:StyleMetrics ;
+      narr:AverageSentenceLength 12 ;
+      narr:ActiveVoiceRatio "0.92"^^xsd:decimal ;
+      narr:JargonDensity "0.10"^^xsd:decimal ;
+      skos:note "Very short, active-voice sentences. Slightly lower jargon density than the original Zypherion memo — 'streaming ingestion' replaces 'columnar queries' as the dominant technical term. Register: terse engineering decision memo with explicit retraction." .
+  }
+}
