@@ -1,0 +1,169 @@
+PREFIX narr: <https://aswritten.ai/narrative#>
+PREFIX rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX prov: <http://www.w3.org/ns/prov#>
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+PREFIX dct:  <http://purl.org/dc/terms/>
+PREFIX xsd:  <http://www.w3.org/2001/XMLSchema#>
+PREFIX oa:   <http://www.w3.org/ns/oa#>
+
+# ── Retraction transaction node (default graph) ──────────────────────────────
+INSERT DATA {
+  narr:Tx_Retract_20260406_DatabaseDecision a prov:Activity ;
+    prov:generatedAtTime "2026-04-06T16:00:00Z"^^xsd:dateTime ;
+    prov:wasAssociatedWith "aswritten.ai" ;
+    prov:wasAttributedTo "test+expert-gh@aswritten.ai" ;
+    narr:originPath "retract:database-decision-zypherion-meridian" ;
+    narr:originRef "main" ;
+    dct:title "Retraction: Forget all database decision knowledge (Zypherion, Meridian, Quinton Fairweather, analytics pipeline migration)" ;
+    prov:generated
+      narr:Actor_QuintonFairweather,
+      narr:Claim_MeridianAnalyticsSwitch,
+      narr:Claim_ZypherionAnalyticsPipeline,
+      narr:Claim_ZypherionColumnarPerformance,
+      narr:Claim_ZypherionMigrationTimeline,
+      narr:Claim_ZypherionStreamingGap,
+      narr:Narrative_MeridianAdoption,
+      narr:Narrative_ZypherionAdoption,
+      narr:Obs_MeridianNativeSupport,
+      narr:Obs_MigrationTimeline,
+      narr:Obs_PerformanceClaim,
+      narr:Obs_QuintonAdoptionStatement,
+      narr:Sample_MeridianPivot_20260406,
+      narr:Sample_ZypherionDecision_20260406,
+      narr:StyleMetrics_MeridianPivot,
+      narr:StyleMetrics_ZypherionDecision,
+      narr:Tx_20260406T120000Z,
+      narr:Tx_20260406T143000Z .
+} ;
+
+# ── DELETE: Actor_QuintonFairweather ─────────────────────────────────────────
+DELETE DATA {
+  narr:Actor_QuintonFairweather
+    a narr:Actor ;
+    skos:note "CTO; primary decision-maker announcing Zypherion database adoption for the analytics pipeline." ;
+    skos:prefLabel "Quinton Fairweather" .
+} ;
+
+# ── DELETE: Claim_MeridianAnalyticsSwitch ────────────────────────────────────
+DELETE DATA {
+  narr:Claim_MeridianAnalyticsSwitch
+    a narr:Claim ;
+    dct:source narr:Sample_MeridianPivot_20260406 ;
+    skos:note "Meridian replaces Zypherion for analytics." ;
+    narr:aboutNode narr:Narrative_MeridianAdoption ;
+    narr:hasConvictionLevel narr:Conviction_Boulder .
+} ;
+
+# ── DELETE: Claim_ZypherionAnalyticsPipeline ─────────────────────────────────
+DELETE DATA {
+  narr:Claim_ZypherionAnalyticsPipeline
+    a narr:Claim ;
+    dct:source narr:Sample_ZypherionDecision_20260406 ;
+    skos:note "Zypherion is adopted as the database for the analytics pipeline — a direct CTO decision." ;
+    narr:aboutNode narr:Narrative_ZypherionAdoption ;
+    narr:hasConvictionLevel narr:Conviction_Boulder ;
+    narr:supports narr:StackOverview .
+} ;
+
+# ── DELETE: Claim_ZypherionColumnarPerformance ───────────────────────────────
+DELETE DATA {
+  narr:Claim_ZypherionColumnarPerformance
+    a narr:Claim ;
+    dct:source narr:Sample_ZypherionDecision_20260406 ;
+    skos:note "Zypherion handles columnar queries 15x faster than the current setup — a specific quantitative performance claim asserted by the CTO." ;
+    narr:aboutNode narr:Narrative_ZypherionAdoption ;
+    narr:hasConvictionLevel narr:Conviction_Stake ;
+    narr:supports narr:ScalabilityPerformance .
+} ;
+
+# ── DELETE: Claim_ZypherionMigrationTimeline ─────────────────────────────────
+DELETE DATA {
+  narr:Claim_ZypherionMigrationTimeline
+    a narr:Claim ;
+    dct:source narr:Sample_ZypherionDecision_20260406 ;
+    skos:note "Migration to Zypherion starts Q3 2026 — a committed timeline stated by the CTO." ;
+    narr:aboutNode narr:Narrative_ZypherionAdoption ;
+    narr:hasConvictionLevel narr:Conviction_Stake ;
+    narr:supports narr:NarrativeDrivenRoadmap .
+} ;
+
+# ── DELETE: Claim_ZypherionStreamingGap ──────────────────────────────────────
+DELETE DATA {
+  narr:Claim_ZypherionStreamingGap
+    a narr:Claim ;
+    dct:source narr:Sample_MeridianPivot_20260406 ;
+    skos:note "Zypherion lacks critical streaming ingestion capabilities." ;
+    narr:aboutNode narr:Narrative_ZypherionAdoption ;
+    narr:challenges narr:Claim_ZypherionAnalyticsPipeline ;
+    narr:hasConvictionLevel narr:Conviction_Foundation .
+} ;
+
+# ── DELETE: Narrative_MeridianAdoption ───────────────────────────────────────
+DELETE DATA {
+  narr:Narrative_MeridianAdoption
+    a narr:Narrative ;
+    dct:source narr:Sample_MeridianPivot_20260406 ;
+    skos:broader narr:StackOverview ;
+    skos:note "The organization is pivoting from Zypherion to Meridian for analytics because Meridian handles both batch and streaming natively." ;
+    narr:theme "Technology pivot: Switching to Meridian database for native streaming and batch support" .
+} ;
+
+# ── DELETE: Narrative_ZypherionAdoption ──────────────────────────────────────
+DELETE DATA {
+  narr:Narrative_ZypherionAdoption
+    a narr:Narrative ;
+    dct:source narr:Sample_ZypherionDecision_20260406 ;
+    skos:broader narr:StackOverview ;
+    skos:note "The organisation is committing to Zypherion as its analytics database, driven by a 15x columnar query performance advantage over the current setup, with migration planned for Q3 2026." ;
+    narr:theme "Technology adoption: selecting a high-performance columnar database to replace the existing analytics stack" .
+} ;
+
+# ── DELETE: Obs_MeridianNativeSupport ────────────────────────────────────────
+DELETE WHERE {
+  narr:Obs_MeridianNativeSupport ?p ?o .
+} ;
+
+# ── DELETE: Obs_MigrationTimeline ────────────────────────────────────────────
+DELETE WHERE {
+  narr:Obs_MigrationTimeline ?p ?o .
+} ;
+
+# ── DELETE: Obs_PerformanceClaim ─────────────────────────────────────────────
+DELETE WHERE {
+  narr:Obs_PerformanceClaim ?p ?o .
+} ;
+
+# ── DELETE: Obs_QuintonAdoptionStatement ─────────────────────────────────────
+DELETE WHERE {
+  narr:Obs_QuintonAdoptionStatement ?p ?o .
+} ;
+
+# ── DELETE: Sample_MeridianPivot_20260406 ────────────────────────────────────
+DELETE WHERE {
+  narr:Sample_MeridianPivot_20260406 ?p ?o .
+} ;
+
+# ── DELETE: Sample_ZypherionDecision_20260406 ────────────────────────────────
+DELETE WHERE {
+  narr:Sample_ZypherionDecision_20260406 ?p ?o .
+} ;
+
+# ── DELETE: StyleMetrics_MeridianPivot ───────────────────────────────────────
+DELETE WHERE {
+  narr:StyleMetrics_MeridianPivot ?p ?o .
+} ;
+
+# ── DELETE: StyleMetrics_ZypherionDecision ───────────────────────────────────
+DELETE WHERE {
+  narr:StyleMetrics_ZypherionDecision ?p ?o .
+} ;
+
+# ── DELETE: Tx_20260406T120000Z (Zypherion decision transaction) ──────────────
+DELETE WHERE {
+  narr:Tx_20260406T120000Z ?p ?o .
+} ;
+
+# ── DELETE: Tx_20260406T143000Z (Meridian pivot transaction) ─────────────────
+DELETE WHERE {
+  narr:Tx_20260406T143000Z ?p ?o .
+}
