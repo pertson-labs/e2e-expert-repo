@@ -1,0 +1,129 @@
+PREFIX narr: <https://aswritten.ai/narrative#>
+PREFIX rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX prov: <http://www.w3.org/ns/prov#>
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+PREFIX dct:  <http://purl.org/dc/terms/>
+PREFIX xsd:  <http://www.w3.org/2001/XMLSchema#>
+PREFIX oa:   <http://www.w3.org/ns/oa#>
+
+# Transaction provenance (default graph)
+INSERT DATA {
+  narr:Tx_20250115T120000Z a prov:Activity ;
+    prov:generatedAtTime "2025-01-15T12:00:00Z"^^xsd:dateTime ;
+    prov:wasAssociatedWith "aswritten.ai" ;
+    prov:wasAttributedTo "n8n.aswritten.ai" ;
+    narr:originPath "unknown" ;
+    narr:originRef "main" ;
+    dct:title "First Version document extraction" ;
+    prov:generated
+      narr:Sample_FirstVersion,
+      narr:Actor_TestExpertGH,
+      narr:Narrative_FirstVersionDocument,
+      narr:StyleObs_MinimalBodyText,
+      narr:StyleObs_YAMLFrontmatterConvention,
+      narr:StyleObs_ReviewerEmailFrontmatter,
+      narr:StyleMetrics_FirstVersion .
+} ;
+
+# Extracted entities (named graph)
+INSERT DATA {
+  GRAPH narr:Tx_20250115T120000Z {
+
+    # ── Sample ──────────────────────────────────────────────────
+    narr:Sample_FirstVersion a narr:Sample ;
+      dct:title "First version" ;
+      narr:inputLength "65"^^xsd:integer ;
+      dct:description "Minimal document with YAML frontmatter declaring a reviewer and a single-phrase body: 'First version'." .
+
+    # ── Actor ───────────────────────────────────────────────────
+    # Email redacted per PII policy (allow_pii=false)
+    narr:Actor_TestExpertGH a narr:Actor ;
+      skos:prefLabel "test+expert-gh (reviewer)" ;
+      skos:note "Reviewer listed in YAML frontmatter. Email address redacted per PII policy. GitHub actor pattern inferred from '+expert-gh' suffix." .
+
+    # ── Narrative ────────────────────────────────────────────────
+    narr:Narrative_FirstVersionDocument a narr:Narrative ;
+      dct:source narr:Sample_FirstVersion ;
+      narr:theme "Document versioning — initial state" ;
+      skos:broader narr:Process ;
+      skos:note "The document declares itself as a 'First version', signalling an initial draft state with a designated expert reviewer. This establishes a review-gated versioning pattern." .
+
+    # ── Style Observations ───────────────────────────────────────
+
+    # 1. Minimal body text — ultra-short prose cadence
+    narr:StyleObs_MinimalBodyText a narr:StyleObservation ;
+      skos:broader narr:ShortPunchyCadence ;
+      dct:source narr:Sample_FirstVersion ;
+      skos:note "Body consists of a single two-word phrase. Extreme brevity; no elaboration." ;
+      rdf:value true ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_FirstVersion ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start "53"^^xsd:integer ;
+          oa:end "65"^^xsd:integer
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "First version" ;
+          oa:prefix "---\n\n" ;
+          oa:suffix ""
+        ]
+      ] .
+
+    # 2. YAML frontmatter convention — structured metadata header
+    narr:StyleObs_YAMLFrontmatterConvention a narr:StyleObservation ;
+      skos:broader narr:EditorialRules ;
+      dct:source narr:Sample_FirstVersion ;
+      skos:note "Document uses triple-dash YAML frontmatter delimiters, a structured metadata convention common in static-site generators and documentation pipelines." ;
+      rdf:value true ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_FirstVersion ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start "0"^^xsd:integer ;
+          oa:end "4"^^xsd:integer
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "---" ;
+          oa:prefix "" ;
+          oa:suffix "\nreviewers:"
+        ]
+      ] .
+
+    # 3. Reviewer field in frontmatter — institutional review convention
+    narr:StyleObs_ReviewerEmailFrontmatter a narr:StyleObservation ;
+      skos:broader narr:CitationConventions ;
+      dct:source narr:Sample_FirstVersion ;
+      skos:note "Reviewer attribution is embedded in YAML frontmatter as an email-style identifier, not in the document body. This is an institutional provenance convention." ;
+      rdf:value true ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_FirstVersion ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start "5"^^xsd:integer ;
+          oa:end "48"^^xsd:integer
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "reviewers:" ;
+          oa:prefix "---\n" ;
+          oa:suffix "\n  - test+expert"
+        ]
+      ] .
+
+    # ── Style Metrics ────────────────────────────────────────────
+    narr:StyleMetrics_FirstVersion a narr:StyleMetrics ;
+      skos:broader narr:StyleMetrics ;
+      dct:source narr:Sample_FirstVersion ;
+      narr:AverageSentenceLength "2"^^xsd:integer ;
+      narr:ActiveVoiceRatio "1.0"^^xsd:decimal ;
+      narr:JargonDensity "0.0"^^xsd:decimal ;
+      skos:note "Body is a single two-word declarative phrase. No passive constructions. No domain jargon. Metrics computed on body text only (frontmatter excluded)." .
+
+  }
+}
