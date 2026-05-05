@@ -1,0 +1,165 @@
+PREFIX narr: <https://aswritten.ai/narrative#>
+PREFIX rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX prov: <http://www.w3.org/ns/prov#>
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+PREFIX dct:  <http://purl.org/dc/terms/>
+PREFIX xsd:  <http://www.w3.org/2001/XMLSchema#>
+PREFIX oa:   <http://www.w3.org/ns/oa#>
+
+# ── Transaction provenance (default graph) ──────────────────────
+INSERT DATA {
+  narr:Tx_20250115T130000Z a prov:Activity ;
+    dct:title "Second version — document version update extraction" ;
+    prov:generatedAtTime "2025-01-15T13:00:00Z"^^xsd:dateTime ;
+    prov:wasAssociatedWith "aswritten.ai" ;
+    prov:wasAttributedTo "n8n.aswritten.ai" ;
+    narr:originPath "(no id field provided in input)" ;
+    narr:originRef "unknown" ;
+    prov:generated
+      narr:Sample_SecondVersion,
+      narr:StyleMetrics_SecondVersion,
+      narr:StyleObs_SecondVersion_ShortPhrase,
+      narr:StyleObs_SecondVersion_NominalBody,
+      narr:StyleObs_SecondVersion_FrontmatterReviewer .
+} ;
+
+# ── New Sample for second version ───────────────────────────────
+INSERT DATA {
+  GRAPH narr:Tx_20250115T130000Z {
+    narr:Sample_SecondVersion a narr:Sample ;
+      dct:title "Second version" ;
+      dct:description "Minimal document with YAML frontmatter declaring a reviewer and a single body line 'Second version'. Successor to the First version document." ;
+      narr:inputLength 53 .
+  }
+} ;
+
+# ── Update Narrative: first version → second version ────────────
+DELETE {
+  GRAPH ?g {
+    narr:Narrative_FirstVersionDeclaration
+      narr:theme ?oldTheme ;
+      skos:note ?oldNote ;
+      dct:source ?oldSource .
+  }
+}
+INSERT {
+  GRAPH narr:Tx_20250115T130000Z {
+    narr:Narrative_FirstVersionDeclaration
+      narr:theme "Document versioning — second version iteration" ;
+      skos:note "The document now declares itself as a second version, signalling progression in a review or publication lifecycle. The same named reviewer is assigned via frontmatter metadata." ;
+      dct:source narr:Sample_SecondVersion .
+  }
+}
+WHERE {
+  GRAPH ?g {
+    narr:Narrative_FirstVersionDeclaration
+      narr:theme ?oldTheme ;
+      skos:note ?oldNote ;
+      dct:source ?oldSource .
+  }
+} ;
+
+# ── Update Claim: first version assertion → second version ───────
+DELETE {
+  GRAPH ?g {
+    narr:Claim_DocumentAtFirstVersion
+      skos:note ?oldNote ;
+      dct:source ?oldSource .
+  }
+}
+INSERT {
+  GRAPH narr:Tx_20250115T130000Z {
+    narr:Claim_DocumentAtFirstVersion
+      skos:note "The body text 'Second version' asserts this document is at its second iteration, superseding the prior 'First version' claim. Conviction remains Notion — minimal content, no corroborating detail." ;
+      dct:source narr:Sample_SecondVersion .
+  }
+}
+WHERE {
+  GRAPH ?g {
+    narr:Claim_DocumentAtFirstVersion
+      skos:note ?oldNote ;
+      dct:source ?oldSource .
+  }
+} ;
+
+# ── Style metrics for second version ────────────────────────────
+INSERT DATA {
+  GRAPH narr:Tx_20250115T130000Z {
+    narr:StyleMetrics_SecondVersion a narr:StyleMetrics ;
+      skos:broader narr:StyleMetrics ;
+      dct:source narr:Sample_SecondVersion ;
+      skos:note "Extremely short document. Body is a two-word noun phrase. No sentences in the traditional sense; no jargon; no passive constructions. Structurally identical to first version." ;
+      narr:AverageSentenceLength "2"^^xsd:integer ;
+      narr:ActiveVoiceRatio "1.0"^^xsd:decimal ;
+      narr:JargonDensity "0.0"^^xsd:decimal .
+  }
+} ;
+
+# ── Style observations ───────────────────────────────────────────
+INSERT DATA {
+  GRAPH narr:Tx_20250115T130000Z {
+
+    narr:StyleObs_SecondVersion_ShortPhrase a narr:StyleObservation ;
+      skos:broader narr:ShortPunchyCadence ;
+      dct:source narr:Sample_SecondVersion ;
+      skos:note "Body is a bare two-word noun phrase with no verb, mirroring the first version pattern." ;
+      rdf:value true ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_SecondVersion ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start 38 ;
+          oa:end 52
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "Second version" ;
+          oa:prefix "---\n\n" ;
+          oa:suffix ""
+        ]
+      ] .
+
+    narr:StyleObs_SecondVersion_NominalBody a narr:StyleObservation ;
+      skos:broader narr:ToneDirectPersonal ;
+      dct:source narr:Sample_SecondVersion ;
+      skos:note "Document body consists solely of a versioning label — no elaboration, no context, no explanation. Extremely terse, declarative register." ;
+      rdf:value true ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_SecondVersion ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start 38 ;
+          oa:end 52
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "Second version" ;
+          oa:prefix "---\n\n" ;
+          oa:suffix ""
+        ]
+      ] .
+
+    narr:StyleObs_SecondVersion_FrontmatterReviewer a narr:StyleObservation ;
+      skos:broader narr:EditorialRules ;
+      dct:source narr:Sample_SecondVersion ;
+      skos:note "YAML frontmatter used to assign a reviewer via structured metadata, consistent with editorial workflow conventions. Reviewer email redacted per PII policy." ;
+      rdf:value true ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_SecondVersion ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start 0 ;
+          oa:end 37
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "---\nreviewers:\n  - [REDACTED]\n---" ;
+          oa:prefix "" ;
+          oa:suffix "\n\nSecond version"
+        ]
+      ] .
+  }
+}
