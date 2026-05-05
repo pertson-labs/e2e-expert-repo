@@ -1,0 +1,184 @@
+PREFIX narr: <https://aswritten.ai/narrative#>
+PREFIX rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX prov: <http://www.w3.org/ns/prov#>
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+PREFIX dct:  <http://purl.org/dc/terms/>
+PREFIX xsd:  <http://www.w3.org/2001/XMLSchema#>
+PREFIX oa:   <http://www.w3.org/ns/oa#>
+
+# ── Transaction provenance (default graph) ──────────────────────────────────
+INSERT DATA {
+  narr:Tx_20250124T000001Z a prov:Activity ;
+    dct:title "Extraction: stub second-version document" ;
+    prov:generatedAtTime "2025-01-24T00:00:01Z"^^xsd:dateTime ;
+    prov:wasAssociatedWith "aswritten.ai" ;
+    prov:wasAttributedTo "n8n.aswritten.ai" ;
+    narr:originPath "unknown" ;
+    narr:originRef "unknown" ;
+    prov:generated
+      narr:Sample_StubSecondVersion,
+      narr:StyleObs_SecondVersion_MinimalBody,
+      narr:StyleObs_SecondVersion_YAMLFrontmatter,
+      narr:StyleObs_SecondVersion_VersionLabel,
+      narr:StyleMetrics_StubSecondVersion .
+} ;
+
+# ── New Sample for second-version document ───────────────────────────────────
+INSERT DATA {
+  GRAPH narr:Tx_20250124T000001Z {
+    narr:Sample_StubSecondVersion a narr:Sample ;
+      dct:title "Second version (stub document)" ;
+      dct:description "Minimal stub document with YAML frontmatter listing a reviewer and a two-word body reading 'Second version'." ;
+      narr:inputLength 62 .
+  }
+} ;
+
+# ── UPDATE Narrative: first version → second version ─────────────────────────
+DELETE {
+  GRAPH ?g {
+    narr:Narrative_StubFirstVersion
+      narr:theme ?oldTheme ;
+      skos:note  ?oldNote ;
+      dct:source ?oldSource .
+  }
+}
+INSERT {
+  GRAPH narr:Tx_20250124T000001Z {
+    narr:Narrative_StubFirstVersion
+      narr:theme "Stub document marking second version" ;
+      skos:note  "The document is a placeholder stub asserting 'Second version' with a reviewer assigned via YAML frontmatter. No substantive narrative content is present beyond the versioning signal. Supersedes the first-version stub." ;
+      dct:source narr:Sample_StubSecondVersion .
+  }
+}
+WHERE {
+  GRAPH ?g {
+    narr:Narrative_StubFirstVersion
+      narr:theme ?oldTheme ;
+      skos:note  ?oldNote ;
+      dct:source ?oldSource .
+  }
+} ;
+
+# ── UPDATE Observation: body text first → second version ─────────────────────
+DELETE {
+  GRAPH ?g {
+    narr:Observation_FirstVersionBody
+      skos:note  ?oldNote ;
+      dct:source ?oldSource .
+  }
+}
+INSERT {
+  GRAPH narr:Tx_20250124T000001Z {
+    narr:Observation_FirstVersionBody
+      skos:note  "The body of the document consists solely of the phrase 'Second version', signalling an incremental milestone or updated placeholder state. Supersedes the 'First version' body text." ;
+      dct:source narr:Sample_StubSecondVersion .
+  }
+}
+WHERE {
+  GRAPH ?g {
+    narr:Observation_FirstVersionBody
+      skos:note  ?oldNote ;
+      dct:source ?oldSource .
+  }
+} ;
+
+# ── UPDATE StyleMetrics: re-point source to new sample ───────────────────────
+DELETE {
+  GRAPH ?g {
+    narr:StyleMetrics_StubFirstVersion
+      dct:source ?oldSource ;
+      skos:note  ?oldNote .
+  }
+}
+INSERT {
+  GRAPH narr:Tx_20250124T000001Z {
+    narr:StyleMetrics_StubFirstVersion
+      dct:source narr:Sample_StubSecondVersion ;
+      skos:note  "Body is a single two-word noun phrase ('Second version'). No sentences, no passive constructions, no jargon. Metrics unchanged from first-version stub; source updated to second-version sample." .
+  }
+}
+WHERE {
+  GRAPH ?g {
+    narr:StyleMetrics_StubFirstVersion
+      dct:source ?oldSource ;
+      skos:note  ?oldNote .
+  }
+} ;
+
+# ── Style observations (new, grounded in second-version sample) ───────────────
+INSERT DATA {
+  GRAPH narr:Tx_20250124T000001Z {
+
+    # StyleObs 1 — Minimal body / placeholder register
+    narr:StyleObs_SecondVersion_MinimalBody a narr:StyleObservation ;
+      skos:broader narr:RegisterFormality ;
+      skos:note "Body is a bare two-word noun phrase with no predicate, no punctuation, and no elaboration — consistent with a placeholder/stub register." ;
+      dct:source narr:Sample_StubSecondVersion ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_StubSecondVersion ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start 44 ;
+          oa:end 58
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "Second version" ;
+          oa:prefix "---\n\n" ;
+          oa:suffix ""
+        ]
+      ] .
+
+    # StyleObs 2 — YAML frontmatter reviewer convention
+    narr:StyleObs_SecondVersion_YAMLFrontmatter a narr:StyleObservation ;
+      skos:broader narr:EditorialRules ;
+      skos:note "Reviewer assignment is encoded in YAML frontmatter using a structured key-value list, consistent with a lightweight editorial workflow convention." ;
+      dct:source narr:Sample_StubSecondVersion ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_StubSecondVersion ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start 0 ;
+          oa:end 42
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "reviewers:" ;
+          oa:prefix "---\n" ;
+          oa:suffix "\n  - [redacted]"
+        ]
+      ] .
+
+    # StyleObs 3 — Versioning label as sole content signal
+    narr:StyleObs_SecondVersion_VersionLabel a narr:StyleObservation ;
+      skos:broader narr:NamingConventions ;
+      skos:note "The document uses an ordinal version label ('Second version') as its entire body, establishing a naming convention for iterative stub documents." ;
+      dct:source narr:Sample_StubSecondVersion ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_StubSecondVersion ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start 44 ;
+          oa:end 58
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "Second version" ;
+          oa:prefix "---\n\n" ;
+          oa:suffix ""
+        ]
+      ] .
+
+    # StyleMetrics (new node for second-version sample)
+    narr:StyleMetrics_StubSecondVersion a narr:StyleMetrics ;
+      skos:broader narr:StyleMetrics ;
+      dct:source narr:Sample_StubSecondVersion ;
+      narr:AverageSentenceLength 2 ;
+      narr:ActiveVoiceRatio "1.0"^^xsd:decimal ;
+      narr:JargonDensity "0.0"^^xsd:decimal ;
+      skos:note "Body is a single two-word noun phrase. No sentences, no passive constructions, no jargon. Metrics reflect stub/placeholder state identical to first version." .
+  }
+}
