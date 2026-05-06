@@ -1,0 +1,179 @@
+PREFIX narr: <https://aswritten.ai/narrative#>
+PREFIX rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX prov: <http://www.w3.org/ns/prov#>
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+PREFIX dct:  <http://purl.org/dc/terms/>
+PREFIX xsd:  <http://www.w3.org/2001/XMLSchema#>
+PREFIX oa:   <http://www.w3.org/ns/oa#>
+
+# ── Transaction provenance (default graph) ──────────────────────
+INSERT DATA {
+  narr:Tx_20250115T130000Z a prov:Activity ;
+    dct:title "Extraction: Second version stub with reviewer frontmatter" ;
+    prov:generatedAtTime "2025-01-15T13:00:00Z"^^xsd:dateTime ;
+    prov:wasAssociatedWith "aswritten.ai" ;
+    prov:wasAttributedTo "n8n.aswritten.ai" ;
+    narr:originPath "unknown" ;
+    narr:originRef "unknown" ;
+    prov:generated
+      narr:Sample_SecondVersionStub,
+      narr:StyleObs_SecondVersion_ShortPunchyCadence,
+      narr:StyleObs_SecondVersion_NamingConventions,
+      narr:StyleObs_SecondVersion_EditorialRules,
+      narr:StyleMetrics_SecondVersionStub .
+} ;
+
+# ── UPDATE: Narrative — version label superseded ─────────────────
+DELETE {
+  GRAPH ?g {
+    narr:Narrative_FirstVersionDocument
+      narr:theme ?oldTheme ;
+      skos:note ?oldNote .
+  }
+}
+INSERT {
+  GRAPH narr:Tx_20250115T130000Z {
+    narr:Narrative_FirstVersionDocument
+      narr:theme "Document iteration: second version stub" ;
+      skos:note "The document now declares itself as 'Second version', indicating a second iteration of the stub. The YAML frontmatter retains the same reviewer, suggesting the review workflow persists across versions." ;
+      dct:source narr:Sample_SecondVersionStub .
+  }
+}
+WHERE {
+  GRAPH ?g {
+    narr:Narrative_FirstVersionDocument
+      narr:theme ?oldTheme ;
+      skos:note ?oldNote .
+  }
+} ;
+
+# ── UPDATE: Sample — title and description reflect second version ─
+DELETE {
+  GRAPH ?g {
+    narr:Sample_FirstVersionStub
+      dct:title ?oldTitle ;
+      dct:description ?oldDesc ;
+      narr:inputLength ?oldLen .
+  }
+}
+INSERT {
+  GRAPH narr:Tx_20250115T130000Z {
+    narr:Sample_FirstVersionStub
+      dct:title "Second version stub with reviewer frontmatter" ;
+      dct:description "Minimal document containing YAML frontmatter with a reviewer email and a two-word body 'Second version'." ;
+      narr:inputLength 59 .
+  }
+}
+WHERE {
+  GRAPH ?g {
+    narr:Sample_FirstVersionStub
+      dct:title ?oldTitle ;
+      dct:description ?oldDesc ;
+      narr:inputLength ?oldLen .
+  }
+} ;
+
+# ── UPDATE: StyleMetrics — note updated for second version ───────
+DELETE {
+  GRAPH ?g {
+    narr:StyleMetrics_FirstVersionStub
+      skos:note ?oldNote .
+  }
+}
+INSERT {
+  GRAPH narr:Tx_20250115T130000Z {
+    narr:StyleMetrics_FirstVersionStub
+      skos:note "Extremely minimal document (second version). Body is two words with no verbs, yielding an average sentence length of 2 and no measurable active voice or jargon. Register is stub/placeholder. Metrics unchanged from first version." .
+  }
+}
+WHERE {
+  GRAPH ?g {
+    narr:StyleMetrics_FirstVersionStub
+      skos:note ?oldNote .
+  }
+} ;
+
+# ── INSERT: New Sample node for this extraction run ──────────────
+INSERT DATA {
+  GRAPH narr:Tx_20250115T130000Z {
+    narr:Sample_SecondVersionStub a narr:Sample ;
+      dct:title "Second version stub with reviewer frontmatter" ;
+      dct:description "Minimal document containing YAML frontmatter with a reviewer email and a two-word body 'Second version'." ;
+      narr:inputLength 59 .
+
+    # ── Style Observation 1: ShortPunchyCadence ──────────────────
+    narr:StyleObs_SecondVersion_ShortPunchyCadence a narr:StyleObservation ;
+      skos:broader narr:ShortPunchyCadence ;
+      dct:source narr:Sample_SecondVersionStub ;
+      skos:note "Body text is a two-word declarative stub with no verb, exemplifying maximally compressed cadence." ;
+      rdf:value true ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_SecondVersionStub ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start 50 ;
+          oa:end 64
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "Second version" ;
+          oa:prefix "---\n\n" ;
+          oa:suffix ""
+        ]
+      ] .
+
+    # ── Style Observation 2: NamingConventions ───────────────────
+    narr:StyleObs_SecondVersion_NamingConventions a narr:StyleObservation ;
+      skos:broader narr:NamingConventions ;
+      dct:source narr:Sample_SecondVersionStub ;
+      skos:note "Reviewer email uses a role-tagged plus-addressing pattern (test+expert-gh@aswritten.ai), encoding role and domain context directly in the address." ;
+      rdf:value true ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_SecondVersionStub ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start 18 ;
+          oa:end 48
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "test+expert-gh@aswritten.ai" ;
+          oa:prefix "reviewers:\n  - " ;
+          oa:suffix "\n---"
+        ]
+      ] .
+
+    # ── Style Observation 3: EditorialRules ─────────────────────
+    narr:StyleObs_SecondVersion_EditorialRules a narr:StyleObservation ;
+      skos:broader narr:EditorialRules ;
+      dct:source narr:Sample_SecondVersionStub ;
+      skos:note "YAML frontmatter block is used to assign reviewers, establishing a structured editorial metadata convention separate from document body content." ;
+      rdf:value true ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_SecondVersionStub ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start 0 ;
+          oa:end 49
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "---\nreviewers:\n  - test+expert-gh@aswritten.ai\n---" ;
+          oa:prefix "" ;
+          oa:suffix "\n\nSecond version"
+        ]
+      ] .
+
+    # ── StyleMetrics for this extraction run ────────────────────
+    narr:StyleMetrics_SecondVersionStub a narr:StyleMetrics ;
+      skos:broader narr:StyleMetrics ;
+      dct:source narr:Sample_SecondVersionStub ;
+      skos:note "Extremely minimal document (second version). Body is two words with no verbs, yielding an average sentence length of 2 and no measurable active voice or jargon. Register is stub/placeholder." ;
+      narr:AverageSentenceLength 2 ;
+      narr:ActiveVoiceRatio "0.0"^^xsd:decimal ;
+      narr:JargonDensity "0.0"^^xsd:decimal .
+  }
+}
