@@ -1,0 +1,124 @@
+PREFIX narr: <https://aswritten.ai/narrative#>
+PREFIX rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX prov: <http://www.w3.org/ns/prov#>
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+PREFIX dct:  <http://purl.org/dc/terms/>
+PREFIX xsd:  <http://www.w3.org/2001/XMLSchema#>
+PREFIX oa:   <http://www.w3.org/ns/oa#>
+
+# Transaction provenance (default graph)
+INSERT DATA {
+  narr:Tx_20250115T120000Z a prov:Activity ;
+    prov:generatedAtTime "2025-01-15T12:00:00Z"^^xsd:dateTime ;
+    prov:wasAssociatedWith "aswritten.ai" ;
+    prov:wasAttributedTo "n8n.aswritten.ai" ;
+    narr:originPath "unknown" ;
+    narr:originRef "unknown" ;
+    dct:title "Extraction: First version stub with reviewer frontmatter" ;
+    prov:generated
+      narr:Sample_FirstVersionStub,
+      narr:Actor_ExpertGhReviewer,
+      narr:Narrative_FirstVersionDocument,
+      narr:StyleObs_YAMLFrontmatterConvention,
+      narr:StyleObs_TerseBodyRegister,
+      narr:StyleObs_EmailFormattedReviewer,
+      narr:StyleMetrics_FirstVersionStub .
+} ;
+
+# Extracted entities (named graph)
+INSERT DATA {
+  GRAPH narr:Tx_20250115T120000Z {
+
+    # ── Sample ──────────────────────────────────────────────────
+    narr:Sample_FirstVersionStub a narr:Sample ;
+      dct:title "First version stub with reviewer frontmatter" ;
+      narr:inputLength 57 ;
+      dct:description "Minimal document containing YAML frontmatter with a reviewer email and a two-word body 'First version'." .
+
+    # ── Actor ───────────────────────────────────────────────────
+    narr:Actor_ExpertGhReviewer a narr:Actor ;
+      skos:prefLabel "test+expert-gh@aswritten.ai" ;
+      skos:note "Reviewer listed in YAML frontmatter of the source document. Email address suggests an expert GitHub reviewer role within the aswritten.ai domain." .
+
+    # ── Narrative ───────────────────────────────────────────────
+    narr:Narrative_FirstVersionDocument a narr:Narrative ;
+      dct:source narr:Sample_FirstVersionStub ;
+      narr:theme "Document initialisation: first version stub" ;
+      skos:broader narr:Process ;
+      skos:note "The document declares itself as 'First version', indicating an initialisation or bootstrapping event. The YAML frontmatter assigns a reviewer, suggesting a review workflow is in place from the outset." .
+
+    # ── Style Observation 1: YAML frontmatter convention ────────
+    narr:StyleObs_YAMLFrontmatterConvention a narr:StyleObservation ;
+      skos:broader narr:EditorialRules ;
+      dct:source narr:Sample_FirstVersionStub ;
+      skos:note "Document uses YAML frontmatter delimited by triple-dashes to encode structured metadata (reviewer list), a convention common in static-site generators and documentation pipelines." ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_FirstVersionStub ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start 0 ;
+          oa:end 49
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "---\nreviewers:\n  - test+expert-gh@aswritten.ai\n---" ;
+          oa:prefix "" ;
+          oa:suffix "\n\nFirst version"
+        ]
+      ] .
+
+    # ── Style Observation 2: Terse body register ────────────────
+    narr:StyleObs_TerseBodyRegister a narr:StyleObservation ;
+      skos:broader narr:ShortPunchyCadence ;
+      dct:source narr:Sample_FirstVersionStub ;
+      skos:note "The document body consists of exactly two words ('First version'), representing an extremely terse, placeholder register. No verbs, no elaboration — purely nominal." ;
+      rdf:value "true"^^xsd:boolean ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_FirstVersionStub ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start 51 ;
+          oa:end 64
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "First version" ;
+          oa:prefix "---\n\n" ;
+          oa:suffix ""
+        ]
+      ] .
+
+    # ── Style Observation 3: Email-formatted reviewer attribution
+    narr:StyleObs_EmailFormattedReviewer a narr:StyleObservation ;
+      skos:broader narr:NamingConventions ;
+      dct:source narr:Sample_FirstVersionStub ;
+      skos:note "Reviewer is identified by a tagged email address (test+expert-gh@aswritten.ai) rather than a display name, indicating a machine-readable attribution convention using email plus-addressing for role tagging." ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_FirstVersionStub ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start 20 ;
+          oa:end 48
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "test+expert-gh@aswritten.ai" ;
+          oa:prefix "reviewers:\n  - " ;
+          oa:suffix "\n---"
+        ]
+      ] .
+
+    # ── Style Metrics ───────────────────────────────────────────
+    narr:StyleMetrics_FirstVersionStub a narr:StyleMetrics ;
+      skos:broader narr:StyleMetrics ;
+      dct:source narr:Sample_FirstVersionStub ;
+      narr:AverageSentenceLength "2"^^xsd:integer ;
+      narr:ActiveVoiceRatio "0.0"^^xsd:decimal ;
+      narr:JargonDensity "0.0"^^xsd:decimal ;
+      skos:note "Extremely minimal document. Body is two words with no verbs, yielding an average sentence length of 2 and no measurable active voice or jargon. Register is stub/placeholder." .
+
+  }
+}
