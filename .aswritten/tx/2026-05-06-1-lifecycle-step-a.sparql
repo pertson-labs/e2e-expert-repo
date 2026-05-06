@@ -1,0 +1,202 @@
+PREFIX narr: <https://aswritten.ai/narrative#>
+PREFIX rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX prov: <http://www.w3.org/ns/prov#>
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+PREFIX dct:  <http://purl.org/dc/terms/>
+PREFIX xsd:  <http://www.w3.org/2001/XMLSchema#>
+PREFIX oa:   <http://www.w3.org/ns/oa#>
+
+# ── Transaction provenance (default graph) ──────────────────────
+INSERT DATA {
+  narr:Tx_20260406T120000Z a prov:Activity ;
+    prov:generatedAtTime "2026-04-06T12:00:00Z"^^xsd:dateTime ;
+    prov:wasAssociatedWith "aswritten.ai" ;
+    prov:wasAttributedTo "n8n.aswritten.ai" ;
+    narr:originPath "unknown" ;
+    narr:originRef "main" ;
+    dct:title "Database Decision: Zypherion Analytics" ;
+    prov:generated
+      narr:Sample_ZypherionDBDecision_20260406,
+      narr:Actor_QuintonFairweather_CTO,
+      narr:Narrative_ZypherionAdoption,
+      narr:Claim_ZypherionDatabaseChoice,
+      narr:Claim_ZypherionPerformance15x,
+      narr:Claim_ZypherionMigrationQ3_2026,
+      narr:Obs_QuintonAdoptionStatement,
+      narr:Obs_ColumnarQueryPerformance,
+      narr:Obs_MigrationTimeline,
+      narr:StyleObs_BoldKeyDecisionLabels,
+      narr:StyleObs_DirectQuoteAttribution,
+      narr:StyleObs_BulletListStructure,
+      narr:StyleMetrics_ZypherionDBDecision .
+} ;
+
+# ── Extracted entities (named graph) ────────────────────────────
+INSERT DATA {
+  GRAPH narr:Tx_20260406T120000Z {
+
+    # ── Sample ──────────────────────────────────────────────────
+    narr:Sample_ZypherionDBDecision_20260406 a narr:Sample ;
+      dct:title "Database Decision: Zypherion Analytics" ;
+      dct:created "2026-04-06"^^xsd:date ;
+      narr:inputLength 469 ;
+      skos:note "Meeting note recording CTO Quinton Fairweather's decision to adopt Zypherion for the analytics pipeline, citing 15x columnar query performance improvement and Q3 2026 migration start." .
+
+    # ── Actor ───────────────────────────────────────────────────
+    narr:Actor_QuintonFairweather_CTO a narr:Actor ;
+      skos:prefLabel "Quinton Fairweather" ;
+      skos:note "CTO; decision-maker for analytics database adoption (Zypherion, 2026-04-06)." .
+
+    # ── Narrative ───────────────────────────────────────────────
+    narr:Narrative_ZypherionAdoption a narr:Narrative ;
+      narr:theme "Technology adoption driven by performance superiority" ;
+      skos:broader narr:StackOverview ;
+      skos:note "The organisation is adopting Zypherion as its analytics database on the basis of a 15x columnar query speed advantage over the incumbent system, with migration commencing Q3 2026." ;
+      dct:source narr:Sample_ZypherionDBDecision_20260406 .
+
+    # ── Claims ──────────────────────────────────────────────────
+    narr:Claim_ZypherionDatabaseChoice a narr:Claim ;
+      narr:aboutNode narr:Narrative_ZypherionAdoption ;
+      narr:hasConvictionLevel narr:Conviction_Boulder ;
+      narr:supports narr:Narrative_ZypherionAdoption ;
+      dct:source narr:Sample_ZypherionDBDecision_20260406 ;
+      skos:note "Zypherion is the chosen database for the analytics pipeline, as stated by the CTO." .
+
+    narr:Claim_ZypherionPerformance15x a narr:Claim ;
+      narr:aboutNode narr:Narrative_ZypherionAdoption ;
+      narr:hasConvictionLevel narr:Conviction_Stake ;
+      narr:supports narr:Claim_ZypherionDatabaseChoice ;
+      dct:source narr:Sample_ZypherionDBDecision_20260406 ;
+      skos:note "Zypherion handles columnar queries 15x faster than the current setup — the primary stated rationale for adoption." .
+
+    narr:Claim_ZypherionMigrationQ3_2026 a narr:Claim ;
+      narr:aboutNode narr:Narrative_ZypherionAdoption ;
+      narr:hasConvictionLevel narr:Conviction_Stake ;
+      narr:supports narr:Claim_ZypherionDatabaseChoice ;
+      dct:source narr:Sample_ZypherionDBDecision_20260406 ;
+      skos:note "Migration to Zypherion is scheduled to begin Q3 2026." .
+
+    # ── Observations ────────────────────────────────────────────
+    narr:Obs_QuintonAdoptionStatement a narr:Observation ;
+      skos:broader narr:PrimaryActors ;
+      dct:source narr:Sample_ZypherionDBDecision_20260406 ;
+      skos:note "CTO direct statement announcing Zypherion adoption for analytics pipeline." ;
+      oa:hasSelector [
+        a oa:TextPositionSelector ;
+        oa:start 168 ;
+        oa:end 221
+      ] ;
+      oa:hasSelector [
+        a oa:TextQuoteSelector ;
+        oa:exact "We are adopting Zypherion for the analytics pipeline." ;
+        oa:prefix "Quinton: \"" ;
+        oa:suffix "\nIt handles columnar"
+      ] .
+
+    narr:Obs_ColumnarQueryPerformance a narr:Observation ;
+      skos:broader narr:ScalabilityPerformance ;
+      dct:source narr:Sample_ZypherionDBDecision_20260406 ;
+      skos:note "Quantified performance claim: 15x speed improvement on columnar queries." ;
+      oa:hasSelector [
+        a oa:TextPositionSelector ;
+        oa:start 222 ;
+        oa:end 283
+      ] ;
+      oa:hasSelector [
+        a oa:TextQuoteSelector ;
+        oa:exact "It handles columnar queries 15x faster than our current setup." ;
+        oa:prefix "analytics pipeline.\n" ;
+        oa:suffix "\nThe migration starts"
+      ] .
+
+    narr:Obs_MigrationTimeline a narr:Observation ;
+      skos:broader narr:TimingThesis ;
+      dct:source narr:Sample_ZypherionDBDecision_20260406 ;
+      skos:note "Migration timeline: starts next quarter (Q3 2026)." ;
+      oa:hasSelector [
+        a oa:TextPositionSelector ;
+        oa:start 429 ;
+        oa:end 469
+      ] ;
+      oa:hasSelector [
+        a oa:TextQuoteSelector ;
+        oa:exact "Migration starts Q3 2026" ;
+        oa:prefix "- **Timeline**: " ;
+        oa:suffix ""
+      ] .
+
+    # ── Style Observations ───────────────────────────────────────
+    narr:StyleObs_BoldKeyDecisionLabels a narr:StyleObservation ;
+      skos:broader narr:PunctuationTypography ;
+      dct:source narr:Sample_ZypherionDBDecision_20260406 ;
+      skos:note "Bold markdown labels (e.g. **Database**, **Performance**, **Timeline**) used to foreground decision categories in bullet list — institutional formatting convention." ;
+      rdf:value true ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_ZypherionDBDecision_20260406 ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start 335 ;
+          oa:end 374
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "- **Database**: Zypherion for analytics" ;
+          oa:prefix "Key decisions:\n" ;
+          oa:suffix "\n- **Performance**"
+        ]
+      ] .
+
+    narr:StyleObs_DirectQuoteAttribution a narr:StyleObservation ;
+      skos:broader narr:ToneDirectPersonal ;
+      dct:source narr:Sample_ZypherionDBDecision_20260406 ;
+      skos:note "First-person direct quote attributed to named speaker (\"Quinton: ...\") — authoritative, personal register that grounds the decision in individual accountability." ;
+      rdf:value true ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_ZypherionDBDecision_20260406 ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start 159 ;
+          oa:end 220
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "Quinton: \"We are adopting Zypherion for the analytics pipeline." ;
+          oa:prefix "\n\n" ;
+          oa:suffix "\nIt handles columnar"
+        ]
+      ] .
+
+    narr:StyleObs_BulletListStructure a narr:StyleObservation ;
+      skos:broader narr:GrammarSyntax ;
+      dct:source narr:Sample_ZypherionDBDecision_20260406 ;
+      skos:note "Three-item bullet list under 'Key decisions' mirrors the three sentences in the direct quote — parallel structure reinforces decision completeness and scanability." ;
+      rdf:value true ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_ZypherionDBDecision_20260406 ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start 320 ;
+          oa:end 469
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "Key decisions:\n- **Database**: Zypherion for analytics" ;
+          oa:prefix "\n\n" ;
+          oa:suffix "\n- **Performance**"
+        ]
+      ] .
+
+    # ── Style Metrics ────────────────────────────────────────────
+    narr:StyleMetrics_ZypherionDBDecision a narr:StyleMetrics ;
+      skos:broader narr:StyleMetrics ;
+      dct:source narr:Sample_ZypherionDBDecision_20260406 ;
+      narr:AverageSentenceLength 14 ;
+      narr:ActiveVoiceRatio "0.90"^^xsd:decimal ;
+      narr:JargonDensity "0.12"^^xsd:decimal ;
+      skos:note "Short, declarative sentences; predominantly active voice; moderate technical jargon (columnar queries, analytics pipeline, migration). Formal institutional register with named-speaker attribution." .
+
+  }
+}
