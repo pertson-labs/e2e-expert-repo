@@ -1,0 +1,147 @@
+PREFIX narr: <https://aswritten.ai/narrative#>
+PREFIX rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX prov: <http://www.w3.org/ns/prov#>
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+PREFIX dct:  <http://purl.org/dc/terms/>
+PREFIX xsd:  <http://www.w3.org/2001/XMLSchema#>
+PREFIX oa:   <http://www.w3.org/ns/oa#>
+
+# Transaction provenance (default graph)
+INSERT DATA {
+  narr:Tx_20250130T120000Z a prov:Activity ;
+    prov:generatedAtTime "2025-01-30T12:00:00Z"^^xsd:dateTime ;
+    prov:wasAssociatedWith "aswritten.ai" ;
+    prov:wasAttributedTo "n8n.aswritten.ai" ;
+    narr:originPath "unknown" ;
+    narr:originRef "unknown" ;
+    dct:title "Extraction: First version draft document" ;
+    prov:generated
+      narr:Sample_FirstVersion,
+      narr:Actor_ExpertReviewer,
+      narr:Narrative_FirstVersionDraft,
+      narr:Observation_FirstVersionPhrase,
+      narr:StyleObs_PlainLanguageRegister,
+      narr:StyleObs_MinimalCadence,
+      narr:StyleObs_DraftVersionMarker,
+      narr:StyleMetrics_FirstVersion .
+} ;
+
+# Extracted entities (named graph)
+INSERT DATA {
+  GRAPH narr:Tx_20250130T120000Z {
+
+    # ── Sample ──────────────────────────────────────────────────
+    narr:Sample_FirstVersion a narr:Sample ;
+      dct:title "First version" ;
+      dct:description "Minimal draft document with YAML front matter listing a reviewer and a two-word body." ;
+      narr:inputLength 75 .
+
+    # ── Actor ───────────────────────────────────────────────────
+    # Email redacted per PII policy (allow_pii not set)
+    narr:Actor_ExpertReviewer a narr:Actor ;
+      skos:prefLabel "Expert Reviewer (test+expert-gh)" ;
+      skos:note "Reviewer listed in YAML front matter. Email redacted per PII policy." .
+
+    # ── Narrative ────────────────────────────────────────────────
+    narr:Narrative_FirstVersionDraft a narr:Narrative ;
+      dct:source narr:Sample_FirstVersion ;
+      narr:theme "Initial draft version marker" ;
+      skos:broader narr:Process ;
+      skos:note "The document asserts itself as a first version, indicating an early-stage draft under review. The reviewer assignment in the front matter signals a quality-review gate is in place." .
+
+    # ── Observation ─────────────────────────────────────────────
+    narr:Observation_FirstVersionPhrase a narr:Observation ;
+      skos:broader narr:QualityReviewGates ;
+      dct:source narr:Sample_FirstVersion ;
+      skos:note "The phrase 'First version' marks the document as an initial draft, anchoring it within a review workflow." ;
+      oa:hasSelector [
+        a oa:TextPositionSelector ;
+        oa:start 52 ;
+        oa:end 65
+      ] ;
+      oa:hasSelector [
+        a oa:TextQuoteSelector ;
+        oa:exact "First version" ;
+        oa:prefix "---\n\n" ;
+        oa:suffix ""
+      ] .
+
+    # ── Style Observations ───────────────────────────────────────
+
+    # 1. Plain language / minimal register
+    narr:StyleObs_PlainLanguageRegister a narr:StyleObservation ;
+      skos:broader narr:PlainLanguage ;
+      dct:source narr:Sample_FirstVersion ;
+      skos:note "Body text uses the simplest possible phrasing — two common words, no subordinate clauses, no hedging. Consistent with a draft placeholder." ;
+      rdf:value true ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_FirstVersion ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start 52 ;
+          oa:end 65
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "First version" ;
+          oa:prefix "---\n\n" ;
+          oa:suffix ""
+        ]
+      ] .
+
+    # 2. Short punchy cadence (two-word sentence)
+    narr:StyleObs_MinimalCadence a narr:StyleObservation ;
+      skos:broader narr:ShortPunchyCadence ;
+      dct:source narr:Sample_FirstVersion ;
+      skos:note "The entire body is a two-word nominal phrase. No verb, no elaboration. Cadence is maximally compressed — characteristic of a version label rather than prose." ;
+      rdf:value true ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_FirstVersion ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start 52 ;
+          oa:end 65
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "First version" ;
+          oa:prefix "---\n\n" ;
+          oa:suffix ""
+        ]
+      ] .
+
+    # 3. Draft version marker as naming convention
+    narr:StyleObs_DraftVersionMarker a narr:StyleObservation ;
+      skos:broader narr:NamingConventions ;
+      dct:source narr:Sample_FirstVersion ;
+      skos:note "'First version' functions as a document-state label, following a naming convention that tracks iteration stage rather than semantic content. Lowercase 'version' signals informal register." ;
+      rdf:value true ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_FirstVersion ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start 52 ;
+          oa:end 65
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "First version" ;
+          oa:prefix "---\n\n" ;
+          oa:suffix ""
+        ]
+      ] .
+
+    # ── Style Metrics ────────────────────────────────────────────
+    narr:StyleMetrics_FirstVersion a narr:StyleMetrics ;
+      skos:broader narr:StyleMetrics ;
+      dct:source narr:Sample_FirstVersion ;
+      narr:AverageSentenceLength 2 ;
+      narr:ActiveVoiceRatio "1.0"^^xsd:decimal ;
+      narr:JargonDensity "0.0"^^xsd:decimal ;
+      skos:note "Extremely short document. Body is a two-word nominal phrase with no verbs, no jargon, and no passive constructions. Register is minimal/draft placeholder." .
+
+  }
+}
