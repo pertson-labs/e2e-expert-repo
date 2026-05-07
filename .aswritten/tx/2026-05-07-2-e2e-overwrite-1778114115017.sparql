@@ -1,0 +1,176 @@
+PREFIX narr: <https://aswritten.ai/narrative#>
+PREFIX rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX prov: <http://www.w3.org/ns/prov#>
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+PREFIX dct:  <http://purl.org/dc/terms/>
+PREFIX xsd:  <http://www.w3.org/2001/XMLSchema#>
+PREFIX oa:   <http://www.w3.org/ns/oa#>
+
+# ── Transaction provenance (default graph) ──────────────────────────────────
+INSERT DATA {
+  narr:Tx_20250715T120000Z a prov:Activity ;
+    prov:generatedAtTime "2025-07-15T12:00:00Z"^^xsd:dateTime ;
+    prov:wasAssociatedWith "aswritten.ai" ;
+    prov:wasAttributedTo "n8n.aswritten.ai" ;
+    narr:originPath "unknown" ;
+    narr:originRef "unknown" ;
+    dct:title "Extraction: Second version draft document" ;
+    prov:generated
+      narr:Sample_SecondVersion,
+      narr:StyleMetrics_SecondVersion,
+      narr:StyleObs_SecondVersion_VersionMarker,
+      narr:StyleObs_SecondVersion_MinimalRegister,
+      narr:StyleObs_SecondVersion_NominalPhrase .
+} ;
+
+# ── New Sample for the second-version document ───────────────────────────────
+INSERT DATA {
+  GRAPH narr:Tx_20250715T120000Z {
+    narr:Sample_SecondVersion a narr:Sample ;
+      dct:title "Second version" ;
+      dct:description "Minimal draft document with YAML front matter listing a reviewer and a two-word body, now marked as second version." ;
+      narr:inputLength 55 .
+  }
+} ;
+
+# ── Update Narrative: theme and note superseded by second-version assertion ──
+DELETE {
+  GRAPH ?g {
+    narr:Narrative_FirstVersionDraft narr:theme ?oldTheme ;
+      skos:note ?oldNote ;
+      dct:source ?oldSource .
+  }
+}
+INSERT {
+  GRAPH narr:Tx_20250715T120000Z {
+    narr:Narrative_FirstVersionDraft narr:theme "Second draft version marker" ;
+      skos:note "The document now asserts itself as a second version, indicating iteration beyond the initial draft. The reviewer assignment in the front matter signals the quality-review gate remains in place. This supersedes the first-version marker." ;
+      dct:source narr:Sample_SecondVersion .
+  }
+}
+WHERE {
+  GRAPH ?g {
+    narr:Narrative_FirstVersionDraft narr:theme ?oldTheme ;
+      skos:note ?oldNote ;
+      dct:source ?oldSource .
+  }
+} ;
+
+# ── Update Observation: phrase and source superseded ─────────────────────────
+DELETE {
+  GRAPH ?g {
+    narr:Observation_FirstVersionPhrase skos:note ?oldNote ;
+      dct:source ?oldSource .
+  }
+}
+INSERT {
+  GRAPH narr:Tx_20250715T120000Z {
+    narr:Observation_FirstVersionPhrase skos:note "The phrase 'Second version' marks the document as an iterated draft, anchoring it within a review workflow and superseding the first-version marker." ;
+      dct:source narr:Sample_SecondVersion ;
+      oa:hasSelector [
+        a oa:TextPositionSelector ;
+        oa:start 43 ;
+        oa:end 57
+      ] ;
+      oa:hasSelector [
+        a oa:TextQuoteSelector ;
+        oa:exact "Second version" ;
+        oa:prefix "---\n\n" ;
+        oa:suffix ""
+      ] .
+  }
+}
+WHERE {
+  GRAPH ?g {
+    narr:Observation_FirstVersionPhrase skos:note ?oldNote ;
+      dct:source ?oldSource .
+  }
+} ;
+
+# ── Style Metrics for second version ─────────────────────────────────────────
+INSERT DATA {
+  GRAPH narr:Tx_20250715T120000Z {
+    narr:StyleMetrics_SecondVersion a narr:StyleMetrics ;
+      skos:broader narr:StyleMetrics ;
+      dct:source narr:Sample_SecondVersion ;
+      narr:AverageSentenceLength 2 ;
+      narr:ActiveVoiceRatio "1.0"^^xsd:decimal ;
+      narr:JargonDensity "0.0"^^xsd:decimal ;
+      skos:note "Extremely short document. Body is a two-word nominal phrase with no verbs, no jargon, and no passive constructions. Register is minimal/draft placeholder, identical in character to the first version." .
+  }
+} ;
+
+# ── Style Observation 1: Version marker as naming convention ─────────────────
+INSERT DATA {
+  GRAPH narr:Tx_20250715T120000Z {
+    narr:StyleObs_SecondVersion_VersionMarker a narr:StyleObservation ;
+      skos:broader narr:NamingConventions ;
+      dct:source narr:Sample_SecondVersion ;
+      skos:note "Ordinal version label ('Second version') used as the entire document body, consistent with a placeholder naming convention for iterative drafts." ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_SecondVersion ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start 43 ;
+          oa:end 57
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "Second version" ;
+          oa:prefix "---\n\n" ;
+          oa:suffix ""
+        ]
+      ] .
+  }
+} ;
+
+# ── Style Observation 2: Minimal register / draft placeholder tone ────────────
+INSERT DATA {
+  GRAPH narr:Tx_20250715T120000Z {
+    narr:StyleObs_SecondVersion_MinimalRegister a narr:StyleObservation ;
+      skos:broader narr:RegisterFormality ;
+      dct:source narr:Sample_SecondVersion ;
+      skos:note "The document body consists solely of a two-word phrase with no verbs, punctuation, or elaboration, signalling a minimal/placeholder register typical of early-stage draft scaffolding." ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_SecondVersion ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start 43 ;
+          oa:end 57
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "Second version" ;
+          oa:prefix "---\n\n" ;
+          oa:suffix ""
+        ]
+      ] .
+  }
+} ;
+
+# ── Style Observation 3: Nominal phrase cadence (no verb, short punchy) ───────
+INSERT DATA {
+  GRAPH narr:Tx_20250715T120000Z {
+    narr:StyleObs_SecondVersion_NominalPhrase a narr:StyleObservation ;
+      skos:broader narr:ShortPunchyCadence ;
+      dct:source narr:Sample_SecondVersion ;
+      skos:note "The body is a bare nominal phrase — no verb, no article — producing an extremely short, punchy cadence consistent with a title-like or label-like construction." ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_SecondVersion ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start 43 ;
+          oa:end 57
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "Second version" ;
+          oa:prefix "---\n\n" ;
+          oa:suffix ""
+        ]
+      ] .
+  }
+}
