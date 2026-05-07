@@ -1,0 +1,147 @@
+PREFIX narr: <https://aswritten.ai/narrative#>
+PREFIX rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX prov: <http://www.w3.org/ns/prov#>
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+PREFIX dct:  <http://purl.org/dc/terms/>
+PREFIX xsd:  <http://www.w3.org/2001/XMLSchema#>
+PREFIX oa:   <http://www.w3.org/ns/oa#>
+
+# Transaction provenance (default graph)
+INSERT DATA {
+  narr:Tx_20250115T120000Z a prov:Activity ;
+    prov:generatedAtTime "2025-01-15T12:00:00Z"^^xsd:dateTime ;
+    prov:wasAssociatedWith "aswritten.ai" ;
+    prov:wasAttributedTo "n8n.aswritten.ai" ;
+    narr:originPath "unknown" ;
+    narr:originRef "unknown" ;
+    dct:title "First version stub document extraction" ;
+    prov:generated
+      narr:Sample_FirstVersionStub,
+      narr:Actor_ExpertReviewer_Redacted,
+      narr:Narrative_FirstVersionStub,
+      narr:Observation_FirstVersionLabel,
+      narr:StyleObs_ShortPunchyCadence_FirstVersion,
+      narr:StyleObs_PlainLanguage_FirstVersion,
+      narr:StyleObs_RegisterFormality_FirstVersion,
+      narr:StyleMetrics_FirstVersionStub .
+} ;
+
+# Extracted entities (named graph)
+INSERT DATA {
+  GRAPH narr:Tx_20250115T120000Z {
+
+    # ── Sample ──────────────────────────────────────────────────
+    narr:Sample_FirstVersionStub a narr:Sample ;
+      dct:title "First version stub document" ;
+      narr:inputLength 57 ;
+      dct:description "Minimal document with YAML frontmatter listing a reviewer and a body of 'First version'." .
+
+    # ── Actor ───────────────────────────────────────────────────
+    # PII redacted: reviewer email address suppressed per verbatim policy (allow_pii not set)
+    narr:Actor_ExpertReviewer_Redacted a narr:Actor ;
+      skos:prefLabel "[Redacted Reviewer]" ;
+      skos:note "Reviewer listed in YAML frontmatter. Email redacted (PII policy). Role: expert reviewer." .
+
+    # ── Narrative ───────────────────────────────────────────────
+    narr:Narrative_FirstVersionStub a narr:Narrative ;
+      dct:source narr:Sample_FirstVersionStub ;
+      narr:theme "Document stub — first version marker" ;
+      skos:broader narr:Process ;
+      skos:note "The document body contains only the phrase 'First version', indicating this is an initial stub or placeholder document awaiting further content. A reviewer has been assigned via YAML frontmatter." .
+
+    # ── Observation ─────────────────────────────────────────────
+    narr:Observation_FirstVersionLabel a narr:Observation ;
+      skos:broader narr:QualityReviewGates ;
+      dct:source narr:Sample_FirstVersionStub ;
+      skos:note "The body of the document consists solely of the phrase 'First version', functioning as a version label or stub marker." ;
+      oa:hasSelector [
+        a oa:TextPositionSelector ;
+        oa:start 44 ;
+        oa:end 57
+      ] ;
+      oa:hasSelector [
+        a oa:TextQuoteSelector ;
+        oa:exact "First version" ;
+        oa:prefix "\n\n" ;
+        oa:suffix ""
+      ] .
+
+    # ── Style Observations ──────────────────────────────────────
+
+    # SO1: Extremely short body — short punchy cadence
+    narr:StyleObs_ShortPunchyCadence_FirstVersion a narr:StyleObservation ;
+      skos:broader narr:ShortPunchyCadence ;
+      dct:source narr:Sample_FirstVersionStub ;
+      skos:note "Body text is two words only ('First version'), representing the most compressed possible cadence — a bare noun phrase with no predicate." ;
+      rdf:value true ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_FirstVersionStub ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start 44 ;
+          oa:end 57
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "First version" ;
+          oa:prefix "\n\n" ;
+          oa:suffix ""
+        ]
+      ] .
+
+    # SO2: Plain language register
+    narr:StyleObs_PlainLanguage_FirstVersion a narr:StyleObservation ;
+      skos:broader narr:PlainLanguage ;
+      dct:source narr:Sample_FirstVersionStub ;
+      skos:note "No technical jargon, complex syntax, or domain-specific terminology present. Register is maximally plain." ;
+      rdf:value true ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_FirstVersionStub ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start 44 ;
+          oa:end 57
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "First version" ;
+          oa:prefix "\n\n" ;
+          oa:suffix ""
+        ]
+      ] .
+
+    # SO3: Minimal/stub register formality — no formal register markers
+    narr:StyleObs_RegisterFormality_FirstVersion a narr:StyleObservation ;
+      skos:broader narr:RegisterFormality ;
+      dct:source narr:Sample_FirstVersionStub ;
+      skos:note "Document exhibits zero register formality in its body. The YAML frontmatter uses a structured key ('reviewers:') indicating a semi-formal metadata convention, but the body itself is an unformatted stub." ;
+      rdf:value false ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_FirstVersionStub ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start 0 ;
+          oa:end 57
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "reviewers:" ;
+          oa:prefix "---\n" ;
+          oa:suffix "\n  - "
+        ]
+      ] .
+
+    # ── Style Metrics ───────────────────────────────────────────
+    narr:StyleMetrics_FirstVersionStub a narr:StyleMetrics ;
+      skos:broader narr:StyleMetrics ;
+      dct:source narr:Sample_FirstVersionStub ;
+      narr:AverageSentenceLength 2 ;
+      narr:ActiveVoiceRatio "1.0"^^xsd:decimal ;
+      narr:JargonDensity "0.0"^^xsd:decimal ;
+      skos:note "Computed over body text only ('First version'). Two-word noun phrase; no verbs, no jargon, no passive constructions. Metrics reflect a minimal stub document." .
+
+  }
+}
