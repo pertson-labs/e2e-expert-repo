@@ -1,0 +1,158 @@
+PREFIX narr: <https://aswritten.ai/narrative#>
+PREFIX rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX prov: <http://www.w3.org/ns/prov#>
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+PREFIX dct:  <http://purl.org/dc/terms/>
+PREFIX xsd:  <http://www.w3.org/2001/XMLSchema#>
+PREFIX oa:   <http://www.w3.org/ns/oa#>
+
+# ── Transaction provenance (default graph) ──────────────────────────────────
+INSERT DATA {
+  narr:Tx_20250715T120000Z a prov:Activity ;
+    dct:title "Extraction: Second version document with reviewer frontmatter" ;
+    prov:generatedAtTime "2025-07-15T12:00:00Z"^^xsd:dateTime ;
+    prov:wasAssociatedWith "aswritten.ai" ;
+    prov:wasAttributedTo "n8n.aswritten.ai" ;
+    narr:originPath "unknown" ;
+    narr:originRef "unknown" ;
+    prov:generated
+      narr:Sample_SecondVersion,
+      narr:Claim_SecondVersionStatus,
+      narr:Observation_SecondVersionBody,
+      narr:StyleObs_SecondVersion_ShortPunchy,
+      narr:StyleObs_SecondVersion_NounPhrase,
+      narr:StyleObs_SecondVersion_FrontmatterReviewer,
+      narr:StyleMetrics_SecondVersion .
+} ;
+
+# ── New entities (named graph) ───────────────────────────────────────────────
+INSERT DATA {
+  GRAPH narr:Tx_20250715T120000Z {
+
+    # ── Sample ──────────────────────────────────────────────────────────────
+    narr:Sample_SecondVersion a narr:Sample ;
+      dct:title "Second version document" ;
+      dct:description "Minimal document with YAML frontmatter declaring a reviewer and a single-line body asserting second version status. Structurally identical to the first version document; body updated from 'First version' to 'Second version'." ;
+      narr:inputLength 58 .
+
+    # ── Claim: second version status ────────────────────────────────────────
+    narr:Claim_SecondVersionStatus a narr:Claim ;
+      dct:source narr:Sample_SecondVersion ;
+      skos:note "The document body asserts this is the second version, indicating a revised draft state succeeding the first version." ;
+      narr:aboutNode narr:Sample_SecondVersion ;
+      narr:hasConvictionLevel narr:Conviction_Notion .
+
+    # ── Observation: body content ────────────────────────────────────────────
+    narr:Observation_SecondVersionBody a narr:Observation ;
+      dct:source narr:Sample_SecondVersion ;
+      skos:broader narr:Milestones ;
+      skos:note "The sole body content declares versioning status as second version." ;
+      oa:hasSelector [
+        a oa:TextPositionSelector ;
+        oa:start 47 ;
+        oa:end 61
+      ] ;
+      oa:hasSelector [
+        a oa:TextQuoteSelector ;
+        oa:exact "Second version" ;
+        oa:prefix "---\n\n" ;
+        oa:suffix ""
+      ] .
+
+    # ── Style Observation 1: short punchy cadence ────────────────────────────
+    narr:StyleObs_SecondVersion_ShortPunchy a narr:StyleObservation ;
+      skos:broader narr:ShortPunchyCadence ;
+      dct:source narr:Sample_SecondVersion ;
+      skos:note "Body is a two-word noun phrase with no verb — maximally compressed versioning signal." ;
+      rdf:value true ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_SecondVersion ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start 47 ;
+          oa:end 61
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "Second version" ;
+          oa:prefix "---\n\n" ;
+          oa:suffix ""
+        ]
+      ] .
+
+    # ── Style Observation 2: noun-phrase-only body (no verb / passive voice) ─
+    narr:StyleObs_SecondVersion_NounPhrase a narr:StyleObservation ;
+      skos:broader narr:VoicePassive ;
+      dct:source narr:Sample_SecondVersion ;
+      skos:note "Body contains no verb; the versioning state is implied by a bare noun phrase rather than an active declarative sentence." ;
+      rdf:value false ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_SecondVersion ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start 47 ;
+          oa:end 61
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "Second version" ;
+          oa:prefix "---\n\n" ;
+          oa:suffix ""
+        ]
+      ] .
+
+    # ── Style Observation 3: YAML frontmatter reviewer declaration ───────────
+    narr:StyleObs_SecondVersion_FrontmatterReviewer a narr:StyleObservation ;
+      skos:broader narr:EditorialRules ;
+      dct:source narr:Sample_SecondVersion ;
+      skos:note "YAML frontmatter declares a named reviewer via structured metadata, consistent with an editorial workflow convention carried over from the first version." ;
+      rdf:value true ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_SecondVersion ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start 0 ;
+          oa:end 45
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "---\nreviewers:\n  - [REDACTED]\n---" ;
+          oa:prefix "" ;
+          oa:suffix "\n\nSecond version"
+        ]
+      ] .
+
+    # ── Style Metrics ────────────────────────────────────────────────────────
+    narr:StyleMetrics_SecondVersion a narr:StyleMetrics ;
+      dct:source narr:Sample_SecondVersion ;
+      skos:broader narr:StyleMetrics ;
+      skos:note "Metrics computed over a single two-word noun-phrase body. No verbs present (active voice ratio 0). No domain jargon. Average sentence length is 2 words (treating the noun phrase as one unit). Structurally identical metrics to the first version document." ;
+      narr:AverageSentenceLength "2"^^xsd:integer ;
+      narr:ActiveVoiceRatio "0.0"^^xsd:decimal ;
+      narr:JargonDensity "0.0"^^xsd:decimal .
+
+  }
+} ;
+
+# ── UPDATE: Claim_FirstVersionStatus — temporal supersession ────────────────
+# The first version claim asserted 'initial draft state with no prior iteration'.
+# The new memory asserts 'Second version', superseding the first-version status.
+# We update the skos:note to reflect that a second version now exists.
+DELETE {
+  GRAPH ?g {
+    narr:Claim_FirstVersionStatus skos:note ?oldNote .
+  }
+}
+INSERT {
+  GRAPH narr:Tx_20250715T120000Z {
+    narr:Claim_FirstVersionStatus skos:note "The document body originally asserted first version status (initial draft). A second version document now exists, superseding this as the latest iteration. The first version claim is retained as a historical milestone." .
+  }
+}
+WHERE {
+  GRAPH ?g {
+    narr:Claim_FirstVersionStatus skos:note ?oldNote .
+  }
+}
