@@ -1,0 +1,126 @@
+PREFIX narr: <https://aswritten.ai/narrative#>
+PREFIX rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX prov: <http://www.w3.org/ns/prov#>
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+PREFIX dct:  <http://purl.org/dc/terms/>
+PREFIX xsd:  <http://www.w3.org/2001/XMLSchema#>
+PREFIX oa:   <http://www.w3.org/ns/oa#>
+
+# Transaction provenance (default graph)
+INSERT DATA {
+  narr:Tx_20250714T120000Z a prov:Activity ;
+    dct:title "Second version document extraction" ;
+    prov:generatedAtTime "2025-07-14T12:00:00Z"^^xsd:dateTime ;
+    prov:wasAssociatedWith "aswritten.ai" ;
+    prov:wasAttributedTo "n8n.aswritten.ai" ;
+    narr:originPath "" ;
+    narr:originRef "" ;
+    prov:generated
+      narr:Sample_SecondVersion,
+      narr:Narrative_SecondVersionDocument,
+      narr:StyleMetrics_SecondVersion,
+      narr:StyleObs_SecondVersion_TerseCadence,
+      narr:StyleObs_SecondVersion_YAMLRegister,
+      narr:StyleObs_SecondVersion_PlainBody .
+} ;
+
+# Extracted entities (named graph)
+INSERT DATA {
+  GRAPH narr:Tx_20250714T120000Z {
+
+    # ── Sample ──────────────────────────────────────────────────
+    narr:Sample_SecondVersion
+      a narr:Sample ;
+      dct:title "Second version" ;
+      dct:description "Minimal document with YAML frontmatter listing a reviewer and a two-word body: 'Second version'." ;
+      narr:inputLength 62 .
+
+    # ── Narrative ────────────────────────────────────────────────
+    narr:Narrative_SecondVersionDocument
+      a narr:Narrative ;
+      dct:source narr:Sample_SecondVersion ;
+      skos:broader narr:NarrativeDrivenRoadmap ;
+      narr:theme "Document progression — second version" ;
+      skos:note "The document body consists solely of the label 'Second version', indicating an incremental progression from the first version in a review or workflow cycle. Same reviewer structure as first version." .
+
+    # ── Style Metrics ────────────────────────────────────────────
+    narr:StyleMetrics_SecondVersion
+      a narr:StyleMetrics ;
+      dct:source narr:Sample_SecondVersion ;
+      skos:broader narr:StyleMetrics ;
+      narr:AverageSentenceLength 2 ;
+      narr:ActiveVoiceRatio "1.0"^^xsd:decimal ;
+      narr:JargonDensity "0.0"^^xsd:decimal ;
+      skos:note "Extremely terse document body (2 words, 1 sentence). No passive constructions. No jargon. Technical register established via YAML frontmatter structure rather than prose. Mirrors first version style profile." .
+
+    # ── Style Observation 1: Terse / Short Punchy Cadence ────────
+    narr:StyleObs_SecondVersion_TerseCadence
+      a narr:StyleObservation ;
+      skos:broader narr:ShortPunchyCadence ;
+      dct:source narr:Sample_SecondVersion ;
+      rdf:value true ;
+      skos:note "Body is a two-word declarative label with no elaboration, mirroring the cadence of the first version." ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_SecondVersion ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start 30 ;
+          oa:end 44
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "Second version" ;
+          oa:prefix "---\n\n" ;
+          oa:suffix ""
+        ]
+      ] .
+
+    # ── Style Observation 2: YAML Frontmatter / RegisterFormality ─
+    narr:StyleObs_SecondVersion_YAMLRegister
+      a narr:StyleObservation ;
+      skos:broader narr:RegisterFormality ;
+      dct:source narr:Sample_SecondVersion ;
+      rdf:value true ;
+      skos:note "YAML frontmatter block establishes a structured, technical register before any prose body, consistent with first version pattern." ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_SecondVersion ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start 0 ;
+          oa:end 28
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "---\nreviewers:\n  - test+" ;
+          oa:prefix "" ;
+          oa:suffix "expert-gh@aswritten.ai"
+        ]
+      ] .
+
+    # ── Style Observation 3: Plain Language Body ─────────────────
+    narr:StyleObs_SecondVersion_PlainBody
+      a narr:StyleObservation ;
+      skos:broader narr:PlainLanguage ;
+      dct:source narr:Sample_SecondVersion ;
+      rdf:value true ;
+      skos:note "Prose body uses zero jargon and zero domain-specific terminology. Entirely plain, accessible language." ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_SecondVersion ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start 30 ;
+          oa:end 44
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "Second version" ;
+          oa:prefix "---\n\n" ;
+          oa:suffix ""
+        ]
+      ] .
+
+  }
+}
