@@ -1,0 +1,147 @@
+PREFIX narr: <https://aswritten.ai/narrative#>
+PREFIX rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX prov: <http://www.w3.org/ns/prov#>
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+PREFIX dct:  <http://purl.org/dc/terms/>
+PREFIX xsd:  <http://www.w3.org/2001/XMLSchema#>
+PREFIX oa:   <http://www.w3.org/ns/oa#>
+
+# Transaction provenance (default graph)
+INSERT DATA {
+  narr:Tx_20250115T120000Z a prov:Activity ;
+    prov:generatedAtTime "2025-01-15T12:00:00Z"^^xsd:dateTime ;
+    prov:wasAssociatedWith "aswritten.ai" ;
+    prov:wasAttributedTo "n8n.aswritten.ai" ;
+    narr:originPath "unknown" ;
+    narr:originRef "unknown" ;
+    dct:title "Extraction: First version document with reviewer metadata" ;
+    prov:generated
+      narr:Sample_FirstVersion,
+      narr:Actor_ExpertReviewer_GH,
+      narr:Narrative_FirstVersionDeclaration,
+      narr:Observation_FirstVersionBody,
+      narr:StyleObs_TerseDeclarative,
+      narr:StyleObs_PlainLanguageBody,
+      narr:StyleObs_NoPunctuation,
+      narr:StyleMetrics_FirstVersion .
+} ;
+
+# Extracted entities (named graph)
+INSERT DATA {
+  GRAPH narr:Tx_20250115T120000Z {
+
+    # ── Sample ──────────────────────────────────────────────────
+    narr:Sample_FirstVersion a narr:Sample ;
+      dct:title "First version" ;
+      narr:inputLength 67 ;
+      dct:description "Minimal document with YAML frontmatter (reviewer metadata) and body text 'First version'." .
+
+    # ── Actor ───────────────────────────────────────────────────
+    # PII redaction: reviewer email redacted per verbatim policy (allow_pii not set)
+    narr:Actor_ExpertReviewer_GH a narr:Actor ;
+      skos:prefLabel "Expert Reviewer (GitHub)" ;
+      skos:note "Reviewer listed in YAML frontmatter as test+expert-gh@[REDACTED]. Role: document reviewer." .
+
+    # ── Narrative ───────────────────────────────────────────────
+    narr:Narrative_FirstVersionDeclaration a narr:Narrative ;
+      dct:source narr:Sample_FirstVersion ;
+      narr:theme "Initial version declaration" ;
+      skos:broader narr:NarrativeDrivenRoadmap ;
+      skos:note "The document declares itself as a first version, signalling the start of a versioned artifact lifecycle. A reviewer is assigned via frontmatter metadata." .
+
+    # ── Observation: body text ───────────────────────────────────
+    narr:Observation_FirstVersionBody a narr:Observation ;
+      skos:broader narr:Milestones ;
+      dct:source narr:Sample_FirstVersion ;
+      skos:note "Body of document asserts 'First version' — a milestone marker for the artifact." ;
+      oa:hasSelector [
+        a oa:TextPositionSelector ;
+        oa:start 52 ;
+        oa:end 65
+      ] ;
+      oa:hasSelector [
+        a oa:TextQuoteSelector ;
+        oa:exact "First version" ;
+        oa:prefix "\n\n" ;
+        oa:suffix ""
+      ] .
+
+    # ── Style Observations ──────────────────────────────────────
+
+    # SO-1: Terse declarative register
+    narr:StyleObs_TerseDeclarative a narr:StyleObservation ;
+      skos:broader narr:ToneAuthoritative ;
+      dct:source narr:Sample_FirstVersion ;
+      skos:note "Body consists of a single two-word declarative phrase with no elaboration, signalling a terse, authoritative register." ;
+      rdf:value true ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_FirstVersion ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start 52 ;
+          oa:end 65
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "First version" ;
+          oa:prefix "\n\n" ;
+          oa:suffix ""
+        ]
+      ] .
+
+    # SO-2: Plain language / no jargon
+    narr:StyleObs_PlainLanguageBody a narr:StyleObservation ;
+      skos:broader narr:PlainLanguage ;
+      dct:source narr:Sample_FirstVersion ;
+      skos:note "Body text uses entirely plain, non-technical language. No domain jargon or specialised vocabulary present." ;
+      rdf:value true ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_FirstVersion ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start 52 ;
+          oa:end 65
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "First version" ;
+          oa:prefix "\n\n" ;
+          oa:suffix ""
+        ]
+      ] .
+
+    # SO-3: No terminal punctuation
+    narr:StyleObs_NoPunctuation a narr:StyleObservation ;
+      skos:broader narr:PunctuationTypography ;
+      dct:source narr:Sample_FirstVersion ;
+      skos:note "The body phrase 'First version' carries no terminal punctuation (no period, exclamation, or question mark), consistent with a label or heading convention rather than a full sentence." ;
+      rdf:value false ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_FirstVersion ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start 52 ;
+          oa:end 65
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "First version" ;
+          oa:prefix "\n\n" ;
+          oa:suffix ""
+        ]
+      ] .
+
+    # ── Style Metrics ───────────────────────────────────────────
+    narr:StyleMetrics_FirstVersion a narr:StyleMetrics ;
+      skos:broader narr:StyleMetrics ;
+      dct:source narr:Sample_FirstVersion ;
+      narr:AverageSentenceLength 2 ;
+      narr:ActiveVoiceRatio "1.0"^^xsd:decimal ;
+      narr:JargonDensity "0.0"^^xsd:decimal ;
+      skos:note "Extremely short document body (2 words, 1 phrase). Active voice ratio is 1.0 by default for a label-style phrase. Zero jargon density. Register: terse label / milestone marker." .
+
+  }
+}
