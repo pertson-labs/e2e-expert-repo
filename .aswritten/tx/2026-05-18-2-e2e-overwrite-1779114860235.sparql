@@ -1,0 +1,160 @@
+PREFIX narr: <https://aswritten.ai/narrative#>
+PREFIX rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX prov: <http://www.w3.org/ns/prov#>
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+PREFIX dct:  <http://purl.org/dc/terms/>
+PREFIX xsd:  <http://www.w3.org/2001/XMLSchema#>
+PREFIX oa:   <http://www.w3.org/ns/oa#>
+
+# ── Transaction provenance (default graph) ──────────────────────────────────
+INSERT DATA {
+  narr:Tx_20250715T120000Z a prov:Activity ;
+    dct:title "Second version document extraction" ;
+    prov:generatedAtTime "2025-07-15T12:00:00Z"^^xsd:dateTime ;
+    prov:wasAssociatedWith "aswritten.ai" ;
+    prov:wasAttributedTo "n8n.aswritten.ai" ;
+    narr:originPath "unknown" ;
+    narr:originRef "unknown" ;
+    prov:generated
+      narr:Sample_SecondVersion,
+      narr:Claim_SecondVersionLabel,
+      narr:StyleMetrics_SecondVersion,
+      narr:StyleObs_SecondVersion_NominalPhrase,
+      narr:StyleObs_SecondVersion_MinimalRegister,
+      narr:StyleObs_SecondVersion_VersioningConvention .
+} ;
+
+# ── New entities (named graph) ───────────────────────────────────────────────
+INSERT DATA {
+  GRAPH narr:Tx_20250715T120000Z {
+
+    # Sample node for the second version document
+    narr:Sample_SecondVersion a narr:Sample ;
+      dct:title "Second version" ;
+      dct:description "Minimal document with YAML frontmatter listing a reviewer and a single-phrase body: 'Second version'. Structurally identical to first version; body label incremented." ;
+      narr:inputLength 66 .
+
+    # Claim: body text now asserts 'Second version'
+    narr:Claim_SecondVersionLabel a narr:Claim ;
+      dct:source narr:Sample_SecondVersion ;
+      skos:note "The body text 'Second version' asserts this document has been revised. Conviction is Notion — minimal content, no corroborating detail beyond the version label." ;
+      narr:aboutNode narr:Narrative_FirstVersionDocument ;
+      narr:hasConvictionLevel narr:Conviction_Notion ;
+      narr:supports narr:Narrative_FirstVersionDocument .
+
+    # Style metrics for the second version
+    narr:StyleMetrics_SecondVersion a narr:StyleMetrics ;
+      dct:source narr:Sample_SecondVersion ;
+      skos:broader narr:StyleMetrics ;
+      skos:note "Body is a two-word nominal phrase. No full sentences, no jargon, no passive constructions. Metrics mirror the first version — ultra-minimal label document." ;
+      narr:AverageSentenceLength 2 ;
+      narr:ActiveVoiceRatio "1.0"^^xsd:decimal ;
+      narr:JargonDensity "0.0"^^xsd:decimal .
+
+    # Style observation 1: nominal phrase body (cadence)
+    narr:StyleObs_SecondVersion_NominalPhrase a narr:StyleObservation ;
+      skos:broader narr:ShortPunchyCadence ;
+      dct:source narr:Sample_SecondVersion ;
+      skos:note "Body consists of a bare two-word nominal phrase with no verb, article, or punctuation — extreme economy of expression." ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_SecondVersion ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start 52 ;
+          oa:end 66
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "Second version" ;
+          oa:prefix "---\n\n" ;
+          oa:suffix ""
+        ]
+      ] .
+
+    # Style observation 2: minimal register / plain language
+    narr:StyleObs_SecondVersion_MinimalRegister a narr:StyleObservation ;
+      skos:broader narr:RegisterFormality ;
+      dct:source narr:Sample_SecondVersion ;
+      skos:note "Register is maximally plain: no hedging, no formality markers, no rhetorical devices. Consistent with an internal draft label." ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_SecondVersion ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start 52 ;
+          oa:end 66
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "Second version" ;
+          oa:prefix "---\n\n" ;
+          oa:suffix ""
+        ]
+      ] .
+
+    # Style observation 3: versioning naming convention (orthography)
+    narr:StyleObs_SecondVersion_VersioningConvention a narr:StyleObservation ;
+      skos:broader narr:NamingConventions ;
+      dct:source narr:Sample_SecondVersion ;
+      skos:note "Version label uses sentence-case ordinal ('Second version') rather than numeric notation ('v2' or '2.0'). Consistent with the prior 'First version' label — an informal prose-style versioning convention." ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_SecondVersion ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start 52 ;
+          oa:end 66
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "Second version" ;
+          oa:prefix "---\n\n" ;
+          oa:suffix ""
+        ]
+      ] .
+
+  }
+} ;
+
+# ── UPDATE: Narrative_FirstVersionDocument — extend to cover versioning arc ──
+# The narrative now spans two versions; update note and theme to reflect this.
+DELETE {
+  GRAPH ?g {
+    narr:Narrative_FirstVersionDocument skos:note ?oldNote ;
+      narr:theme ?oldTheme .
+  }
+}
+INSERT {
+  GRAPH narr:Tx_20250715T120000Z {
+    narr:Narrative_FirstVersionDocument
+      skos:note "The document has progressed from a first to a second version, with a named reviewer assigned via YAML frontmatter throughout. Establishes an iterative review workflow pattern." ;
+      narr:theme "Document versioning progression and review assignment" .
+  }
+}
+WHERE {
+  GRAPH ?g {
+    narr:Narrative_FirstVersionDocument skos:note ?oldNote ;
+      narr:theme ?oldTheme .
+  }
+} ;
+
+# ── UPDATE: Claim_FirstVersionLabel — temporal supersession by 'Second version' ──
+# The body label 'First version' is superseded by 'Second version' in this memory.
+# Update the claim's skos:note to reflect it is now a prior-state claim.
+DELETE {
+  GRAPH ?g {
+    narr:Claim_FirstVersionLabel skos:note ?oldNote .
+  }
+}
+INSERT {
+  GRAPH narr:Tx_20250715T120000Z {
+    narr:Claim_FirstVersionLabel
+      skos:note "The body text 'First version' asserted this was an initial draft. Superseded by 'Second version' in the subsequent memory. Conviction remains Notion." .
+  }
+}
+WHERE {
+  GRAPH ?g {
+    narr:Claim_FirstVersionLabel skos:note ?oldNote .
+  }
+}
