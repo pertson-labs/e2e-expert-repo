@@ -1,0 +1,94 @@
+PREFIX narr: <https://aswritten.ai/narrative#>
+PREFIX prov: <http://www.w3.org/ns/prov#>
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+PREFIX dct: <http://purl.org/dc/terms/>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+PREFIX oa: <http://www.w3.org/ns/oa#>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+
+# Transaction provenance (default graph)
+INSERT DATA {
+  narr:Tx_20250313T120000Z a prov:Activity ;
+    prov:generatedAtTime "2025-03-13T12:00:00Z"^^xsd:dateTime ;
+    prov:wasAssociatedWith "aswritten.ai" ;
+    prov:wasAttributedTo "test+expert-gh@aswritten.ai" ;
+    narr:originPath ".aswritten/memories/2025-03-13-box-free-design-continuation.md" ;
+    narr:originRef "main" ;
+    prov:generated narr:Sample_BoxFreeDesign_20250313, narr:Narrative_BoxFreeDesignRobustness, narr:Claim_SlugGenerationResilience, narr:Observation_FailingPayloadPattern, narr:StyleObservation_TechnicalJargon, narr:StyleObservation_InstructionalTone, narr:StyleObservation_HeadingStructure, narr:StyleMetrics_BoxFreeDesign_20250313 .
+} ;
+
+# Extracted entities (named graph)
+INSERT DATA {
+  GRAPH narr:Tx_20250313T120000Z {
+    narr:Sample_BoxFreeDesign_20250313 a narr:Sample ;
+      dct:title "Box-Free Design Continuation 2 — Derive Id E2E" ;
+      narr:inputLength 215 ;
+      dct:created "2025-03-13"^^xsd:date .
+
+    narr:Narrative_BoxFreeDesignRobustness a narr:Narrative ;
+      dct:source narr:Sample_BoxFreeDesign_20250313 ;
+      narr:theme "Pipeline Robustness and Slug Generation" ;
+      skos:broader narr:ArchitectureOverview ;
+      skos:note "Ensuring the pipeline handles failing payload patterns by deriving topical slugs when explicit IDs are missing." .
+
+    narr:Claim_SlugGenerationResilience a narr:Claim ;
+      narr:aboutNode narr:Process ;
+      narr:hasConvictionLevel narr:Conviction_Foundation ;
+      dct:source narr:Sample_BoxFreeDesign_20250313 ;
+      skos:note "The system must produce a topical slug and not crash when encountering a ## level heading without an ID." .
+
+    narr:Observation_FailingPayloadPattern a narr:Observation ;
+      skos:broader narr:FrictionFailure ;
+      dct:source narr:Sample_BoxFreeDesign_20250313 ;
+      oa:hasSelector [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_BoxFreeDesign_20250313 ;
+        oa:hasSelector [ a oa:TextPositionSelector ; oa:start 81 ; oa:end 162 ] ;
+        oa:hasSelector [ a oa:TextQuoteSelector ; 
+          oa:exact "Reproduces Mike Sackton's failing payload pattern (## level heading, no id)." ;
+          oa:prefix "Derive Id E2E\n\n" ;
+          oa:suffix " Must not crash"
+        ]
+      ] .
+
+    narr:StyleObservation_TechnicalJargon a narr:StyleObservation ;
+      skos:broader narr:JargonPolicy ;
+      dct:source narr:Sample_BoxFreeDesign_20250313 ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_BoxFreeDesign_20250313 ;
+        oa:hasSelector [ a oa:TextPositionSelector ; oa:start 108 ; oa:end 123 ] ;
+        oa:hasSelector [ a oa:TextQuoteSelector ; oa:exact "payload pattern" ]
+      ] ;
+      skos:note "Use of technical development terminology." .
+
+    narr:StyleObservation_InstructionalTone a narr:StyleObservation ;
+      skos:broader narr:ToneAuthoritative ;
+      dct:source narr:Sample_BoxFreeDesign_20250313 ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_BoxFreeDesign_20250313 ;
+        oa:hasSelector [ a oa:TextPositionSelector ; oa:start 164 ; oa:end 179 ] ;
+        oa:hasSelector [ a oa:TextQuoteSelector ; oa:exact "Must not crash;" ]
+      ] ;
+      skos:note "Imperative mood indicating system requirements." .
+
+    narr:StyleObservation_HeadingStructure a narr:StyleObservation ;
+      skos:broader narr:NamingConventions ;
+      dct:source narr:Sample_BoxFreeDesign_20250313 ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_BoxFreeDesign_20250313 ;
+        oa:hasSelector [ a oa:TextPositionSelector ; oa:start 45 ; oa:end 80 ] ;
+        oa:hasSelector [ a oa:TextQuoteSelector ; oa:exact "Box-Free Design Continuation 2 — Derive Id E2E" ]
+      ] ;
+      skos:note "Structured heading used for topical identification." .
+
+    narr:StyleMetrics_BoxFreeDesign_20250313 a narr:StyleMetrics ;
+      dct:source narr:Sample_BoxFreeDesign_20250313 ;
+      skos:broader narr:StyleMetrics ;
+      narr:AverageSentenceLength 12 ;
+      narr:ActiveVoiceRatio "1.0"^^xsd:decimal ;
+      narr:JargonDensity "0.25"^^xsd:decimal .
+  }
+}
