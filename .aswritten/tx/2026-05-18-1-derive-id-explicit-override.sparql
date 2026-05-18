@@ -1,0 +1,200 @@
+PREFIX narr: <https://aswritten.ai/narrative#>
+PREFIX rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX prov: <http://www.w3.org/ns/prov#>
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+PREFIX dct:  <http://purl.org/dc/terms/>
+PREFIX xsd:  <http://www.w3.org/2001/XMLSchema#>
+PREFIX oa:   <http://www.w3.org/ns/oa#>
+
+# Transaction provenance (default graph)
+INSERT DATA {
+  narr:Tx_20250725T000000Z a prov:Activity ;
+    dct:title "Some Other Title That Should Not Win — H1 no-id slug precedence test" ;
+    prov:generatedAtTime "2025-07-25T00:00:00Z"^^xsd:dateTime ;
+    prov:wasAssociatedWith "aswritten.ai" ;
+    prov:wasAttributedTo "n8n.aswritten.ai" ;
+    narr:originPath "" ;
+    narr:originRef "main" ;
+    prov:generated
+      narr:Sample_SomeOtherTitleH1NoId,
+      narr:Narrative_H1TitleShouldNotWinSlug,
+      narr:Claim_H1HeadingTitleNotUsedAsSlug,
+      narr:Claim_H1NoIdSlugFallbackRequired,
+      narr:Observation_H1HeadingText,
+      narr:Observation_ReviewerFrontMatter,
+      narr:Observation_MinimalBody,
+      narr:StyleObs_ImperativeNegation,
+      narr:StyleObs_MinimalBodyRegister,
+      narr:StyleObs_FrontMatterReviewerConvention,
+      narr:StyleMetrics_SomeOtherTitleH1NoId .
+} ;
+
+# Extracted entities (named graph)
+INSERT DATA {
+  GRAPH narr:Tx_20250725T000000Z {
+
+    # ── Sample ──────────────────────────────────────────────────
+    narr:Sample_SomeOtherTitleH1NoId a narr:Sample ;
+      dct:title "Some Other Title That Should Not Win" ;
+      dct:description "Minimal memory with YAML front matter (reviewer only, no id field) and an H1 heading whose phrasing asserts the title should not be used as the slug. Body is a single word. Tests H1 no-id slug-derivation precedence path." ;
+      dct:created "2025-07-25"^^xsd:date ;
+      narr:inputLength "97"^^xsd:integer .
+
+    # ── Narratives ───────────────────────────────────────────────
+    narr:Narrative_H1TitleShouldNotWinSlug a narr:Narrative ;
+      dct:source narr:Sample_SomeOtherTitleH1NoId ;
+      skos:broader narr:Process ;
+      narr:theme "H1 heading title must not be used as the derived slug when no id field is present" ;
+      skos:note "The heading phrase 'Should Not Win' encodes a pipeline assertion: when deriving a slug from an H1 heading with no id field, the literal heading text should not automatically win as the slug — some other derivation rule or fallback must apply. This extends the slug-gen fallback narrative to the H1 case and adds a title-precedence constraint." .
+
+    # ── Claims ───────────────────────────────────────────────────
+    narr:Claim_H1HeadingTitleNotUsedAsSlug a narr:Claim ;
+      dct:source narr:Sample_SomeOtherTitleH1NoId ;
+      narr:aboutNode narr:Narrative_H1TitleShouldNotWinSlug ;
+      narr:hasConvictionLevel narr:Conviction_Foundation ;
+      narr:supports narr:Narrative_PipelineSlugGenFallback ;
+      skos:note "The heading 'Some Other Title That Should Not Win' explicitly asserts that the H1 title text is not the correct slug output — the pipeline must apply a different derivation rule when no id is present and the heading is H1 level." .
+
+    narr:Claim_H1NoIdSlugFallbackRequired a narr:Claim ;
+      dct:source narr:Sample_SomeOtherTitleH1NoId ;
+      narr:aboutNode narr:Narrative_PipelineSlugGenFallback ;
+      narr:hasConvictionLevel narr:Conviction_Boulder ;
+      narr:supports narr:Narrative_PipelineSlugGenFallback ;
+      skos:note "A memory with an H1 heading and no id field must trigger the slug-gen fallback path, consistent with the existing pipeline requirement. This case extends coverage from ## headings to # headings." .
+
+    # ── Observations ─────────────────────────────────────────────
+    narr:Observation_H1HeadingText a narr:Observation ;
+      skos:broader narr:NarrativeAnchor ;
+      dct:source narr:Sample_SomeOtherTitleH1NoId ;
+      skos:note "The H1 heading encodes the test assertion: the title 'Should Not Win' signals that this heading text must not be adopted verbatim as the slug." ;
+      oa:hasSelector [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_SomeOtherTitleH1NoId ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start "44"^^xsd:integer ;
+          oa:end "88"^^xsd:integer
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "# Some Other Title That Should Not Win" ;
+          oa:prefix "---\n\n" ;
+          oa:suffix "\n\nBody."
+        ]
+      ] .
+
+    narr:Observation_ReviewerFrontMatter a narr:Observation ;
+      skos:broader narr:QualityReviewGates ;
+      dct:source narr:Sample_SomeOtherTitleH1NoId ;
+      skos:note "The YAML front matter lists a reviewer email but no id field, confirming this is a no-id payload. The reviewer is already tracked as narr:Actor_ExpertReviewer_TestGH in the graph." ;
+      oa:hasSelector [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_SomeOtherTitleH1NoId ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start "0"^^xsd:integer ;
+          oa:end "43"^^xsd:integer
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "reviewers:\n  - test+expert-gh@aswritten.ai" ;
+          oa:prefix "---\n" ;
+          oa:suffix "\n---"
+        ]
+      ] .
+
+    narr:Observation_MinimalBody a narr:Observation ;
+      skos:broader narr:CoreWorkflows ;
+      dct:source narr:Sample_SomeOtherTitleH1NoId ;
+      skos:note "The body consists of a single word 'Body.' — a placeholder that confirms the memory is a structural/pipeline test rather than a content document. The pipeline must handle minimal body content without error." ;
+      oa:hasSelector [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_SomeOtherTitleH1NoId ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start "90"^^xsd:integer ;
+          oa:end "95"^^xsd:integer
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "Body." ;
+          oa:prefix "# Some Other Title That Should Not Win\n\n" ;
+          oa:suffix ""
+        ]
+      ] .
+
+    # ── Style Observations ───────────────────────────────────────
+    narr:StyleObs_ImperativeNegation a narr:StyleObservation ;
+      skos:broader narr:GrammarSyntax ;
+      dct:source narr:Sample_SomeOtherTitleH1NoId ;
+      skos:note "The heading embeds a negation ('Should Not Win') as a declarative assertion — an unusual rhetorical move that encodes a test expectation directly in the document title. This is imperative-adjacent: the title instructs the pipeline what not to do." ;
+      rdf:value "true"^^xsd:boolean ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_SomeOtherTitleH1NoId ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start "44"^^xsd:integer ;
+          oa:end "88"^^xsd:integer
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "# Some Other Title That Should Not Win" ;
+          oa:prefix "---\n\n" ;
+          oa:suffix "\n\nBody."
+        ]
+      ] .
+
+    narr:StyleObs_MinimalBodyRegister a narr:StyleObservation ;
+      skos:broader narr:RegisterFormality ;
+      dct:source narr:Sample_SomeOtherTitleH1NoId ;
+      skos:note "The body 'Body.' is a single-word placeholder — an extremely low-register, non-informative body. This is a deliberate structural choice for pipeline testing, not a content register. It signals that the document is a test fixture, not a prose artifact." ;
+      rdf:value "false"^^xsd:boolean ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_SomeOtherTitleH1NoId ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start "90"^^xsd:integer ;
+          oa:end "95"^^xsd:integer
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "Body." ;
+          oa:prefix "# Some Other Title That Should Not Win\n\n" ;
+          oa:suffix ""
+        ]
+      ] .
+
+    narr:StyleObs_FrontMatterReviewerConvention a narr:StyleObservation ;
+      skos:broader narr:EditorialRules ;
+      dct:source narr:Sample_SomeOtherTitleH1NoId ;
+      skos:note "The YAML front matter uses a 'reviewers' list key with an email value — a structured metadata convention. No 'id' key is present, which is the operative condition for the slug-gen fallback path. The front matter style is minimal and machine-readable." ;
+      rdf:value "true"^^xsd:boolean ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_SomeOtherTitleH1NoId ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start "0"^^xsd:integer ;
+          oa:end "43"^^xsd:integer
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "reviewers:\n  - test+expert-gh@aswritten.ai" ;
+          oa:prefix "---\n" ;
+          oa:suffix "\n---"
+        ]
+      ] .
+
+    # ── Style Metrics ────────────────────────────────────────────
+    narr:StyleMetrics_SomeOtherTitleH1NoId a narr:StyleMetrics ;
+      skos:broader narr:StyleMetrics ;
+      dct:source narr:Sample_SomeOtherTitleH1NoId ;
+      narr:AverageSentenceLength "7"^^xsd:integer ;
+      narr:ActiveVoiceRatio "0.50"^^xsd:decimal ;
+      narr:JargonDensity "0.00"^^xsd:decimal ;
+      skos:note "Extremely short document: one heading sentence (7 words) and one body word. No technical jargon in the prose. The heading uses modal negation ('Should Not Win') — mixed active/modal voice. Jargon density is zero in the body; the heading is plain English." .
+
+  }
+}
