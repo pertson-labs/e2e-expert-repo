@@ -1,0 +1,138 @@
+PREFIX narr: <https://aswritten.ai/narrative#>
+PREFIX rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX prov: <http://www.w3.org/ns/prov#>
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+PREFIX dct:  <http://purl.org/dc/terms/>
+PREFIX xsd:  <http://www.w3.org/2001/XMLSchema#>
+PREFIX oa:   <http://www.w3.org/ns/oa#>
+
+# Transaction provenance (default graph)
+INSERT DATA {
+  narr:Tx_20250115T120000Z a prov:Activity ;
+    prov:generatedAtTime "2025-01-15T12:00:00Z"^^xsd:dateTime ;
+    prov:wasAssociatedWith "aswritten.ai" ;
+    prov:wasAttributedTo "n8n.aswritten.ai" ;
+    narr:originPath "unknown" ;
+    narr:originRef "unknown" ;
+    dct:title "First version document extraction" ;
+    prov:generated
+      narr:Sample_FirstVersion,
+      narr:Actor_ExpertReviewer_GH,
+      narr:Narrative_FirstVersionDocument,
+      narr:Claim_FirstVersionLabel,
+      narr:StyleObs_TerseRegister,
+      narr:StyleObs_MinimalBody,
+      narr:StyleObs_YAMLFrontmatter,
+      narr:StyleMetrics_FirstVersion .
+} ;
+
+# Extracted entities (named graph)
+INSERT DATA {
+  GRAPH narr:Tx_20250115T120000Z {
+
+    # ── Sample ──────────────────────────────────────────────────
+    narr:Sample_FirstVersion a narr:Sample ;
+      dct:title "First version" ;
+      dct:description "Minimal document with YAML frontmatter listing a reviewer and a single-phrase body: 'First version'." ;
+      narr:inputLength 67 .
+
+    # ── Actor ───────────────────────────────────────────────────
+    # PII redacted: reviewer email withheld (allow_pii not set)
+    narr:Actor_ExpertReviewer_GH a narr:Actor ;
+      skos:prefLabel "Expert Reviewer (GitHub)" ;
+      skos:note "Reviewer listed in YAML frontmatter. Email redacted per PII policy. Role: document reviewer assigned via GitHub integration." .
+
+    # ── Narrative ───────────────────────────────────────────────
+    narr:Narrative_FirstVersionDocument a narr:Narrative ;
+      dct:source narr:Sample_FirstVersion ;
+      narr:theme "Document versioning and review assignment" ;
+      skos:broader narr:Process ;
+      skos:note "The document declares itself a first version and assigns a named reviewer, establishing an initial review workflow state." .
+
+    # ── Claim ───────────────────────────────────────────────────
+    narr:Claim_FirstVersionLabel a narr:Claim ;
+      narr:aboutNode narr:Narrative_FirstVersionDocument ;
+      narr:hasConvictionLevel narr:Conviction_Notion ;
+      narr:supports narr:Narrative_FirstVersionDocument ;
+      dct:source narr:Sample_FirstVersion ;
+      skos:note "The body text 'First version' asserts this is an initial draft. Conviction is Notion — minimal content, no corroborating detail." .
+
+    # ── Style Observations ──────────────────────────────────────
+
+    # 1. Terse register / minimal body
+    narr:StyleObs_TerseRegister a narr:StyleObservation ;
+      skos:broader narr:RegisterFormality ;
+      dct:source narr:Sample_FirstVersion ;
+      skos:note "Extremely terse body: two words only. Register is minimal and label-like rather than discursive." ;
+      rdf:value false ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_FirstVersion ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start 28 ;
+          oa:end 41
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "First version" ;
+          oa:prefix "---\n\n" ;
+          oa:suffix ""
+        ]
+      ] .
+
+    # 2. YAML frontmatter structural convention
+    narr:StyleObs_YAMLFrontmatter a narr:StyleObservation ;
+      skos:broader narr:EditorialRules ;
+      dct:source narr:Sample_FirstVersion ;
+      skos:note "Document uses YAML frontmatter delimited by triple-dashes to declare metadata (reviewers list). This is a structured editorial convention." ;
+      rdf:value true ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_FirstVersion ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start 0 ;
+          oa:end 3
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "---" ;
+          oa:prefix "" ;
+          oa:suffix "\nreviewers:"
+        ]
+      ] .
+
+    # 3. Minimal body — label-style cadence
+    narr:StyleObs_MinimalBody a narr:StyleObservation ;
+      skos:broader narr:ShortPunchyCadence ;
+      dct:source narr:Sample_FirstVersion ;
+      skos:note "Body consists of a single two-word noun phrase used as a version label. No verbs, no sentences — pure nominal cadence." ;
+      rdf:value true ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_FirstVersion ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start 28 ;
+          oa:end 41
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "First version" ;
+          oa:prefix "---\n\n" ;
+          oa:suffix ""
+        ]
+      ] .
+
+    # ── Style Metrics ───────────────────────────────────────────
+    narr:StyleMetrics_FirstVersion a narr:StyleMetrics ;
+      skos:broader narr:StyleMetrics ;
+      dct:source narr:Sample_FirstVersion ;
+      narr:AverageSentenceLength 2 ;
+      narr:ActiveVoiceRatio "1.0"^^xsd:decimal ;
+      narr:JargonDensity "0.0"^^xsd:decimal ;
+      skos:note "Body is a two-word nominal phrase. No full sentences, no jargon, no passive constructions. Metrics reflect an ultra-minimal label document." .
+
+  }
+}
