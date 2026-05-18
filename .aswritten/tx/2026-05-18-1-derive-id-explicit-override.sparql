@@ -1,0 +1,118 @@
+PREFIX narr: <https://aswritten.ai/narrative#>
+PREFIX rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX prov: <http://www.w3.org/ns/prov#>
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+PREFIX dct:  <http://purl.org/dc/terms/>
+PREFIX xsd:  <http://www.w3.org/2001/XMLSchema#>
+PREFIX oa:   <http://www.w3.org/ns/oa#>
+
+# Transaction provenance (default graph)
+INSERT DATA {
+  narr:Tx_20250715T150000Z a prov:Activity ;
+    dct:title "Some Other Title That Should Not Win — slug-override test" ;
+    prov:generatedAtTime "2025-07-15T15:00:00Z"^^xsd:dateTime ;
+    prov:wasAssociatedWith "aswritten.ai" ;
+    prov:wasAttributedTo "n8n.aswritten.ai" ;
+    narr:originPath "unknown" ;
+    narr:originRef "main@HEAD" ;
+    prov:generated
+      narr:Sample_SomeOtherTitleShouldNotWin,
+      narr:Claim_H1TitleShouldNotWinSlug,
+      narr:StyleObservation_SelfReferentialTitle,
+      narr:StyleObservation_MinimalistBodyPlaceholder,
+      narr:StyleObservation_YAMLReviewerFrontmatter,
+      narr:StyleMetrics_SomeOtherTitleShouldNotWin .
+} ;
+
+# Extracted entities (named graph)
+INSERT DATA {
+  GRAPH narr:Tx_20250715T150000Z {
+
+    # ── Sample ──────────────────────────────────────────────────
+    narr:Sample_SomeOtherTitleShouldNotWin a narr:Sample ;
+      dct:title "Some Other Title That Should Not Win" ;
+      dct:description "Minimal test memory with YAML frontmatter reviewer and a self-referential H1 heading. No id field present. Tests that the pipeline does not use the H1 heading as the canonical slug when a better derived id is available." ;
+      narr:inputLength 99 .
+
+    # ── Claim: H1 heading must not win as slug ───────────────────
+    narr:Claim_H1TitleShouldNotWinSlug a narr:Claim ;
+      dct:source narr:Sample_SomeOtherTitleShouldNotWin ;
+      skos:note "The H1 heading 'Some Other Title That Should Not Win' explicitly asserts that the pipeline must not use the document heading as the canonical slug/id. This extends the existing slug-generation narrative: not only must the pipeline derive a slug when no id field is present, it must also override or ignore the H1 heading in favour of a topically derived slug." ;
+      narr:aboutNode narr:Narrative_PipelineSlugGeneration ;
+      narr:hasConvictionLevel narr:Conviction_Boulder ;
+      narr:supports narr:Process .
+
+    # ── Style Observation 1: Self-referential / meta-commentary title ──
+    narr:StyleObservation_SelfReferentialTitle a narr:StyleObservation ;
+      skos:broader narr:RhetoricalDevices ;
+      dct:source narr:Sample_SomeOtherTitleShouldNotWin ;
+      skos:note "Title uses self-referential meta-commentary as a rhetorical device: the heading names itself as a loser, encoding the test assertion directly into the document structure." ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_SomeOtherTitleShouldNotWin ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start 52 ;
+          oa:end 90
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "Some Other Title That Should Not Win" ;
+          oa:prefix "# " ;
+          oa:suffix "\n\nBody."
+        ]
+      ] .
+
+    # ── Style Observation 2: Minimalist placeholder body ────────
+    narr:StyleObservation_MinimalistBodyPlaceholder a narr:StyleObservation ;
+      skos:broader narr:ShortPunchyCadence ;
+      dct:source narr:Sample_SomeOtherTitleShouldNotWin ;
+      skos:note "Body consists of a single word 'Body.' — a deliberate placeholder that strips the document to its structural minimum. Signals test-fixture intent rather than substantive prose." ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_SomeOtherTitleShouldNotWin ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start 92 ;
+          oa:end 97
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "Body." ;
+          oa:prefix "# Some Other Title That Should Not Win\n\n" ;
+          oa:suffix ""
+        ]
+      ] .
+
+    # ── Style Observation 3: YAML frontmatter reviewer convention ──
+    narr:StyleObservation_YAMLReviewerFrontmatter a narr:StyleObservation ;
+      skos:broader narr:EditorialRules ;
+      dct:source narr:Sample_SomeOtherTitleShouldNotWin ;
+      skos:note "YAML frontmatter uses a 'reviewers' list key with a single email entry. Consistent with the editorial convention seen in prior test memories (e.g., Box-Free Design Continuation 2). Email redacted per PII policy." ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_SomeOtherTitleShouldNotWin ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start 4 ;
+          oa:end 46
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "reviewers:\n  - [REDACTED]" ;
+          oa:prefix "---\n" ;
+          oa:suffix "\n---"
+        ]
+      ] .
+
+    # ── Style Metrics ────────────────────────────────────────────
+    narr:StyleMetrics_SomeOtherTitleShouldNotWin a narr:StyleMetrics ;
+      dct:source narr:Sample_SomeOtherTitleShouldNotWin ;
+      skos:broader narr:StyleMetrics ;
+      skos:note "Extremely short document (1 body sentence, 1 word). No prose to measure active voice ratio meaningfully; ratio assigned 1.0 as the single token is a noun. Jargon density near zero — body contains no technical terms. Average sentence length is 1 word (body only)." ;
+      narr:AverageSentenceLength 1 ;
+      narr:ActiveVoiceRatio "1.00"^^xsd:decimal ;
+      narr:JargonDensity "0.00"^^xsd:decimal .
+
+  }
+}
