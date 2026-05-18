@@ -1,0 +1,155 @@
+PREFIX narr: <https://aswritten.ai/narrative#>
+PREFIX rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX prov: <http://www.w3.org/ns/prov#>
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+PREFIX dct:  <http://purl.org/dc/terms/>
+PREFIX xsd:  <http://www.w3.org/2001/XMLSchema#>
+PREFIX oa:   <http://www.w3.org/ns/oa#>
+
+# Transaction provenance (default graph)
+INSERT DATA {
+  narr:Tx_20250117T120000Z a prov:Activity ;
+    prov:generatedAtTime "2025-01-17T12:00:00Z"^^xsd:dateTime ;
+    prov:wasAssociatedWith "aswritten.ai" ;
+    prov:wasAttributedTo "n8n.aswritten.ai" ;
+    narr:originPath "zypherion-analytics-migration-decision" ;
+    narr:originRef "main" ;
+    dct:title "Zypherion Analytics Migration Decision — pipeline slug test" ;
+    prov:generated
+      narr:Sample_ZypherionMigration,
+      narr:Narrative_PipelineSlugGeneration,
+      narr:Claim_NoIdFieldRequiresSlug,
+      narr:Actor_Reviewer_ExpertGH,
+      narr:Obs_SlugFallbackRequirement,
+      narr:StyleObs_ImperativeTone,
+      narr:StyleObs_TechnicalJargon,
+      narr:StyleObs_DashSeparatedSlug,
+      narr:StyleMetrics_ZypherionMigration .
+} ;
+
+# Extracted entities (named graph)
+INSERT DATA {
+  GRAPH narr:Tx_20250117T120000Z {
+
+    # ── Sample ──────────────────────────────────────────────────
+    narr:Sample_ZypherionMigration a narr:Sample ;
+      dct:title "Zypherion Analytics Migration Decision" ;
+      narr:inputLength 297 ;
+      dct:description "Pipeline test memory submitted without an explicit id field, requiring slug generation from content." .
+
+    # ── Narrative ────────────────────────────────────────────────
+    narr:Narrative_PipelineSlugGeneration a narr:Narrative ;
+      narr:theme "Pipeline must generate a slug when no id field is provided" ;
+      skos:broader narr:Process ;
+      skos:note "The memory was submitted without an explicit id field. The pipeline is required to produce a slug — either via LLM id-gen call or deterministic slugify fallback — and commit the file successfully. This is a pipeline robustness requirement, not a content migration narrative." ;
+      dct:source narr:Sample_ZypherionMigration .
+
+    # ── Claims ───────────────────────────────────────────────────
+    narr:Claim_NoIdFieldRequiresSlug a narr:Claim ;
+      narr:aboutNode narr:Narrative_PipelineSlugGeneration ;
+      narr:hasConvictionLevel narr:Conviction_Boulder ;
+      narr:supports narr:Process ;
+      skos:note "The pipeline must produce a slug from memory content — either via the LLM id-gen call or the deterministic slugify fallback — and commit the file successfully when no id is present." ;
+      dct:source narr:Sample_ZypherionMigration .
+
+    # ── Actor ────────────────────────────────────────────────────
+    narr:Actor_Reviewer_ExpertGH a narr:Actor ;
+      skos:prefLabel "Expert Reviewer (test+expert-gh)" ;
+      skos:note "Reviewer listed in YAML frontmatter of the test memory. Email redacted per PII policy." .
+
+    # ── Observation ──────────────────────────────────────────────
+    narr:Obs_SlugFallbackRequirement a narr:Observation ;
+      skos:broader narr:IntakePrioritization ;
+      dct:source narr:Sample_ZypherionMigration ;
+      skos:note "The pipeline must handle missing id fields by generating a slug from content, covering both LLM and deterministic fallback paths." ;
+      oa:hasSelector [
+        a oa:TextPositionSelector ;
+        oa:start 113 ;
+        oa:end 297
+      ] ;
+      oa:hasSelector [
+        a oa:TextQuoteSelector ;
+        oa:exact "The pipeline must produce a slug from the memory content — either via the LLM id-gen call or the deterministic slugify fallback — and commit the file successfully." ;
+        oa:prefix "Submitted without an explicit id field. " ;
+        oa:suffix ""
+      ] .
+
+    # ── Style Observations ───────────────────────────────────────
+
+    # 1. Imperative / directive tone
+    narr:StyleObs_ImperativeTone a narr:StyleObservation ;
+      skos:broader narr:ToneAuthoritative ;
+      dct:source narr:Sample_ZypherionMigration ;
+      rdf:value true ;
+      skos:note "Imperative modal 'must' used twice to assert pipeline obligations, establishing authoritative directive register." ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_ZypherionMigration ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start 113 ;
+          oa:end 200
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "The pipeline must produce a slug from the memory content" ;
+          oa:prefix "Submitted without an explicit id field. " ;
+          oa:suffix " — either via the LLM id-gen call"
+        ]
+      ] .
+
+    # 2. Technical jargon density
+    narr:StyleObs_TechnicalJargon a narr:StyleObservation ;
+      skos:broader narr:JargonPolicy ;
+      dct:source narr:Sample_ZypherionMigration ;
+      rdf:value true ;
+      skos:note "Dense use of technical pipeline vocabulary: 'slug', 'LLM id-gen call', 'deterministic slugify fallback', 'commit'. Assumes engineering audience." ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_ZypherionMigration ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start 200 ;
+          oa:end 297
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "either via the LLM id-gen call or the deterministic slugify fallback — and commit the file successfully" ;
+          oa:prefix "slug from the memory content — " ;
+          oa:suffix "."
+        ]
+      ] .
+
+    # 3. Em-dash as structural separator / cadence marker
+    narr:StyleObs_DashSeparatedSlug a narr:StyleObservation ;
+      skos:broader narr:PunctuationTypography ;
+      dct:source narr:Sample_ZypherionMigration ;
+      rdf:value true ;
+      skos:note "Em-dash used to introduce an inline elaboration ('— either via the LLM id-gen call or the deterministic slugify fallback —'), creating a parenthetical cadence within a single imperative sentence." ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_ZypherionMigration ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start 155 ;
+          oa:end 260
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "— either via the LLM id-gen call or the deterministic slugify fallback —" ;
+          oa:prefix "slug from the memory content " ;
+          oa:suffix " and commit the file successfully"
+        ]
+      ] .
+
+    # ── Style Metrics ────────────────────────────────────────────
+    narr:StyleMetrics_ZypherionMigration a narr:StyleMetrics ;
+      skos:broader narr:StyleMetrics ;
+      dct:source narr:Sample_ZypherionMigration ;
+      narr:AverageSentenceLength "28"^^xsd:integer ;
+      narr:ActiveVoiceRatio "0.85"^^xsd:decimal ;
+      narr:JargonDensity "0.30"^^xsd:decimal ;
+      skos:note "Short document (2 sentences in body). High active voice. Elevated jargon density due to pipeline/engineering terminology (slug, LLM, slugify, commit). Formal-technical register throughout." .
+
+  }
+}
