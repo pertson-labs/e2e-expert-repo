@@ -1,0 +1,165 @@
+PREFIX narr: <https://aswritten.ai/narrative#>
+PREFIX rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX prov: <http://www.w3.org/ns/prov#>
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+PREFIX dct:  <http://purl.org/dc/terms/>
+PREFIX xsd:  <http://www.w3.org/2001/XMLSchema#>
+PREFIX oa:   <http://www.w3.org/ns/oa#>
+
+# ── Transaction provenance (default graph) ──────────────────────────────────
+INSERT DATA {
+  narr:Tx_20250115T130000Z a prov:Activity ;
+    dct:title "Extraction: Second version stub document with reviewer metadata" ;
+    prov:generatedAtTime "2025-01-15T13:00:00Z"^^xsd:dateTime ;
+    prov:wasAssociatedWith "aswritten.ai" ;
+    prov:wasAttributedTo "n8n.aswritten.ai" ;
+    narr:originPath "unknown" ;
+    narr:originRef "main" ;
+    prov:generated
+      narr:Sample_SecondVersionStub,
+      narr:StyleMetrics_SecondVersionStub,
+      narr:StyleObs_SecondVersion_ShortPunchyCadence,
+      narr:StyleObs_SecondVersion_PlainLanguage,
+      narr:StyleObs_SecondVersion_YAMLFrontMatter .
+} ;
+
+# ── New Sample node for "Second version" document ───────────────────────────
+INSERT DATA {
+  GRAPH narr:Tx_20250115T130000Z {
+    narr:Sample_SecondVersionStub a narr:Sample ;
+      dct:title "Second version stub document" ;
+      dct:description "Minimal document with YAML front-matter listing a reviewer and a single-line body 'Second version'. Structurally identical to first version stub but body text signals document has advanced one revision." ;
+      narr:inputLength 68 .
+  }
+} ;
+
+# ── UPDATE: Narrative — advance from first-version to second-version state ──
+DELETE {
+  GRAPH ?g {
+    narr:Narrative_FirstVersionDocumentStub narr:theme ?oldTheme ;
+      skos:note ?oldNote .
+  }
+}
+INSERT {
+  GRAPH narr:Tx_20250115T130000Z {
+    narr:Narrative_FirstVersionDocumentStub narr:theme "Document advanced to second version, still in stub/draft state" ;
+      skos:note "The document has progressed from 'First version' to 'Second version'. The same reviewer (test+expert-gh) remains assigned via YAML front-matter. No substantive content has been authored yet — body text remains a single phrase signalling revision stage." .
+  }
+}
+WHERE {
+  GRAPH ?g {
+    narr:Narrative_FirstVersionDocumentStub narr:theme ?oldTheme .
+    OPTIONAL { narr:Narrative_FirstVersionDocumentStub skos:note ?oldNote . }
+  }
+} ;
+
+# ── UPDATE: Claim — initial draft assertion superseded by second-version evidence ──
+DELETE {
+  GRAPH ?g {
+    narr:Claim_DocumentInInitialDraftState skos:note ?oldNote ;
+      narr:hasConvictionLevel ?oldLevel .
+  }
+}
+INSERT {
+  GRAPH narr:Tx_20250115T130000Z {
+    narr:Claim_DocumentInInitialDraftState skos:note "The body text 'Second version' supersedes the prior 'First version' signal. The document is no longer at initial commit stage but has advanced one revision. Reviewer assignment is unchanged." ;
+      narr:hasConvictionLevel narr:Conviction_Stake .
+  }
+}
+WHERE {
+  GRAPH ?g {
+    narr:Claim_DocumentInInitialDraftState narr:hasConvictionLevel ?oldLevel .
+    OPTIONAL { narr:Claim_DocumentInInitialDraftState skos:note ?oldNote . }
+  }
+} ;
+
+# ── Style Metrics for new sample ────────────────────────────────────────────
+INSERT DATA {
+  GRAPH narr:Tx_20250115T130000Z {
+    narr:StyleMetrics_SecondVersionStub a narr:StyleMetrics ;
+      skos:broader narr:StyleMetrics ;
+      dct:source narr:Sample_SecondVersionStub ;
+      narr:AverageSentenceLength "2"^^xsd:integer ;
+      narr:ActiveVoiceRatio "1.0"^^xsd:decimal ;
+      narr:JargonDensity "0.0"^^xsd:decimal ;
+      skos:note "Corpus is a two-word noun phrase ('Second version'). Sentence length is 2 words. No passive constructions. No jargon detected. Metrics are approximate given the minimal input." .
+  }
+} ;
+
+# ── Style Observation 1: Short punchy cadence ────────────────────────────────
+INSERT DATA {
+  GRAPH narr:Tx_20250115T130000Z {
+    narr:StyleObs_SecondVersion_ShortPunchyCadence a narr:StyleObservation ;
+      skos:broader narr:ShortPunchyCadence ;
+      dct:source narr:Sample_SecondVersionStub ;
+      skos:note "Body text is a two-word noun phrase with no verb, mirroring the minimal cadence of the first version stub." ;
+      rdf:value true ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_SecondVersionStub ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start 40 ;
+          oa:end 54
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "Second version" ;
+          oa:prefix "---\n\n" ;
+          oa:suffix ""
+        ]
+      ] .
+  }
+} ;
+
+# ── Style Observation 2: Plain language ─────────────────────────────────────
+INSERT DATA {
+  GRAPH narr:Tx_20250115T130000Z {
+    narr:StyleObs_SecondVersion_PlainLanguage a narr:StyleObservation ;
+      skos:broader narr:PlainLanguage ;
+      dct:source narr:Sample_SecondVersionStub ;
+      skos:note "Body text uses plain, unambiguous language. 'Second version' is immediately comprehensible with zero domain knowledge required." ;
+      rdf:value true ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_SecondVersionStub ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start 40 ;
+          oa:end 54
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "Second version" ;
+          oa:prefix "---\n\n" ;
+          oa:suffix ""
+        ]
+      ] .
+  }
+} ;
+
+# ── Style Observation 3: YAML front-matter citation convention ───────────────
+INSERT DATA {
+  GRAPH narr:Tx_20250115T130000Z {
+    narr:StyleObs_SecondVersion_YAMLFrontMatter a narr:StyleObservation ;
+      skos:broader narr:CitationConventions ;
+      dct:source narr:Sample_SecondVersionStub ;
+      skos:note "Reviewer assignment is encoded in YAML front-matter using a structured key-value list, consistent with the pattern established in the first version. Email address redacted per PII policy." ;
+      rdf:value true ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_SecondVersionStub ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start 0 ;
+          oa:end 38
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "reviewers:\n  - test+expert-gh@" ;
+          oa:prefix "---\n" ;
+          oa:suffix "aswritten.ai"
+        ]
+      ] .
+  }
+}
