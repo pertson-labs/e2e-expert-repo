@@ -1,0 +1,189 @@
+PREFIX narr: <https://aswritten.ai/narrative#>
+PREFIX rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX prov: <http://www.w3.org/ns/prov#>
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+PREFIX dct:  <http://purl.org/dc/terms/>
+PREFIX xsd:  <http://www.w3.org/2001/XMLSchema#>
+PREFIX oa:   <http://www.w3.org/ns/oa#>
+
+# ── Transaction provenance (default graph) ──────────────────────────────────
+INSERT DATA {
+  narr:Tx_20250724T120000Z a prov:Activity ;
+    dct:title "Box-Free Design Continuation 2 — Derive Id E2E" ;
+    prov:generatedAtTime "2025-07-24T12:00:00Z"^^xsd:dateTime ;
+    prov:wasAssociatedWith "aswritten.ai" ;
+    prov:wasAttributedTo "n8n.aswritten.ai" ;
+    narr:originPath "box-free-design-continuation-2-derive-id-e2e" ;
+    narr:originRef "main" ;
+    prov:generated
+      narr:Sample_BoxFreeDesignContinuation2,
+      narr:Actor_MikeSackton,
+      narr:Narrative_CrashSafeSlugDerivation,
+      narr:Claim_H2HeadingNoIdMustNotCrash,
+      narr:Claim_TopicalSlugFromH2Heading,
+      narr:Observation_FailingPayloadPattern,
+      narr:Observation_SlugRequirement,
+      narr:StyleObs_ImperativeVoice,
+      narr:StyleObs_TechnicalJargon,
+      narr:StyleObs_BulletFreeNarrative,
+      narr:StyleMetrics_BoxFreeDesign2 .
+} ;
+
+# ── Extracted entities (named graph) ────────────────────────────────────────
+INSERT DATA {
+  GRAPH narr:Tx_20250724T120000Z {
+
+    # ── Sample ──────────────────────────────────────────────────────────────
+    narr:Sample_BoxFreeDesignContinuation2 a narr:Sample ;
+      dct:title "Box-Free Design Continuation 2 — Derive Id E2E" ;
+      dct:description "Short E2E test memory reproducing Mike Sackton's failing payload pattern: ## level heading with no id field. Validates that the pipeline must not crash and must produce a topical slug." ;
+      dct:created "2025-07-24"^^xsd:date ;
+      narr:inputLength 229 .
+
+    # ── Actor: Mike Sackton ─────────────────────────────────────────────────
+    narr:Actor_MikeSackton a narr:Actor ;
+      skos:prefLabel "Mike Sackton" ;
+      skos:note "Named as the originator of the failing payload pattern being reproduced in this E2E test: ## level heading with no id field in the memory front matter." .
+
+    # ── Narrative: Crash-safe slug derivation ───────────────────────────────
+    narr:Narrative_CrashSafeSlugDerivation a narr:Narrative ;
+      dct:source narr:Sample_BoxFreeDesignContinuation2 ;
+      skos:broader narr:Process ;
+      narr:theme "Pipeline must not crash and must derive a topical slug from heading content when no id is present" ;
+      skos:note "This memory extends the slug-gen fallback narrative by adding an explicit crash-safety requirement and grounding it in a specific known-failing payload pattern (## level heading, no id). The pipeline must handle this gracefully and produce a topical slug from the heading text." .
+
+    # ── Claim: H2 heading + no id must not crash ────────────────────────────
+    narr:Claim_H2HeadingNoIdMustNotCrash a narr:Claim ;
+      dct:source narr:Sample_BoxFreeDesignContinuation2 ;
+      narr:aboutNode narr:Narrative_CrashSafeSlugDerivation ;
+      narr:hasConvictionLevel narr:Conviction_Foundation ;
+      narr:supports narr:Narrative_PipelineSlugGenFallback ;
+      skos:note "The memory explicitly states the pipeline must not crash when processing a payload with a ## level heading and no id field — this is a hard requirement, not a preference." .
+
+    # ── Claim: Must produce a topical slug ──────────────────────────────────
+    narr:Claim_TopicalSlugFromH2Heading a narr:Claim ;
+      dct:source narr:Sample_BoxFreeDesignContinuation2 ;
+      narr:aboutNode narr:Narrative_CrashSafeSlugDerivation ;
+      narr:hasConvictionLevel narr:Conviction_Foundation ;
+      narr:supports narr:Narrative_PipelineSlugGenFallback ;
+      skos:note "When no id is present and the heading is ## level, the pipeline must produce a topical slug derived from the heading content. This is the positive outcome requirement paired with the crash-safety constraint." .
+
+    # ── Observation: Failing payload pattern ────────────────────────────────
+    narr:Observation_FailingPayloadPattern a narr:Observation ;
+      skos:broader narr:EdgeCaseHandling ;
+      dct:source narr:Sample_BoxFreeDesignContinuation2 ;
+      skos:note "The memory names Mike Sackton as the originator of the specific failing pattern: ## level heading with no id field. This grounds the test in a real-world failure case." ;
+      oa:hasSelector [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_BoxFreeDesignContinuation2 ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start 60 ;
+          oa:end 133
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "Reproduces Mike Sackton's failing payload pattern (## level heading," ;
+          oa:prefix "## Box-Free Design Continuation 2 — Derive Id E2E\n\n" ;
+          oa:suffix "\nno id)." 
+        ]
+      ] .
+
+    # ── Observation: Slug requirement ───────────────────────────────────────
+    narr:Observation_SlugRequirement a narr:Observation ;
+      skos:broader narr:CoreWorkflows ;
+      dct:source narr:Sample_BoxFreeDesignContinuation2 ;
+      skos:note "The two-part requirement stated in the body: (1) must not crash, (2) must produce a topical slug. Both are hard requirements for the pipeline's no-id fallback path." ;
+      oa:hasSelector [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_BoxFreeDesignContinuation2 ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start 134 ;
+          oa:end 183
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "Must not crash; must produce a topical slug." ;
+          oa:prefix "no id). " ;
+          oa:suffix ""
+        ]
+      ] .
+
+    # ── Style Observation 1: Imperative voice ───────────────────────────────
+    narr:StyleObs_ImperativeVoice a narr:StyleObservation ;
+      skos:broader narr:ToneAuthoritative ;
+      dct:source narr:Sample_BoxFreeDesignContinuation2 ;
+      skos:note "Dual imperative construction ('Must not crash; must produce') signals authoritative test specification language — no hedging, no conditionals." ;
+      rdf:value true ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_BoxFreeDesignContinuation2 ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start 134 ;
+          oa:end 183
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "Must not crash; must produce a topical slug." ;
+          oa:prefix "no id). " ;
+          oa:suffix ""
+        ]
+      ] .
+
+    # ── Style Observation 2: Technical jargon density ───────────────────────
+    narr:StyleObs_TechnicalJargon a narr:StyleObservation ;
+      skos:broader narr:JargonPolicy ;
+      dct:source narr:Sample_BoxFreeDesignContinuation2 ;
+      skos:note "High jargon density for document length: 'payload pattern', '## level heading', 'topical slug', 'E2E', 'id' as a technical field name. Assumes reader familiarity with pipeline internals." ;
+      rdf:value true ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_BoxFreeDesignContinuation2 ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start 60 ;
+          oa:end 133
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "Reproduces Mike Sackton's failing payload pattern (## level heading," ;
+          oa:prefix "## Box-Free Design Continuation 2 — Derive Id E2E\n\n" ;
+          oa:suffix "\nno id)."
+        ]
+      ] .
+
+    # ── Style Observation 3: Bullet-free prose specification ────────────────
+    narr:StyleObs_BulletFreeNarrative a narr:StyleObservation ;
+      skos:broader narr:GrammarSyntax ;
+      dct:source narr:Sample_BoxFreeDesignContinuation2 ;
+      skos:note "Requirements expressed as flowing prose sentences rather than bullet lists, despite being a test specification. Semicolon used to join two parallel imperatives in a single sentence, creating compact dual-requirement syntax." ;
+      rdf:value false ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_BoxFreeDesignContinuation2 ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start 60 ;
+          oa:end 183
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "Reproduces Mike Sackton's failing payload pattern (## level heading,\nno id). Must not crash; must produce a topical slug." ;
+          oa:prefix "## Box-Free Design Continuation 2 — Derive Id E2E\n\n" ;
+          oa:suffix ""
+        ]
+      ] .
+
+    # ── Style Metrics ────────────────────────────────────────────────────────
+    narr:StyleMetrics_BoxFreeDesign2 a narr:StyleMetrics ;
+      skos:broader narr:StyleMetrics ;
+      dct:source narr:Sample_BoxFreeDesignContinuation2 ;
+      narr:AverageSentenceLength "18"^^xsd:integer ;
+      narr:ActiveVoiceRatio "0.75"^^xsd:decimal ;
+      narr:JargonDensity "0.22"^^xsd:decimal ;
+      skos:note "Two-sentence body. High jargon density relative to document length (payload pattern, ## level heading, topical slug, E2E, id). Predominantly active/imperative voice with one passive-adjacent construction ('Reproduces')." .
+
+  }
+}
