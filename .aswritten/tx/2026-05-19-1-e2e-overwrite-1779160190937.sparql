@@ -1,0 +1,73 @@
+PREFIX narr: <https://aswritten.ai/narrative#>
+PREFIX prov: <http://www.w3.org/ns/prov#>
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+PREFIX dct: <http://purl.org/dc/terms/>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+PREFIX oa: <http://www.w3.org/ns/oa#>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+
+# Transaction provenance (default graph)
+INSERT DATA {
+  narr:Tx_20250522T143000Z a prov:Activity ;
+    prov:generatedAtTime "2025-05-22T14:30:00Z"^^xsd:dateTime ;
+    prov:wasAssociatedWith "aswritten.ai" ;
+    prov:wasAttributedTo "test+expert-gh@aswritten.ai" ;
+    narr:originPath "---\nreviewers:\n  - test+expert-gh@aswritten.ai\n---\n\nFirst version" ;
+    narr:originRef "main" ;
+    prov:generated narr:Sample_FirstVersion_20250522, narr:Narrative_InitialDocumentation, narr:StyleObs_MetadataHeader, narr:StyleObs_ReviewerList, narr:StyleObs_MinimalistBody, narr:StyleMetrics_FirstVersion .
+} ;
+
+# Extracted entities (named graph)
+INSERT DATA {
+  GRAPH narr:Tx_20250522T143000Z {
+    narr:Sample_FirstVersion_20250522 a narr:Sample ;
+      dct:title "First version" ;
+      narr:inputLength 68 .
+
+    narr:Narrative_InitialDocumentation a narr:Narrative ;
+      dct:source narr:Sample_FirstVersion_20250522 ;
+      narr:theme "Initial Documentation" ;
+      skos:broader narr:TechnicalDocumentation ;
+      skos:note "The document represents the first version of a narrative artifact." .
+
+    narr:StyleObs_MetadataHeader a narr:StyleObservation ;
+      skos:broader narr:OrthographySpelling ;
+      dct:source narr:Sample_FirstVersion_20250522 ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_FirstVersion_20250522 ;
+        oa:hasSelector [ a oa:TextPositionSelector ; oa:start 0 ; oa:end 3 ] ;
+        oa:hasSelector [ a oa:TextQuoteSelector ; oa:exact "---" ; oa:suffix "reviewers:" ]
+      ] ;
+      skos:note "Use of YAML frontmatter delimiters." .
+
+    narr:StyleObs_ReviewerList a narr:StyleObservation ;
+      skos:broader narr:Process ;
+      dct:source narr:Sample_FirstVersion_20250522 ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_FirstVersion_20250522 ;
+        oa:hasSelector [ a oa:TextPositionSelector ; oa:start 17 ; oa:end 46 ] ;
+        oa:hasSelector [ a oa:TextQuoteSelector ; oa:exact "- test+expert-gh@aswritten.ai" ; oa:prefix "reviewers:\n  " ]
+      ] ;
+      skos:note "Explicit reviewer attribution in metadata." .
+
+    narr:StyleObs_MinimalistBody a narr:StyleObservation ;
+      skos:broader narr:Conciseness ;
+      dct:source narr:Sample_FirstVersion_20250522 ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_FirstVersion_20250522 ;
+        oa:hasSelector [ a oa:TextPositionSelector ; oa:start 54 ; oa:end 67 ] ;
+        oa:hasSelector [ a oa:TextQuoteSelector ; oa:exact "First version" ; oa:prefix "\n\n" ]
+      ] ;
+      skos:note "Extremely brief, placeholder-style body text." .
+
+    narr:StyleMetrics_FirstVersion a narr:StyleMetrics ;
+      skos:broader narr:StyleMetrics ;
+      dct:source narr:Sample_FirstVersion_20250522 ;
+      narr:AverageSentenceLength 2 ;
+      narr:ActiveVoiceRatio 1.0 ;
+      narr:JargonDensity 0.0 .
+  }
+}
