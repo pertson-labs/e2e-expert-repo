@@ -1,0 +1,74 @@
+PREFIX narr: <https://aswritten.ai/narrative#>
+PREFIX prov: <http://www.w3.org/ns/prov#>
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+PREFIX dct: <http://purl.org/dc/terms/>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+PREFIX oa: <http://www.w3.org/ns/oa#>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+
+# Transaction provenance (default graph)
+INSERT DATA {
+  narr:Tx_20250522T143000Z a prov:Activity ;
+    prov:generatedAtTime "2025-05-22T14:30:00Z"^^xsd:dateTime ;
+    prov:wasAssociatedWith "aswritten.ai" ;
+    prov:wasAttributedTo "test+expert-gh@aswritten.ai" ;
+    narr:originPath ".aswritten/memories/2025-05-22-test-memory.md" ;
+    narr:originRef "main" ;
+    prov:generated narr:Sample_TestMemory_20250522, narr:Narrative_TestMemoryContent, narr:StyleMetrics_TestMemory_20250522, narr:StyleObs_TechnicalRegister, narr:StyleObs_MinimalistStructure, narr:StyleObs_TechnicalDiction .
+} ;
+
+# Extracted entities (named graph)
+INSERT DATA {
+  GRAPH narr:Tx_20250522T143000Z {
+    narr:Sample_TestMemory_20250522 a narr:Sample ;
+      dct:title "Some Other Title That Should Not Win" ;
+      narr:inputLength 105 .
+
+    narr:Narrative_TestMemoryContent a narr:Narrative ;
+      dct:source narr:Sample_TestMemory_20250522 ;
+      narr:theme "Test memory submission with minimal body content" ;
+      skos:broader narr:Process ;
+      skos:note "A memory submitted with a specific title and minimal body text ('Body.') to test pipeline handling of short inputs." .
+
+    narr:StyleMetrics_TestMemory_20250522 a narr:StyleMetrics ;
+      dct:source narr:Sample_TestMemory_20250522 ;
+      skos:broader narr:StyleMetrics ;
+      narr:AverageSentenceLength 1 ;
+      narr:ActiveVoiceRatio 0.0 ;
+      narr:JargonDensity 0.0 ;
+      skos:note "Extremely minimal content consisting of a single word body." .
+
+    narr:StyleObs_TechnicalRegister a narr:StyleObservation ;
+      skos:broader narr:RegisterFormality ;
+      dct:source narr:Sample_TestMemory_20250522 ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_TestMemory_20250522 ;
+        oa:hasSelector [ a oa:TextPositionSelector ; oa:start 0 ; oa:end 45 ] ;
+        oa:hasSelector [ a oa:TextQuoteSelector ; oa:exact "reviewers:\n  - test+expert-gh@aswritten.ai" ]
+      ] ;
+      skos:note "Use of YAML frontmatter for metadata." .
+
+    narr:StyleObs_MinimalistStructure a narr:StyleObservation ;
+      skos:broader narr:ShortPunchyCadence ;
+      dct:source narr:Sample_TestMemory_20250522 ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_TestMemory_20250522 ;
+        oa:hasSelector [ a oa:TextPositionSelector ; oa:start 98 ; oa:end 103 ] ;
+        oa:hasSelector [ a oa:TextQuoteSelector ; oa:exact "Body." ]
+      ] ;
+      skos:note "Extremely brief body content." .
+
+    narr:StyleObs_TechnicalDiction a narr:StyleObservation ;
+      skos:broader narr:TerminologyControl ;
+      dct:source narr:Sample_TestMemory_20250522 ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_TestMemory_20250522 ;
+        oa:hasSelector [ a oa:TextPositionSelector ; oa:start 15 ; oa:end 43 ] ;
+        oa:hasSelector [ a oa:TextQuoteSelector ; oa:exact "test+expert-gh@aswritten.ai" ]
+      ] ;
+      skos:note "Technical identifier used in reviewer field." .
+  }
+}
