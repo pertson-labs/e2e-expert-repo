@@ -1,0 +1,183 @@
+PREFIX narr: <https://aswritten.ai/narrative#>
+PREFIX rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX prov: <http://www.w3.org/ns/prov#>
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+PREFIX dct:  <http://purl.org/dc/terms/>
+PREFIX xsd:  <http://www.w3.org/2001/XMLSchema#>
+PREFIX oa:   <http://www.w3.org/ns/oa#>
+
+# Transaction provenance (default graph)
+INSERT DATA {
+  narr:Tx_20250115T120000Z a prov:Activity ;
+    prov:generatedAtTime "2025-01-15T12:00:00Z"^^xsd:dateTime ;
+    prov:wasAssociatedWith "aswritten.ai" ;
+    prov:wasAttributedTo "n8n.aswritten.ai" ;
+    narr:originPath "zypherion-analytics-migration-decision" ;
+    narr:originRef "main" ;
+    dct:title "Zypherion Analytics Migration Decision — pipeline slug fallback test" ;
+    prov:generated
+      narr:Sample_ZypherionMigration,
+      narr:Narrative_ZypherionMigrationDecision,
+      narr:Narrative_PipelineSlugFallback,
+      narr:Claim_NoExplicitId,
+      narr:Claim_SlugGenRequired,
+      narr:Actor_TestExpertReviewer,
+      narr:Obs_MigrationTitle,
+      narr:Obs_SlugFallbackAssertion,
+      narr:StyleObs_ImperativeTone,
+      narr:StyleObs_TechnicalJargon,
+      narr:StyleObs_PassiveConstruction,
+      narr:StyleMetrics_ZypherionMigration .
+} ;
+
+# Extracted entities (named graph)
+INSERT DATA {
+  GRAPH narr:Tx_20250115T120000Z {
+
+    # ── Sample ──────────────────────────────────────────────────
+    narr:Sample_ZypherionMigration a narr:Sample ;
+      dct:title "Zypherion Analytics Migration Decision" ;
+      narr:inputLength 328 ;
+      dct:description "A test memory submitted without an explicit id field, asserting that the pipeline must derive a slug from content and commit the file." .
+
+    # ── Actors ──────────────────────────────────────────────────
+    narr:Actor_TestExpertReviewer a narr:Actor ;
+      skos:prefLabel "test+expert-gh@aswritten.ai" ;
+      skos:note "Reviewer listed in YAML frontmatter of the Zypherion migration memory. Likely a test/CI reviewer account." .
+
+    # ── Narratives ───────────────────────────────────────────────
+    narr:Narrative_ZypherionMigrationDecision a narr:Narrative ;
+      dct:source narr:Sample_ZypherionMigration ;
+      narr:theme "Analytics platform migration decision" ;
+      skos:broader narr:StrategyOverview ;
+      skos:note "The document frames a migration decision for Zypherion Analytics, though the substantive migration details are not elaborated — the document's primary function is as a pipeline test artifact." .
+
+    narr:Narrative_PipelineSlugFallback a narr:Narrative ;
+      dct:source narr:Sample_ZypherionMigration ;
+      narr:theme "Pipeline must generate a slug when no explicit id is provided" ;
+      skos:broader narr:Process ;
+      skos:note "The memory explicitly asserts a pipeline behavior requirement: when a memory is submitted without an id field, the system must produce a slug via LLM id-gen or deterministic slugify fallback, then commit the file." .
+
+    # ── Claims ───────────────────────────────────────────────────
+    narr:Claim_NoExplicitId a narr:Claim ;
+      narr:aboutNode narr:Narrative_PipelineSlugFallback ;
+      narr:hasConvictionLevel narr:Conviction_Foundation ;
+      narr:supports narr:Narrative_PipelineSlugFallback ;
+      dct:source narr:Sample_ZypherionMigration ;
+      skos:note "The memory states it was 'Submitted without an explicit id field', establishing the test condition." .
+
+    narr:Claim_SlugGenRequired a narr:Claim ;
+      narr:aboutNode narr:Narrative_PipelineSlugFallback ;
+      narr:hasConvictionLevel narr:Conviction_Foundation ;
+      narr:supports narr:Narrative_PipelineSlugFallback ;
+      dct:source narr:Sample_ZypherionMigration ;
+      skos:note "The pipeline must produce a slug from memory content — either via the LLM id-gen call or the deterministic slugify fallback — and commit the file successfully." .
+
+    # ── Observations ─────────────────────────────────────────────
+    narr:Obs_MigrationTitle a narr:Observation ;
+      skos:broader narr:NarrativeAnchor ;
+      dct:source narr:Sample_ZypherionMigration ;
+      skos:note "Document title establishes the migration decision framing." ;
+      oa:hasSelector [
+        a oa:TextPositionSelector ;
+        oa:start 56 ;
+        oa:end 96
+      ] ;
+      oa:hasSelector [
+        a oa:TextQuoteSelector ;
+        oa:exact "Zypherion Analytics Migration Decision" ;
+        oa:prefix "# " ;
+        oa:suffix "\n\nSubmitted without"
+      ] .
+
+    narr:Obs_SlugFallbackAssertion a narr:Observation ;
+      skos:broader narr:Process ;
+      dct:source narr:Sample_ZypherionMigration ;
+      skos:note "Core pipeline behavior assertion: slug must be generated and file committed when id is absent." ;
+      oa:hasSelector [
+        a oa:TextPositionSelector ;
+        oa:start 98 ;
+        oa:end 280
+      ] ;
+      oa:hasSelector [
+        a oa:TextQuoteSelector ;
+        oa:exact "The pipeline must produce a slug from the memory content — either via the LLM id-gen call or the deterministic slugify fallback — and commit the file successfully." ;
+        oa:prefix "Submitted without an explicit id field. " ;
+        oa:suffix ""
+      ] .
+
+    # ── Style Observations ────────────────────────────────────────
+    narr:StyleObs_ImperativeTone a narr:StyleObservation ;
+      skos:broader narr:ToneAuthoritative ;
+      dct:source narr:Sample_ZypherionMigration ;
+      rdf:value true ;
+      skos:note "Authoritative imperative register: 'must produce', 'must' used twice to assert non-negotiable pipeline requirements." ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_ZypherionMigration ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start 98 ;
+          oa:end 175
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "The pipeline must produce a slug from the memory content" ;
+          oa:prefix "explicit id field. " ;
+          oa:suffix " — either via the LLM"
+        ]
+      ] .
+
+    narr:StyleObs_TechnicalJargon a narr:StyleObservation ;
+      skos:broader narr:JargonPolicy ;
+      dct:source narr:Sample_ZypherionMigration ;
+      rdf:value true ;
+      skos:note "High jargon density for a short document: 'LLM id-gen call', 'deterministic slugify fallback', 'YAML frontmatter' — assumes reader familiarity with pipeline internals." ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_ZypherionMigration ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start 176 ;
+          oa:end 248
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "either via the LLM id-gen call or the deterministic slugify fallback" ;
+          oa:prefix "memory content — " ;
+          oa:suffix " — and commit"
+        ]
+      ] .
+
+    narr:StyleObs_PassiveConstruction a narr:StyleObservation ;
+      skos:broader narr:VoicePassive ;
+      dct:source narr:Sample_ZypherionMigration ;
+      rdf:value true ;
+      skos:note "Passive construction used to describe the submission condition: 'Submitted without an explicit id field' — agent (submitter) is elided, foregrounding the state rather than the actor." ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_ZypherionMigration ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start 98 ;
+          oa:end 136
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "Submitted without an explicit id field." ;
+          oa:prefix "Decision\n\n" ;
+          oa:suffix " The pipeline must"
+        ]
+      ] .
+
+    # ── Style Metrics ─────────────────────────────────────────────
+    narr:StyleMetrics_ZypherionMigration a narr:StyleMetrics ;
+      skos:broader narr:StyleMetrics ;
+      dct:source narr:Sample_ZypherionMigration ;
+      narr:AverageSentenceLength "28"^^xsd:integer ;
+      narr:ActiveVoiceRatio "0.50"^^xsd:decimal ;
+      narr:JargonDensity "0.18"^^xsd:decimal ;
+      skos:note "Short document (2 body sentences). Mixed register: one passive sentence establishing test condition, one long active-imperative sentence specifying pipeline requirement. High jargon density relative to document length." .
+
+  }
+}
