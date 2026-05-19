@@ -1,0 +1,147 @@
+PREFIX narr: <https://aswritten.ai/narrative#>
+PREFIX rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX prov: <http://www.w3.org/ns/prov#>
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+PREFIX dct:  <http://purl.org/dc/terms/>
+PREFIX xsd:  <http://www.w3.org/2001/XMLSchema#>
+PREFIX oa:   <http://www.w3.org/ns/oa#>
+
+# ── Transaction node (retraction event, default graph) ──────────────────────
+INSERT DATA {
+  narr:Tx_20250717T000000Z a prov:Activity ;
+    dct:title "RETRACTION: Zypherion / Meridian / Quinton Fairweather / Analytics Pipeline" ;
+    prov:generatedAtTime "2025-07-17T00:00:00Z"^^xsd:dateTime ;
+    prov:wasAssociatedWith "aswritten.ai" ;
+    prov:wasAttributedTo "test+expert-gh@aswritten.ai" ;
+    narr:originPath "inline-retraction" ;
+    narr:originRef "main" ;
+    prov:generated
+      narr:Actor_QuintonFairweather,
+      narr:Sample_ZypherionDecision_20260406,
+      narr:Narrative_ZypherionAdoption,
+      narr:Claim_ZypherionColumnarPerf,
+      narr:Claim_ZypherionMigrationQ3,
+      narr:Claim_ZypherionStreamingGap,
+      narr:Claim_MeridianBatchStreaming,
+      narr:Obs_ColumnarSpeedClaim,
+      narr:Obs_MeridianCapabilityQuote,
+      narr:Obs_QuintonAdoptionQuote,
+      narr:Obs_QuintonReversalQuote,
+      narr:StyleMetrics_ZypherionDecision,
+      narr:Tx_20260406T120000Z,
+      narr:Tx_20260406T143000Z .
+} ;
+
+# ── DELETE: Actor_QuintonFairweather ────────────────────────────────────────
+DELETE WHERE {
+  narr:Actor_QuintonFairweather ?p ?o .
+} ;
+
+# ── DELETE: Sample_ZypherionDecision_20260406 ───────────────────────────────
+DELETE WHERE {
+  narr:Sample_ZypherionDecision_20260406 ?p ?o .
+} ;
+
+# ── DELETE: Narrative_ZypherionAdoption ─────────────────────────────────────
+DELETE WHERE {
+  narr:Narrative_ZypherionAdoption ?p ?o .
+} ;
+
+# ── DELETE: Claim_ZypherionColumnarPerf ─────────────────────────────────────
+DELETE WHERE {
+  narr:Claim_ZypherionColumnarPerf ?p ?o .
+} ;
+
+# ── DELETE: Claim_ZypherionMigrationQ3 ──────────────────────────────────────
+DELETE WHERE {
+  narr:Claim_ZypherionMigrationQ3 ?p ?o .
+} ;
+
+# ── DELETE: Claim_ZypherionStreamingGap ─────────────────────────────────────
+DELETE WHERE {
+  narr:Claim_ZypherionStreamingGap ?p ?o .
+} ;
+
+# ── DELETE: Claim_MeridianBatchStreaming ─────────────────────────────────────
+DELETE WHERE {
+  narr:Claim_MeridianBatchStreaming ?p ?o .
+} ;
+
+# ── DELETE: Obs_ColumnarSpeedClaim ───────────────────────────────────────────
+DELETE WHERE {
+  narr:Obs_ColumnarSpeedClaim ?p ?o .
+} ;
+
+# ── DELETE: Obs_MeridianCapabilityQuote ──────────────────────────────────────
+DELETE WHERE {
+  narr:Obs_MeridianCapabilityQuote ?p ?o .
+} ;
+
+# ── DELETE: Obs_QuintonAdoptionQuote ─────────────────────────────────────────
+DELETE WHERE {
+  narr:Obs_QuintonAdoptionQuote ?p ?o .
+} ;
+
+# ── DELETE: Obs_QuintonReversalQuote ─────────────────────────────────────────
+DELETE WHERE {
+  narr:Obs_QuintonReversalQuote ?p ?o .
+} ;
+
+# ── DELETE: StyleMetrics_ZypherionDecision ───────────────────────────────────
+DELETE WHERE {
+  narr:StyleMetrics_ZypherionDecision ?p ?o .
+} ;
+
+# ── DELETE: Tx_20260406T120000Z (Database Decision: Zypherion Analytics) ────
+DELETE WHERE {
+  narr:Tx_20260406T120000Z ?p ?o .
+} ;
+
+# ── DELETE: Tx_20260406T143000Z (Database Decision REVISED: Meridian) ────────
+DELETE WHERE {
+  narr:Tx_20260406T143000Z ?p ?o .
+} ;
+
+# ── DELETE: any remaining triples where retracted entities appear as objects ─
+DELETE WHERE {
+  ?s ?p narr:Actor_QuintonFairweather .
+} ;
+DELETE WHERE {
+  ?s ?p narr:Sample_ZypherionDecision_20260406 .
+} ;
+DELETE WHERE {
+  ?s ?p narr:Narrative_ZypherionAdoption .
+} ;
+DELETE WHERE {
+  ?s ?p narr:Claim_ZypherionColumnarPerf .
+} ;
+DELETE WHERE {
+  ?s ?p narr:Claim_ZypherionMigrationQ3 .
+} ;
+DELETE WHERE {
+  ?s ?p narr:Claim_ZypherionStreamingGap .
+} ;
+DELETE WHERE {
+  ?s ?p narr:Claim_MeridianBatchStreaming .
+} ;
+DELETE WHERE {
+  ?s ?p narr:Obs_ColumnarSpeedClaim .
+} ;
+DELETE WHERE {
+  ?s ?p narr:Obs_MeridianCapabilityQuote .
+} ;
+DELETE WHERE {
+  ?s ?p narr:Obs_QuintonAdoptionQuote .
+} ;
+DELETE WHERE {
+  ?s ?p narr:Obs_QuintonReversalQuote .
+} ;
+DELETE WHERE {
+  ?s ?p narr:StyleMetrics_ZypherionDecision .
+} ;
+DELETE WHERE {
+  ?s ?p narr:Tx_20260406T120000Z .
+} ;
+DELETE WHERE {
+  ?s ?p narr:Tx_20260406T143000Z .
+}
