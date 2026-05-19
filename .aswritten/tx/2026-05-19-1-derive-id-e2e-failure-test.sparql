@@ -1,0 +1,170 @@
+PREFIX narr: <https://aswritten.ai/narrative#>
+PREFIX rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX prov: <http://www.w3.org/ns/prov#>
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+PREFIX dct:  <http://purl.org/dc/terms/>
+PREFIX xsd:  <http://www.w3.org/2001/XMLSchema#>
+PREFIX oa:   <http://www.w3.org/ns/oa#>
+
+# ── Transaction provenance (default graph) ──────────────────────────────────
+INSERT DATA {
+  narr:Tx_20250717T140000Z a prov:Activity ;
+    dct:title "Sample Memory Phase 2 — Derive Id E2E — extraction" ;
+    prov:generatedAtTime "2025-07-17T14:00:00Z"^^xsd:dateTime ;
+    prov:wasAssociatedWith "aswritten.ai" ;
+    prov:wasAttributedTo "n8n.aswritten.ai" ;
+    narr:originPath "sample-memory-phase-2-derive-id-e2e" ;
+    narr:originRef "main" ;
+    prov:generated
+      narr:Sample_Phase2DeriveIdE2E,
+      narr:Claim_NoCrashOnMissingId,
+      narr:Obs_HashHashLevelHeadingDetail,
+      narr:StyleObs_Phase2_ToneAuthoritative,
+      narr:StyleObs_Phase2_JargonDensity,
+      narr:StyleObs_Phase2_ImperativeMood,
+      narr:StyleMetrics_Phase2DeriveIdE2E .
+} ;
+
+# ── UPDATE: narr:Narrative_PipelineSlugGeneration — add Phase 2 / heading detail ──
+DELETE {
+  GRAPH ?g {
+    narr:Narrative_PipelineSlugGeneration skos:note ?oldNote .
+  }
+}
+INSERT {
+  GRAPH narr:Tx_20250717T140000Z {
+    narr:Narrative_PipelineSlugGeneration skos:note "When a memory is submitted without an explicit id field, the pipeline must derive a slug — either via an LLM id-gen call or a deterministic slugify fallback — and commit the file successfully. This narrative validates that fallback path. Phase 2 (Derive Id E2E) further specifies that the failure pattern is triggered by a ## level heading with no id field, and the pipeline must not crash under this condition." .
+  }
+}
+WHERE {
+  GRAPH ?g {
+    narr:Narrative_PipelineSlugGeneration skos:note ?oldNote .
+  }
+} ;
+
+# ── INSERT: new Sample, Claims, Observations, Style entities ─────────────────
+INSERT DATA {
+  GRAPH narr:Tx_20250717T140000Z {
+
+    # ── Sample ──────────────────────────────────────────────────────────────
+    narr:Sample_Phase2DeriveIdE2E
+      a narr:Sample ;
+      dct:title "Sample Memory Phase 2 — Derive Id E2E" ;
+      dct:created "2025-07-17"^^xsd:date ;
+      skos:note "Phase 2 test memory submitted without an explicit id field. Exercises the pipeline slug-generation path specifically when the document uses a ## level heading. Reviewer: test+expert-gh@aswritten.ai." ;
+      narr:inputLength 237 .
+
+    # ── Claim: must not crash ────────────────────────────────────────────────
+    narr:Claim_NoCrashOnMissingId
+      a narr:Claim ;
+      dct:source narr:Sample_Phase2DeriveIdE2E ;
+      skos:note "The pipeline must not crash when processing a memory that has a ## level heading and no id field. Crash-prevention is an explicit acceptance criterion for the Phase 2 E2E test." ;
+      narr:aboutNode narr:Narrative_PipelineSlugGeneration ;
+      narr:hasConvictionLevel narr:Conviction_Stake ;
+      narr:supports narr:Narrative_PipelineSlugGeneration .
+
+    # ── Observation: ## level heading as the trigger ─────────────────────────
+    narr:Obs_HashHashLevelHeadingDetail
+      a narr:Observation ;
+      dct:source narr:Sample_Phase2DeriveIdE2E ;
+      skos:broader narr:EdgeCaseHandling ;
+      skos:note "The failure pattern is specifically triggered by a ## level heading combined with no id field — this is the prod failure mode being reproduced." ;
+      oa:hasSelector [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_Phase2DeriveIdE2E ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start 97 ;
+          oa:end 185
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "missing-id failure pattern from prod (## level heading,\nno id field)" ;
+          oa:prefix "Reproduces the " ;
+          oa:suffix ". Must not crash"
+        ]
+      ] .
+
+    # ── Style Observations ───────────────────────────────────────────────────
+
+    # 1. Authoritative / imperative tone in requirements
+    narr:StyleObs_Phase2_ToneAuthoritative
+      a narr:StyleObservation ;
+      skos:broader narr:ToneAuthoritative ;
+      dct:source narr:Sample_Phase2DeriveIdE2E ;
+      skos:note "Imperative requirements phrased as hard constraints: 'Must not crash; must produce a valid slug.' Authoritative, no hedging." ;
+      rdf:value true ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_Phase2DeriveIdE2E ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start 186 ;
+          oa:end 237
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "Must not crash; must produce a valid slug." ;
+          oa:prefix "no id field). " ;
+          oa:suffix ""
+        ]
+      ] .
+
+    # 2. High jargon density for document length
+    narr:StyleObs_Phase2_JargonDensity
+      a narr:StyleObservation ;
+      skos:broader narr:JargonPolicy ;
+      dct:source narr:Sample_Phase2DeriveIdE2E ;
+      skos:note "Dense technical vocabulary relative to document length: 'id field', 'slug', 'E2E', 'prod', '## level heading', 'failure pattern'. Assumes reader familiarity with pipeline internals." ;
+      rdf:value true ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_Phase2DeriveIdE2E ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start 56 ;
+          oa:end 185
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "Reproduces the missing-id failure pattern from prod (## level heading,\nno id field)" ;
+          oa:prefix "\n\n" ;
+          oa:suffix ". Must not crash"
+        ]
+      ] .
+
+    # 3. Imperative mood / direct second-person-free requirements style
+    narr:StyleObs_Phase2_ImperativeMood
+      a narr:StyleObservation ;
+      skos:broader narr:SentenceMood ;
+      dct:source narr:Sample_Phase2DeriveIdE2E ;
+      skos:note "Requirements expressed as modal imperatives ('Must not crash; must produce') rather than user-story or conditional form. Terse, specification-register prose." ;
+      rdf:value true ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_Phase2DeriveIdE2E ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start 186 ;
+          oa:end 237
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "Must not crash; must produce a valid slug." ;
+          oa:prefix "no id field). " ;
+          oa:suffix ""
+        ]
+      ] .
+
+    # ── Style Metrics ────────────────────────────────────────────────────────
+    narr:StyleMetrics_Phase2DeriveIdE2E
+      a narr:StyleMetrics ;
+      dct:source narr:Sample_Phase2DeriveIdE2E ;
+      skos:broader narr:StyleMetrics ;
+      skos:note "Very short document (2 body sentences). High active-voice ratio; both requirement sentences use active modal construction. High jargon density given 6+ technical terms in ~40 body words." ;
+      narr:AverageSentenceLength 20 ;
+      narr:ActiveVoiceRatio "0.85"^^xsd:decimal ;
+      narr:JargonDensity "0.22"^^xsd:decimal .
+
+  }
+}
