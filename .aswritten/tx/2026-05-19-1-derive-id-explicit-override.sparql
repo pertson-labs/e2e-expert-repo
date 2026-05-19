@@ -1,0 +1,179 @@
+PREFIX narr: <https://aswritten.ai/narrative#>
+PREFIX rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX prov: <http://www.w3.org/ns/prov#>
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+PREFIX dct:  <http://purl.org/dc/terms/>
+PREFIX xsd:  <http://www.w3.org/2001/XMLSchema#>
+PREFIX oa:   <http://www.w3.org/ns/oa#>
+
+# Transaction provenance (default graph)
+INSERT DATA {
+  narr:Tx_20250714T140000Z a prov:Activity ;
+    prov:generatedAtTime "2025-07-14T14:00:00Z"^^xsd:dateTime ;
+    prov:wasAssociatedWith "aswritten.ai" ;
+    prov:wasAttributedTo "n8n.aswritten.ai" ;
+    narr:originPath "" ;
+    narr:originRef "main" ;
+    dct:title "Some Other Title That Should Not Win — H1 title slug suppression E2E" ;
+    prov:generated
+      narr:Sample_SomeOtherTitleShouldNotWin,
+      narr:Narrative_H1TitleShouldNotDetermineSlug,
+      narr:Claim_H1TitleShouldNotWin,
+      narr:Obs_H1TitleHeading,
+      narr:Obs_MinimalBody,
+      narr:Obs_ReviewerFrontmatter,
+      narr:StyleObs_ImperativeNegation,
+      narr:StyleObs_MinimalistBody,
+      narr:StyleObs_YAMLFrontmatterConvention,
+      narr:StyleMetrics_SomeOtherTitleShouldNotWin .
+} ;
+
+# Extracted entities (named graph)
+INSERT DATA {
+  GRAPH narr:Tx_20250714T140000Z {
+
+    # ── Sample ──────────────────────────────────────────────────
+    narr:Sample_SomeOtherTitleShouldNotWin a narr:Sample ;
+      dct:title "Some Other Title That Should Not Win" ;
+      dct:description "Pipeline E2E test artifact with YAML frontmatter (reviewer), an H1 title, and a one-word body. Tests that the H1 title does not become the slug/id when no explicit id field is present." ;
+      narr:inputLength 80 .
+
+    # ── Narrative ────────────────────────────────────────────────
+    narr:Narrative_H1TitleShouldNotDetermineSlug a narr:Narrative ;
+      dct:source narr:Sample_SomeOtherTitleShouldNotWin ;
+      skos:broader narr:Process ;
+      narr:theme "H1 title must not be used as the slug when no explicit id field is provided" ;
+      skos:note "The document title 'Some Other Title That Should Not Win' encodes a pipeline assertion: when deriving a slug from content in the absence of an explicit id field, the H1 heading must NOT be the winning source. This extends the slug-fallback narrative with a negative constraint on H1 title usage." .
+
+    # ── Claim ────────────────────────────────────────────────────
+    narr:Claim_H1TitleShouldNotWin a narr:Claim ;
+      narr:aboutNode narr:Narrative_PipelineSlugFallback ;
+      narr:hasConvictionLevel narr:Conviction_Foundation ;
+      dct:source narr:Sample_SomeOtherTitleShouldNotWin ;
+      narr:supports narr:Narrative_PipelineSlugFallback ;
+      skos:note "The H1 title ('Some Other Title That Should Not Win') must not be selected as the slug source when the pipeline derives an id from content. The slug derivation logic must prefer other signals (e.g., ## headings, body content, or LLM id-gen) over the H1 title." .
+
+    # ── Observations ─────────────────────────────────────────────
+    narr:Obs_H1TitleHeading a narr:Observation ;
+      skos:broader narr:NarrativeAnchor ;
+      dct:source narr:Sample_SomeOtherTitleShouldNotWin ;
+      skos:note "H1 heading encodes the test assertion: this title should not win as the slug source." ;
+      oa:hasSelector [
+        a oa:TextPositionSelector ;
+        oa:start 43 ;
+        oa:end 80
+      ] ;
+      oa:hasSelector [
+        a oa:TextQuoteSelector ;
+        oa:exact "# Some Other Title That Should Not Win" ;
+        oa:prefix "---\n\n" ;
+        oa:suffix "\n\nBody."
+      ] .
+
+    narr:Obs_MinimalBody a narr:Observation ;
+      skos:broader narr:Process ;
+      dct:source narr:Sample_SomeOtherTitleShouldNotWin ;
+      skos:note "Body is a single word 'Body.' — minimal content, confirming this is a test artifact rather than a substantive memory." ;
+      oa:hasSelector [
+        a oa:TextPositionSelector ;
+        oa:start 82 ;
+        oa:end 87
+      ] ;
+      oa:hasSelector [
+        a oa:TextQuoteSelector ;
+        oa:exact "Body." ;
+        oa:prefix "# Some Other Title That Should Not Win\n\n" ;
+        oa:suffix ""
+      ] .
+
+    narr:Obs_ReviewerFrontmatter a narr:Observation ;
+      skos:broader narr:Process ;
+      dct:source narr:Sample_SomeOtherTitleShouldNotWin ;
+      skos:note "YAML frontmatter lists test+expert-gh@aswritten.ai as reviewer — same reviewer account as the Zypherion migration test, confirming CI/test provenance." ;
+      oa:hasSelector [
+        a oa:TextPositionSelector ;
+        oa:start 0 ;
+        oa:end 42
+      ] ;
+      oa:hasSelector [
+        a oa:TextQuoteSelector ;
+        oa:exact "reviewers:\n  - test+expert-gh@aswritten.ai" ;
+        oa:prefix "---\n" ;
+        oa:suffix "\n---"
+      ] .
+
+    # ── Style Observations ───────────────────────────────────────
+    narr:StyleObs_ImperativeNegation a narr:StyleObservation ;
+      skos:broader narr:ToneAuthoritative ;
+      dct:source narr:Sample_SomeOtherTitleShouldNotWin ;
+      skos:note "Title uses imperative negation ('Should Not Win') to encode a pipeline constraint as a human-readable assertion — a rhetorical device that doubles as a test specification." ;
+      rdf:value true ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_SomeOtherTitleShouldNotWin ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start 43 ;
+          oa:end 80
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "# Some Other Title That Should Not Win" ;
+          oa:prefix "---\n\n" ;
+          oa:suffix "\n\nBody."
+        ]
+      ] .
+
+    narr:StyleObs_MinimalistBody a narr:StyleObservation ;
+      skos:broader narr:ShortPunchyCadence ;
+      dct:source narr:Sample_SomeOtherTitleShouldNotWin ;
+      skos:note "Body reduced to a single word 'Body.' — extreme minimalism consistent with a test fixture pattern where body content is a placeholder, not substantive prose." ;
+      rdf:value false ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_SomeOtherTitleShouldNotWin ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start 82 ;
+          oa:end 87
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "Body." ;
+          oa:prefix "# Some Other Title That Should Not Win\n\n" ;
+          oa:suffix ""
+        ]
+      ] .
+
+    narr:StyleObs_YAMLFrontmatterConvention a narr:StyleObservation ;
+      skos:broader narr:EditorialRules ;
+      dct:source narr:Sample_SomeOtherTitleShouldNotWin ;
+      skos:note "YAML frontmatter block with 'reviewers' key follows the same convention as the Zypherion migration test artifact, establishing a consistent CI/test document format across the pipeline test suite." ;
+      rdf:value true ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_SomeOtherTitleShouldNotWin ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start 0 ;
+          oa:end 42
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "reviewers:\n  - test+expert-gh@aswritten.ai" ;
+          oa:prefix "---\n" ;
+          oa:suffix "\n---"
+        ]
+      ] .
+
+    # ── Style Metrics ────────────────────────────────────────────
+    narr:StyleMetrics_SomeOtherTitleShouldNotWin a narr:StyleMetrics ;
+      dct:source narr:Sample_SomeOtherTitleShouldNotWin ;
+      skos:broader narr:StyleMetrics ;
+      skos:note "Extremely short document (1 body sentence: 'Body.'). Title is the only substantive prose — 7 words with embedded negation. Active voice ratio not meaningful at this length. Jargon density near zero in body; title carries all semantic weight." ;
+      narr:AverageSentenceLength "1"^^xsd:integer ;
+      narr:ActiveVoiceRatio "1.00"^^xsd:decimal ;
+      narr:JargonDensity "0.00"^^xsd:decimal .
+
+  }
+}
