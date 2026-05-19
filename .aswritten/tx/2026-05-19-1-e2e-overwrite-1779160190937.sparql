@@ -1,73 +1,128 @@
 PREFIX narr: <https://aswritten.ai/narrative#>
+PREFIX rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
 PREFIX prov: <http://www.w3.org/ns/prov#>
 PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
-PREFIX dct: <http://purl.org/dc/terms/>
-PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
-PREFIX oa: <http://www.w3.org/ns/oa#>
-PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX dct:  <http://purl.org/dc/terms/>
+PREFIX xsd:  <http://www.w3.org/2001/XMLSchema#>
+PREFIX oa:   <http://www.w3.org/ns/oa#>
 
 # Transaction provenance (default graph)
 INSERT DATA {
-  narr:Tx_20250522T143000Z a prov:Activity ;
-    prov:generatedAtTime "2025-05-22T14:30:00Z"^^xsd:dateTime ;
+  narr:Tx_20250522T150000Z a prov:Activity ;
+    prov:generatedAtTime "2025-05-22T15:00:00Z"^^xsd:dateTime ;
     prov:wasAssociatedWith "aswritten.ai" ;
     prov:wasAttributedTo "test+expert-gh@aswritten.ai" ;
-    narr:originPath "---\nreviewers:\n  - test+expert-gh@aswritten.ai\n---\n\nFirst version" ;
+    narr:originPath "---\nreviewers:\n  - test+expert-gh@aswritten.ai\n---\n\nSecond version" ;
     narr:originRef "main" ;
-    prov:generated narr:Sample_FirstVersion_20250522, narr:Narrative_InitialDocumentation, narr:StyleObs_MetadataHeader, narr:StyleObs_ReviewerList, narr:StyleObs_MinimalistBody, narr:StyleMetrics_FirstVersion .
+    dct:title "Second Version Document Extraction" ;
+    prov:generated
+      narr:Sample_SecondVersion_20250522,
+      narr:Narrative_SecondDocumentation,
+      narr:Actor_TestExpertReviewer,
+      narr:StyleObs_SecondVersion_Terseness,
+      narr:StyleObs_SecondVersion_VersioningTerminology,
+      narr:StyleObs_SecondVersion_MinimalRegister,
+      narr:StyleMetrics_SecondVersion .
 } ;
 
 # Extracted entities (named graph)
 INSERT DATA {
-  GRAPH narr:Tx_20250522T143000Z {
-    narr:Sample_FirstVersion_20250522 a narr:Sample ;
-      dct:title "First version" ;
-      narr:inputLength 68 .
+  GRAPH narr:Tx_20250522T150000Z {
 
-    narr:Narrative_InitialDocumentation a narr:Narrative ;
-      dct:source narr:Sample_FirstVersion_20250522 ;
-      narr:theme "Initial Documentation" ;
+    # ── Sample ──────────────────────────────────────────────────
+    narr:Sample_SecondVersion_20250522 a narr:Sample ;
+      dct:title "Second version" ;
+      narr:inputLength 68 ;
+      dct:description "Minimal document with YAML frontmatter listing a reviewer and a two-word body: 'Second version'." .
+
+    # ── Narrative ───────────────────────────────────────────────
+    narr:Narrative_SecondDocumentation a narr:Narrative ;
+      dct:source narr:Sample_SecondVersion_20250522 ;
+      narr:theme "Second Documentation Version" ;
       skos:broader narr:TechnicalDocumentation ;
-      skos:note "The document represents the first version of a narrative artifact." .
+      skos:note "The document represents the second version of a narrative artifact, parallel in structure to the first version but distinct in iteration." .
 
-    narr:StyleObs_MetadataHeader a narr:StyleObservation ;
-      skos:broader narr:OrthographySpelling ;
-      dct:source narr:Sample_FirstVersion_20250522 ;
+    # ── Actor ───────────────────────────────────────────────────
+    narr:Actor_TestExpertReviewer a narr:Actor ;
+      skos:prefLabel "test+expert-gh (reviewer)" ;
+      skos:note "Reviewer listed in YAML frontmatter of the second version document. Email redacted per PII policy." .
+
+    # ── Style Observations ──────────────────────────────────────
+
+    # 1. Extreme terseness / short punchy cadence
+    narr:StyleObs_SecondVersion_Terseness a narr:StyleObservation ;
+      skos:broader narr:ShortPunchyCadence ;
+      dct:source narr:Sample_SecondVersion_20250522 ;
+      skos:note "Body consists of exactly two words with no punctuation, exemplifying maximum brevity." ;
+      rdf:value true ;
       oa:hasTarget [
         a oa:SpecificResource ;
-        oa:hasSource narr:Sample_FirstVersion_20250522 ;
-        oa:hasSelector [ a oa:TextPositionSelector ; oa:start 0 ; oa:end 3 ] ;
-        oa:hasSelector [ a oa:TextQuoteSelector ; oa:exact "---" ; oa:suffix "reviewers:" ]
-      ] ;
-      skos:note "Use of YAML frontmatter delimiters." .
+        oa:hasSource narr:Sample_SecondVersion_20250522 ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start 55 ;
+          oa:end 69
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "Second version" ;
+          oa:prefix "---\n\n" ;
+          oa:suffix ""
+        ]
+      ] .
 
-    narr:StyleObs_ReviewerList a narr:StyleObservation ;
-      skos:broader narr:Process ;
-      dct:source narr:Sample_FirstVersion_20250522 ;
+    # 2. Versioning terminology / naming convention
+    narr:StyleObs_SecondVersion_VersioningTerminology a narr:StyleObservation ;
+      skos:broader narr:NamingConventions ;
+      dct:source narr:Sample_SecondVersion_20250522 ;
+      skos:note "Ordinal versioning label ('Second version') used as the entire document body, establishing a naming convention consistent with the prior 'First version' artifact." ;
+      rdf:value true ;
       oa:hasTarget [
         a oa:SpecificResource ;
-        oa:hasSource narr:Sample_FirstVersion_20250522 ;
-        oa:hasSelector [ a oa:TextPositionSelector ; oa:start 17 ; oa:end 46 ] ;
-        oa:hasSelector [ a oa:TextQuoteSelector ; oa:exact "- test+expert-gh@aswritten.ai" ; oa:prefix "reviewers:\n  " ]
-      ] ;
-      skos:note "Explicit reviewer attribution in metadata." .
+        oa:hasSource narr:Sample_SecondVersion_20250522 ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start 55 ;
+          oa:end 69
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "Second version" ;
+          oa:prefix "---\n\n" ;
+          oa:suffix ""
+        ]
+      ] .
 
-    narr:StyleObs_MinimalistBody a narr:StyleObservation ;
-      skos:broader narr:Conciseness ;
-      dct:source narr:Sample_FirstVersion_20250522 ;
+    # 3. Minimal register / plain language
+    narr:StyleObs_SecondVersion_MinimalRegister a narr:StyleObservation ;
+      skos:broader narr:PlainLanguage ;
+      dct:source narr:Sample_SecondVersion_20250522 ;
+      skos:note "No jargon, no punctuation, no elaboration. Register is maximally plain and institutional — a label rather than a sentence." ;
+      rdf:value true ;
       oa:hasTarget [
         a oa:SpecificResource ;
-        oa:hasSource narr:Sample_FirstVersion_20250522 ;
-        oa:hasSelector [ a oa:TextPositionSelector ; oa:start 54 ; oa:end 67 ] ;
-        oa:hasSelector [ a oa:TextQuoteSelector ; oa:exact "First version" ; oa:prefix "\n\n" ]
-      ] ;
-      skos:note "Extremely brief, placeholder-style body text." .
+        oa:hasSource narr:Sample_SecondVersion_20250522 ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start 55 ;
+          oa:end 69
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "Second version" ;
+          oa:prefix "---\n\n" ;
+          oa:suffix ""
+        ]
+      ] .
 
-    narr:StyleMetrics_FirstVersion a narr:StyleMetrics ;
+    # ── Style Metrics ───────────────────────────────────────────
+    narr:StyleMetrics_SecondVersion a narr:StyleMetrics ;
+      dct:source narr:Sample_SecondVersion_20250522 ;
       skos:broader narr:StyleMetrics ;
-      dct:source narr:Sample_FirstVersion_20250522 ;
       narr:AverageSentenceLength 2 ;
-      narr:ActiveVoiceRatio 1.0 ;
-      narr:JargonDensity 0.0 .
+      narr:ActiveVoiceRatio "1.0"^^xsd:decimal ;
+      narr:JargonDensity "0.0"^^xsd:decimal ;
+      skos:note "Minimal two-word body. Active declarative label. Zero jargon. Identical metrics profile to the first version document." .
+
   }
 }
