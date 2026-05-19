@@ -8,113 +8,119 @@ PREFIX oa:   <http://www.w3.org/ns/oa#>
 
 # Transaction provenance (default graph)
 INSERT DATA {
-  narr:Tx_20250715T000000Z a prov:Activity ;
-    prov:generatedAtTime "2025-07-15T00:00:00Z"^^xsd:dateTime ;
+  narr:Tx_20250715T120000Z a prov:Activity ;
+    dct:title "Extraction: Second version document" ;
+    prov:generatedAtTime "2025-07-15T12:00:00Z"^^xsd:dateTime ;
     prov:wasAssociatedWith "aswritten.ai" ;
     prov:wasAttributedTo "n8n.aswritten.ai" ;
     narr:originPath "unknown" ;
     narr:originRef "unknown" ;
-    dct:title "Extraction: First version document" ;
     prov:generated
-      narr:Sample_FirstVersion,
-      narr:Narrative_FirstVersion_InitialDocument,
-      narr:StyleObs_FirstVersion_TerseRegister,
-      narr:StyleObs_FirstVersion_PlainLanguage,
-      narr:StyleObs_FirstVersion_DeclarativePhrase,
-      narr:StyleMetrics_FirstVersion .
+      narr:Sample_SecondVersion,
+      narr:Narrative_SecondVersion_InitialDocument,
+      narr:StyleMetrics_SecondVersion,
+      narr:StyleObs_SecondVersion_TerseNominal,
+      narr:StyleObs_SecondVersion_YAMLFrontmatter,
+      narr:StyleObs_SecondVersion_NoPunctuation .
 } ;
 
 # Extracted entities (named graph)
 INSERT DATA {
-  GRAPH narr:Tx_20250715T000000Z {
+  GRAPH narr:Tx_20250715T120000Z {
 
     # ── Sample ──────────────────────────────────────────────────
-    narr:Sample_FirstVersion a narr:Sample ;
-      dct:title "First version" ;
-      dct:description "Minimal document with YAML frontmatter (reviewer metadata) and a two-word body. Reviewer email redacted per PII policy." ;
-      narr:inputLength 75 .
+    narr:Sample_SecondVersion
+      a narr:Sample ;
+      dct:title "Second version" ;
+      dct:description "Minimal document with YAML frontmatter (reviewer metadata) and a two-word body. Reviewer email redacted per PII policy. Structurally parallel to First version but declares a second iteration." ;
+      narr:inputLength 72 .
 
     # ── Narrative ────────────────────────────────────────────────
-    narr:Narrative_FirstVersion_InitialDocument a narr:Narrative ;
-      dct:source narr:Sample_FirstVersion ;
-      narr:theme "Initial document version declaration" ;
+    narr:Narrative_SecondVersion_InitialDocument
+      a narr:Narrative ;
+      dct:source narr:Sample_SecondVersion ;
       skos:broader narr:Process ;
-      skos:note "The document asserts itself as a first version with a named reviewer, indicating an early-stage review workflow. No substantive narrative content is present beyond the version declaration." .
+      skos:note "The document asserts itself as a second version with a named reviewer, indicating a continued early-stage review workflow. No substantive narrative content is present beyond the version increment declaration." ;
+      narr:theme "Second document version declaration" .
 
-    # ── Style Observation 1: Terse register ─────────────────────
-    narr:StyleObs_FirstVersion_TerseRegister a narr:StyleObservation ;
-      skos:broader narr:RegisterFormality ;
-      dct:source narr:Sample_FirstVersion ;
-      skos:note "Extremely terse register: entire body is two words. Minimal prose, no elaboration." ;
-      rdf:value "true"^^xsd:boolean ;
-      oa:hasTarget [
-        a oa:SpecificResource ;
-        oa:hasSource narr:Sample_FirstVersion ;
-        oa:hasSelector [
-          a oa:TextPositionSelector ;
-          oa:start 52 ;
-          oa:end 65
-        ] ;
-        oa:hasSelector [
-          a oa:TextQuoteSelector ;
-          oa:exact "First version" ;
-          oa:prefix "---\n\n" ;
-          oa:suffix ""
-        ]
-      ] .
-
-    # ── Style Observation 2: Plain language ──────────────────────
-    narr:StyleObs_FirstVersion_PlainLanguage a narr:StyleObservation ;
+    # ── Style Observation 1: Terse nominal body ──────────────────
+    narr:StyleObs_SecondVersion_TerseNominal
+      a narr:StyleObservation ;
       skos:broader narr:PlainLanguage ;
-      dct:source narr:Sample_FirstVersion ;
-      skos:note "Body uses plain, jargon-free language. No technical terms, no rhetorical devices." ;
-      rdf:value "true"^^xsd:boolean ;
+      dct:source narr:Sample_SecondVersion ;
+      skos:note "Body consists of a bare two-word noun phrase with no verb, no punctuation, and no elaboration. Maximally terse register." ;
+      rdf:value true ;
       oa:hasTarget [
         a oa:SpecificResource ;
-        oa:hasSource narr:Sample_FirstVersion ;
+        oa:hasSource narr:Sample_SecondVersion ;
         oa:hasSelector [
           a oa:TextPositionSelector ;
-          oa:start 52 ;
-          oa:end 65
+          oa:start 49 ;
+          oa:end 63
         ] ;
         oa:hasSelector [
           a oa:TextQuoteSelector ;
-          oa:exact "First version" ;
+          oa:exact "Second version" ;
           oa:prefix "---\n\n" ;
           oa:suffix ""
         ]
       ] .
 
-    # ── Style Observation 3: Declarative minimal phrase ──────────
-    narr:StyleObs_FirstVersion_DeclarativePhrase a narr:StyleObservation ;
-      skos:broader narr:SentenceMood ;
-      dct:source narr:Sample_FirstVersion ;
-      skos:note "Body is a bare noun phrase functioning as a declarative label rather than a full sentence. No verb, no subject-predicate structure." ;
-      rdf:value "false"^^xsd:boolean ;
+    # ── Style Observation 2: YAML frontmatter convention ─────────
+    narr:StyleObs_SecondVersion_YAMLFrontmatter
+      a narr:StyleObservation ;
+      skos:broader narr:EditorialRules ;
+      dct:source narr:Sample_SecondVersion ;
+      skos:note "Document uses YAML frontmatter delimited by triple-dashes to encode reviewer metadata, consistent with static-site or documentation toolchain conventions." ;
+      rdf:value true ;
       oa:hasTarget [
         a oa:SpecificResource ;
-        oa:hasSource narr:Sample_FirstVersion ;
+        oa:hasSource narr:Sample_SecondVersion ;
         oa:hasSelector [
           a oa:TextPositionSelector ;
-          oa:start 52 ;
-          oa:end 65
+          oa:start 0 ;
+          oa:end 47
         ] ;
         oa:hasSelector [
           a oa:TextQuoteSelector ;
-          oa:exact "First version" ;
+          oa:exact "---\nreviewers:\n  - [REDACTED]\n---" ;
+          oa:prefix "" ;
+          oa:suffix "\n\nSecond version"
+        ]
+      ] .
+
+    # ── Style Observation 3: No punctuation / pure nominal ───────
+    narr:StyleObs_SecondVersion_NoPunctuation
+      a narr:StyleObservation ;
+      skos:broader narr:PunctuationTypography ;
+      dct:source narr:Sample_SecondVersion ;
+      skos:note "The body text contains zero punctuation marks. No period, comma, or other terminal marker. Consistent with a label or title rather than a prose sentence." ;
+      rdf:value false ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_SecondVersion ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start 49 ;
+          oa:end 63
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "Second version" ;
           oa:prefix "---\n\n" ;
           oa:suffix ""
         ]
       ] .
 
     # ── Style Metrics ────────────────────────────────────────────
-    narr:StyleMetrics_FirstVersion a narr:StyleMetrics ;
+    narr:StyleMetrics_SecondVersion
+      a narr:StyleMetrics ;
+      dct:source narr:Sample_SecondVersion ;
       skos:broader narr:StyleMetrics ;
-      dct:source narr:Sample_FirstVersion ;
+      skos:note "Minimal document: body is a two-word noun phrase. No sentences in the traditional sense. Zero jargon. Register is maximally plain and terse. Structurally identical pattern to First version." ;
       narr:AverageSentenceLength 2 ;
       narr:ActiveVoiceRatio "1.0"^^xsd:decimal ;
-      narr:JargonDensity "0.0"^^xsd:decimal ;
-      skos:note "Minimal document: body is a two-word noun phrase. No sentences in the traditional sense. Zero jargon. Register is maximally plain and terse." .
+      narr:JargonDensity "0.0"^^xsd:decimal .
 
   }
 }
