@@ -1,0 +1,210 @@
+PREFIX narr: <https://aswritten.ai/narrative#>
+PREFIX rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX prov: <http://www.w3.org/ns/prov#>
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+PREFIX dct:  <http://purl.org/dc/terms/>
+PREFIX xsd:  <http://www.w3.org/2001/XMLSchema#>
+PREFIX oa:   <http://www.w3.org/ns/oa#>
+
+# ── Transaction provenance (default graph) ──────────────────────────────────
+INSERT DATA {
+  narr:Tx_20250714T120000Z a prov:Activity ;
+    dct:title "Box-Free Design Continuation 2 — Derive Id E2E" ;
+    prov:generatedAtTime "2025-07-14T12:00:00Z"^^xsd:dateTime ;
+    prov:wasAssociatedWith "aswritten.ai" ;
+    prov:wasAttributedTo "n8n.aswritten.ai" ;
+    narr:originPath "box-free-design-continuation-2-derive-id-e2e" ;
+    narr:originRef "main" ;
+    prov:generated
+      narr:Sample_BoxFreeDesignContinuation2,
+      narr:Actor_MikeSackton,
+      narr:Narrative_BoxFreeDesignE2E,
+      narr:Claim_NoCrashOnMissingId,
+      narr:Claim_TopicalSlugFromHeading,
+      narr:Obs_TestConditionHeading,
+      narr:Obs_MustNotCrash,
+      narr:Obs_MustProduceSlug,
+      narr:StyleObs_ImperativeTone,
+      narr:StyleObs_TechnicalJargon,
+      narr:StyleObs_BulletFreeDirective,
+      narr:StyleMetrics_BoxFreeDesignContinuation2 .
+} ;
+
+# ── New entities (named graph) ───────────────────────────────────────────────
+INSERT DATA {
+  GRAPH narr:Tx_20250714T120000Z {
+
+    # ── Sample ──────────────────────────────────────────────────────────────
+    narr:Sample_BoxFreeDesignContinuation2 a narr:Sample ;
+      dct:title "Box-Free Design Continuation 2 — Derive Id E2E" ;
+      dct:description "Pipeline E2E test reproducing Mike Sackton's failing payload pattern: ## level heading with no id field. Asserts the system must not crash and must produce a topical slug." ;
+      dct:created "2025-07-14"^^xsd:date ;
+      narr:inputLength 200 .
+
+    # ── Actor ────────────────────────────────────────────────────────────────
+    narr:Actor_MikeSackton a narr:Actor ;
+      skos:prefLabel "Mike Sackton" ;
+      skos:note "Named as the originator of the failing payload pattern reproduced in this E2E test: ## level heading with no id field." .
+
+    # ── Narrative ────────────────────────────────────────────────────────────
+    narr:Narrative_BoxFreeDesignE2E a narr:Narrative ;
+      dct:source narr:Sample_BoxFreeDesignContinuation2 ;
+      skos:broader narr:Process ;
+      narr:theme "Box-Free Design pipeline must handle ## heading payloads with no id without crashing and must derive a topical slug" ;
+      skos:note "This is the second continuation of the Box-Free Design E2E test series. It specifically reproduces Mike Sackton's failing payload pattern (## level heading, no id field) and asserts two requirements: (1) the pipeline must not crash, (2) it must produce a topical slug from the heading content." .
+
+    # ── Claims ───────────────────────────────────────────────────────────────
+    narr:Claim_NoCrashOnMissingId a narr:Claim ;
+      dct:source narr:Sample_BoxFreeDesignContinuation2 ;
+      narr:aboutNode narr:Narrative_BoxFreeDesignE2E ;
+      narr:hasConvictionLevel narr:Conviction_Foundation ;
+      narr:supports narr:Narrative_PipelineSlugFallback ;
+      skos:note "The pipeline must not crash when receiving a payload with a ## level heading and no id field — reproducing Mike Sackton's failing pattern." .
+
+    narr:Claim_TopicalSlugFromHeading a narr:Claim ;
+      dct:source narr:Sample_BoxFreeDesignContinuation2 ;
+      narr:aboutNode narr:Narrative_BoxFreeDesignE2E ;
+      narr:hasConvictionLevel narr:Conviction_Foundation ;
+      narr:supports narr:Narrative_PipelineSlugFallback ;
+      skos:note "When no id is present but a ## level heading exists, the pipeline must derive a topical slug from that heading content." .
+
+    # ── Observations ─────────────────────────────────────────────────────────
+    narr:Obs_TestConditionHeading a narr:Observation ;
+      skos:broader narr:Process ;
+      dct:source narr:Sample_BoxFreeDesignContinuation2 ;
+      skos:note "Test condition: ## level heading with no id field, reproducing Mike Sackton's failing payload pattern." ;
+      oa:hasSelector [
+        a oa:TextPositionSelector ;
+        oa:start 97 ;
+        oa:end 163
+      ] ;
+      oa:hasSelector [
+        a oa:TextQuoteSelector ;
+        oa:exact "Reproduces Mike Sackton's failing payload pattern (## level heading," ;
+        oa:prefix "## Box-Free Design Continuation 2 — Derive Id E2E\n\n" ;
+        oa:suffix "\nno id)." 
+      ] .
+
+    narr:Obs_MustNotCrash a narr:Observation ;
+      skos:broader narr:Process ;
+      dct:source narr:Sample_BoxFreeDesignContinuation2 ;
+      skos:note "Explicit pipeline requirement: the system must not crash on this payload pattern." ;
+      oa:hasSelector [
+        a oa:TextPositionSelector ;
+        oa:start 163 ;
+        oa:end 183
+      ] ;
+      oa:hasSelector [
+        a oa:TextQuoteSelector ;
+        oa:exact "Must not crash" ;
+        oa:prefix "no id). " ;
+        oa:suffix "; must produce a topical slug."
+      ] .
+
+    narr:Obs_MustProduceSlug a narr:Observation ;
+      skos:broader narr:Process ;
+      dct:source narr:Sample_BoxFreeDesignContinuation2 ;
+      skos:note "Explicit pipeline requirement: the system must produce a topical slug from the heading when no id is provided." ;
+      oa:hasSelector [
+        a oa:TextPositionSelector ;
+        oa:start 183 ;
+        oa:end 215
+      ] ;
+      oa:hasSelector [
+        a oa:TextQuoteSelector ;
+        oa:exact "must produce a topical slug" ;
+        oa:prefix "Must not crash; " ;
+        oa:suffix "."
+      ] .
+
+    # ── Style Observations ───────────────────────────────────────────────────
+    narr:StyleObs_ImperativeTone a narr:StyleObservation ;
+      skos:broader narr:ToneAuthoritative ;
+      dct:source narr:Sample_BoxFreeDesignContinuation2 ;
+      skos:note "Imperative, authoritative tone: requirements stated as direct mandates ('Must not crash; must produce')." ;
+      rdf:value true ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_BoxFreeDesignContinuation2 ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start 163 ;
+          oa:end 215
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "Must not crash; must produce a topical slug" ;
+          oa:prefix "no id). " ;
+          oa:suffix "."
+        ]
+      ] .
+
+    narr:StyleObs_TechnicalJargon a narr:StyleObservation ;
+      skos:broader narr:JargonPolicy ;
+      dct:source narr:Sample_BoxFreeDesignContinuation2 ;
+      skos:note "Dense technical jargon for a short document: 'payload pattern', 'E2E', '## level heading', 'topical slug', 'id field' — all domain-specific pipeline/markdown terms." ;
+      rdf:value true ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_BoxFreeDesignContinuation2 ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start 97 ;
+          oa:end 215
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "Reproduces Mike Sackton's failing payload pattern (## level heading,\nno id). Must not crash; must produce a topical slug." ;
+          oa:prefix "## Box-Free Design Continuation 2 — Derive Id E2E\n\n" ;
+          oa:suffix ""
+        ]
+      ] .
+
+    narr:StyleObs_BulletFreeDirective a narr:StyleObservation ;
+      skos:broader narr:ToneDirectPersonal ;
+      dct:source narr:Sample_BoxFreeDesignContinuation2 ;
+      skos:note "Requirements expressed as a single run-on sentence with semicolon separation rather than a bulleted list — compact, directive register typical of CI/test spec authoring." ;
+      rdf:value true ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_BoxFreeDesignContinuation2 ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start 163 ;
+          oa:end 215
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "Must not crash; must produce a topical slug." ;
+          oa:prefix "no id). " ;
+          oa:suffix ""
+        ]
+      ] .
+
+    # ── Style Metrics ────────────────────────────────────────────────────────
+    narr:StyleMetrics_BoxFreeDesignContinuation2 a narr:StyleMetrics ;
+      skos:broader narr:StyleMetrics ;
+      dct:source narr:Sample_BoxFreeDesignContinuation2 ;
+      narr:AverageSentenceLength "24"^^xsd:integer ;
+      narr:ActiveVoiceRatio "0.67"^^xsd:decimal ;
+      narr:JargonDensity "0.22"^^xsd:decimal ;
+      skos:note "Very short document (2 body sentences). High jargon density: pipeline/markdown terms dominate. Active voice predominates in requirement clauses; passive in test-condition framing ('Reproduces')." .
+  }
+} ;
+
+# ── Update: narr:Narrative_PipelineSlugFallback — add ## heading specificity ─
+DELETE {
+  GRAPH ?g {
+    narr:Narrative_PipelineSlugFallback skos:note ?oldNote .
+  }
+}
+INSERT {
+  GRAPH narr:Tx_20250714T120000Z {
+    narr:Narrative_PipelineSlugFallback skos:note "The memory explicitly asserts a pipeline behavior requirement: when a memory is submitted without an id field, the system must produce a slug via LLM id-gen or deterministic slugify fallback, then commit the file. Reinforced by Box-Free Design Continuation 2 E2E test, which reproduces Mike Sackton's failing payload pattern (## level heading, no id) and adds the explicit requirement that the pipeline must not crash and must derive a topical slug from the heading content." .
+  }
+}
+WHERE {
+  GRAPH ?g {
+    narr:Narrative_PipelineSlugFallback skos:note ?oldNote .
+  }
+}
