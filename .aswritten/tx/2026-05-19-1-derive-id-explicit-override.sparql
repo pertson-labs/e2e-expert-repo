@@ -1,0 +1,117 @@
+PREFIX narr: <https://aswritten.ai/narrative#>
+PREFIX rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX prov: <http://www.w3.org/ns/prov#>
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+PREFIX dct:  <http://purl.org/dc/terms/>
+PREFIX xsd:  <http://www.w3.org/2001/XMLSchema#>
+PREFIX oa:   <http://www.w3.org/ns/oa#>
+
+# Transaction provenance (default graph)
+INSERT DATA {
+  narr:Tx_20250717T150000Z a prov:Activity ;
+    dct:title "Some Other Title That Should Not Win — pipeline slug test" ;
+    prov:generatedAtTime "2025-07-17T15:00:00Z"^^xsd:dateTime ;
+    prov:wasAssociatedWith "aswritten.ai" ;
+    prov:wasAttributedTo "n8n.aswritten.ai" ;
+    narr:originPath "(no id field — slug generated from content: some-other-title-that-should-not-win)" ;
+    narr:originRef "main@unknown" ;
+    prov:generated
+      narr:Sample_SomeOtherTitleThatShouldNotWin,
+      narr:StyleMetrics_SomeOtherTitleThatShouldNotWin,
+      narr:StyleObs_TitleCaseHeading,
+      narr:StyleObs_MinimalBodyRegister,
+      narr:StyleObs_PlaceholderTestContent .
+} ;
+
+# Extracted entities (named graph)
+INSERT DATA {
+  GRAPH narr:Tx_20250717T150000Z {
+
+    # ── Sample ──────────────────────────────────────────────────
+    narr:Sample_SomeOtherTitleThatShouldNotWin
+      a narr:Sample ;
+      dct:title "Some Other Title That Should Not Win" ;
+      dct:description "Minimal test memory submitted without an explicit id field. Contains YAML frontmatter with a reviewer, a heading, and a single-word body. Tests pipeline slug-generation path." ;
+      narr:inputLength 97 .
+
+    # ── Style Metrics ────────────────────────────────────────────
+    narr:StyleMetrics_SomeOtherTitleThatShouldNotWin
+      a narr:StyleMetrics ;
+      skos:broader narr:StyleMetrics ;
+      dct:source narr:Sample_SomeOtherTitleThatShouldNotWin ;
+      narr:AverageSentenceLength 5 ;
+      narr:ActiveVoiceRatio "1.00"^^xsd:decimal ;
+      narr:JargonDensity "0.05"^^xsd:decimal ;
+      skos:note "Extremely short document: one heading (8 words) and one body word. No passive constructions. No technical jargon in body content. Placeholder/test register throughout." .
+
+    # ── Style Observation 1: Title Case Heading ──────────────────
+    narr:StyleObs_TitleCaseHeading
+      a narr:StyleObservation ;
+      skos:broader narr:CapitalizationCase ;
+      dct:source narr:Sample_SomeOtherTitleThatShouldNotWin ;
+      skos:note "Heading uses title case capitalization across all major words." ;
+      rdf:value true ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_SomeOtherTitleThatShouldNotWin ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start 50 ;
+          oa:end 88
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "Some Other Title That Should Not Win" ;
+          oa:prefix "# " ;
+          oa:suffix "\n\nBody."
+        ]
+      ] .
+
+    # ── Style Observation 2: Minimal Body Register ───────────────
+    narr:StyleObs_MinimalBodyRegister
+      a narr:StyleObservation ;
+      skos:broader narr:RegisterFormality ;
+      dct:source narr:Sample_SomeOtherTitleThatShouldNotWin ;
+      skos:note "Body consists of a single placeholder word 'Body.' — extremely low register, indicative of test/stub content rather than substantive prose." ;
+      rdf:value false ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_SomeOtherTitleThatShouldNotWin ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start 91 ;
+          oa:end 96
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "Body." ;
+          oa:prefix "Should Not Win\n\n" ;
+          oa:suffix ""
+        ]
+      ] .
+
+    # ── Style Observation 3: YAML Frontmatter Reviewer Field ─────
+    narr:StyleObs_PlaceholderTestContent
+      a narr:StyleObservation ;
+      skos:broader narr:EditorialRules ;
+      dct:source narr:Sample_SomeOtherTitleThatShouldNotWin ;
+      skos:note "YAML frontmatter includes a 'reviewers' field with a test email address, signalling this is a pipeline test artifact rather than production content. Email redacted per PII policy." ;
+      rdf:value false ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_SomeOtherTitleThatShouldNotWin ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start 0 ;
+          oa:end 47
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "---\nreviewers:\n  - [REDACTED]\n---" ;
+          oa:prefix "" ;
+          oa:suffix "\n\n# Some Other Title"
+        ]
+      ] .
+
+  }
+}
