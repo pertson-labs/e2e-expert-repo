@@ -1,0 +1,73 @@
+PREFIX narr: <https://aswritten.ai/narrative#>
+PREFIX prov: <http://www.w3.org/ns/prov#>
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+PREFIX dct: <http://purl.org/dc/terms/>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+PREFIX oa: <http://www.w3.org/ns/oa#>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+
+# Transaction provenance (default graph)
+INSERT DATA {
+  narr:Tx_20250522T100000Z a prov:Activity ;
+    prov:generatedAtTime "2025-05-22T10:00:00Z"^^xsd:dateTime ;
+    prov:wasAssociatedWith "aswritten.ai" ;
+    prov:wasAttributedTo "test+expert-gh@aswritten.ai" ;
+    narr:originPath "---\nreviewers:\n  - test+expert-gh@aswritten.ai\n---\n\nFirst version" ;
+    narr:originRef "main" ;
+    prov:generated narr:Sample_FirstVersion_20250522, narr:Narrative_InitialDocumentation, narr:StyleObservation_FrontmatterUsage, narr:StyleObservation_ConciseDrafting, narr:StyleObservation_ReviewerTagging, narr:StyleMetrics_FirstVersion .
+} ;
+
+# Extracted entities (named graph)
+INSERT DATA {
+  GRAPH narr:Tx_20250522T100000Z {
+    narr:Sample_FirstVersion_20250522 a narr:Sample ;
+      dct:title "First version" ;
+      narr:inputLength 65 .
+
+    narr:Narrative_InitialDocumentation a narr:Narrative ;
+      dct:source narr:Sample_FirstVersion_20250522 ;
+      narr:theme "Initial documentation and reviewer assignment" ;
+      skos:broader narr:TechnicalDocumentation ;
+      skos:note "The document establishes the first version of a resource and identifies the expert reviewer." .
+
+    narr:StyleObservation_FrontmatterUsage a narr:StyleObservation ;
+      skos:broader narr:OrthographySpelling ;
+      dct:source narr:Sample_FirstVersion_20250522 ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_FirstVersion_20250522 ;
+        oa:hasSelector [ a oa:TextPositionSelector ; oa:start 0 ; oa:end 51 ] ;
+        oa:hasSelector [ a oa:TextQuoteSelector ; oa:exact "---\nreviewers:\n  - test+expert-gh@aswritten.ai\n---" ]
+      ] ;
+      skos:note "Use of YAML frontmatter for metadata and reviewer assignment." .
+
+    narr:StyleObservation_ConciseDrafting a narr:StyleObservation ;
+      skos:broader narr:ShortPunchyCadence ;
+      dct:source narr:Sample_FirstVersion_20250522 ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_FirstVersion_20250522 ;
+        oa:hasSelector [ a oa:TextPositionSelector ; oa:start 53 ; oa:end 66 ] ;
+        oa:hasSelector [ a oa:TextQuoteSelector ; oa:exact "First version" ]
+      ] ;
+      skos:note "Extremely concise, placeholder-style drafting for initial commits." .
+
+    narr:StyleObservation_ReviewerTagging a narr:StyleObservation ;
+      skos:broader narr:NamingConventions ;
+      dct:source narr:Sample_FirstVersion_20250522 ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_FirstVersion_20250522 ;
+        oa:hasSelector [ a oa:TextPositionSelector ; oa:start 17 ; oa:end 46 ] ;
+        oa:hasSelector [ a oa:TextQuoteSelector ; oa:exact "test+expert-gh@aswritten.ai" ]
+      ] ;
+      skos:note "Reviewers are identified by email addresses in metadata." .
+
+    narr:StyleMetrics_FirstVersion a narr:StyleMetrics ;
+      skos:broader narr:StyleMetrics ;
+      dct:source narr:Sample_FirstVersion_20250522 ;
+      narr:AverageSentenceLength 2 ;
+      narr:ActiveVoiceRatio 1.0 ;
+      narr:JargonDensity 0.2 .
+  }
+}
