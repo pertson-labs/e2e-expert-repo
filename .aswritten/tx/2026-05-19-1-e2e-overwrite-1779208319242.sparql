@@ -6,132 +6,157 @@ PREFIX dct:  <http://purl.org/dc/terms/>
 PREFIX xsd:  <http://www.w3.org/2001/XMLSchema#>
 PREFIX oa:   <http://www.w3.org/ns/oa#>
 
-# Transaction provenance (default graph)
+# ── Transaction provenance (default graph) ──────────────────────
 INSERT DATA {
-  narr:Tx_20250124T120000Z a prov:Activity ;
-    prov:generatedAtTime "2025-01-24T12:00:00Z"^^xsd:dateTime ;
+  narr:Tx_20250124T130000Z a prov:Activity ;
+    dct:title "Second version stub extraction" ;
+    prov:generatedAtTime "2025-01-24T13:00:00Z"^^xsd:dateTime ;
     prov:wasAssociatedWith "aswritten.ai" ;
     prov:wasAttributedTo "n8n.aswritten.ai" ;
     narr:originPath "unknown" ;
     narr:originRef "unknown" ;
-    dct:title "First version stub extraction" ;
     prov:generated
-      narr:Sample_FirstVersionStub,
-      narr:Actor_ExpertReviewer_GH,
-      narr:Narrative_DocumentInitialization,
-      narr:Claim_FirstVersionLabel,
-      narr:StyleObs_MinimalBodyText,
-      narr:StyleObs_YAMLFrontMatter,
-      narr:StyleObs_VersionLabel,
-      narr:StyleMetrics_FirstVersionStub .
+      narr:Sample_SecondVersionStub,
+      narr:StyleMetrics_SecondVersionStub,
+      narr:StyleObs_SecondVersion_PlainLanguage,
+      narr:StyleObs_SecondVersion_VersionLabel,
+      narr:StyleObs_SecondVersion_FrontMatter .
 } ;
 
+# ── New Sample node for second version stub ──────────────────────
 INSERT DATA {
-  GRAPH narr:Tx_20250124T120000Z {
+  GRAPH narr:Tx_20250124T130000Z {
+    narr:Sample_SecondVersionStub a narr:Sample ;
+      dct:title "Second version stub" ;
+      dct:description "Minimal placeholder document with YAML front-matter reviewer assignment and version label 'Second version'." ;
+      narr:inputLength 71 .
+  }
+} ;
 
-    # ── Sample ──────────────────────────────────────────────────
-    narr:Sample_FirstVersionStub a narr:Sample ;
-      dct:title "First version stub" ;
-      dct:description "Minimal placeholder document with YAML front-matter reviewer assignment and version label." ;
-      narr:inputLength 67 .
-
-    # ── Actor ───────────────────────────────────────────────────
-    # PII redacted: reviewer email redacted per verbatim policy (allow_pii=false)
-    narr:Actor_ExpertReviewer_GH a narr:Actor ;
-      skos:prefLabel "Expert Reviewer (GitHub)" ;
-      skos:note "Assigned reviewer listed in YAML front-matter. Email redacted (PII policy)." .
-
-    # ── Narrative ───────────────────────────────────────────────
-    narr:Narrative_DocumentInitialization a narr:Narrative ;
+# ── Update Narrative_DocumentInitialization to reference second version ──
+DELETE {
+  GRAPH ?g {
+    narr:Narrative_DocumentInitialization
       dct:source narr:Sample_FirstVersionStub ;
-      narr:theme "Document initialization" ;
-      skos:broader narr:Process ;
-      skos:note "The document represents an initial stub state: a first version with a reviewer assigned but no substantive content yet authored." .
-
-    # ── Claim ───────────────────────────────────────────────────
-    narr:Claim_FirstVersionLabel a narr:Claim ;
-      narr:aboutNode narr:Narrative_DocumentInitialization ;
-      narr:hasConvictionLevel narr:Conviction_Notion ;
-      narr:supports narr:Narrative_DocumentInitialization ;
+      skos:note ?oldNote .
+  }
+}
+INSERT {
+  GRAPH narr:Tx_20250124T130000Z {
+    narr:Narrative_DocumentInitialization
+      dct:source narr:Sample_SecondVersionStub ;
+      skos:note "The document represents a second stub iteration: a second version with a reviewer assigned but still no substantive content authored. Supersedes the first version stub." .
+  }
+}
+WHERE {
+  GRAPH ?g {
+    narr:Narrative_DocumentInitialization
       dct:source narr:Sample_FirstVersionStub ;
-      skos:note "The body text 'First version' signals this is a placeholder at initial draft stage, not a substantive narrative artifact." .
+      skos:note ?oldNote .
+  }
+} ;
 
-    # ── Style Observations ──────────────────────────────────────
-
-    # 1. YAML front-matter reviewer field
-    narr:StyleObs_YAMLFrontMatter a narr:StyleObservation ;
-      skos:broader narr:EditorialRules ;
+# ── Update Claim_FirstVersionLabel to reflect second version (temporal supersession) ──
+DELETE {
+  GRAPH ?g {
+    narr:Claim_FirstVersionLabel
       dct:source narr:Sample_FirstVersionStub ;
-      skos:note "Document uses YAML front-matter block to declare reviewer metadata, a structured editorial convention." ;
+      skos:note ?oldNote .
+  }
+}
+INSERT {
+  GRAPH narr:Tx_20250124T130000Z {
+    narr:Claim_FirstVersionLabel
+      dct:source narr:Sample_SecondVersionStub ;
+      skos:note "The body text 'Second version' signals this is a second placeholder iteration, still at stub stage. Supersedes the 'First version' label claim." .
+  }
+}
+WHERE {
+  GRAPH ?g {
+    narr:Claim_FirstVersionLabel
+      dct:source narr:Sample_FirstVersionStub ;
+      skos:note ?oldNote .
+  }
+} ;
+
+# ── Style Metrics for second version stub ───────────────────────
+INSERT DATA {
+  GRAPH narr:Tx_20250124T130000Z {
+    narr:StyleMetrics_SecondVersionStub a narr:StyleMetrics ;
+      skos:broader narr:StyleMetrics ;
+      dct:source narr:Sample_SecondVersionStub ;
+      skos:note "Extremely minimal document: one two-word body phrase. No full sentences, no jargon, no passive constructions. Metrics reflect placeholder state identical in character to first version." ;
+      narr:AverageSentenceLength 2 ;
+      narr:ActiveVoiceRatio "1.0"^^xsd:decimal ;
+      narr:JargonDensity "0.0"^^xsd:decimal .
+  }
+} ;
+
+# ── Style Observations (minimum 3) ──────────────────────────────
+INSERT DATA {
+  GRAPH narr:Tx_20250124T130000Z {
+
+    narr:StyleObs_SecondVersion_PlainLanguage a narr:StyleObservation ;
+      skos:broader narr:PlainLanguage ;
+      dct:source narr:Sample_SecondVersionStub ;
+      skos:note "Body text is maximally plain: two words, no punctuation, no elaboration. Consistent with placeholder register." ;
       rdf:value true ;
       oa:hasTarget [
         a oa:SpecificResource ;
-        oa:hasSource narr:Sample_FirstVersionStub ;
+        oa:hasSource narr:Sample_SecondVersionStub ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start 50 ;
+          oa:end 64
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "Second version" ;
+          oa:prefix "---\n\n" ;
+          oa:suffix ""
+        ]
+      ] .
+
+    narr:StyleObs_SecondVersion_VersionLabel a narr:StyleObservation ;
+      skos:broader narr:CapitalizationCase ;
+      dct:source narr:Sample_SecondVersionStub ;
+      skos:note "Version label uses title-case noun phrase ('Second version') with capital S, lowercase v — consistent with the prior 'First version' capitalization pattern." ;
+      rdf:value true ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_SecondVersionStub ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start 50 ;
+          oa:end 64
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "Second version" ;
+          oa:prefix "---\n\n" ;
+          oa:suffix ""
+        ]
+      ] .
+
+    narr:StyleObs_SecondVersion_FrontMatter a narr:StyleObservation ;
+      skos:broader narr:EditorialRules ;
+      dct:source narr:Sample_SecondVersionStub ;
+      skos:note "YAML front-matter block used for reviewer assignment, following the same editorial convention as the first version stub. Reviewer email is PII-redacted." ;
+      rdf:value true ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_SecondVersionStub ;
         oa:hasSelector [
           a oa:TextPositionSelector ;
           oa:start 0 ;
-          oa:end 50
+          oa:end 48
         ] ;
         oa:hasSelector [
           a oa:TextQuoteSelector ;
-          oa:exact "reviewers:\n  - test+expert-gh@aswritten.ai" ;
-          oa:prefix "---\n" ;
-          oa:suffix "\n---"
+          oa:exact "---\nreviewers:\n  - [REDACTED]\n---" ;
+          oa:prefix "" ;
+          oa:suffix "\n\nSecond version"
         ]
       ] .
-
-    # 2. Minimal body text — plain language / brevity
-    narr:StyleObs_MinimalBodyText a narr:StyleObservation ;
-      skos:broader narr:PlainLanguage ;
-      dct:source narr:Sample_FirstVersionStub ;
-      skos:note "Body text is a single two-word phrase 'First version', representing extreme brevity and placeholder register." ;
-      rdf:value true ;
-      oa:hasTarget [
-        a oa:SpecificResource ;
-        oa:hasSource narr:Sample_FirstVersionStub ;
-        oa:hasSelector [
-          a oa:TextPositionSelector ;
-          oa:start 55 ;
-          oa:end 67
-        ] ;
-        oa:hasSelector [
-          a oa:TextQuoteSelector ;
-          oa:exact "First version" ;
-          oa:prefix "---\n\n" ;
-          oa:suffix ""
-        ]
-      ] .
-
-    # 3. Version label as capitalized noun phrase
-    narr:StyleObs_VersionLabel a narr:StyleObservation ;
-      skos:broader narr:CapitalizationCase ;
-      dct:source narr:Sample_FirstVersionStub ;
-      skos:note "'First version' uses title-case for the ordinal 'First' followed by lowercase 'version', a common informal versioning convention." ;
-      rdf:value false ;
-      oa:hasTarget [
-        a oa:SpecificResource ;
-        oa:hasSource narr:Sample_FirstVersionStub ;
-        oa:hasSelector [
-          a oa:TextPositionSelector ;
-          oa:start 55 ;
-          oa:end 67
-        ] ;
-        oa:hasSelector [
-          a oa:TextQuoteSelector ;
-          oa:exact "First version" ;
-          oa:prefix "---\n\n" ;
-          oa:suffix ""
-        ]
-      ] .
-
-    # ── Style Metrics ───────────────────────────────────────────
-    narr:StyleMetrics_FirstVersionStub a narr:StyleMetrics ;
-      skos:broader narr:StyleMetrics ;
-      dct:source narr:Sample_FirstVersionStub ;
-      narr:AverageSentenceLength 2 ;
-      narr:ActiveVoiceRatio "1.0"^^xsd:decimal ;
-      narr:JargonDensity "0.0"^^xsd:decimal ;
-      skos:note "Extremely minimal document: one two-word body phrase. No sentences, no jargon, no passive constructions. Metrics reflect placeholder state." .
-
   }
 }
