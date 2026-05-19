@@ -1,0 +1,146 @@
+PREFIX narr: <https://aswritten.ai/narrative#>
+PREFIX rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX prov: <http://www.w3.org/ns/prov#>
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+PREFIX dct:  <http://purl.org/dc/terms/>
+PREFIX xsd:  <http://www.w3.org/2001/XMLSchema#>
+PREFIX oa:   <http://www.w3.org/ns/oa#>
+
+# ── Transaction provenance (default graph) ──────────────────────────────────
+INSERT DATA {
+  narr:Tx_20250717T160000Z a prov:Activity ;
+    prov:generatedAtTime "2025-07-17T16:00:00Z"^^xsd:dateTime ;
+    prov:wasAssociatedWith "aswritten.ai" ;
+    prov:wasAttributedTo "n8n.aswritten.ai" ;
+    narr:originPath "some-other-title-that-should-not-win" ;
+    narr:originRef "main" ;
+    dct:title "Some Other Title That Should Not Win — extraction" ;
+    prov:generated
+      narr:Sample_SomeOtherTitleShouldNotWin,
+      narr:Claim_H1HeadingNotUsedAsSlug,
+      narr:StyleMetrics_SomeOtherTitleShouldNotWin,
+      narr:StyleObs_MinimalBodyRegister,
+      narr:StyleObs_H1HeadingAsTestSignal,
+      narr:StyleObs_YAMLFrontmatterReviewer .
+} ;
+
+# ── New entities (named graph) ───────────────────────────────────────────────
+INSERT DATA {
+  GRAPH narr:Tx_20250717T160000Z {
+
+    # ── Sample ──────────────────────────────────────────────────────────────
+    narr:Sample_SomeOtherTitleShouldNotWin
+      a narr:Sample ;
+      dct:title "Some Other Title That Should Not Win" ;
+      dct:created "2025-07-17"^^xsd:date ;
+      skos:note "Test memory submitted without an explicit id field. The H1 heading is deliberately named to assert it must NOT be used as the slug. Reviewer: test+expert-gh@aswritten.ai. Body is a single placeholder word." ;
+      narr:inputLength 89 .
+
+    # ── New Claim: H1 heading must not be used as slug ───────────────────────
+    narr:Claim_H1HeadingNotUsedAsSlug
+      a narr:Claim ;
+      dct:source narr:Sample_SomeOtherTitleShouldNotWin ;
+      skos:note "The pipeline must NOT derive the slug directly from the H1 heading text. The heading 'Some Other Title That Should Not Win' is a deliberate test fixture asserting that H1 content is not a valid slug source." ;
+      narr:aboutNode narr:Narrative_PipelineSlugGeneration ;
+      narr:hasConvictionLevel narr:Conviction_Stake ;
+      narr:supports narr:Narrative_PipelineSlugGeneration .
+
+    # ── Style Observations ───────────────────────────────────────────────────
+    narr:StyleObs_MinimalBodyRegister
+      a narr:StyleObservation ;
+      skos:broader narr:RegisterFormality ;
+      dct:source narr:Sample_SomeOtherTitleShouldNotWin ;
+      skos:note "Body consists of a single placeholder word 'Body.' — register is minimal/stub, signalling this is a test fixture rather than substantive prose." ;
+      rdf:value false ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_SomeOtherTitleShouldNotWin ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start 67 ;
+          oa:end 72
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "Body." ;
+          oa:prefix "Should Not Win\n\n" ;
+          oa:suffix ""
+        ]
+      ] .
+
+    narr:StyleObs_H1HeadingAsTestSignal
+      a narr:StyleObservation ;
+      skos:broader narr:NamingConventions ;
+      dct:source narr:Sample_SomeOtherTitleShouldNotWin ;
+      skos:note "The H1 heading 'Some Other Title That Should Not Win' uses plain-language negation as a test signal — the phrase encodes the acceptance criterion directly in the document title." ;
+      rdf:value false ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_SomeOtherTitleShouldNotWin ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start 43 ;
+          oa:end 66
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "Some Other Title That Should Not Win" ;
+          oa:prefix "# " ;
+          oa:suffix "\n\nBody."
+        ]
+      ] .
+
+    narr:StyleObs_YAMLFrontmatterReviewer
+      a narr:StyleObservation ;
+      skos:broader narr:EditorialRules ;
+      dct:source narr:Sample_SomeOtherTitleShouldNotWin ;
+      skos:note "YAML frontmatter uses a 'reviewers' list key with a single email entry — consistent with the editorial convention seen in prior test memories from this pipeline." ;
+      rdf:value true ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_SomeOtherTitleShouldNotWin ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start 0 ;
+          oa:end 41
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "---\nreviewers:\n  - test+expert-gh@aswritten.ai\n---" ;
+          oa:prefix "" ;
+          oa:suffix "\n\n# Some Other Title"
+        ]
+      ] .
+
+    # ── Style Metrics ────────────────────────────────────────────────────────
+    narr:StyleMetrics_SomeOtherTitleShouldNotWin
+      a narr:StyleMetrics ;
+      dct:source narr:Sample_SomeOtherTitleShouldNotWin ;
+      skos:broader narr:StyleMetrics ;
+      skos:note "Stub document: single body word. Average sentence length is 1 word. Active voice ratio is 1.0 (no passive constructions). Jargon density is 0.0 — no technical terms in body text." ;
+      narr:AverageSentenceLength 1 ;
+      narr:ActiveVoiceRatio "1.0"^^xsd:decimal ;
+      narr:JargonDensity "0.0"^^xsd:decimal .
+
+  }
+} ;
+
+# ── Update: add new sample as additional dct:source on existing Narrative ────
+DELETE {
+  GRAPH ?g {
+    narr:Narrative_PipelineSlugGeneration dct:source ?oldSource .
+  }
+}
+INSERT {
+  GRAPH narr:Tx_20250717T160000Z {
+    narr:Narrative_PipelineSlugGeneration
+      dct:source ?oldSource ;
+      dct:source narr:Sample_SomeOtherTitleShouldNotWin ;
+      skos:note "When a memory is submitted without an explicit id field, the pipeline must derive a slug — either via an LLM id-gen call or a deterministic slugify fallback — and commit the file successfully. The H1 heading must NOT be used directly as the slug. This narrative validates both the fallback path and the heading-exclusion constraint." .
+  }
+}
+WHERE {
+  GRAPH ?g {
+    narr:Narrative_PipelineSlugGeneration dct:source ?oldSource .
+  }
+}
