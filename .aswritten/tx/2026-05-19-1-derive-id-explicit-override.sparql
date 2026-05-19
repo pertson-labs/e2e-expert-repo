@@ -1,0 +1,155 @@
+PREFIX narr: <https://aswritten.ai/narrative#>
+PREFIX rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX prov: <http://www.w3.org/ns/prov#>
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+PREFIX dct:  <http://purl.org/dc/terms/>
+PREFIX xsd:  <http://www.w3.org/2001/XMLSchema#>
+PREFIX oa:   <http://www.w3.org/ns/oa#>
+
+# ── Transaction provenance (default graph) ──────────────────────────────────
+INSERT DATA {
+  narr:Tx_20250717T143000Z a prov:Activity ;
+    dct:title "Some Other Title That Should Not Win — pipeline heading-priority test" ;
+    prov:generatedAtTime "2025-07-17T14:30:00Z"^^xsd:dateTime ;
+    prov:wasAssociatedWith "aswritten.ai" ;
+    prov:wasAttributedTo "n8n.aswritten.ai" ;
+    narr:originPath "(no id field provided — slug derived from heading: some-other-title-that-should-not-win)" ;
+    narr:originRef "main" ;
+    prov:generated
+      narr:Sample_SomeOtherTitleThatShouldNotWin,
+      narr:Narrative_HeadingPrioritySlugGen,
+      narr:Claim_HeadingShouldNotWin,
+      narr:Claim_NoIdFieldThirdCase,
+      narr:Claim_MinimalBodyContent,
+      narr:StyleObs_ImperativeHeading,
+      narr:StyleObs_MinimalBody,
+      narr:StyleObs_FrontmatterReviewer,
+      narr:StyleMetrics_SomeOtherTitle .
+} ;
+
+# ── Extracted entities (named graph) ────────────────────────────────────────
+INSERT DATA {
+  GRAPH narr:Tx_20250717T143000Z {
+
+    # ── Sample ──────────────────────────────────────────────────────────────
+    narr:Sample_SomeOtherTitleThatShouldNotWin
+      a narr:Sample ;
+      dct:title "Some Other Title That Should Not Win" ;
+      dct:description "Pipeline test memory submitted without an explicit id field. Minimal body ('Body.'). Heading is deliberately named to signal that the heading should NOT win slug-priority over another source. Exercises heading-priority and slug-generation logic." ;
+      narr:inputLength 97 .
+
+    # ── Narrative ────────────────────────────────────────────────────────────
+    narr:Narrative_HeadingPrioritySlugGen
+      a narr:Narrative ;
+      dct:source narr:Sample_SomeOtherTitleThatShouldNotWin ;
+      skos:broader narr:Process ;
+      narr:theme "Pipeline heading-priority test: heading should not win slug generation when a higher-priority source exists" ;
+      skos:note "This memory exercises a specific edge case in the slug-generation path: the H1 heading is explicitly named 'Some Other Title That Should Not Win', asserting that the pipeline must prefer another slug source (e.g., LLM id-gen or frontmatter) over the raw heading text. No id field is provided. Body is minimal ('Body.'). Complements narr:Narrative_PipelineSlugGeneration by adding a heading-priority dimension." .
+
+    # ── Claims ───────────────────────────────────────────────────────────────
+    narr:Claim_HeadingShouldNotWin
+      a narr:Claim ;
+      dct:source narr:Sample_SomeOtherTitleThatShouldNotWin ;
+      narr:aboutNode narr:Narrative_HeadingPrioritySlugGen ;
+      narr:hasConvictionLevel narr:Conviction_Foundation ;
+      narr:supports narr:Narrative_HeadingPrioritySlugGen ;
+      skos:note "The heading 'Some Other Title That Should Not Win' explicitly encodes the test assertion: the pipeline must not use the raw H1 heading as the winning slug source when a higher-priority source is available." .
+
+    narr:Claim_NoIdFieldThirdCase
+      a narr:Claim ;
+      dct:source narr:Sample_SomeOtherTitleThatShouldNotWin ;
+      narr:aboutNode narr:Narrative_HeadingPrioritySlugGen ;
+      narr:hasConvictionLevel narr:Conviction_Foundation ;
+      narr:supports narr:Narrative_HeadingPrioritySlugGen ;
+      skos:note "A third test memory submitted without an explicit id field, confirming the slug-generation path is exercised consistently across multiple test cases." .
+
+    narr:Claim_MinimalBodyContent
+      a narr:Claim ;
+      dct:source narr:Sample_SomeOtherTitleThatShouldNotWin ;
+      narr:aboutNode narr:Narrative_HeadingPrioritySlugGen ;
+      narr:hasConvictionLevel narr:Conviction_Stake ;
+      skos:note "The body contains only the word 'Body.' — a deliberate minimal payload that isolates the heading-priority and slug-generation logic from any content-driven slug inference." .
+
+    # ── Style Observations ───────────────────────────────────────────────────
+
+    # Style Obs 1: Self-referential heading as test assertion
+    narr:StyleObs_ImperativeHeading
+      a narr:StyleObservation ;
+      skos:broader narr:ToneAuthoritative ;
+      dct:source narr:Sample_SomeOtherTitleThatShouldNotWin ;
+      skos:note "Heading uses a self-referential, imperative-negative construction ('Should Not Win') that encodes the test assertion directly in the document title — an unusual rhetorical device for a pipeline test artifact." ;
+      rdf:value true ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_SomeOtherTitleThatShouldNotWin ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start 47 ;
+          oa:end 85
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "Some Other Title That Should Not Win" ;
+          oa:prefix "# " ;
+          oa:suffix "\n\nBody."
+        ]
+      ] .
+
+    # Style Obs 2: Minimal body — deliberate content suppression
+    narr:StyleObs_MinimalBody
+      a narr:StyleObservation ;
+      skos:broader narr:Conciseness ;
+      dct:source narr:Sample_SomeOtherTitleThatShouldNotWin ;
+      skos:note "Body reduced to a single word sentence ('Body.') — extreme conciseness used as a test isolation technique, suppressing content that could influence slug inference." ;
+      rdf:value true ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_SomeOtherTitleThatShouldNotWin ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start 88 ;
+          oa:end 93
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "Body." ;
+          oa:prefix "Should Not Win\n\n" ;
+          oa:suffix ""
+        ]
+      ] .
+
+    # Style Obs 3: YAML frontmatter reviewer declaration
+    narr:StyleObs_FrontmatterReviewer
+      a narr:StyleObservation ;
+      skos:broader narr:CitationConventions ;
+      dct:source narr:Sample_SomeOtherTitleThatShouldNotWin ;
+      skos:note "YAML frontmatter declares a reviewer via email address (PII redacted). Consistent with the review-gated pipeline pattern observed in prior test memories from the same reviewer." ;
+      rdf:value true ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_SomeOtherTitleThatShouldNotWin ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start 0 ;
+          oa:end 45
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "---\nreviewers:\n  - test+expert-gh@aswritten.ai" ;
+          oa:prefix "" ;
+          oa:suffix "\n---"
+        ]
+      ] .
+
+    # ── Style Metrics ────────────────────────────────────────────────────────
+    narr:StyleMetrics_SomeOtherTitle
+      a narr:StyleMetrics ;
+      dct:source narr:Sample_SomeOtherTitleThatShouldNotWin ;
+      skos:broader narr:StyleMetrics ;
+      narr:AverageSentenceLength 6 ;
+      narr:ActiveVoiceRatio "0.50"^^xsd:decimal ;
+      narr:JargonDensity "0.05"^^xsd:decimal ;
+      skos:note "Extremely short document: 1 heading (6 words), 1 body sentence (1 word). Average sentence length ~6 words across heading + body. Low jargon density — no pipeline-specific technical terms in body. Active voice ratio low due to modal-passive construction in heading ('Should Not Win')." .
+
+  }
+}
