@@ -1,0 +1,73 @@
+PREFIX narr: <https://aswritten.ai/narrative#>
+PREFIX prov: <http://www.w3.org/ns/prov#>
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+PREFIX dct: <http://purl.org/dc/terms/>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+PREFIX oa: <http://www.w3.org/ns/oa#>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+
+# Transaction provenance (default graph)
+INSERT DATA {
+  narr:Tx_20250522T120000Z a prov:Activity ;
+    prov:generatedAtTime "2025-05-22T12:00:00Z"^^xsd:dateTime ;
+    prov:wasAssociatedWith "aswritten.ai" ;
+    prov:wasAttributedTo "test+expert-gh@aswritten.ai" ;
+    narr:originPath "" ;
+    narr:originRef "main" ;
+    prov:generated narr:Sample_SecondVersion_20250522, narr:Narrative_IterativeReview, narr:StyleObs_FrontmatterUsage, narr:StyleObs_ShortPhrasing, narr:StyleObs_HyphenatedList, narr:Metrics_SecondVersion .
+} ;
+
+# Extracted entities (named graph)
+INSERT DATA {
+  GRAPH narr:Tx_20250522T120000Z {
+    narr:Sample_SecondVersion_20250522 a narr:Sample ;
+      dct:title "Second version" ;
+      narr:inputLength 58 .
+
+    narr:Narrative_IterativeReview a narr:Narrative ;
+      dct:source narr:Sample_SecondVersion_20250522 ;
+      narr:theme "Iterative Review Process" ;
+      skos:broader narr:QualityReviewGates ;
+      skos:note "The document represents a second iteration of content, specifically flagged for expert review." .
+
+    narr:StyleObs_FrontmatterUsage a narr:StyleObservation ;
+      skos:broader narr:BrandNameStylization ;
+      dct:source narr:Sample_SecondVersion_20250522 ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_SecondVersion_20250522 ;
+        oa:hasSelector [ a oa:TextPositionSelector ; oa:start 0 ; oa:end 48 ] ;
+        oa:hasSelector [ a oa:TextQuoteSelector ; oa:exact "---\nreviewers:\n  - test+expert-gh@aswritten.ai\n---" ]
+      ] ;
+      skos:note "Use of YAML frontmatter for metadata and reviewer assignment." .
+
+    narr:StyleObs_ShortPhrasing a narr:StyleObservation ;
+      skos:broader narr:ShortPunchyCadence ;
+      dct:source narr:Sample_SecondVersion_20250522 ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_SecondVersion_20250522 ;
+        oa:hasSelector [ a oa:TextPositionSelector ; oa:start 50 ; oa:end 64 ] ;
+        oa:hasSelector [ a oa:TextQuoteSelector ; oa:exact "Second version" ; oa:prefix "---" ]
+      ] ;
+      skos:note "Extremely brief, functional phrasing." .
+
+    narr:StyleObs_HyphenatedList a narr:StyleObservation ;
+      skos:broader narr:PunctuationTypography ;
+      dct:source narr:Sample_SecondVersion_20250522 ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_SecondVersion_20250522 ;
+        oa:hasSelector [ a oa:TextPositionSelector ; oa:start 17 ; oa:end 44 ] ;
+        oa:hasSelector [ a oa:TextQuoteSelector ; oa:exact "- test+expert-gh@aswritten.ai" ; oa:prefix "reviewers:\n  " ]
+      ] ;
+      skos:note "Hyphenated list style within metadata block." .
+
+    narr:Metrics_SecondVersion a narr:StyleMetrics ;
+      skos:broader narr:StyleMetrics ;
+      dct:source narr:Sample_SecondVersion_20250522 ;
+      narr:AverageSentenceLength 2 ;
+      narr:ActiveVoiceRatio 1.0 ;
+      narr:JargonDensity 0.2 .
+  }
+}
