@@ -1,0 +1,109 @@
+PREFIX narr: <https://aswritten.ai/narrative#>
+PREFIX rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX prov: <http://www.w3.org/ns/prov#>
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+PREFIX dct:  <http://purl.org/dc/terms/>
+PREFIX xsd:  <http://www.w3.org/2001/XMLSchema#>
+PREFIX oa:   <http://www.w3.org/ns/oa#>
+
+# ── Retraction transaction (default graph) ──────────────────────────────────
+INSERT DATA {
+  narr:Tx_20250715T120000Z a prov:Activity ;
+    prov:generatedAtTime "2025-07-15T12:00:00Z"^^xsd:dateTime ;
+    prov:wasAssociatedWith "aswritten.ai" ;
+    prov:wasAttributedTo "n8n.aswritten.ai" ;
+    narr:originPath "inline-retraction" ;
+    narr:originRef "main" ;
+    dct:title "Retraction: database decision, Zypherion, Meridian, Quinton Fairweather, analytics pipeline migration" ;
+    prov:generated narr:Tx_20250715T120000Z .
+} ;
+
+# ── DELETE Actor: Quinton Fairweather ───────────────────────────────────────
+DELETE WHERE {
+  narr:Actor_QuintonFairweather ?p ?o .
+} ;
+
+# ── DELETE Narrative: ZypherionAdoption ─────────────────────────────────────
+DELETE WHERE {
+  narr:Narrative_ZypherionAdoption ?p ?o .
+} ;
+
+# ── DELETE Claims: Zypherion ─────────────────────────────────────────────────
+DELETE WHERE {
+  narr:Claim_ZypherionDatabaseChoice ?p ?o .
+} ;
+
+DELETE WHERE {
+  narr:Claim_ZypherionMigrationQ3 ?p ?o .
+} ;
+
+DELETE WHERE {
+  narr:Claim_ZypherionPerformance15x ?p ?o .
+} ;
+
+# ── DELETE Claims: Meridian ──────────────────────────────────────────────────
+DELETE WHERE {
+  narr:Claim_MeridianStreamingCapability ?p ?o .
+} ;
+
+# ── DELETE Observations: Quinton / Zypherion / Meridian ─────────────────────
+DELETE WHERE {
+  narr:Obs_QuintonAdoptionStatement ?p ?o .
+} ;
+
+DELETE WHERE {
+  narr:Obs_QuintonRevisedStatement ?p ?o .
+} ;
+
+# ── DELETE Samples: Zypherion and Meridian ───────────────────────────────────
+DELETE WHERE {
+  narr:Sample_ZypherionDecision_20260406 ?p ?o .
+} ;
+
+DELETE WHERE {
+  narr:Sample_MeridianDecision_20260406 ?p ?o .
+} ;
+
+# ── DELETE StyleMetrics: Zypherion and Meridian ──────────────────────────────
+DELETE WHERE {
+  narr:StyleMetrics_ZypherionDecision ?p ?o .
+} ;
+
+DELETE WHERE {
+  narr:StyleMetrics_MeridianDecision ?p ?o .
+} ;
+
+# ── DELETE Transaction nodes for Zypherion and Meridian decisions ────────────
+DELETE WHERE {
+  narr:Tx_20260406T120000Z ?p ?o .
+} ;
+
+DELETE WHERE {
+  narr:Tx_20250714T000000Z ?p ?o .
+} ;
+
+# ── DELETE any remaining triples that reference retracted entities as objects ─
+# Remove back-references to Zypherion/Meridian samples and narratives
+DELETE WHERE {
+  ?s ?p narr:Narrative_ZypherionAdoption .
+} ;
+
+DELETE WHERE {
+  ?s ?p narr:Sample_ZypherionDecision_20260406 .
+} ;
+
+DELETE WHERE {
+  ?s ?p narr:Sample_MeridianDecision_20260406 .
+} ;
+
+DELETE WHERE {
+  ?s ?p narr:Claim_ZypherionDatabaseChoice .
+} ;
+
+DELETE WHERE {
+  ?s ?p narr:Claim_MeridianStreamingCapability .
+} ;
+
+DELETE WHERE {
+  ?s ?p narr:Actor_QuintonFairweather .
+}
