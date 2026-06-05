@@ -6,150 +6,161 @@ PREFIX dct:  <http://purl.org/dc/terms/>
 PREFIX xsd:  <http://www.w3.org/2001/XMLSchema#>
 PREFIX oa:   <http://www.w3.org/ns/oa#>
 
-# Transaction provenance (default graph)
+# ── Transaction provenance (default graph) ──────────────────────
 INSERT DATA {
-  narr:Tx_20250115T120000Z a prov:Activity ;
-    prov:generatedAtTime "2025-01-15T12:00:00Z"^^xsd:dateTime ;
+  narr:Tx_20250115T130000Z a prov:Activity ;
+    dct:title "Second version document with reviewer metadata" ;
+    prov:generatedAtTime "2025-01-15T13:00:00Z"^^xsd:dateTime ;
     prov:wasAssociatedWith "aswritten.ai" ;
     prov:wasAttributedTo "n8n.aswritten.ai" ;
     narr:originPath "unknown" ;
     narr:originRef "unknown" ;
-    dct:title "First version document with reviewer metadata" ;
     prov:generated
-      narr:Sample_FirstVersion,
-      narr:Actor_ExpertReviewer,
-      narr:Narrative_FirstVersionDocument,
-      narr:Claim_DocumentAtInitialVersion,
-      narr:Observation_FirstVersionBody,
-      narr:StyleObs_MinimalBody,
-      narr:StyleObs_YAMLFrontmatter,
-      narr:StyleObs_TerseVersionLabel,
-      narr:StyleMetrics_FirstVersion .
+      narr:Sample_SecondVersion,
+      narr:StyleMetrics_SecondVersion,
+      narr:StyleObs_SecondVersion_ShortCadence,
+      narr:StyleObs_SecondVersion_RegisterFormality,
+      narr:StyleObs_SecondVersion_ReviewerFrontmatter .
 } ;
 
-# Extracted entities (named graph)
+# ── New Sample for the second-version document ───────────────────
 INSERT DATA {
-  GRAPH narr:Tx_20250115T120000Z {
+  GRAPH narr:Tx_20250115T130000Z {
+    narr:Sample_SecondVersion a narr:Sample ;
+      dct:title "Second version (YAML-frontmatter document)" ;
+      dct:description "Minimal document with YAML frontmatter declaring a reviewer and a two-word body 'Second version'. Structurally identical to the first version; body text incremented." ;
+      narr:inputLength 66 .
+  }
+} ;
 
-    # ── Sample ──────────────────────────────────────────────────
-    narr:Sample_FirstVersion a narr:Sample ;
-      dct:title "First version (YAML-frontmatter document)" ;
-      narr:inputLength 57 ;
-      dct:description "Minimal document with YAML frontmatter declaring a reviewer and a two-word body 'First version'." .
+# ── Update Narrative: theme now reflects second version ──────────
+DELETE {
+  GRAPH ?g {
+    narr:Narrative_FirstVersionDocument narr:theme ?oldTheme ;
+      skos:note ?oldNote .
+  }
+}
+INSERT {
+  GRAPH narr:Tx_20250115T130000Z {
+    narr:Narrative_FirstVersionDocument narr:theme "Document at second version with assigned reviewer" ;
+      skos:note "The document asserts it is at its second version and names the same reviewer, confirming a review-gated authoring process pattern that persists across revisions." ;
+      dct:source narr:Sample_SecondVersion .
+  }
+}
+WHERE {
+  GRAPH ?g {
+    narr:Narrative_FirstVersionDocument narr:theme ?oldTheme .
+    OPTIONAL { narr:Narrative_FirstVersionDocument skos:note ?oldNote . }
+  }
+} ;
 
-    # ── Actor ───────────────────────────────────────────────────
-    narr:Actor_ExpertReviewer a narr:Actor ;
-      skos:prefLabel "test+expert-gh@aswritten.ai" ;
-      skos:note "Reviewer declared in YAML frontmatter of the source document. Email address used as identifier per source; PII present — allow_pii not set, label retained as-is because it is the only identifier available." .
+# ── Update Claim: body text now references 'Second version' ──────
+DELETE {
+  GRAPH ?g {
+    narr:Claim_DocumentAtInitialVersion skos:note ?oldNote ;
+      dct:source ?oldSource .
+  }
+}
+INSERT {
+  GRAPH narr:Tx_20250115T130000Z {
+    narr:Claim_DocumentAtInitialVersion skos:note "The body text 'Second version' asserts this document has been revised at least once. Conviction remains Notion — a single two-word phrase with no corroborating detail." ;
+      dct:source narr:Sample_SecondVersion .
+  }
+}
+WHERE {
+  GRAPH ?g {
+    narr:Claim_DocumentAtInitialVersion skos:note ?oldNote .
+    OPTIONAL { narr:Claim_DocumentAtInitialVersion dct:source ?oldSource . }
+  }
+} ;
 
-    # ── Narrative ───────────────────────────────────────────────
-    narr:Narrative_FirstVersionDocument a narr:Narrative ;
-      dct:source narr:Sample_FirstVersion ;
-      narr:theme "Document at initial version with assigned reviewer" ;
-      skos:broader narr:Process ;
-      skos:note "The document asserts it is at its first version and names a reviewer, establishing a review-gated authoring process pattern." .
+# ── Style Metrics for second version ────────────────────────────
+INSERT DATA {
+  GRAPH narr:Tx_20250115T130000Z {
+    narr:StyleMetrics_SecondVersion a narr:StyleMetrics ;
+      skos:broader narr:StyleMetrics ;
+      dct:source narr:Sample_SecondVersion ;
+      skos:note "Body is two words with no complete sentence. AverageSentenceLength estimated at 2 words. ActiveVoiceRatio 1.0 (no passive constructions). JargonDensity 0.0 (no technical terms in body). Metrics unchanged from first version." ;
+      narr:AverageSentenceLength 2 ;
+      narr:ActiveVoiceRatio "1.0"^^xsd:decimal ;
+      narr:JargonDensity "0.0"^^xsd:decimal .
+  }
+} ;
 
-    # ── Claim ───────────────────────────────────────────────────
-    narr:Claim_DocumentAtInitialVersion a narr:Claim ;
-      narr:aboutNode narr:Narrative_FirstVersionDocument ;
-      narr:hasConvictionLevel narr:Conviction_Notion ;
-      narr:supports narr:Process ;
-      dct:source narr:Sample_FirstVersion ;
-      skos:note "The body text 'First version' asserts this is the document's inaugural draft. Conviction is Notion — a single two-word phrase with no corroborating detail." .
-
-    # ── Observation ─────────────────────────────────────────────
-    narr:Observation_FirstVersionBody a narr:Observation ;
-      skos:broader narr:QualityReviewGates ;
-      dct:source narr:Sample_FirstVersion ;
-      skos:note "Body text declares document version status." ;
-      oa:hasSelector [
-        a oa:TextPositionSelector ;
-        oa:start 47 ;
-        oa:end 60
-      ] ;
-      oa:hasSelector [
-        a oa:TextQuoteSelector ;
-        oa:exact "First version" ;
-        oa:prefix "---\n\n" ;
-        oa:suffix ""
-      ] .
-
-    # ── Style Observations ──────────────────────────────────────
-
-    # 1. YAML frontmatter as structural/formatting convention
-    narr:StyleObs_YAMLFrontmatter a narr:StyleObservation ;
-      skos:broader narr:EditorialRules ;
-      dct:source narr:Sample_FirstVersion ;
-      skos:note "Document uses YAML frontmatter delimited by triple-dashes to declare metadata (reviewers list). This is a structured editorial convention separating metadata from body content." ;
-      rdf:value true ;
-      oa:hasTarget [
-        a oa:SpecificResource ;
-        oa:hasSource narr:Sample_FirstVersion ;
-        oa:hasSelector [
-          a oa:TextPositionSelector ;
-          oa:start 0 ;
-          oa:end 44
-        ] ;
-        oa:hasSelector [
-          a oa:TextQuoteSelector ;
-          oa:exact "---\nreviewers:\n  - test+expert-gh@aswritten.ai\n---" ;
-          oa:prefix "" ;
-          oa:suffix "\n\nFirst version"
-        ]
-      ] .
-
-    # 2. Terse version label — minimal body cadence
-    narr:StyleObs_TerseVersionLabel a narr:StyleObservation ;
+# ── Style Observation 1: Short punchy cadence ────────────────────
+INSERT DATA {
+  GRAPH narr:Tx_20250115T130000Z {
+    narr:StyleObs_SecondVersion_ShortCadence a narr:StyleObservation ;
       skos:broader narr:ShortPunchyCadence ;
-      dct:source narr:Sample_FirstVersion ;
-      skos:note "Body consists of exactly two words: 'First version'. Extremely terse — placeholder or stub register. No sentences, no punctuation." ;
+      dct:source narr:Sample_SecondVersion ;
+      skos:note "Two-word body continues the ultra-minimal cadence pattern established in the first version." ;
       rdf:value true ;
       oa:hasTarget [
         a oa:SpecificResource ;
-        oa:hasSource narr:Sample_FirstVersion ;
+        oa:hasSource narr:Sample_SecondVersion ;
         oa:hasSelector [
           a oa:TextPositionSelector ;
-          oa:start 47 ;
-          oa:end 60
+          oa:start 52 ;
+          oa:end 66
         ] ;
         oa:hasSelector [
           a oa:TextQuoteSelector ;
-          oa:exact "First version" ;
+          oa:exact "Second version" ;
           oa:prefix "---\n\n" ;
           oa:suffix ""
         ]
       ] .
+  }
+} ;
 
-    # 3. Minimal body — stub/placeholder document pattern
-    narr:StyleObs_MinimalBody a narr:StyleObservation ;
+# ── Style Observation 2: Register formality (minimal/informal) ───
+INSERT DATA {
+  GRAPH narr:Tx_20250115T130000Z {
+    narr:StyleObs_SecondVersion_RegisterFormality a narr:StyleObservation ;
       skos:broader narr:RegisterFormality ;
-      dct:source narr:Sample_FirstVersion ;
-      skos:note "Document body is a two-word stub. Register is informal/placeholder — no formal prose, no complete sentences. Signals an early-stage or template document." ;
+      dct:source narr:Sample_SecondVersion ;
+      skos:note "Body register is bare noun-phrase, no verb, no punctuation — extremely low formality, consistent with a draft label or placeholder text." ;
       rdf:value false ;
       oa:hasTarget [
         a oa:SpecificResource ;
-        oa:hasSource narr:Sample_FirstVersion ;
+        oa:hasSource narr:Sample_SecondVersion ;
         oa:hasSelector [
           a oa:TextPositionSelector ;
-          oa:start 47 ;
-          oa:end 60
+          oa:start 52 ;
+          oa:end 66
         ] ;
         oa:hasSelector [
           a oa:TextQuoteSelector ;
-          oa:exact "First version" ;
+          oa:exact "Second version" ;
           oa:prefix "---\n\n" ;
           oa:suffix ""
         ]
       ] .
+  }
+} ;
 
-    # ── Style Metrics ───────────────────────────────────────────
-    narr:StyleMetrics_FirstVersion a narr:StyleMetrics ;
-      skos:broader narr:StyleMetrics ;
-      dct:source narr:Sample_FirstVersion ;
-      narr:AverageSentenceLength 2 ;
-      narr:ActiveVoiceRatio "1.0"^^xsd:decimal ;
-      narr:JargonDensity "0.0"^^xsd:decimal ;
-      skos:note "Body is two words with no complete sentence. AverageSentenceLength estimated at 2 words (the entire body). ActiveVoiceRatio 1.0 (no passive constructions). JargonDensity 0.0 (no technical terms in body)." .
-
+# ── Style Observation 3: Reviewer declared in YAML frontmatter ───
+INSERT DATA {
+  GRAPH narr:Tx_20250115T130000Z {
+    narr:StyleObs_SecondVersion_ReviewerFrontmatter a narr:StyleObservation ;
+      skos:broader narr:EditorialRules ;
+      dct:source narr:Sample_SecondVersion ;
+      skos:note "Reviewer assignment persists in YAML frontmatter across versions, indicating a structured editorial convention rather than ad-hoc annotation." ;
+      rdf:value true ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_SecondVersion ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start 15 ;
+          oa:end 46
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "  - test+expert-gh@aswritten.ai" ;
+          oa:prefix "reviewers:\n" ;
+          oa:suffix "\n---"
+        ]
+      ] .
   }
 }
