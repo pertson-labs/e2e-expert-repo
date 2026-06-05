@@ -1,0 +1,126 @@
+PREFIX narr: <https://aswritten.ai/narrative#>
+PREFIX rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX prov: <http://www.w3.org/ns/prov#>
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+PREFIX dct:  <http://purl.org/dc/terms/>
+PREFIX xsd:  <http://www.w3.org/2001/XMLSchema#>
+PREFIX oa:   <http://www.w3.org/ns/oa#>
+
+# Transaction provenance (default graph)
+INSERT DATA {
+  narr:Tx_20250130T120000Z a prov:Activity ;
+    prov:generatedAtTime "2025-01-30T12:00:00Z"^^xsd:dateTime ;
+    prov:wasAssociatedWith "aswritten.ai" ;
+    prov:wasAttributedTo "n8n.aswritten.ai" ;
+    narr:originPath "" ;
+    narr:originRef "main" ;
+    dct:title "First Version — Inception Document" ;
+    prov:generated
+      narr:Sample_FirstVersion,
+      narr:Actor_Reviewer_ExpertGH,
+      narr:Narrative_FirstVersionInception,
+      narr:StyleObs_MinimalBody,
+      narr:StyleObs_FrontmatterConvention,
+      narr:StyleObs_PlainDeclarative,
+      narr:StyleMetrics_FirstVersion .
+} ;
+
+# Extracted entities (named graph)
+INSERT DATA {
+  GRAPH narr:Tx_20250130T120000Z {
+
+    # ── Sample ──────────────────────────────────────────────────
+    narr:Sample_FirstVersion a narr:Sample ;
+      dct:title "First Version" ;
+      dct:description "Minimal inception document with YAML frontmatter listing a reviewer and a single-sentence body." ;
+      narr:inputLength 67 .
+
+    # ── Actor ───────────────────────────────────────────────────
+    narr:Actor_Reviewer_ExpertGH a narr:Actor ;
+      skos:prefLabel "Expert Reviewer (GitHub)" ;
+      skos:note "Reviewer listed in YAML frontmatter. Email redacted per PII policy (test+expert-gh@aswritten.ai)." .
+
+    # ── Narrative ───────────────────────────────────────────────
+    narr:Narrative_FirstVersionInception a narr:Narrative ;
+      dct:source narr:Sample_FirstVersion ;
+      narr:theme "Document inception — first version declaration" ;
+      skos:broader narr:NarrativeAnchor ;
+      skos:note "The document asserts itself as a first version, establishing an inception point in the knowledge graph. The frontmatter assigns a named reviewer, signalling a review-gated workflow." .
+
+    # ── Style Observation 1: Minimal / Concise Body ─────────────
+    narr:StyleObs_MinimalBody a narr:StyleObservation ;
+      skos:broader narr:Conciseness ;
+      dct:source narr:Sample_FirstVersion ;
+      skos:note "Body consists of a single two-word declarative sentence, exhibiting extreme conciseness." ;
+      rdf:value true ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_FirstVersion ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start 56 ;
+          oa:end 69
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "First version" ;
+          oa:prefix "---\n\n" ;
+          oa:suffix ""
+        ]
+      ] .
+
+    # ── Style Observation 2: YAML Frontmatter Editorial Convention
+    narr:StyleObs_FrontmatterConvention a narr:StyleObservation ;
+      skos:broader narr:EditorialRules ;
+      dct:source narr:Sample_FirstVersion ;
+      skos:note "Document uses YAML frontmatter delimited by triple-dashes to declare structured metadata (reviewers list), following a Jekyll/Hugo editorial convention." ;
+      rdf:value true ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_FirstVersion ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start 0 ;
+          oa:end 54
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "reviewers:" ;
+          oa:prefix "---\n" ;
+          oa:suffix "\n  - "
+        ]
+      ] .
+
+    # ── Style Observation 3: Plain Declarative Tone ─────────────
+    narr:StyleObs_PlainDeclarative a narr:StyleObservation ;
+      skos:broader narr:ToneAuthoritative ;
+      dct:source narr:Sample_FirstVersion ;
+      skos:note "The body adopts a plain, authoritative declarative register with no hedging, qualifiers, or elaboration — consistent with a version-control commit message style." ;
+      rdf:value true ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_FirstVersion ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start 56 ;
+          oa:end 69
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "First version" ;
+          oa:prefix "---\n\n" ;
+          oa:suffix ""
+        ]
+      ] .
+
+    # ── Style Metrics ───────────────────────────────────────────
+    narr:StyleMetrics_FirstVersion a narr:StyleMetrics ;
+      skos:broader narr:StyleMetrics ;
+      dct:source narr:Sample_FirstVersion ;
+      narr:AverageSentenceLength 2 ;
+      narr:ActiveVoiceRatio "1.0"^^xsd:decimal ;
+      narr:JargonDensity "0.0"^^xsd:decimal ;
+      skos:note "Single two-word sentence. 100% active voice (implied). Zero jargon. Extremely terse register." .
+
+  }
+}
