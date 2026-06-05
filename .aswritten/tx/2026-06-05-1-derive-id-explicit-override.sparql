@@ -1,0 +1,152 @@
+PREFIX narr: <https://aswritten.ai/narrative#>
+PREFIX rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX prov: <http://www.w3.org/ns/prov#>
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+PREFIX dct:  <http://purl.org/dc/terms/>
+PREFIX xsd:  <http://www.w3.org/2001/XMLSchema#>
+PREFIX oa:   <http://www.w3.org/ns/oa#>
+
+# Transaction provenance (default graph)
+INSERT DATA {
+  narr:Tx_20250718T120000Z a prov:Activity ;
+    dct:title "Some Other Title That Should Not Win — extraction" ;
+    prov:generatedAtTime "2025-07-18T12:00:00Z"^^xsd:dateTime ;
+    prov:wasAssociatedWith "aswritten.ai" ;
+    prov:wasAttributedTo "n8n.aswritten.ai" ;
+    narr:originPath "\"---\\nreviewers:\\n  - test+expert-gh@aswritten.ai\\n---\\n\\n# Some Other Title That Should Not Win\\n\\nBody.\"" ;
+    narr:originRef "main" ;
+    prov:generated
+      narr:Sample_SomeOtherTitleThatShouldNotWin,
+      narr:Narrative_TitleSelectionPriority,
+      narr:Observation_HeadingAssertion,
+      narr:Observation_ReviewerFrontmatter,
+      narr:StyleObservation_ToneDirective,
+      narr:StyleObservation_ShortPunchyCadence,
+      narr:StyleObservation_JargonPolicy,
+      narr:StyleMetrics_SomeOtherTitleThatShouldNotWin .
+} ;
+
+# Extracted entities (named graph)
+INSERT DATA {
+  GRAPH narr:Tx_20250718T120000Z {
+
+    # ── Sample ──────────────────────────────────────────────────
+    narr:Sample_SomeOtherTitleThatShouldNotWin a narr:Sample ;
+      dct:title "Some Other Title That Should Not Win" ;
+      dct:description "Minimal markdown document with YAML frontmatter listing a reviewer (test+expert-gh@aswritten.ai) and a one-word body. Submitted without an explicit id field." ;
+      narr:inputLength 98 .
+
+    # ── Narrative ────────────────────────────────────────────────
+    narr:Narrative_TitleSelectionPriority a narr:Narrative ;
+      dct:source narr:Sample_SomeOtherTitleThatShouldNotWin ;
+      skos:broader narr:NarrativeAnchor ;
+      narr:theme "Title selection priority: the heading of a document does not automatically win as the canonical title" ;
+      skos:note "The H1 heading explicitly asserts 'Some Other Title That Should Not Win', signalling that the pipeline or review process must apply a title-selection rule that can override or deprioritize the document heading in favour of another source (e.g., frontmatter, slug, or reviewer-assigned title)." .
+
+    # ── Observations ─────────────────────────────────────────────
+    narr:Observation_HeadingAssertion a narr:Observation ;
+      skos:broader narr:NarrativeAnchor ;
+      dct:source narr:Sample_SomeOtherTitleThatShouldNotWin ;
+      skos:note "The H1 heading explicitly names itself as a title that should NOT win, foregrounding a title-priority rule in the pipeline." ;
+      oa:hasSelector [
+        a oa:TextPositionSelector ;
+        oa:start 53 ;
+        oa:end 91
+      ] ;
+      oa:hasSelector [
+        a oa:TextQuoteSelector ;
+        oa:exact "# Some Other Title That Should Not Win" ;
+        oa:prefix "---\n\n" ;
+        oa:suffix "\n\nBody."
+      ] .
+
+    narr:Observation_ReviewerFrontmatter a narr:Observation ;
+      skos:broader narr:QualityReviewGates ;
+      dct:source narr:Sample_SomeOtherTitleThatShouldNotWin ;
+      skos:note "YAML frontmatter lists test+expert-gh@aswritten.ai as a reviewer, confirming the expert-reviewer role already captured in the graph for narr:Actor_TestExpertReviewer." ;
+      oa:hasSelector [
+        a oa:TextPositionSelector ;
+        oa:start 16 ;
+        oa:end 47
+      ] ;
+      oa:hasSelector [
+        a oa:TextQuoteSelector ;
+        oa:exact "test+expert-gh@aswritten.ai" ;
+        oa:prefix "reviewers:\n  - " ;
+        oa:suffix "\n---"
+      ] .
+
+    # ── Style Observations ───────────────────────────────────────
+    narr:StyleObservation_ToneDirective a narr:StyleObservation ;
+      skos:broader narr:ToneAuthoritative ;
+      dct:source narr:Sample_SomeOtherTitleThatShouldNotWin ;
+      skos:note "The heading uses a declarative negative imperative ('Should Not Win'), projecting an authoritative, rule-stating tone despite the document's minimal length." ;
+      rdf:value true ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_SomeOtherTitleThatShouldNotWin ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start 53 ;
+          oa:end 91
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "Some Other Title That Should Not Win" ;
+          oa:prefix "# " ;
+          oa:suffix "\n\nBody."
+        ]
+      ] .
+
+    narr:StyleObservation_ShortPunchyCadence a narr:StyleObservation ;
+      skos:broader narr:ShortPunchyCadence ;
+      dct:source narr:Sample_SomeOtherTitleThatShouldNotWin ;
+      skos:note "Body consists of a single word ('Body.') — extreme brevity, functioning as a placeholder or stub. The document as a whole is a minimal test fixture." ;
+      rdf:value true ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_SomeOtherTitleThatShouldNotWin ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start 93 ;
+          oa:end 98
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "Body." ;
+          oa:prefix "Should Not Win\n\n" ;
+          oa:suffix ""
+        ]
+      ] .
+
+    narr:StyleObservation_JargonPolicy a narr:StyleObservation ;
+      skos:broader narr:JargonPolicy ;
+      dct:source narr:Sample_SomeOtherTitleThatShouldNotWin ;
+      skos:note "No domain jargon present in body or heading. The frontmatter key 'reviewers' is a pipeline-internal term. Overall jargon density is near-zero for the visible prose." ;
+      rdf:value false ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_SomeOtherTitleThatShouldNotWin ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start 4 ;
+          oa:end 13
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "reviewers" ;
+          oa:prefix "---\n" ;
+          oa:suffix ":\n  - test"
+        ]
+      ] .
+
+    # ── Style Metrics ────────────────────────────────────────────
+    narr:StyleMetrics_SomeOtherTitleThatShouldNotWin a narr:StyleMetrics ;
+      skos:broader narr:StyleMetrics ;
+      dct:source narr:Sample_SomeOtherTitleThatShouldNotWin ;
+      narr:AverageSentenceLength 7 ;
+      narr:ActiveVoiceRatio "1.00"^^xsd:decimal ;
+      narr:JargonDensity "0.05"^^xsd:decimal ;
+      skos:note "Extremely short document: one heading (7 words) and one body word. Active voice throughout. Near-zero jargon density in prose. Register: minimal test fixture / stub document."
+  }
+}
