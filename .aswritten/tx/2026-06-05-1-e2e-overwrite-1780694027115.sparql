@@ -6,152 +6,158 @@ PREFIX dct:  <http://purl.org/dc/terms/>
 PREFIX xsd:  <http://www.w3.org/2001/XMLSchema#>
 PREFIX oa:   <http://www.w3.org/ns/oa#>
 
-# Transaction provenance (default graph)
+# ── Transaction provenance (default graph) ──────────────────────
 INSERT DATA {
-  narr:Tx_20250115T120000Z a prov:Activity ;
-    prov:generatedAtTime "2025-01-15T12:00:00Z"^^xsd:dateTime ;
+  narr:Tx_20250115T130000Z a prov:Activity ;
+    dct:title "Second version stub document extraction" ;
+    prov:generatedAtTime "2025-01-15T13:00:00Z"^^xsd:dateTime ;
     prov:wasAssociatedWith "aswritten.ai" ;
     prov:wasAttributedTo "n8n.aswritten.ai" ;
     narr:originPath "" ;
     narr:originRef "main" ;
-    dct:title "First version stub document extraction" ;
     prov:generated
-      narr:Sample_FirstVersionStub,
-      narr:Actor_ExpertReviewer_TestGH,
-      narr:Narrative_FirstVersionDocument,
-      narr:Claim_DocumentAtInitialVersion,
-      narr:Observation_ReviewerFrontmatter,
-      narr:StyleObs_MinimalBodyText,
-      narr:StyleObs_YAMLFrontmatterConvention,
-      narr:StyleObs_TwoWordBodyCadence,
-      narr:StyleMetrics_FirstVersionStub .
+      narr:Sample_SecondVersionStub,
+      narr:StyleMetrics_SecondVersionStub,
+      narr:StyleObs_SecondVersion_ShortCadence,
+      narr:StyleObs_SecondVersion_EditorialRules,
+      narr:StyleObs_SecondVersion_Conciseness .
 } ;
 
-# Extracted entities (named graph)
+# ── New Sample for the second-version document ───────────────────
 INSERT DATA {
-  GRAPH narr:Tx_20250115T120000Z {
+  GRAPH narr:Tx_20250115T130000Z {
+    narr:Sample_SecondVersionStub
+      a narr:Sample ;
+      dct:title "Second version stub document" ;
+      dct:description "Minimal stub document with YAML frontmatter listing a reviewer and a two-word body 'Second version'. Structurally identical to the first-version stub; body text advanced from 'First version' to 'Second version'." ;
+      narr:inputLength 68 .
+  }
+} ;
 
-    # ── Sample ──────────────────────────────────────────────────
-    narr:Sample_FirstVersionStub a narr:Sample ;
-      dct:title "First version stub document" ;
-      dct:description "Minimal stub document with YAML frontmatter listing a reviewer and a two-word body 'First version'." ;
-      narr:inputLength 67 .
+# ── Update Narrative: first-version theme → second-version theme ─
+DELETE {
+  GRAPH ?g {
+    narr:Narrative_FirstVersionDocument narr:theme ?oldTheme ;
+      skos:note ?oldNote .
+  }
+}
+INSERT {
+  GRAPH narr:Tx_20250115T130000Z {
+    narr:Narrative_FirstVersionDocument narr:theme "Document progression to second version" ;
+      skos:note "The document body has advanced from 'First version' to 'Second version', with the same designated expert reviewer retained in YAML frontmatter. The pattern continues to signal a review-gated authoring workflow across successive document versions." ;
+      dct:source narr:Sample_SecondVersionStub .
+  }
+}
+WHERE {
+  GRAPH ?g {
+    narr:Narrative_FirstVersionDocument narr:theme ?oldTheme .
+    OPTIONAL { narr:Narrative_FirstVersionDocument skos:note ?oldNote . }
+  }
+} ;
 
-    # ── Actor ───────────────────────────────────────────────────
-    narr:Actor_ExpertReviewer_TestGH a narr:Actor ;
-      skos:prefLabel "test+expert-gh" ;
-      skos:note "Reviewer listed in YAML frontmatter as test+expert-gh@aswritten.ai. Role: designated expert reviewer for this document." .
+# ── Update Claim: initial version → second version ───────────────
+DELETE {
+  GRAPH ?g {
+    narr:Claim_DocumentAtInitialVersion skos:note ?oldNote ;
+      dct:source ?oldSource .
+  }
+}
+INSERT {
+  GRAPH narr:Tx_20250115T130000Z {
+    narr:Claim_DocumentAtInitialVersion
+      skos:note "The document body now reads 'Second version', indicating the stub has been incremented from its initial state. The review-gated workflow pattern persists with the same reviewer." ;
+      dct:source narr:Sample_SecondVersionStub .
+  }
+}
+WHERE {
+  GRAPH ?g {
+    narr:Claim_DocumentAtInitialVersion dct:source ?oldSource .
+    OPTIONAL { narr:Claim_DocumentAtInitialVersion skos:note ?oldNote . }
+  }
+} ;
 
-    # ── Narrative ───────────────────────────────────────────────
-    narr:Narrative_FirstVersionDocument a narr:Narrative ;
-      dct:source narr:Sample_FirstVersionStub ;
-      narr:theme "Document initialisation at first version" ;
-      skos:broader narr:Process ;
-      skos:note "The document represents an initial stub at 'First version' state, with a designated expert reviewer assigned via YAML frontmatter. The pattern signals a review-gated authoring workflow." .
+# ── Style Metrics for second-version stub ───────────────────────
+INSERT DATA {
+  GRAPH narr:Tx_20250115T130000Z {
+    narr:StyleMetrics_SecondVersionStub
+      a narr:StyleMetrics ;
+      skos:broader narr:StyleMetrics ;
+      dct:source narr:Sample_SecondVersionStub ;
+      narr:AverageSentenceLength 2 ;
+      narr:ActiveVoiceRatio "1.0"^^xsd:decimal ;
+      narr:JargonDensity "0.0"^^xsd:decimal ;
+      skos:note "Metrics computed on body text only ('Second version'). Single two-word fragment; no passive constructions; no domain jargon. Document remains a stub with no developed prose register." .
+  }
+} ;
 
-    # ── Claim ───────────────────────────────────────────────────
-    narr:Claim_DocumentAtInitialVersion a narr:Claim ;
-      narr:aboutNode narr:Narrative_FirstVersionDocument ;
-      narr:hasConvictionLevel narr:Conviction_Notion ;
-      narr:supports narr:Process ;
-      dct:source narr:Sample_FirstVersionStub ;
-      skos:note "The document body contains only 'First version', indicating this is a placeholder or template stub at the earliest stage of authoring." .
+# ── Style Observations ───────────────────────────────────────────
+INSERT DATA {
+  GRAPH narr:Tx_20250115T130000Z {
 
-    # ── Observation: Reviewer frontmatter ───────────────────────
-    narr:Observation_ReviewerFrontmatter a narr:Observation ;
-      skos:broader narr:QualityReviewGates ;
-      dct:source narr:Sample_FirstVersionStub ;
-      skos:note "YAML frontmatter declares a reviewer email, establishing a review-gated workflow pattern." ;
-      oa:hasSelector [
-        a oa:SpecificResource ;
-        oa:hasSource narr:Sample_FirstVersionStub ;
-        oa:hasSelector [
-          a oa:TextPositionSelector ;
-          oa:start 14 ;
-          oa:end 50
-        ] ;
-        oa:hasSelector [
-          a oa:TextQuoteSelector ;
-          oa:exact "test+expert-gh@aswritten.ai" ;
-          oa:prefix "reviewers:\n  - " ;
-          oa:suffix "\n---"
-        ]
-      ] .
-
-    # ── Style Observation 1: Minimal body text ──────────────────
-    narr:StyleObs_MinimalBodyText a narr:StyleObservation ;
-      skos:broader narr:Conciseness ;
-      dct:source narr:Sample_FirstVersionStub ;
-      skos:note "Body text is reduced to two words ('First version'), representing extreme conciseness — a stub or placeholder register." ;
+    narr:StyleObs_SecondVersion_ShortCadence
+      a narr:StyleObservation ;
+      skos:broader narr:ShortPunchyCadence ;
+      dct:source narr:Sample_SecondVersionStub ;
+      skos:note "Body text is a two-word declarative fragment, exemplifying maximal brevity and short punchy cadence." ;
       rdf:value true ;
       oa:hasTarget [
         a oa:SpecificResource ;
-        oa:hasSource narr:Sample_FirstVersionStub ;
+        oa:hasSource narr:Sample_SecondVersionStub ;
         oa:hasSelector [
           a oa:TextPositionSelector ;
-          oa:start 55 ;
-          oa:end 67
+          oa:start 47 ;
+          oa:end 61
         ] ;
         oa:hasSelector [
           a oa:TextQuoteSelector ;
-          oa:exact "First version" ;
+          oa:exact "Second version" ;
           oa:prefix "---\n\n" ;
           oa:suffix ""
         ]
       ] .
 
-    # ── Style Observation 2: YAML frontmatter convention ────────
-    narr:StyleObs_YAMLFrontmatterConvention a narr:StyleObservation ;
+    narr:StyleObs_SecondVersion_EditorialRules
+      a narr:StyleObservation ;
       skos:broader narr:EditorialRules ;
-      dct:source narr:Sample_FirstVersionStub ;
-      skos:note "Document uses YAML frontmatter delimited by triple-dashes (---) to declare structured metadata (reviewers list). This is a machine-readable editorial convention common in static-site and docs-as-code workflows." ;
+      dct:source narr:Sample_SecondVersionStub ;
+      skos:note "YAML frontmatter reviewer declaration follows a structured editorial convention: named reviewer role enforced at document level before content is developed." ;
       rdf:value true ;
       oa:hasTarget [
         a oa:SpecificResource ;
-        oa:hasSource narr:Sample_FirstVersionStub ;
+        oa:hasSource narr:Sample_SecondVersionStub ;
         oa:hasSelector [
           a oa:TextPositionSelector ;
           oa:start 0 ;
-          oa:end 53
+          oa:end 46
         ] ;
         oa:hasSelector [
           a oa:TextQuoteSelector ;
           oa:exact "---\nreviewers:\n  - test+expert-gh@aswritten.ai\n---" ;
           oa:prefix "" ;
-          oa:suffix "\n\nFirst version"
+          oa:suffix "\n\nSecond version"
         ]
       ] .
 
-    # ── Style Observation 3: Two-word cadence / placeholder tone ─
-    narr:StyleObs_TwoWordBodyCadence a narr:StyleObservation ;
-      skos:broader narr:ShortPunchyCadence ;
-      dct:source narr:Sample_FirstVersionStub ;
-      skos:note "The body consists of a single two-word phrase used as a version label rather than prose. This signals a placeholder/stub tone rather than a developed authorial voice." ;
-      rdf:value false ;
+    narr:StyleObs_SecondVersion_Conciseness
+      a narr:StyleObservation ;
+      skos:broader narr:Conciseness ;
+      dct:source narr:Sample_SecondVersionStub ;
+      skos:note "The entire prose body is two words. This extreme conciseness marks the document as a versioned placeholder stub, not a developed artifact." ;
+      rdf:value true ;
       oa:hasTarget [
         a oa:SpecificResource ;
-        oa:hasSource narr:Sample_FirstVersionStub ;
+        oa:hasSource narr:Sample_SecondVersionStub ;
         oa:hasSelector [
           a oa:TextPositionSelector ;
-          oa:start 55 ;
-          oa:end 67
+          oa:start 47 ;
+          oa:end 61
         ] ;
         oa:hasSelector [
           a oa:TextQuoteSelector ;
-          oa:exact "First version" ;
+          oa:exact "Second version" ;
           oa:prefix "---\n\n" ;
           oa:suffix ""
         ]
       ] .
-
-    # ── Style Metrics ────────────────────────────────────────────
-    narr:StyleMetrics_FirstVersionStub a narr:StyleMetrics ;
-      skos:broader narr:StyleMetrics ;
-      dct:source narr:Sample_FirstVersionStub ;
-      narr:AverageSentenceLength 2 ;
-      narr:ActiveVoiceRatio "1.0"^^xsd:decimal ;
-      narr:JargonDensity "0.0"^^xsd:decimal ;
-      skos:note "Metrics computed on body text only ('First version'). Single fragment of 2 words; no passive constructions; no domain jargon. Document is a stub with no developed prose register."
-
   }
 }
