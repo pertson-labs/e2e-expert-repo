@@ -1,0 +1,176 @@
+PREFIX narr: <https://aswritten.ai/narrative#>
+PREFIX rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX prov: <http://www.w3.org/ns/prov#>
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+PREFIX dct:  <http://purl.org/dc/terms/>
+PREFIX xsd:  <http://www.w3.org/2001/XMLSchema#>
+PREFIX oa:   <http://www.w3.org/ns/oa#>
+
+# ── Transaction provenance (default graph) ──────────────────────────────────
+INSERT DATA {
+  narr:Tx_20250115T120000Z a prov:Activity ;
+    prov:generatedAtTime "2025-01-15T12:00:00Z"^^xsd:dateTime ;
+    prov:wasAssociatedWith "aswritten.ai" ;
+    prov:wasAttributedTo "n8n.aswritten.ai" ;
+    narr:originPath "sample-memory-with-distinctive-heading" ;
+    narr:originRef "main" ;
+    dct:title "Sample Memory With Distinctive Heading — slug-gen pipeline test" ;
+    prov:generated
+      narr:Sample_SlugGenPipelineTest,
+      narr:Actor_TestExpertReviewer,
+      narr:Narrative_SlugGenerationPipelineRequirement,
+      narr:Claim_PipelineMustProduceSlugFromContent,
+      narr:Claim_SlugGenFallbackDeterministic,
+      narr:Observation_SlugGenRequirement,
+      narr:Observation_ReviewerFrontmatter,
+      narr:StyleObs_TechnicalProcedural,
+      narr:StyleObs_ConditionalDisjunction,
+      narr:StyleObs_JargonDensity,
+      narr:StyleMetrics_SlugGenPipelineTest .
+} ;
+
+# ── Extracted entities (named graph) ────────────────────────────────────────
+INSERT DATA {
+  GRAPH narr:Tx_20250115T120000Z {
+
+    # ── Sample ──────────────────────────────────────────────────────────────
+    narr:Sample_SlugGenPipelineTest a narr:Sample ;
+      dct:title "Sample Memory With Distinctive Heading" ;
+      narr:inputLength 328 ;
+      dct:description "A test memory submitted without an explicit id field to exercise the pipeline slug-generation path (LLM id-gen or deterministic slugify fallback)." .
+
+    # ── Actor ───────────────────────────────────────────────────────────────
+    narr:Actor_TestExpertReviewer a narr:Actor ;
+      skos:prefLabel "test+expert-gh@aswritten.ai" ;
+      skos:note "Reviewer listed in YAML frontmatter of the test memory; role is expert reviewer in the aswritten.ai GitHub pipeline." .
+
+    # ── Narrative ───────────────────────────────────────────────────────────
+    narr:Narrative_SlugGenerationPipelineRequirement a narr:Narrative ;
+      dct:source narr:Sample_SlugGenPipelineTest ;
+      narr:theme "Pipeline slug generation from memory content when no explicit id is provided" ;
+      skos:broader narr:Process ;
+      skos:note "When a memory is submitted without an explicit id field, the pipeline must derive a slug from the memory content — either through an LLM id-gen call or a deterministic slugify fallback — and commit the file successfully. This tests a critical fallback path in the ingestion workflow." .
+
+    # ── Claims ──────────────────────────────────────────────────────────────
+    narr:Claim_PipelineMustProduceSlugFromContent a narr:Claim ;
+      narr:aboutNode narr:Process ;
+      narr:hasConvictionLevel narr:Conviction_Boulder ;
+      narr:supports narr:Narrative_SlugGenerationPipelineRequirement ;
+      dct:source narr:Sample_SlugGenPipelineTest ;
+      skos:note "The pipeline must produce a slug from memory content when no id field is present, and must commit the file successfully. This is a functional requirement, not merely a preference." .
+
+    narr:Claim_SlugGenFallbackDeterministic a narr:Claim ;
+      narr:aboutNode narr:Process ;
+      narr:hasConvictionLevel narr:Conviction_Stake ;
+      narr:supports narr:Narrative_SlugGenerationPipelineRequirement ;
+      dct:source narr:Sample_SlugGenPipelineTest ;
+      skos:note "Two slug-generation strategies are specified: (1) LLM id-gen call (primary), (2) deterministic slugify fallback. The fallback ensures robustness when the LLM path is unavailable." .
+
+    # ── Observations ────────────────────────────────────────────────────────
+    narr:Observation_SlugGenRequirement a narr:Observation ;
+      skos:broader narr:CoreWorkflows ;
+      dct:source narr:Sample_SlugGenPipelineTest ;
+      skos:note "Core pipeline requirement: slug must be produced from content and file committed successfully." ;
+      oa:hasSelector [
+        a oa:TextPositionSelector ;
+        oa:start 119 ;
+        oa:end 328
+      ] ;
+      oa:hasSelector [
+        a oa:TextQuoteSelector ;
+        oa:exact "The pipeline must produce a\nslug from the memory content — either via the LLM id-gen call or the\ndeterministic slugify fallback — and commit the file successfully." ;
+        oa:prefix "Submitted without an explicit id field. " ;
+        oa:suffix ""
+      ] .
+
+    narr:Observation_ReviewerFrontmatter a narr:Observation ;
+      skos:broader narr:Process ;
+      dct:source narr:Sample_SlugGenPipelineTest ;
+      skos:note "YAML frontmatter specifies a reviewer (test+expert-gh@aswritten.ai), indicating the pipeline also handles reviewer assignment metadata even in test submissions." ;
+      oa:hasSelector [
+        a oa:TextPositionSelector ;
+        oa:start 4 ;
+        oa:end 52
+      ] ;
+      oa:hasSelector [
+        a oa:TextQuoteSelector ;
+        oa:exact "reviewers:\n  - test+expert-gh@aswritten.ai" ;
+        oa:prefix "---\n" ;
+        oa:suffix "\n---"
+      ] .
+
+    # ── Style Observations ──────────────────────────────────────────────────
+    narr:StyleObs_TechnicalProcedural a narr:StyleObservation ;
+      skos:broader narr:ToneAuthoritative ;
+      dct:source narr:Sample_SlugGenPipelineTest ;
+      rdf:value true ;
+      skos:note "Declarative, specification-like register: the document states requirements as obligations ('must produce', 'commit the file successfully') without hedging. Characteristic of technical pipeline documentation." ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_SlugGenPipelineTest ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start 119 ;
+          oa:end 200
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "The pipeline must produce a\nslug from the memory content" ;
+          oa:prefix "Submitted without an explicit id field. " ;
+          oa:suffix " — either via the LLM id-gen call"
+        ]
+      ] .
+
+    narr:StyleObs_ConditionalDisjunction a narr:StyleObservation ;
+      skos:broader narr:GrammarSyntax ;
+      dct:source narr:Sample_SlugGenPipelineTest ;
+      rdf:value true ;
+      skos:note "Use of 'either … or …' disjunction to enumerate two alternative implementation strategies (LLM id-gen vs. deterministic slugify fallback). Signals engineering precision and awareness of failure modes." ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_SlugGenPipelineTest ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start 200 ;
+          oa:end 295
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "either via the LLM id-gen call or the\ndeterministic slugify fallback" ;
+          oa:prefix "slug from the memory content — " ;
+          oa:suffix " — and commit the file successfully."
+        ]
+      ] .
+
+    narr:StyleObs_JargonDensity a narr:StyleObservation ;
+      skos:broader narr:JargonPolicy ;
+      dct:source narr:Sample_SlugGenPipelineTest ;
+      rdf:value false ;
+      skos:note "Moderate technical jargon: 'slug', 'LLM', 'id-gen', 'slugify', 'pipeline', 'deterministic'. All terms are domain-specific to software ingestion pipelines. No plain-language alternatives offered, consistent with an internal/developer-facing document." ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_SlugGenPipelineTest ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start 119 ;
+          oa:end 328
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "slug from the memory content — either via the LLM id-gen call or the\ndeterministic slugify fallback" ;
+          oa:prefix "The pipeline must produce a\n" ;
+          oa:suffix " — and commit the file successfully."
+        ]
+      ] .
+
+    # ── Style Metrics ───────────────────────────────────────────────────────
+    narr:StyleMetrics_SlugGenPipelineTest a narr:StyleMetrics ;
+      skos:broader narr:StyleMetrics ;
+      dct:source narr:Sample_SlugGenPipelineTest ;
+      narr:AverageSentenceLength 20 ;
+      narr:ActiveVoiceRatio "0.75"^^xsd:decimal ;
+      narr:JargonDensity "0.30"^^xsd:decimal ;
+      skos:note "Short document (3 sentences in body). Predominantly active voice with modal obligation ('must'). Jargon density elevated due to pipeline/LLM terminology. Register: internal technical specification." .
+
+  }
+}
