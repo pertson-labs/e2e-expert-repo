@@ -1,0 +1,123 @@
+PREFIX narr: <https://aswritten.ai/narrative#>
+PREFIX rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX prov: <http://www.w3.org/ns/prov#>
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+PREFIX dct:  <http://purl.org/dc/terms/>
+PREFIX xsd:  <http://www.w3.org/2001/XMLSchema#>
+PREFIX oa:   <http://www.w3.org/ns/oa#>
+
+# ── Retraction transaction node (default graph) ──────────────────────────────
+INSERT DATA {
+  narr:Tx_20260601T000000Z a prov:Activity ;
+    prov:generatedAtTime "2026-06-01T00:00:00Z"^^xsd:dateTime ;
+    prov:wasAssociatedWith "aswritten.ai" ;
+    prov:wasAttributedTo "test+expert-gh@aswritten.ai" ;
+    narr:originPath "inline-message" ;
+    narr:originRef "main" ;
+    dct:title "RETRACTION: Forget database decision — Zypherion, Meridian, Quinton Fairweather, analytics pipeline" ;
+    prov:generated narr:Tx_20260601T000000Z .
+} ;
+
+# ── DELETE: narr:Actor_QuintonFairweather ────────────────────────────────────
+DELETE WHERE {
+  narr:Actor_QuintonFairweather ?p ?o .
+} ;
+
+# ── DELETE: narr:Narrative_ZypherionAdoption ────────────────────────────────
+DELETE WHERE {
+  narr:Narrative_ZypherionAdoption ?p ?o .
+} ;
+
+# ── DELETE: narr:Claim_DatabaseChoice_Zypherion ─────────────────────────────
+DELETE WHERE {
+  narr:Claim_DatabaseChoice_Zypherion ?p ?o .
+} ;
+
+# ── DELETE: narr:Claim_DatabaseChoice_Meridian ──────────────────────────────
+DELETE WHERE {
+  narr:Claim_DatabaseChoice_Meridian ?p ?o .
+} ;
+
+# ── DELETE: narr:Claim_MeridianBatchStreaming ────────────────────────────────
+DELETE WHERE {
+  narr:Claim_MeridianBatchStreaming ?p ?o .
+} ;
+
+# ── DELETE: narr:Claim_Performance_15x ──────────────────────────────────────
+DELETE WHERE {
+  narr:Claim_Performance_15x ?p ?o .
+} ;
+
+# ── DELETE: narr:Claim_Timeline_Q3Migration ─────────────────────────────────
+DELETE WHERE {
+  narr:Claim_Timeline_Q3Migration ?p ?o .
+} ;
+
+# ── DELETE: narr:Claim_ZypherionStreamingGap ────────────────────────────────
+DELETE WHERE {
+  narr:Claim_ZypherionStreamingGap ?p ?o .
+} ;
+
+# ── DELETE: narr:Obs_QuintonAdoptionStatement ───────────────────────────────
+DELETE WHERE {
+  narr:Obs_QuintonAdoptionStatement ?p ?o .
+} ;
+
+# ── DELETE: narr:Obs_QuintonMeridianStatement ───────────────────────────────
+DELETE WHERE {
+  narr:Obs_QuintonMeridianStatement ?p ?o .
+} ;
+
+# ── DELETE: narr:Sample_ZypherionDecision_20260406 ──────────────────────────
+DELETE WHERE {
+  narr:Sample_ZypherionDecision_20260406 ?p ?o .
+} ;
+
+# ── DELETE: narr:Sample_MeridianDecision_20260406 ───────────────────────────
+DELETE WHERE {
+  narr:Sample_MeridianDecision_20260406 ?p ?o .
+} ;
+
+# ── DELETE: narr:StyleMetrics_ZypherionDecision ─────────────────────────────
+DELETE WHERE {
+  narr:StyleMetrics_ZypherionDecision ?p ?o .
+} ;
+
+# ── DELETE: narr:StyleMetrics_MeridianDecision ──────────────────────────────
+DELETE WHERE {
+  narr:StyleMetrics_MeridianDecision ?p ?o .
+} ;
+
+# ── DELETE: narr:Tx_20260406T120000Z (Zypherion decision transaction) ────────
+DELETE WHERE {
+  narr:Tx_20260406T120000Z ?p ?o .
+} ;
+
+# ── DELETE: narr:Tx_20260406T140000Z (Meridian decision transaction) ─────────
+DELETE WHERE {
+  narr:Tx_20260406T140000Z ?p ?o .
+} ;
+
+# ── DELETE: any blank-node selectors hanging off removed observations ────────
+# (oa:hasSelector blank nodes attached to Quinton observations — already
+#  dereferenced by the subject-delete above; this sweep catches any
+#  residual ?s ?p narr:Obs_* back-references in the default graph)
+DELETE WHERE {
+  ?s ?p narr:Narrative_ZypherionAdoption .
+} ;
+
+DELETE WHERE {
+  ?s ?p narr:Claim_DatabaseChoice_Zypherion .
+} ;
+
+DELETE WHERE {
+  ?s ?p narr:Claim_DatabaseChoice_Meridian .
+} ;
+
+DELETE WHERE {
+  ?s ?p narr:Sample_ZypherionDecision_20260406 .
+} ;
+
+DELETE WHERE {
+  ?s ?p narr:Sample_MeridianDecision_20260406 .
+}
