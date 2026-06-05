@@ -1,0 +1,141 @@
+PREFIX narr: <https://aswritten.ai/narrative#>
+PREFIX rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX prov: <http://www.w3.org/ns/prov#>
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+PREFIX dct:  <http://purl.org/dc/terms/>
+PREFIX xsd:  <http://www.w3.org/2001/XMLSchema#>
+PREFIX oa:   <http://www.w3.org/ns/oa#>
+
+# Transaction provenance (default graph)
+INSERT DATA {
+  narr:Tx_20250715T000000Z a prov:Activity ;
+    dct:title "Extraction: Some Other Title That Should Not Win" ;
+    prov:generatedAtTime "2025-07-15T00:00:00Z"^^xsd:dateTime ;
+    prov:wasAssociatedWith "aswritten.ai" ;
+    prov:wasAttributedTo "n8n.aswritten.ai" ;
+    narr:originPath "" ;
+    narr:originRef "unknown" ;
+    prov:generated
+      narr:Sample_SomeOtherTitle,
+      narr:Claim_HeadingMustNotWin,
+      narr:Observation_HeadingAssertion,
+      narr:StyleObservation_MinimalBody,
+      narr:StyleObservation_H1TitleAsTestAssertion,
+      narr:StyleObservation_YAMLFrontmatterReviewer,
+      narr:StyleMetrics_SomeOtherTitle .
+} ;
+
+# Extracted entities (named graph)
+INSERT DATA {
+  GRAPH narr:Tx_20250715T000000Z {
+
+    # ── Sample ──────────────────────────────────────────────────
+    narr:Sample_SomeOtherTitle a narr:Sample ;
+      dct:title "Some Other Title That Should Not Win" ;
+      dct:description "Minimal test memory with YAML frontmatter (reviewer, no id field) and a single-word body. The H1 heading explicitly asserts it should not be used as the slug." ;
+      narr:inputLength 98 .
+
+    # ── Claim ───────────────────────────────────────────────────
+    narr:Claim_HeadingMustNotWin a narr:Claim ;
+      dct:source narr:Sample_SomeOtherTitle ;
+      skos:note "The H1 heading 'Some Other Title That Should Not Win' is a self-referential test assertion: the heading content itself declares that it must not be selected as the slug. This reinforces the pipeline slug-generation narrative — the correct slug must be derived by other means (LLM id-gen or deterministic fallback), not by naive heading extraction." ;
+      narr:aboutNode narr:Narrative_PipelineSlugGeneration ;
+      narr:hasConvictionLevel narr:Conviction_Stake ;
+      narr:supports narr:Narrative_PipelineSlugGeneration .
+
+    # ── Observation ─────────────────────────────────────────────
+    narr:Observation_HeadingAssertion a narr:Observation ;
+      dct:source narr:Sample_SomeOtherTitle ;
+      skos:broader narr:Process ;
+      skos:note "The H1 heading is a self-referential test assertion about slug selection. The body is a single word, providing minimal content for slug derivation." ;
+      oa:hasSelector [
+        a oa:TextPositionSelector ;
+        oa:start 48 ;
+        oa:end 87
+      ] ;
+      oa:hasSelector [
+        a oa:TextQuoteSelector ;
+        oa:exact "Some Other Title That Should Not Win" ;
+        oa:prefix "# " ;
+        oa:suffix "\n\nBody."
+      ] .
+
+    # ── Style Observations ───────────────────────────────────────
+
+    # 1. Minimal body — extreme brevity
+    narr:StyleObservation_MinimalBody a narr:StyleObservation ;
+      skos:broader narr:ShortPunchyCadence ;
+      dct:source narr:Sample_SomeOtherTitle ;
+      skos:note "Body consists of a single word ('Body.'), representing extreme document brevity. This is a deliberate test artifact rather than a natural prose style." ;
+      rdf:value false ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_SomeOtherTitle ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start 90 ;
+          oa:end 95
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "Body." ;
+          oa:prefix "Should Not Win\n\n" ;
+          oa:suffix ""
+        ]
+      ] .
+
+    # 2. H1 heading as self-referential test assertion
+    narr:StyleObservation_H1TitleAsTestAssertion a narr:StyleObservation ;
+      skos:broader narr:RhetoricalQuestion ;
+      dct:source narr:Sample_SomeOtherTitle ;
+      skos:note "The H1 heading 'Some Other Title That Should Not Win' is a self-referential rhetorical device: the title content encodes a negative test assertion about its own fitness as a slug. This is an unusual stylistic pattern — a heading that argues against its own selection." ;
+      rdf:value false ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_SomeOtherTitle ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start 48 ;
+          oa:end 87
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "Some Other Title That Should Not Win" ;
+          oa:prefix "# " ;
+          oa:suffix "\n\nBody."
+        ]
+      ] .
+
+    # 3. YAML frontmatter reviewer field
+    narr:StyleObservation_YAMLFrontmatterReviewer a narr:StyleObservation ;
+      skos:broader narr:EditorialRules ;
+      dct:source narr:Sample_SomeOtherTitle ;
+      skos:note "YAML frontmatter includes a 'reviewers' field with a redacted email address. This follows the editorial convention of embedding reviewer metadata in document frontmatter. PII redacted per policy (allow_pii=false)." ;
+      rdf:value true ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_SomeOtherTitle ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start 4 ;
+          oa:end 43
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "reviewers:" ;
+          oa:prefix "---\n" ;
+          oa:suffix "\n  - [REDACTED]"
+        ]
+      ] .
+
+    # ── Style Metrics ────────────────────────────────────────────
+    narr:StyleMetrics_SomeOtherTitle a narr:StyleMetrics ;
+      dct:source narr:Sample_SomeOtherTitle ;
+      skos:broader narr:StyleMetrics ;
+      skos:note "Extremely short document: 1 heading sentence + 1 body word. No active/passive distinction meaningful at this scale. Jargon density near zero (no technical terms in prose). AverageSentenceLength estimated from heading (7 words) + body (1 word) = ~4 words/sentence across 2 units." ;
+      narr:AverageSentenceLength 4 ;
+      narr:ActiveVoiceRatio "0.50"^^xsd:decimal ;
+      narr:JargonDensity "0.00"^^xsd:decimal .
+
+  }
+}
