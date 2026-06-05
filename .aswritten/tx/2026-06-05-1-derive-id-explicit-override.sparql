@@ -1,0 +1,138 @@
+PREFIX narr: <https://aswritten.ai/narrative#>
+PREFIX rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX prov: <http://www.w3.org/ns/prov#>
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+PREFIX dct:  <http://purl.org/dc/terms/>
+PREFIX xsd:  <http://www.w3.org/2001/XMLSchema#>
+PREFIX oa:   <http://www.w3.org/ns/oa#>
+
+# Transaction provenance (default graph)
+INSERT DATA {
+  narr:Tx_20250714T140000Z a prov:Activity ;
+    prov:generatedAtTime "2025-07-14T14:00:00Z"^^xsd:dateTime ;
+    prov:wasAssociatedWith "aswritten.ai" ;
+    prov:wasAttributedTo "n8n.aswritten.ai" ;
+    narr:originPath "(no id field provided in input)" ;
+    narr:originRef "main@unknown" ;
+    dct:title "Some Other Title That Should Not Win — extraction" ;
+    prov:generated
+      narr:Sample_SomeOtherTitleThatShouldNotWin,
+      narr:Narrative_TitleShouldNotWinSlugTest,
+      narr:Claim_TitleShouldNotDriveSlug,
+      narr:StyleObs_MinimalBodyRegister,
+      narr:StyleObs_FrontmatterReviewerDeclaration,
+      narr:StyleObs_HeadingAsTestArtifact,
+      narr:StyleMetrics_SomeOtherTitleThatShouldNotWin .
+} ;
+
+# Extracted entities (named graph)
+INSERT DATA {
+  GRAPH narr:Tx_20250714T140000Z {
+
+    # ── Sample ──────────────────────────────────────────────────
+    narr:Sample_SomeOtherTitleThatShouldNotWin
+      a narr:Sample ;
+      dct:title "Some Other Title That Should Not Win" ;
+      dct:description "Minimal test memory with YAML frontmatter (reviewer declaration) and a single-word body. Title is explicitly designed as a test artifact — it should not win as the derived slug/id." ;
+      narr:inputLength 82 .
+
+    # ── Narrative ───────────────────────────────────────────────
+    narr:Narrative_TitleShouldNotWinSlugTest
+      a narr:Narrative ;
+      dct:source narr:Sample_SomeOtherTitleThatShouldNotWin ;
+      skos:broader narr:Process ;
+      narr:theme "Test artifact: H1 heading titled 'Some Other Title That Should Not Win' asserts that the title must not be used as the pipeline-derived slug or id" ;
+      skos:note "This memory is a minimal test fixture. The heading 'Some Other Title That Should Not Win' is a deliberate test signal — the pipeline should not derive its slug from this title. The frontmatter declares a reviewer (test+expert-gh@aswritten.ai). Body is a single word." .
+
+    # ── Claim ───────────────────────────────────────────────────
+    narr:Claim_TitleShouldNotDriveSlug
+      a narr:Claim ;
+      dct:source narr:Sample_SomeOtherTitleThatShouldNotWin ;
+      narr:aboutNode narr:Narrative_TitleShouldNotWinSlugTest ;
+      narr:hasConvictionLevel narr:Conviction_Stake ;
+      narr:supports narr:Process ;
+      skos:note "The H1 heading 'Some Other Title That Should Not Win' is a test assertion that the pipeline must not use this title as the derived slug or id. Paired with the absent id field, this tests slug-derivation logic." .
+
+    # ── Style Observations ──────────────────────────────────────
+
+    # 1. Minimal body register — single-word body signals intentional sparseness
+    narr:StyleObs_MinimalBodyRegister
+      a narr:StyleObservation ;
+      skos:broader narr:RegisterFormality ;
+      dct:source narr:Sample_SomeOtherTitleThatShouldNotWin ;
+      skos:note "Body consists of a single word ('Body.') — extreme register minimalism, characteristic of a test fixture rather than a substantive document." ;
+      rdf:value false ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_SomeOtherTitleThatShouldNotWin ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start 67 ;
+          oa:end 72
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "Body." ;
+          oa:prefix "Should Not Win\n\n" ;
+          oa:suffix ""
+        ]
+      ] .
+
+    # 2. YAML frontmatter reviewer declaration — structured metadata style
+    narr:StyleObs_FrontmatterReviewerDeclaration
+      a narr:StyleObservation ;
+      skos:broader narr:CitationConventions ;
+      dct:source narr:Sample_SomeOtherTitleThatShouldNotWin ;
+      skos:note "YAML frontmatter uses a 'reviewers' list with an email address. This is a structured metadata convention — machine-readable attribution embedded in the document header." ;
+      rdf:value true ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_SomeOtherTitleThatShouldNotWin ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start 4 ;
+          oa:end 43
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "reviewers:\n  - test+expert-gh@aswritten.ai" ;
+          oa:prefix "---\n" ;
+          oa:suffix "\n---"
+        ]
+      ] .
+
+    # 3. Heading as test artifact — title phrasing encodes test intent
+    narr:StyleObs_HeadingAsTestArtifact
+      a narr:StyleObservation ;
+      skos:broader narr:NamingConventions ;
+      dct:source narr:Sample_SomeOtherTitleThatShouldNotWin ;
+      skos:note "The H1 heading 'Some Other Title That Should Not Win' is a self-referential test label. The phrase 'Should Not Win' encodes the expected pipeline behavior directly in the title text — an unusual naming convention that doubles as a test assertion." ;
+      rdf:value false ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_SomeOtherTitleThatShouldNotWin ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start 48 ;
+          oa:end 82
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "# Some Other Title That Should Not Win" ;
+          oa:prefix "---\n\n" ;
+          oa:suffix "\n\nBody."
+        ]
+      ] .
+
+    # ── Style Metrics ───────────────────────────────────────────
+    narr:StyleMetrics_SomeOtherTitleThatShouldNotWin
+      a narr:StyleMetrics ;
+      dct:source narr:Sample_SomeOtherTitleThatShouldNotWin ;
+      skos:broader narr:StyleMetrics ;
+      skos:note "Extremely short document (1 body word, 1 heading, YAML frontmatter). Active voice ratio not meaningfully applicable. Jargon density near zero in body; frontmatter contains one email address. Average sentence length: 1 word (body only)." ;
+      narr:AverageSentenceLength "1"^^xsd:integer ;
+      narr:ActiveVoiceRatio "1.0"^^xsd:decimal ;
+      narr:JargonDensity "0.0"^^xsd:decimal .
+
+  }
+}
