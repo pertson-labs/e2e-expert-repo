@@ -1,0 +1,156 @@
+PREFIX narr: <https://aswritten.ai/narrative#>
+PREFIX rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX prov: <http://www.w3.org/ns/prov#>
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+PREFIX dct:  <http://purl.org/dc/terms/>
+PREFIX xsd:  <http://www.w3.org/2001/XMLSchema#>
+PREFIX oa:   <http://www.w3.org/ns/oa#>
+
+# Transaction provenance (default graph)
+INSERT DATA {
+  narr:Tx_20250714T120000Z a prov:Activity ;
+    prov:generatedAtTime "2025-07-14T12:00:00Z"^^xsd:dateTime ;
+    prov:wasAssociatedWith "aswritten.ai" ;
+    prov:wasAttributedTo "n8n.aswritten.ai" ;
+    narr:originPath ".aswritten/memories/sample-memory-with-distinctive-heading.md" ;
+    narr:originRef "main" ;
+    dct:title "Sample Memory With Distinctive Heading" ;
+    prov:generated
+      narr:Sample_SampleMemoryDistinctiveHeading,
+      narr:Narrative_PipelineSlugGeneration,
+      narr:Claim_PipelineMustProduceSlug,
+      narr:Actor_TestExpertReviewer,
+      narr:Obs_SlugFallbackMechanism,
+      narr:StyleObs_ImperativeTechnicalRegister,
+      narr:StyleObs_TechnicalJargonSlugLLM,
+      narr:StyleObs_PassiveConditionalFraming,
+      narr:StyleMetrics_SampleMemoryDistinctiveHeading .
+} ;
+
+# Extracted entities (named graph)
+INSERT DATA {
+  GRAPH narr:Tx_20250714T120000Z {
+
+    # ── Sample ──────────────────────────────────────────────────
+    narr:Sample_SampleMemoryDistinctiveHeading a narr:Sample ;
+      dct:title "Sample Memory With Distinctive Heading" ;
+      dct:created "2025-07-14"^^xsd:date ;
+      narr:inputLength 342 ;
+      skos:note "Test memory submitted without an explicit id field to exercise pipeline slug-generation logic." .
+
+    # ── Actor ───────────────────────────────────────────────────
+    narr:Actor_TestExpertReviewer a narr:Actor ;
+      skos:prefLabel "test+expert-gh@aswritten.ai" ;
+      skos:note "Reviewer listed in YAML frontmatter of the test memory. Email redacted per PII policy." .
+
+    # ── Narrative ───────────────────────────────────────────────
+    narr:Narrative_PipelineSlugGeneration a narr:Narrative ;
+      dct:source narr:Sample_SampleMemoryDistinctiveHeading ;
+      narr:theme "Pipeline slug generation from memory content when id field is absent" ;
+      skos:broader narr:Process ;
+      skos:note "When a memory is submitted without an explicit id field, the pipeline must derive a slug — either via an LLM id-gen call or a deterministic slugify fallback — and commit the file successfully. This tests the robustness of the intake workflow." .
+
+    # ── Claim ───────────────────────────────────────────────────
+    narr:Claim_PipelineMustProduceSlug a narr:Claim ;
+      narr:aboutNode narr:Narrative_PipelineSlugGeneration ;
+      narr:hasConvictionLevel narr:Conviction_Stake ;
+      narr:supports narr:Process ;
+      dct:source narr:Sample_SampleMemoryDistinctiveHeading ;
+      skos:note "The pipeline must produce a slug from memory content — either via the LLM id-gen call or the deterministic slugify fallback — and commit the file successfully." .
+
+    # ── Observation ─────────────────────────────────────────────
+    narr:Obs_SlugFallbackMechanism a narr:Observation ;
+      skos:broader narr:IntakePrioritization ;
+      dct:source narr:Sample_SampleMemoryDistinctiveHeading ;
+      skos:note "Describes two slug-generation strategies: LLM id-gen call (primary) and deterministic slugify fallback (secondary)." ;
+      oa:hasSelector [
+        a oa:TextPositionSelector ;
+        oa:start 175 ;
+        oa:end 342
+      ] ;
+      oa:hasSelector [
+        a oa:TextQuoteSelector ;
+        oa:exact "either via the LLM id-gen call or the deterministic slugify fallback — and commit the file successfully" ;
+        oa:prefix "The pipeline must produce a slug from the memory content — " ;
+        oa:suffix "." 
+      ] .
+
+    # ── Style Observations ──────────────────────────────────────
+
+    # SO-1: Imperative / authoritative technical register
+    narr:StyleObs_ImperativeTechnicalRegister a narr:StyleObservation ;
+      skos:broader narr:ToneAuthoritative ;
+      dct:source narr:Sample_SampleMemoryDistinctiveHeading ;
+      rdf:value true ;
+      skos:note "Imperative modal 'must' signals a hard requirement, establishing an authoritative, specification-like register." ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_SampleMemoryDistinctiveHeading ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start 175 ;
+          oa:end 220
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "The pipeline must produce a slug from the memory content" ;
+          oa:prefix "" ;
+          oa:suffix " — either via the LLM id-gen call"
+        ]
+      ] .
+
+    # SO-2: Technical jargon density (slug, LLM, id-gen, slugify)
+    narr:StyleObs_TechnicalJargonSlugLLM a narr:StyleObservation ;
+      skos:broader narr:JargonPolicy ;
+      dct:source narr:Sample_SampleMemoryDistinctiveHeading ;
+      rdf:value true ;
+      skos:note "Clusters technical terms (slug, LLM, id-gen, slugify) without definition, assuming a developer audience familiar with pipeline tooling." ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_SampleMemoryDistinctiveHeading ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start 220 ;
+          oa:end 310
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "either via the LLM id-gen call or the deterministic slugify fallback" ;
+          oa:prefix "slug from the memory content — " ;
+          oa:suffix " — and commit the file"
+        ]
+      ] .
+
+    # SO-3: Passive / agentless opening construction
+    narr:StyleObs_PassiveConditionalFraming a narr:StyleObservation ;
+      skos:broader narr:VoicePassive ;
+      dct:source narr:Sample_SampleMemoryDistinctiveHeading ;
+      rdf:value true ;
+      skos:note "Opening sentence uses a passive, agentless construction ('Submitted without an explicit id field') to frame the precondition, foregrounding the state rather than the actor." ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_SampleMemoryDistinctiveHeading ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start 130 ;
+          oa:end 175
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "Submitted without an explicit id field" ;
+          oa:prefix "" ;
+          oa:suffix ". The pipeline must produce"
+        ]
+      ] .
+
+    # ── Style Metrics ───────────────────────────────────────────
+    narr:StyleMetrics_SampleMemoryDistinctiveHeading a narr:StyleMetrics ;
+      skos:broader narr:StyleMetrics ;
+      dct:source narr:Sample_SampleMemoryDistinctiveHeading ;
+      narr:AverageSentenceLength 22 ;
+      narr:ActiveVoiceRatio "0.50"^^xsd:decimal ;
+      narr:JargonDensity "0.15"^^xsd:decimal ;
+      skos:note "Two-sentence body. First sentence is passive/agentless; second is active with imperative modal. Jargon terms: slug, LLM, id-gen, slugify, pipeline (5 of ~33 content words ≈ 0.15)." .
+
+  }
+}
