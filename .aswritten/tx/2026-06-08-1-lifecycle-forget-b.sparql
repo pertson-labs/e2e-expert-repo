@@ -1,0 +1,139 @@
+PREFIX narr: <https://aswritten.ai/narrative#>
+PREFIX rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX prov: <http://www.w3.org/ns/prov#>
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+PREFIX dct:  <http://purl.org/dc/terms/>
+PREFIX xsd:  <http://www.w3.org/2001/XMLSchema#>
+PREFIX oa:   <http://www.w3.org/ns/oa#>
+
+# ── Retraction transaction (default graph) ──────────────────────────────────
+INSERT DATA {
+  narr:Tx_20250714T120000Z a prov:Activity ;
+    prov:generatedAtTime "2025-07-14T12:00:00Z"^^xsd:dateTime ;
+    prov:wasAssociatedWith "aswritten.ai" ;
+    prov:wasAttributedTo "test+expert-gh@aswritten.ai" ;
+    narr:originPath "inline-retraction-2025-07-14" ;
+    narr:originRef "main" ;
+    dct:title "RETRACTION: Forget database decision — Zypherion, Meridian, Quinton Fairweather, analytics pipeline migration" ;
+    prov:generated narr:Tx_20250714T120000Z .
+} ;
+
+# ── DELETE Actor: Quinton Fairweather ────────────────────────────────────────
+# Explicit retraction: "Remove all knowledge about Quinton Fairweather"
+DELETE WHERE {
+  narr:Actor_QuintonFairweather_CTO ?p ?o .
+} ;
+
+# ── DELETE Narrative: Zypherion Adoption ─────────────────────────────────────
+# Explicit retraction: "Remove all knowledge about Zypherion" + "team never made a database decision"
+DELETE WHERE {
+  narr:Narrative_ZypherionAdoption ?p ?o .
+} ;
+
+# ── DELETE Narrative: Meridian Adoption ──────────────────────────────────────
+# Explicit retraction: "Remove all knowledge about Meridian"
+DELETE WHERE {
+  narr:Narrative_MeridianAdoption ?p ?o .
+} ;
+
+# ── DELETE Claim: Zypherion Migration Q3 2026 ────────────────────────────────
+# Explicit retraction: "Remove all knowledge about Zypherion" + analytics pipeline migration
+DELETE WHERE {
+  narr:Claim_ZypherionMigrationQ3_2026 ?p ?o .
+} ;
+
+# ── DELETE Claim: Zypherion Performance 15x ──────────────────────────────────
+# Explicit retraction: "Remove all knowledge about Zypherion"
+DELETE WHERE {
+  narr:Claim_ZypherionPerformance15x ?p ?o .
+} ;
+
+# ── DELETE Claim: Zypherion Streaming Gap ────────────────────────────────────
+# Explicit retraction: "Remove all knowledge about Zypherion"
+DELETE WHERE {
+  narr:Claim_ZypherionStreamingGap ?p ?o .
+} ;
+
+# ── DELETE Claim: Meridian Batch/Streaming Capability ────────────────────────
+# Explicit retraction: "Remove all knowledge about Meridian"
+DELETE WHERE {
+  narr:Claim_MeridianBatchStreamingCapability ?p ?o .
+} ;
+
+# ── DELETE Claim: Meridian Migration Q3 2026 ─────────────────────────────────
+# Explicit retraction: "Remove all knowledge about Meridian" + analytics pipeline migration
+DELETE WHERE {
+  narr:Claim_MeridianMigrationQ3_2026 ?p ?o .
+} ;
+
+# ── DELETE Observation: Quinton Quote — Zypherion Adoption ───────────────────
+# Explicit retraction: Quinton Fairweather + Zypherion
+DELETE WHERE {
+  narr:Observation_QuintonQuote_Adoption ?p ?o .
+} ;
+
+# ── DELETE Observation: Quinton Quote — Meridian Switch ──────────────────────
+# Explicit retraction: Quinton Fairweather + Meridian
+DELETE WHERE {
+  narr:Observation_QuintonQuote_MeridianSwitch ?p ?o .
+} ;
+
+# ── DELETE Observation: Supersession Statement ───────────────────────────────
+# Explicit retraction: Zypherion/Meridian database decision
+DELETE WHERE {
+  narr:Observation_SupersessionStatement ?p ?o .
+} ;
+
+# ── DELETE Sample: Zypherion Decision ────────────────────────────────────────
+# Explicit retraction: "Forget the database decision entirely" — Zypherion source document
+DELETE WHERE {
+  narr:Sample_ZypherionDecision_20260406 ?p ?o .
+} ;
+
+# ── DELETE Sample: Meridian Decision ─────────────────────────────────────────
+# Explicit retraction: "Forget the database decision entirely" — Meridian source document
+DELETE WHERE {
+  narr:Sample_MeridianDecision_20260406 ?p ?o .
+} ;
+
+# ── DELETE StyleMetrics: Zypherion Decision ───────────────────────────────────
+# Derived from retracted Zypherion sample — no longer has a valid dct:source
+DELETE WHERE {
+  narr:StyleMetrics_ZypherionDecision ?p ?o .
+} ;
+
+# ── DELETE StyleMetrics: Meridian Decision ────────────────────────────────────
+# Derived from retracted Meridian sample — no longer has a valid dct:source
+DELETE WHERE {
+  narr:StyleMetrics_MeridianDecision ?p ?o .
+} ;
+
+# ── DELETE Transaction: Zypherion Decision (Tx_20260406T000000Z) ──────────────
+# Transaction that generated the now-retracted Zypherion entities
+DELETE WHERE {
+  narr:Tx_20260406T000000Z ?p ?o .
+} ;
+
+# ── DELETE Transaction: Meridian Decision (Tx_20260406T120000Z) ───────────────
+# Transaction that generated the now-retracted Meridian entities
+DELETE WHERE {
+  narr:Tx_20260406T120000Z ?p ?o .
+} ;
+
+# ── DELETE any dangling references to retracted entities ─────────────────────
+# Remove any triples where retracted entities appear as objects (inbound links)
+DELETE WHERE {
+  ?s ?p narr:Narrative_ZypherionAdoption .
+} ;
+DELETE WHERE {
+  ?s ?p narr:Narrative_MeridianAdoption .
+} ;
+DELETE WHERE {
+  ?s ?p narr:Actor_QuintonFairweather_CTO .
+} ;
+DELETE WHERE {
+  ?s ?p narr:Sample_ZypherionDecision_20260406 .
+} ;
+DELETE WHERE {
+  ?s ?p narr:Sample_MeridianDecision_20260406 .
+}
