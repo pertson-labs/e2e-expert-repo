@@ -1,0 +1,141 @@
+PREFIX narr: <https://aswritten.ai/narrative#>
+PREFIX rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX prov: <http://www.w3.org/ns/prov#>
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+PREFIX dct:  <http://purl.org/dc/terms/>
+PREFIX xsd:  <http://www.w3.org/2001/XMLSchema#>
+PREFIX oa:   <http://www.w3.org/ns/oa#>
+
+# Transaction provenance (default graph)
+INSERT DATA {
+  narr:Tx_20250714T160000Z a prov:Activity ;
+    dct:title "Some Other Title That Should Not Win" ;
+    prov:generatedAtTime "2025-07-14T16:00:00Z"^^xsd:dateTime ;
+    prov:wasAssociatedWith "aswritten.ai" ;
+    prov:wasAttributedTo "n8n.aswritten.ai" ;
+    narr:originPath "unknown" ;
+    narr:originRef "main@unknown" ;
+    prov:generated
+      narr:Sample_SomeOtherTitleShouldNotWin,
+      narr:Claim_HeadingMustNotWinSlug,
+      narr:Observation_TitleAssertion,
+      narr:StyleObs_MinimalBodyRegister,
+      narr:StyleObs_FrontmatterReviewerPattern,
+      narr:StyleObs_ImperativeNegation,
+      narr:StyleMetrics_SomeOtherTitleShouldNotWin .
+} ;
+
+# Extracted entities (named graph)
+INSERT DATA {
+  GRAPH narr:Tx_20250714T160000Z {
+
+    # ── Sample ──────────────────────────────────────────────────
+    narr:Sample_SomeOtherTitleShouldNotWin a narr:Sample ;
+      dct:title "Some Other Title That Should Not Win" ;
+      dct:description "Minimal test memory with YAML frontmatter (reviewer field) and a single-word body. The H1 heading encodes a test assertion: the pipeline should not use the heading as the slug/id when other mechanisms are available." ;
+      narr:inputLength 87 .
+
+    # ── Claim: heading must not win slug ────────────────────────
+    narr:Claim_HeadingMustNotWinSlug a narr:Claim ;
+      dct:source narr:Sample_SomeOtherTitleShouldNotWin ;
+      skos:note "The H1 heading 'Some Other Title That Should Not Win' encodes a test assertion that the pipeline must NOT use the document heading as the canonical slug or id when a higher-priority mechanism (LLM id-gen or deterministic slugify from content) is available. This extends the slug-generation robustness narrative with a heading-priority constraint." ;
+      narr:aboutNode narr:Process ;
+      narr:hasConvictionLevel narr:Conviction_Stake ;
+      narr:supports narr:Narrative_PipelineSlugGeneration .
+
+    # ── Observation: title assertion ────────────────────────────
+    narr:Observation_TitleAssertion a narr:Observation ;
+      dct:source narr:Sample_SomeOtherTitleShouldNotWin ;
+      skos:broader narr:IntakePrioritization ;
+      skos:note "The heading text 'Some Other Title That Should Not Win' is itself a test assertion embedded in the document structure, signalling that heading-based slug derivation must be subordinate to other pipeline mechanisms." ;
+      oa:hasSelector [
+        a oa:TextPositionSelector ;
+        oa:start 47 ;
+        oa:end 87
+      ] ;
+      oa:hasSelector [
+        a oa:TextQuoteSelector ;
+        oa:exact "Some Other Title That Should Not Win" ;
+        oa:prefix "# " ;
+        oa:suffix "\n\nBody."
+      ] .
+
+    # ── Style Observations ──────────────────────────────────────
+
+    # 1. Minimal body register — single-word placeholder body
+    narr:StyleObs_MinimalBodyRegister a narr:StyleObservation ;
+      skos:broader narr:RegisterFormality ;
+      dct:source narr:Sample_SomeOtherTitleShouldNotWin ;
+      skos:note "Body content is a single word ('Body.') functioning as a placeholder. Signals intentionally minimal content — the document's semantic payload is carried entirely by the heading and frontmatter, not the body prose." ;
+      rdf:value false ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_SomeOtherTitleShouldNotWin ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start 83 ;
+          oa:end 87
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "Body." ;
+          oa:prefix "Should Not Win\n\n" ;
+          oa:suffix ""
+        ]
+      ] .
+
+    # 2. Frontmatter reviewer pattern — structured YAML metadata
+    narr:StyleObs_FrontmatterReviewerPattern a narr:StyleObservation ;
+      skos:broader narr:EditorialRules ;
+      dct:source narr:Sample_SomeOtherTitleShouldNotWin ;
+      skos:note "YAML frontmatter uses a 'reviewers' list field with an email-format value. This is a structured editorial convention for designating expert reviewers at the document level, consistent with the test+expert-gh pattern seen in prior submissions." ;
+      rdf:value true ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_SomeOtherTitleShouldNotWin ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start 0 ;
+          oa:end 44
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "reviewers:\n  - test+expert-gh@aswritten.ai" ;
+          oa:prefix "---\n" ;
+          oa:suffix "\n---"
+        ]
+      ] .
+
+    # 3. Imperative negation in heading — rhetorical device
+    narr:StyleObs_ImperativeNegation a narr:StyleObservation ;
+      skos:broader narr:RhetoricalDevices ;
+      dct:source narr:Sample_SomeOtherTitleShouldNotWin ;
+      skos:note "The heading uses modal negation ('Should Not Win') as a rhetorical device to encode a test constraint directly in the document title. This is an unusual stylistic choice that embeds a behavioural assertion into the document's navigational structure." ;
+      rdf:value true ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_SomeOtherTitleShouldNotWin ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start 47 ;
+          oa:end 87
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "Some Other Title That Should Not Win" ;
+          oa:prefix "# " ;
+          oa:suffix "\n\nBody."
+        ]
+      ] .
+
+    # ── Style Metrics ───────────────────────────────────────────
+    narr:StyleMetrics_SomeOtherTitleShouldNotWin a narr:StyleMetrics ;
+      dct:source narr:Sample_SomeOtherTitleShouldNotWin ;
+      skos:broader narr:StyleMetrics ;
+      skos:note "Extremely short document (1 body word). Average sentence length is effectively 1 word for the body. Active voice ratio is not applicable to the body; the heading uses modal construction ('Should Not Win'). Jargon density is near zero — no technical terminology in body prose." ;
+      narr:AverageSentenceLength 1 ;
+      narr:ActiveVoiceRatio "0.0"^^xsd:decimal ;
+      narr:JargonDensity "0.0"^^xsd:decimal .
+
+  }
+}
