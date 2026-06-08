@@ -1,0 +1,149 @@
+PREFIX narr: <https://aswritten.ai/narrative#>
+PREFIX rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX prov: <http://www.w3.org/ns/prov#>
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+PREFIX dct:  <http://purl.org/dc/terms/>
+PREFIX xsd:  <http://www.w3.org/2001/XMLSchema#>
+PREFIX oa:   <http://www.w3.org/ns/oa#>
+
+# Transaction provenance (default graph)
+INSERT DATA {
+  narr:Tx_20250714T120000Z a prov:Activity ;
+    prov:generatedAtTime "2025-07-14T12:00:00Z"^^xsd:dateTime ;
+    prov:wasAssociatedWith "aswritten.ai" ;
+    prov:wasAttributedTo "n8n.aswritten.ai" ;
+    narr:originPath "sample-memory-with-distinctive-heading" ;
+    narr:originRef "unknown" ;
+    dct:title "Sample Memory With Distinctive Heading — Slug Generation Test" ;
+    prov:generated
+      narr:Sample_SlugGenTest,
+      narr:Narrative_PipelineSlugGeneration,
+      narr:Claim_SlugFallbackBehavior,
+      narr:Observation_SlugGenPipelineStatement,
+      narr:StyleObs_TechnicalRegister,
+      narr:StyleObs_PassiveConstruction,
+      narr:StyleObs_JargonDensity,
+      narr:StyleMetrics_SlugGenTest .
+} ;
+
+# Extracted entities (named graph)
+INSERT DATA {
+  GRAPH narr:Tx_20250714T120000Z {
+
+    # ── Sample ──────────────────────────────────────────────────
+    narr:Sample_SlugGenTest a narr:Sample ;
+      dct:title "Sample Memory With Distinctive Heading" ;
+      narr:inputLength 339 ;
+      dct:description "Test memory submitted without an explicit id field to exercise pipeline slug generation via LLM id-gen or deterministic slugify fallback." .
+
+    # ── Narrative ───────────────────────────────────────────────
+    narr:Narrative_PipelineSlugGeneration a narr:Narrative ;
+      dct:source narr:Sample_SlugGenTest ;
+      narr:theme "Pipeline slug generation from memory content" ;
+      skos:broader narr:Process ;
+      skos:note "When a memory is submitted without an explicit id field, the pipeline must derive a slug — either via an LLM id-gen call or a deterministic slugify fallback — and commit the file successfully. This memory exercises that path." .
+
+    # ── Claim ───────────────────────────────────────────────────
+    narr:Claim_SlugFallbackBehavior a narr:Claim ;
+      narr:aboutNode narr:Narrative_PipelineSlugGeneration ;
+      narr:hasConvictionLevel narr:Conviction_Stake ;
+      narr:supports narr:Process ;
+      dct:source narr:Sample_SlugGenTest ;
+      skos:note "The pipeline must produce a slug from memory content — either via the LLM id-gen call or the deterministic slugify fallback — and commit the file successfully." .
+
+    # ── Observation ─────────────────────────────────────────────
+    narr:Observation_SlugGenPipelineStatement a narr:Observation ;
+      skos:broader narr:CoreWorkflows ;
+      dct:source narr:Sample_SlugGenTest ;
+      skos:note "Core assertion about pipeline slug generation fallback behavior when id is absent." ;
+      oa:hasSelector [
+        a oa:TextPositionSelector ;
+        oa:start 119 ;
+        oa:end 339
+      ] ;
+      oa:hasSelector [
+        a oa:TextQuoteSelector ;
+        oa:exact "The pipeline must produce a slug from the memory content — either via the LLM id-gen call or the deterministic slugify fallback — and commit the file successfully." ;
+        oa:prefix "Submitted without an explicit id field. " ;
+        oa:suffix ""
+      ] .
+
+    # ── Style Observations ──────────────────────────────────────
+
+    # Style Obs 1: Technical register / jargon
+    narr:StyleObs_TechnicalRegister a narr:StyleObservation ;
+      skos:broader narr:JargonPolicy ;
+      dct:source narr:Sample_SlugGenTest ;
+      skos:note "Technical jargon cluster: 'LLM id-gen call', 'deterministic slugify fallback', 'pipeline' — signals developer-facing, engineering-register prose." ;
+      rdf:value true ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_SlugGenTest ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start 196 ;
+          oa:end 280
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "either via the LLM id-gen call or the deterministic slugify fallback" ;
+          oa:prefix "produce a slug from the memory content — " ;
+          oa:suffix " — and commit the file"
+        ]
+      ] .
+
+    # Style Obs 2: Passive / impersonal construction
+    narr:StyleObs_PassiveConstruction a narr:StyleObservation ;
+      skos:broader narr:VoicePassive ;
+      dct:source narr:Sample_SlugGenTest ;
+      skos:note "'Submitted without an explicit id field' opens with a passive/headless construction, omitting the agent — characteristic of technical specification prose." ;
+      rdf:value true ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_SlugGenTest ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start 119 ;
+          oa:end 163
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "Submitted without an explicit id field." ;
+          oa:prefix "# Sample Memory With Distinctive Heading\n\n" ;
+          oa:suffix " The pipeline must produce"
+        ]
+      ] .
+
+    # Style Obs 3: Disjunctive modal construction
+    narr:StyleObs_DisjunctiveModal a narr:StyleObservation ;
+      skos:broader narr:GrammarSyntax ;
+      dct:source narr:Sample_SlugGenTest ;
+      skos:note "'must produce … either via X or Y … and commit' — modal obligation ('must') combined with disjunctive alternatives, a pattern common in technical requirements writing." ;
+      rdf:value true ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_SlugGenTest ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start 163 ;
+          oa:end 339
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "The pipeline must produce a slug from the memory content" ;
+          oa:prefix "Submitted without an explicit id field. " ;
+          oa:suffix " — either via the LLM id-gen call"
+        ]
+      ] .
+
+    # ── Style Metrics ───────────────────────────────────────────
+    narr:StyleMetrics_SlugGenTest a narr:StyleMetrics ;
+      skos:broader narr:StyleMetrics ;
+      dct:source narr:Sample_SlugGenTest ;
+      narr:AverageSentenceLength "22"^^xsd:integer ;
+      narr:ActiveVoiceRatio "0.50"^^xsd:decimal ;
+      narr:JargonDensity "0.18"^^xsd:decimal ;
+      skos:note "Two-sentence body (~44 words). Mix of passive opening and active modal construction. High jargon density for document length: 'LLM', 'id-gen', 'slugify', 'pipeline', 'fallback'." .
+
+  }
+}
