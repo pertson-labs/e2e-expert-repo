@@ -1,0 +1,172 @@
+PREFIX narr: <https://aswritten.ai/narrative#>
+PREFIX rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX prov: <http://www.w3.org/ns/prov#>
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+PREFIX dct:  <http://purl.org/dc/terms/>
+PREFIX xsd:  <http://www.w3.org/2001/XMLSchema#>
+PREFIX oa:   <http://www.w3.org/ns/oa#>
+
+# ── Transaction provenance (default graph) ──────────────────────────────────
+INSERT DATA {
+  narr:Tx_20250714T160000Z a prov:Activity ;
+    dct:title "Some Other Title That Should Not Win — Heading Override Test" ;
+    prov:generatedAtTime "2025-07-14T16:00:00Z"^^xsd:dateTime ;
+    prov:wasAssociatedWith "aswritten.ai" ;
+    prov:wasAttributedTo "n8n.aswritten.ai" ;
+    narr:originPath "unknown" ;
+    narr:originRef "unknown" ;
+    prov:generated
+      narr:Sample_TitleShouldNotWin,
+      narr:Claim_HeadingNotCanonicalSlug,
+      narr:Observation_TitleShouldNotWin,
+      narr:Observation_ReviewerFrontmatter,
+      narr:StyleObservation_MinimalBody,
+      narr:StyleObservation_ImperativeHeading,
+      narr:StyleObservation_YAMLFrontmatter,
+      narr:StyleMetrics_TitleShouldNotWin .
+} ;
+
+# ── Extracted entities (named graph) ────────────────────────────────────────
+INSERT DATA {
+  GRAPH narr:Tx_20250714T160000Z {
+
+    # ── Sample ──────────────────────────────────────────────────────────────
+    narr:Sample_TitleShouldNotWin a narr:Sample ;
+      dct:title "Some Other Title That Should Not Win" ;
+      dct:description "Minimal test memory with YAML frontmatter (reviewer field) and a one-word body. No id field present. The H1 heading is an explicit test assertion that the pipeline must NOT use the heading as the canonical slug — slug derivation must come from LLM id-gen or deterministic slugify fallback." ;
+      narr:inputLength 99 .
+
+    # ── Claim: heading must not override slug derivation ────────────────────
+    narr:Claim_HeadingNotCanonicalSlug a narr:Claim ;
+      dct:source narr:Sample_TitleShouldNotWin ;
+      skos:note "The H1 heading 'Some Other Title That Should Not Win' is a deliberate test assertion: the pipeline must not use the document heading as the canonical slug or title when a better derivation path (LLM id-gen or slugify fallback) is available. Extends the existing slug-generation narrative with a heading-override constraint." ;
+      narr:aboutNode narr:Narrative_PipelineSlugGeneration ;
+      narr:hasConvictionLevel narr:Conviction_Stake ;
+      narr:supports narr:Process .
+
+    # ── Observation: heading as test assertion ───────────────────────────────
+    narr:Observation_TitleShouldNotWin a narr:Observation ;
+      skos:broader narr:EdgeCaseHandling ;
+      dct:source narr:Sample_TitleShouldNotWin ;
+      skos:note "The heading text is itself the test assertion: the pipeline must not adopt this heading as the canonical slug. Third instance of the no-id-field pipeline path, adding heading-override constraint." ;
+      oa:hasSelector [
+        a oa:TextPositionSelector ;
+        oa:start 53 ;
+        oa:end 92
+      ] ;
+      oa:hasSelector [
+        a oa:TextQuoteSelector ;
+        oa:exact "# Some Other Title That Should Not Win" ;
+        oa:prefix "---\n\n" ;
+        oa:suffix "\n\nBody."
+      ] .
+
+    # ── Observation: reviewer frontmatter field ──────────────────────────────
+    narr:Observation_ReviewerFrontmatter a narr:Observation ;
+      skos:broader narr:GovernanceSafetyTrust ;
+      dct:source narr:Sample_TitleShouldNotWin ;
+      skos:note "YAML frontmatter includes a 'reviewers' field with a redacted email address. First appearance of reviewer metadata in pipeline test memories. Signals an emerging governance/review pattern in memory authoring." ;
+      oa:hasSelector [
+        a oa:TextPositionSelector ;
+        oa:start 4 ;
+        oa:end 47
+      ] ;
+      oa:hasSelector [
+        a oa:TextQuoteSelector ;
+        oa:exact "reviewers:\n  - [REDACTED_EMAIL]" ;
+        oa:prefix "---\n" ;
+        oa:suffix "\n---"
+      ] .
+
+    # ── Style Observations ───────────────────────────────────────────────────
+    narr:StyleObservation_MinimalBody a narr:StyleObservation ;
+      skos:broader narr:Conciseness ;
+      dct:source narr:Sample_TitleShouldNotWin ;
+      skos:note "Body is a single word ('Body.') — extreme brevity, functioning as a placeholder rather than substantive content. Consistent with test-fixture authoring conventions." ;
+      rdf:value true ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_TitleShouldNotWin ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start 94 ;
+          oa:end 99
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "Body." ;
+          oa:prefix "# Some Other Title That Should Not Win\n\n" ;
+          oa:suffix ""
+        ]
+      ] .
+
+    narr:StyleObservation_ImperativeHeading a narr:StyleObservation ;
+      skos:broader narr:ToneAuthoritative ;
+      dct:source narr:Sample_TitleShouldNotWin ;
+      skos:note "The H1 heading uses an imperative-negative construction ('Should Not Win') — authoritative, directive register that encodes a behavioral constraint directly into the document title. Unusual style choice that doubles as a test specification." ;
+      rdf:value true ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_TitleShouldNotWin ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start 53 ;
+          oa:end 92
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "# Some Other Title That Should Not Win" ;
+          oa:prefix "---\n\n" ;
+          oa:suffix "\n\nBody."
+        ]
+      ] .
+
+    narr:StyleObservation_YAMLFrontmatter a narr:StyleObservation ;
+      skos:broader narr:EditorialRules ;
+      dct:source narr:Sample_TitleShouldNotWin ;
+      skos:note "YAML frontmatter block used for structured metadata (reviewers list). Signals an editorial convention for embedding governance metadata in memory documents. No 'id' field present — consistent with the pipeline's slug-derivation test pattern." ;
+      rdf:value true ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_TitleShouldNotWin ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start 0 ;
+          oa:end 52
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "---\nreviewers:\n  - [REDACTED_EMAIL]\n---" ;
+          oa:prefix "" ;
+          oa:suffix "\n\n# Some Other Title"
+        ]
+      ] .
+
+    # ── Style Metrics ────────────────────────────────────────────────────────
+    narr:StyleMetrics_TitleShouldNotWin a narr:StyleMetrics ;
+      dct:source narr:Sample_TitleShouldNotWin ;
+      skos:broader narr:StyleMetrics ;
+      skos:note "Single-word body ('Body.'). Heading is 7 words. No active/passive voice distinction possible from body alone. Zero jargon in body; heading contains no technical terms. Extreme brevity — test fixture register." ;
+      narr:AverageSentenceLength 1 ;
+      narr:ActiveVoiceRatio "1.00"^^xsd:decimal ;
+      narr:JargonDensity "0.00"^^xsd:decimal .
+
+  }
+} ;
+
+# ── UPDATE: extend Narrative_PipelineSlugGeneration with heading-override nuance
+DELETE {
+  GRAPH ?g {
+    narr:Narrative_PipelineSlugGeneration skos:note ?oldNote .
+  }
+}
+INSERT {
+  GRAPH narr:Tx_20250714T160000Z {
+    narr:Narrative_PipelineSlugGeneration skos:note "When a memory is submitted without an explicit id field, the pipeline must derive a slug — either via an LLM id-gen call or a deterministic slugify fallback — and commit the file successfully. The pipeline must NOT use the document's H1 heading as the canonical slug, even when the heading is the most prominent text element. This memory (third instance) exercises the no-id-field path and adds the heading-override constraint." .
+  }
+}
+WHERE {
+  GRAPH ?g {
+    narr:Narrative_PipelineSlugGeneration skos:note ?oldNote .
+  }
+}
