@@ -8,129 +8,128 @@ PREFIX oa:   <http://www.w3.org/ns/oa#>
 
 # Transaction provenance (default graph)
 INSERT DATA {
-  narr:Tx_20250714T120000Z a prov:Activity ;
-    prov:generatedAtTime "2025-07-14T12:00:00Z"^^xsd:dateTime ;
+  narr:Tx_20250714T130000Z a prov:Activity ;
+    dct:title "Second version — minimal document extraction" ;
+    prov:generatedAtTime "2025-07-14T13:00:00Z"^^xsd:dateTime ;
     prov:wasAssociatedWith "aswritten.ai" ;
     prov:wasAttributedTo "n8n.aswritten.ai" ;
     narr:originPath "unknown" ;
     narr:originRef "unknown" ;
-    dct:title "First version — minimal document extraction" ;
     prov:generated
-      narr:Sample_FirstVersion,
-      narr:Actor_ExpertReviewer,
-      narr:Narrative_FirstVersionDraft,
-      narr:Claim_FirstVersionStatus,
-      narr:StyleObs_PlainDeclarativeRegister,
-      narr:StyleObs_FrontmatterStructure,
-      narr:StyleObs_MinimalBodyText,
-      narr:StyleMetrics_FirstVersion .
+      narr:Sample_SecondVersion,
+      narr:Narrative_SecondVersionDraft,
+      narr:Claim_SecondVersionStatus,
+      narr:StyleMetrics_SecondVersion,
+      narr:StyleObs_SecondVersion_Conciseness,
+      narr:StyleObs_SecondVersion_ToneAuthoritative,
+      narr:StyleObs_SecondVersion_RegisterMinimal .
 } ;
 
 # Extracted entities (named graph)
 INSERT DATA {
-  GRAPH narr:Tx_20250714T120000Z {
+  GRAPH narr:Tx_20250714T130000Z {
 
     # ── Sample ──────────────────────────────────────────────────
-    narr:Sample_FirstVersion a narr:Sample ;
-      dct:title "First version" ;
-      dct:description "Minimal document with YAML frontmatter listing a reviewer and a two-word body." ;
-      narr:inputLength 52 .
-
-    # ── Actor ───────────────────────────────────────────────────
-    # Reviewer email redacted per PII policy (allow_pii not set)
-    narr:Actor_ExpertReviewer a narr:Actor ;
-      skos:prefLabel "Expert Reviewer (redacted)" ;
-      skos:note "Reviewer listed in YAML frontmatter. Email redacted per PII policy." .
+    narr:Sample_SecondVersion a narr:Sample ;
+      dct:title "Second version" ;
+      dct:description "Minimal document with YAML frontmatter listing a reviewer and a two-word body. Successor to the First version document." ;
+      narr:inputLength 66 .
 
     # ── Narrative ───────────────────────────────────────────────
-    narr:Narrative_FirstVersionDraft a narr:Narrative ;
-      dct:source narr:Sample_FirstVersion ;
-      narr:theme "Initial draft state" ;
+    narr:Narrative_SecondVersionDraft a narr:Narrative ;
+      dct:source narr:Sample_SecondVersion ;
       skos:broader narr:Process ;
-      skos:note "The document declares itself a first version, signalling an early-stage draft under review. No substantive content beyond this status declaration is present." .
+      narr:theme "Iterated draft state" ;
+      skos:note "The document declares itself a second version, signalling a revision cycle is underway. No substantive content beyond this status declaration is present. Structurally parallel to the First version document." .
 
     # ── Claim ───────────────────────────────────────────────────
-    narr:Claim_FirstVersionStatus a narr:Claim ;
-      narr:aboutNode narr:Narrative_FirstVersionDraft ;
+    narr:Claim_SecondVersionStatus a narr:Claim ;
+      dct:source narr:Sample_SecondVersion ;
+      narr:aboutNode narr:Narrative_SecondVersionDraft ;
       narr:hasConvictionLevel narr:Conviction_Notion ;
-      dct:source narr:Sample_FirstVersion ;
-      narr:supports narr:Narrative_FirstVersionDraft ;
-      skos:note "The sole body assertion is 'First version' — a status marker with no elaboration. Conviction is Notion given the absence of supporting detail." .
+      narr:supports narr:Narrative_SecondVersionDraft ;
+      skos:note "The sole body assertion is 'Second version' — a status marker with no elaboration. Conviction is Notion given the absence of supporting detail." .
 
-    # ── Style Observation 1: Plain declarative register ─────────
-    narr:StyleObs_PlainDeclarativeRegister a narr:StyleObservation ;
+    # ── Actor (reuse existing IRI — same reviewer role, PII redacted) ──
+    # narr:Actor_ExpertReviewer already exists in snapshot with identical assertions.
+    # No update needed; linking via dct:source on the Sample is sufficient.
+
+    # ── Style Observations ──────────────────────────────────────
+
+    # 1. Extreme conciseness — two-word body
+    narr:StyleObs_SecondVersion_Conciseness a narr:StyleObservation ;
+      skos:broader narr:Conciseness ;
+      dct:source narr:Sample_SecondVersion ;
+      skos:note "Body consists of exactly two words. Maximally compressed status declaration." ;
+      rdf:value true ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_SecondVersion ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start 52 ;
+          oa:end 66
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "Second version" ;
+          oa:prefix "---\n\n" ;
+          oa:suffix ""
+        ]
+      ] .
+
+    # 2. Authoritative declarative tone — bare noun phrase as status
+    narr:StyleObs_SecondVersion_ToneAuthoritative a narr:StyleObservation ;
       skos:broader narr:ToneAuthoritative ;
-      dct:source narr:Sample_FirstVersion ;
-      skos:note "Body text is a bare declarative noun phrase with no verb, no elaboration, and no rhetorical framing." ;
+      dct:source narr:Sample_SecondVersion ;
+      skos:note "Bare noun phrase 'Second version' used as a complete statement. No hedging, no verb — projects confident status declaration." ;
+      rdf:value true ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_SecondVersion ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start 52 ;
+          oa:end 66
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "Second version" ;
+          oa:prefix "---\n\n" ;
+          oa:suffix ""
+        ]
+      ] .
+
+    # 3. Minimal register — YAML frontmatter as sole structural element
+    narr:StyleObs_SecondVersion_RegisterMinimal a narr:StyleObservation ;
+      skos:broader narr:RegisterFormality ;
+      dct:source narr:Sample_SecondVersion ;
+      skos:note "Document uses YAML frontmatter for metadata and a bare two-word body. Register is functional/administrative — no prose elaboration." ;
       rdf:value false ;
       oa:hasTarget [
         a oa:SpecificResource ;
-        oa:hasSource narr:Sample_FirstVersion ;
-        oa:hasSelector [
-          a oa:TextPositionSelector ;
-          oa:start 40 ;
-          oa:end 53
-        ] ;
-        oa:hasSelector [
-          a oa:TextQuoteSelector ;
-          oa:exact "First version" ;
-          oa:prefix "---\n\n" ;
-          oa:suffix ""
-        ]
-      ] .
-
-    # ── Style Observation 2: YAML frontmatter structural convention ─
-    narr:StyleObs_FrontmatterStructure a narr:StyleObservation ;
-      skos:broader narr:EditorialRules ;
-      dct:source narr:Sample_FirstVersion ;
-      skos:note "Document uses YAML frontmatter delimited by triple-dashes to carry metadata (reviewer list), a structured editorial convention." ;
-      rdf:value true ;
-      oa:hasTarget [
-        a oa:SpecificResource ;
-        oa:hasSource narr:Sample_FirstVersion ;
+        oa:hasSource narr:Sample_SecondVersion ;
         oa:hasSelector [
           a oa:TextPositionSelector ;
           oa:start 0 ;
-          oa:end 39
+          oa:end 51
         ] ;
         oa:hasSelector [
           a oa:TextQuoteSelector ;
-          oa:exact "---" ;
+          oa:exact "---\nreviewers:\n  - test+expert-gh@aswritten" ;
           oa:prefix "" ;
-          oa:suffix "\nreviewers:"
-        ]
-      ] .
-
-    # ── Style Observation 3: Minimal body text / extreme conciseness ─
-    narr:StyleObs_MinimalBodyText a narr:StyleObservation ;
-      skos:broader narr:Conciseness ;
-      dct:source narr:Sample_FirstVersion ;
-      skos:note "The entire document body is two words. This represents maximum conciseness — no elaboration, no context, no supporting sentences." ;
-      rdf:value true ;
-      oa:hasTarget [
-        a oa:SpecificResource ;
-        oa:hasSource narr:Sample_FirstVersion ;
-        oa:hasSelector [
-          a oa:TextPositionSelector ;
-          oa:start 40 ;
-          oa:end 53
-        ] ;
-        oa:hasSelector [
-          a oa:TextQuoteSelector ;
-          oa:exact "First version" ;
-          oa:prefix "---\n\n" ;
-          oa:suffix ""
+          oa:suffix ".ai\n---"
         ]
       ] .
 
     # ── Style Metrics ────────────────────────────────────────────
-    narr:StyleMetrics_FirstVersion a narr:StyleMetrics ;
+    narr:StyleMetrics_SecondVersion a narr:StyleMetrics ;
+      dct:source narr:Sample_SecondVersion ;
       skos:broader narr:StyleMetrics ;
-      dct:source narr:Sample_FirstVersion ;
       narr:AverageSentenceLength 2 ;
       narr:ActiveVoiceRatio "1.0"^^xsd:decimal ;
       narr:JargonDensity "0.0"^^xsd:decimal ;
-      skos:note "Single two-word body sentence. No passive constructions. No domain jargon. Extremely low lexical density." .
+      skos:note "Single two-word body sentence. No passive constructions. No domain jargon. Extremely low lexical density. Structurally identical profile to the First version document." .
 
   }
 }
