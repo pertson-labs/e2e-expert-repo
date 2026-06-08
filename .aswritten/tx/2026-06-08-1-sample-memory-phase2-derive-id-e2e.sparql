@@ -1,0 +1,144 @@
+PREFIX narr: <https://aswritten.ai/narrative#>
+PREFIX rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX prov: <http://www.w3.org/ns/prov#>
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+PREFIX dct:  <http://purl.org/dc/terms/>
+PREFIX xsd:  <http://www.w3.org/2001/XMLSchema#>
+PREFIX oa:   <http://www.w3.org/ns/oa#>
+
+# Transaction provenance (default graph)
+INSERT DATA {
+  narr:Tx_20250720T120000Z a prov:Activity ;
+    dct:title "Sample Memory Phase 2 — Derive Id E2E" ;
+    prov:generatedAtTime "2025-07-20T12:00:00Z"^^xsd:dateTime ;
+    prov:wasAssociatedWith "aswritten.ai" ;
+    prov:wasAttributedTo "n8n.aswritten.ai" ;
+    narr:originPath "unknown" ;
+    narr:originRef "unknown" ;
+    prov:generated
+      narr:Sample_DeriveIdE2E_Phase2,
+      narr:Claim_PipelineMustNotCrash,
+      narr:Obs_Phase2MissingIdPattern,
+      narr:StyleObs_TechnicalImperative_Phase2,
+      narr:StyleObs_JargonDensity_Phase2,
+      narr:StyleObs_ConciseDirective_Phase2,
+      narr:StyleMetrics_DeriveIdE2E_Phase2 .
+} ;
+
+# Extracted entities (named graph)
+INSERT DATA {
+  GRAPH narr:Tx_20250720T120000Z {
+
+    # ── Sample ──────────────────────────────────────────────────
+    narr:Sample_DeriveIdE2E_Phase2 a narr:Sample ;
+      dct:title "Sample Memory Phase 2 — Derive Id E2E" ;
+      dct:description "Phase 2 E2E test memory that reproduces the missing-id failure pattern from prod. Submitted with a ## level heading and no id field to verify the pipeline does not crash and produces a valid slug." ;
+      narr:inputLength 237 .
+
+    # ── Claim: must not crash ────────────────────────────────────
+    # New assertion not present in snapshot: the pipeline must not crash
+    # (the snapshot captures must-produce-slug and fallback-deterministic
+    # but does not explicitly assert the no-crash safety requirement).
+    narr:Claim_PipelineMustNotCrash a narr:Claim ;
+      dct:source narr:Sample_DeriveIdE2E_Phase2 ;
+      skos:note "Phase 2 E2E test asserts that the pipeline must not crash when a memory is submitted with a ## heading and no id field. The crash-prevention requirement is distinct from slug validity." ;
+      narr:aboutNode narr:Narrative_SlugGenFromContent ;
+      narr:hasConvictionLevel narr:Conviction_Stake ;
+      narr:supports narr:Process .
+
+    # ── Observation: Phase 2 missing-id failure pattern ─────────
+    narr:Obs_Phase2MissingIdPattern a narr:Observation ;
+      dct:source narr:Sample_DeriveIdE2E_Phase2 ;
+      skos:broader narr:IntakePrioritization ;
+      skos:note "Phase 2 test explicitly names the failure pattern from prod: ## level heading with no id field. Two success criteria stated: must not crash; must produce a valid slug." ;
+      oa:hasSelector [
+        a oa:TextPositionSelector ;
+        oa:start 56 ;
+        oa:end 175
+      ] ;
+      oa:hasSelector [
+        a oa:TextQuoteSelector ;
+        oa:exact "Reproduces the missing-id failure pattern from prod (## level heading,\nno id field). Must not crash; must produce a valid slug." ;
+        oa:prefix "## Sample Memory Phase 2 — Derive Id E2E\n\n" ;
+        oa:suffix ""
+      ] .
+
+    # ── Style Observations ───────────────────────────────────────
+
+    # 1. Technical imperative register
+    narr:StyleObs_TechnicalImperative_Phase2 a narr:StyleObservation ;
+      skos:broader narr:ToneAuthoritative ;
+      dct:source narr:Sample_DeriveIdE2E_Phase2 ;
+      skos:note "Imperative modal constructions ('Must not crash; must produce') signal authoritative QA/test-spec register." ;
+      rdf:value true ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_DeriveIdE2E_Phase2 ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start 148 ;
+          oa:end 175
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "Must not crash; must produce a valid slug." ;
+          oa:prefix "no id field). " ;
+          oa:suffix ""
+        ]
+      ] .
+
+    # 2. Jargon density — pipeline/slug/prod vocabulary
+    narr:StyleObs_JargonDensity_Phase2 a narr:StyleObservation ;
+      skos:broader narr:JargonPolicy ;
+      dct:source narr:Sample_DeriveIdE2E_Phase2 ;
+      skos:note "High technical jargon density: 'missing-id failure pattern', 'prod', '## level heading', 'id field', 'slug' — all domain-specific pipeline vocabulary in a two-sentence body." ;
+      rdf:value true ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_DeriveIdE2E_Phase2 ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start 56 ;
+          oa:end 148
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "Reproduces the missing-id failure pattern from prod (## level heading,\nno id field)." ;
+          oa:prefix "## Sample Memory Phase 2 — Derive Id E2E\n\n" ;
+          oa:suffix " Must not crash"
+        ]
+      ] .
+
+    # 3. Concise directive cadence — short punchy sentences
+    narr:StyleObs_ConciseDirective_Phase2 a narr:StyleObservation ;
+      skos:broader narr:ShortPunchyCadence ;
+      dct:source narr:Sample_DeriveIdE2E_Phase2 ;
+      skos:note "Body is two sentences totalling ~30 words. Semicolon-joined imperatives ('Must not crash; must produce') create a staccato test-spec cadence typical of QA acceptance criteria." ;
+      rdf:value true ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_DeriveIdE2E_Phase2 ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start 56 ;
+          oa:end 175
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "Reproduces the missing-id failure pattern from prod (## level heading,\nno id field). Must not crash; must produce a valid slug." ;
+          oa:prefix "## Sample Memory Phase 2 — Derive Id E2E\n\n" ;
+          oa:suffix ""
+        ]
+      ] .
+
+    # ── Style Metrics ────────────────────────────────────────────
+    narr:StyleMetrics_DeriveIdE2E_Phase2 a narr:StyleMetrics ;
+      dct:source narr:Sample_DeriveIdE2E_Phase2 ;
+      skos:broader narr:StyleMetrics ;
+      skos:note "Very short body (2 sentences, ~30 words). Extremely high jargon density due to pipeline/QA vocabulary. Active-voice imperatives dominate. No passive constructions in body." ;
+      narr:AverageSentenceLength 15 ;
+      narr:ActiveVoiceRatio "0.90"^^xsd:decimal ;
+      narr:JargonDensity "0.40"^^xsd:decimal .
+
+  }
+}
