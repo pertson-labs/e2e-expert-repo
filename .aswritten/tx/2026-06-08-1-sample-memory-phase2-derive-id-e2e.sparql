@@ -1,0 +1,167 @@
+PREFIX narr: <https://aswritten.ai/narrative#>
+PREFIX rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX prov: <http://www.w3.org/ns/prov#>
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+PREFIX dct:  <http://purl.org/dc/terms/>
+PREFIX xsd:  <http://www.w3.org/2001/XMLSchema#>
+PREFIX oa:   <http://www.w3.org/ns/oa#>
+
+# ── Transaction provenance (default graph) ──────────────────────────────────
+INSERT DATA {
+  narr:Tx_20250716T120000Z a prov:Activity ;
+    dct:title "Sample Memory Phase 2 — Derive Id E2E" ;
+    prov:generatedAtTime "2025-07-16T12:00:00Z"^^xsd:dateTime ;
+    prov:wasAssociatedWith "aswritten.ai" ;
+    prov:wasAttributedTo "n8n.aswritten.ai" ;
+    narr:originPath "sample-memory-phase-2-derive-id-e2e" ;
+    narr:originRef "main@unknown" ;
+    prov:generated
+      narr:Sample_Phase2_DeriveIdE2E,
+      narr:Observation_Phase2_CrashSafety,
+      narr:StyleObservation_Phase2_ImperativeRegister,
+      narr:StyleObservation_Phase2_TechnicalJargon,
+      narr:StyleObservation_Phase2_SemicolonCadence,
+      narr:StyleMetrics_Phase2_DeriveIdE2E .
+} ;
+
+# ── New entities (named graph) ───────────────────────────────────────────────
+INSERT DATA {
+  GRAPH narr:Tx_20250716T120000Z {
+
+    # Sample — Phase 2 artifact
+    narr:Sample_Phase2_DeriveIdE2E a narr:Sample ;
+      dct:title "Sample Memory Phase 2 — Derive Id E2E" ;
+      dct:description "Phase 2 pipeline test artifact. Reproduces the missing-id failure pattern from prod using a ## level heading with no id field. Validates crash-safety and valid-slug guarantees." ;
+      narr:inputLength 215 .
+
+    # Observation — crash-safety requirement
+    narr:Observation_Phase2_CrashSafety a narr:Observation ;
+      skos:broader narr:IntakePrioritization ;
+      dct:source narr:Sample_Phase2_DeriveIdE2E ;
+      skos:note "Phase 2 explicitly adds a crash-safety constraint absent from Phase 1: the pipeline must not crash when no id field is present, and must still produce a valid slug." ;
+      oa:hasSelector [
+        a oa:TextPositionSelector ;
+        oa:start 120 ;
+        oa:end 215
+      ] ;
+      oa:hasSelector [
+        a oa:TextQuoteSelector ;
+        oa:exact "Must not crash; must produce a valid slug." ;
+        oa:prefix "no id field). " ;
+        oa:suffix ""
+      ] .
+
+    # Style Observation 1 — imperative specification register
+    narr:StyleObservation_Phase2_ImperativeRegister a narr:StyleObservation ;
+      skos:broader narr:ToneAuthoritative ;
+      dct:source narr:Sample_Phase2_DeriveIdE2E ;
+      skos:note "Imperative modal constructions ('Must not crash; must produce') signal a specification register — requirements stated as hard constraints, not suggestions." ;
+      rdf:value true ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_Phase2_DeriveIdE2E ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start 170 ;
+          oa:end 215
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "Must not crash; must produce a valid slug." ;
+          oa:prefix "no id field). " ;
+          oa:suffix ""
+        ]
+      ] .
+
+    # Style Observation 2 — technical jargon density
+    narr:StyleObservation_Phase2_TechnicalJargon a narr:StyleObservation ;
+      skos:broader narr:JargonPolicy ;
+      dct:source narr:Sample_Phase2_DeriveIdE2E ;
+      skos:note "High concentration of pipeline-domain jargon in a short body: 'missing-id failure pattern', 'prod', 'E2E', 'id field', 'slug'. Assumes reader fluency with CI/CD intake vocabulary." ;
+      rdf:value true ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_Phase2_DeriveIdE2E ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start 55 ;
+          oa:end 170
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "Reproduces the missing-id failure pattern from prod" ;
+          oa:prefix "\n\n" ;
+          oa:suffix " (## level heading,"
+        ]
+      ] .
+
+    # Style Observation 3 — semicolon-separated constraint cadence
+    narr:StyleObservation_Phase2_SemicolonCadence a narr:StyleObservation ;
+      skos:broader narr:ShortPunchyCadence ;
+      dct:source narr:Sample_Phase2_DeriveIdE2E ;
+      skos:note "Semicolons used to chain parallel constraints in a single breath ('Must not crash; must produce a valid slug'), creating a terse, checklist-like cadence typical of acceptance criteria." ;
+      rdf:value true ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_Phase2_DeriveIdE2E ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start 170 ;
+          oa:end 215
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "Must not crash; must produce a valid slug." ;
+          oa:prefix "no id field). " ;
+          oa:suffix ""
+        ]
+      ] .
+
+    # Style Metrics — Phase 2 sample
+    narr:StyleMetrics_Phase2_DeriveIdE2E a narr:StyleMetrics ;
+      skos:broader narr:StyleMetrics ;
+      dct:source narr:Sample_Phase2_DeriveIdE2E ;
+      narr:AverageSentenceLength "18"^^xsd:integer ;
+      narr:ActiveVoiceRatio "0.80"^^xsd:decimal ;
+      narr:JargonDensity "0.22"^^xsd:decimal ;
+      skos:note "Very short document (2 body sentences). Specification register with high jargon density from pipeline/E2E/slug vocabulary. Active-voice imperative constructions dominate." .
+
+  }
+} ;
+
+# ── UPDATE: narr:Narrative_PipelineSlugGeneration ────────────────────────────
+# Phase 2 memory extends the narrative with a crash-safety dimension and
+# confirms the pattern reproduces from prod. Enrich skos:note.
+DELETE {
+  GRAPH ?g {
+    narr:Narrative_PipelineSlugGeneration skos:note ?oldNote .
+  }
+}
+INSERT {
+  GRAPH narr:Tx_20250716T120000Z {
+    narr:Narrative_PipelineSlugGeneration skos:note "When a memory is submitted without an explicit id field, the pipeline must derive a slug — either via an LLM id-gen call or a deterministic slugify fallback — and commit the file successfully. Phase 2 (E2E) confirms this failure pattern reproduces from prod and adds a hard crash-safety constraint: the pipeline must not crash and must always produce a valid slug, even when the heading level is ## and no id field is present." .
+  }
+}
+WHERE {
+  GRAPH ?g {
+    narr:Narrative_PipelineSlugGeneration skos:note ?oldNote .
+  }
+} ;
+
+# ── UPDATE: narr:Claim_SlugFromContent ───────────────────────────────────────
+# Phase 2 adds the crash-safety constraint to the existing claim's note.
+DELETE {
+  GRAPH ?g {
+    narr:Claim_SlugFromContent skos:note ?oldNote .
+  }
+}
+INSERT {
+  GRAPH narr:Tx_20250716T120000Z {
+    narr:Claim_SlugFromContent skos:note "The pipeline must produce a slug from memory content when no explicit id is provided, using either LLM id-gen or deterministic slugify fallback, and must commit the file successfully. Phase 2 (E2E) adds: the pipeline must not crash when encountering a ## level heading with no id field, and must always produce a valid slug." .
+  }
+}
+WHERE {
+  GRAPH ?g {
+    narr:Claim_SlugFromContent skos:note ?oldNote .
+  }
+}
