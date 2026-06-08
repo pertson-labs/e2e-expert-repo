@@ -1,0 +1,117 @@
+PREFIX narr: <https://aswritten.ai/narrative#>
+PREFIX rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX prov: <http://www.w3.org/ns/prov#>
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+PREFIX dct:  <http://purl.org/dc/terms/>
+PREFIX xsd:  <http://www.w3.org/2001/XMLSchema#>
+PREFIX oa:   <http://www.w3.org/ns/oa#>
+
+# ── Retraction transaction node (default graph) ──────────────────────────────
+INSERT DATA {
+  narr:Tx_20260407T000000Z a prov:Activity ;
+    prov:generatedAtTime "2026-04-07T00:00:00Z"^^xsd:dateTime ;
+    prov:wasAssociatedWith "aswritten.ai" ;
+    prov:wasAttributedTo "test+expert-gh@aswritten.ai" ;
+    narr:originPath "retract:zypherion-meridian-quinton-analytics-pipeline" ;
+    narr:originRef "unknown" ;
+    dct:title "RETRACTION: Forget database decision — Zypherion, Meridian, Quinton Fairweather, analytics pipeline" ;
+    prov:generated narr:Tx_20260407T000000Z .
+} ;
+
+# ── DELETE: Actor_QuintonFairweather (all triples as subject) ─────────────────
+DELETE WHERE {
+  narr:Actor_QuintonFairweather ?p ?o .
+} ;
+
+# ── DELETE: Narrative_ZypherionAdoption (all triples as subject) ──────────────
+DELETE WHERE {
+  narr:Narrative_ZypherionAdoption ?p ?o .
+} ;
+
+# ── DELETE: Narrative_MeridianAdoption (all triples as subject) ───────────────
+DELETE WHERE {
+  narr:Narrative_MeridianAdoption ?p ?o .
+} ;
+
+# ── DELETE: Claim_ZypherionColumnarPerformance (all triples as subject) ────────
+DELETE WHERE {
+  narr:Claim_ZypherionColumnarPerformance ?p ?o .
+} ;
+
+# ── DELETE: Claim_ZypherionMigrationTimeline (all triples as subject) ──────────
+DELETE WHERE {
+  narr:Claim_ZypherionMigrationTimeline ?p ?o .
+} ;
+
+# ── DELETE: Claim_ZypherionStreamingGap (all triples as subject) ───────────────
+DELETE WHERE {
+  narr:Claim_ZypherionStreamingGap ?p ?o .
+} ;
+
+# ── DELETE: Claim_MeridianBatchStreamingCapability (all triples as subject) ────
+DELETE WHERE {
+  narr:Claim_MeridianBatchStreamingCapability ?p ?o .
+} ;
+
+# ── DELETE: Claim_MeridianMigrationTimeline (all triples as subject) ───────────
+DELETE WHERE {
+  narr:Claim_MeridianMigrationTimeline ?p ?o .
+} ;
+
+# ── DELETE: Observation_QuintonAdoptionQuote (all triples as subject) ──────────
+DELETE WHERE {
+  narr:Observation_QuintonAdoptionQuote ?p ?o .
+} ;
+
+# ── DELETE: Observation_QuintonMeridianQuote (all triples as subject) ──────────
+DELETE WHERE {
+  narr:Observation_QuintonMeridianQuote ?p ?o .
+} ;
+
+# ── DELETE: Sample_ZypherionDecision_20260406 (all triples as subject) ─────────
+DELETE WHERE {
+  narr:Sample_ZypherionDecision_20260406 ?p ?o .
+} ;
+
+# ── DELETE: Sample_MeridianDecision_20260406 (all triples as subject) ──────────
+DELETE WHERE {
+  narr:Sample_MeridianDecision_20260406 ?p ?o .
+} ;
+
+# ── DELETE: StyleMetrics_ZypherionDecision (all triples as subject) ────────────
+DELETE WHERE {
+  narr:StyleMetrics_ZypherionDecision ?p ?o .
+} ;
+
+# ── DELETE: StyleMetrics_MeridianDecision (all triples as subject) ─────────────
+DELETE WHERE {
+  narr:StyleMetrics_MeridianDecision ?p ?o .
+} ;
+
+# ── DELETE: Tx_20260406T120000Z (Zypherion decision transaction) ────────────────
+DELETE WHERE {
+  narr:Tx_20260406T120000Z ?p ?o .
+} ;
+
+# ── DELETE: Tx_20260406T180000Z (Meridian decision transaction) ─────────────────
+DELETE WHERE {
+  narr:Tx_20260406T180000Z ?p ?o .
+} ;
+
+# ── DELETE: any remaining triples referencing these entities as objects ─────────
+# (e.g. prov:generated links, narr:challenges back-references)
+DELETE WHERE {
+  ?s ?p narr:Narrative_ZypherionAdoption .
+} ;
+DELETE WHERE {
+  ?s ?p narr:Narrative_MeridianAdoption .
+} ;
+DELETE WHERE {
+  ?s ?p narr:Actor_QuintonFairweather .
+} ;
+DELETE WHERE {
+  ?s ?p narr:Sample_ZypherionDecision_20260406 .
+} ;
+DELETE WHERE {
+  ?s ?p narr:Sample_MeridianDecision_20260406 .
+}
