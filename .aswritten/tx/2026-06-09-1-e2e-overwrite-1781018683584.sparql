@@ -1,0 +1,147 @@
+PREFIX narr: <https://aswritten.ai/narrative#>
+PREFIX rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX prov: <http://www.w3.org/ns/prov#>
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+PREFIX dct:  <http://purl.org/dc/terms/>
+PREFIX xsd:  <http://www.w3.org/2001/XMLSchema#>
+PREFIX oa:   <http://www.w3.org/ns/oa#>
+
+# Transaction provenance (default graph)
+INSERT DATA {
+  narr:Tx_20250115T120000Z a prov:Activity ;
+    prov:generatedAtTime "2025-01-15T12:00:00Z"^^xsd:dateTime ;
+    prov:wasAssociatedWith "aswritten.ai" ;
+    prov:wasAttributedTo "n8n.aswritten.ai" ;
+    narr:originPath "unknown" ;
+    narr:originRef "main" ;
+    dct:title "First version — minimal draft with reviewer frontmatter" ;
+    prov:generated
+      narr:Sample_FirstVersion,
+      narr:Actor_Reviewer_ExpertGH,
+      narr:Narrative_InitialDraftState,
+      narr:Observation_FirstVersionPhrase,
+      narr:StyleObservation_ExtremeBreviloquence,
+      narr:StyleObservation_YAMLFrontmatterConvention,
+      narr:StyleObservation_InformalRegister,
+      narr:StyleMetrics_FirstVersion .
+} ;
+
+# Extracted entities (named graph)
+INSERT DATA {
+  GRAPH narr:Tx_20250115T120000Z {
+
+    # ── Sample ──────────────────────────────────────────────────
+    narr:Sample_FirstVersion a narr:Sample ;
+      dct:title "First version" ;
+      dct:description "Minimal document with YAML frontmatter (reviewer metadata) and a two-word body: 'First version'." ;
+      narr:inputLength 62 .
+
+    # ── Actor ───────────────────────────────────────────────────
+    # PII redaction: reviewer email redacted per policy (allow_pii=false)
+    narr:Actor_Reviewer_ExpertGH a narr:Actor ;
+      skos:prefLabel "Expert Reviewer (GH)" ;
+      skos:note "Reviewer listed in YAML frontmatter. Email address redacted per PII policy. Role: document reviewer on GitHub-integrated workflow." .
+
+    # ── Narrative ───────────────────────────────────────────────
+    narr:Narrative_InitialDraftState a narr:Narrative ;
+      dct:source narr:Sample_FirstVersion ;
+      narr:theme "Initial draft state" ;
+      skos:broader narr:Process ;
+      skos:note "The document declares itself a 'First version', signalling an initial draft state in a review-gated workflow. A named reviewer is assigned via frontmatter, indicating a structured editorial process is in place even at the earliest stage." .
+
+    # ── Observation ─────────────────────────────────────────────
+    narr:Observation_FirstVersionPhrase a narr:Observation ;
+      skos:broader narr:QualityReviewGates ;
+      dct:source narr:Sample_FirstVersion ;
+      skos:note "The phrase 'First version' constitutes the entire document body, marking an explicit versioning declaration." ;
+      oa:hasSelector [
+        a oa:TextPositionSelector ;
+        oa:start 47 ;
+        oa:end 60
+      ] ;
+      oa:hasSelector [
+        a oa:TextQuoteSelector ;
+        oa:exact "First version" ;
+        oa:prefix "\n\n" ;
+        oa:suffix ""
+      ] .
+
+    # ── Style Observations ──────────────────────────────────────
+
+    # 1. Extreme brevity / minimal body content
+    narr:StyleObservation_ExtremeBreviloquence a narr:StyleObservation ;
+      skos:broader narr:ShortPunchyCadence ;
+      dct:source narr:Sample_FirstVersion ;
+      skos:note "Body consists of exactly two words. Extreme brevity; no sentences, no elaboration. Signals placeholder or stub content." ;
+      rdf:value false ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_FirstVersion ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start 47 ;
+          oa:end 60
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "First version" ;
+          oa:prefix "\n\n" ;
+          oa:suffix ""
+        ]
+      ] .
+
+    # 2. YAML frontmatter convention
+    narr:StyleObservation_YAMLFrontmatterConvention a narr:StyleObservation ;
+      skos:broader narr:EditorialRules ;
+      dct:source narr:Sample_FirstVersion ;
+      skos:note "Document uses YAML frontmatter delimited by triple-dashes to declare structured metadata (reviewer assignment). This is a Markdown/static-site convention indicating an editorial pipeline with machine-readable metadata." ;
+      rdf:value true ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_FirstVersion ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start 0 ;
+          oa:end 44
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "---\nreviewers:\n  - [REDACTED]\n---" ;
+          oa:prefix "" ;
+          oa:suffix "\n\nFirst version"
+        ]
+      ] .
+
+    # 3. Informal / placeholder register
+    narr:StyleObservation_InformalRegister a narr:StyleObservation ;
+      skos:broader narr:RegisterFormality ;
+      dct:source narr:Sample_FirstVersion ;
+      skos:note "The body text 'First version' uses an informal, label-like register — no verb, no subject, no punctuation. Characteristic of a stub or placeholder rather than a finished document." ;
+      rdf:value false ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_FirstVersion ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start 47 ;
+          oa:end 60
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "First version" ;
+          oa:prefix "\n\n" ;
+          oa:suffix ""
+        ]
+      ] .
+
+    # ── Style Metrics ───────────────────────────────────────────
+    narr:StyleMetrics_FirstVersion a narr:StyleMetrics ;
+      skos:broader narr:StyleMetrics ;
+      dct:source narr:Sample_FirstVersion ;
+      narr:AverageSentenceLength 2 ;
+      narr:ActiveVoiceRatio "1.0"^^xsd:decimal ;
+      narr:JargonDensity "0.0"^^xsd:decimal ;
+      skos:note "Body is a single two-word nominal phrase with no sentences, no passive constructions, and no jargon. Metrics reflect stub/placeholder content." .
+
+  }
+}
