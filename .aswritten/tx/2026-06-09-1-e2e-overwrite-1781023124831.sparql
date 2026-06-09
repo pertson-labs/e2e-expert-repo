@@ -1,0 +1,159 @@
+PREFIX narr: <https://aswritten.ai/narrative#>
+PREFIX rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX prov: <http://www.w3.org/ns/prov#>
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+PREFIX dct:  <http://purl.org/dc/terms/>
+PREFIX xsd:  <http://www.w3.org/2001/XMLSchema#>
+PREFIX oa:   <http://www.w3.org/ns/oa#>
+
+# Transaction provenance (default graph)
+INSERT DATA {
+  narr:Tx_20250117T120000Z a prov:Activity ;
+    prov:generatedAtTime "2025-01-17T12:00:00Z"^^xsd:dateTime ;
+    prov:wasAssociatedWith "aswritten.ai" ;
+    prov:wasAttributedTo "n8n.aswritten.ai" ;
+    narr:originPath "" ;
+    narr:originRef "main" ;
+    dct:title "First version document extraction" ;
+    prov:generated
+      narr:Sample_FirstVersion_Doc,
+      narr:Actor_ExpertReviewer,
+      narr:Narrative_FirstVersionDocument,
+      narr:Observation_ReviewerAssignment,
+      narr:Observation_VersionLabel,
+      narr:StyleObservation_TerseRegister,
+      narr:StyleObservation_YAMLFrontmatter,
+      narr:StyleObservation_MinimalBody,
+      narr:StyleMetrics_FirstVersion .
+} ;
+
+# Extracted entities (named graph)
+INSERT DATA {
+  GRAPH narr:Tx_20250117T120000Z {
+
+    # ── Sample ──────────────────────────────────────────────────
+    narr:Sample_FirstVersion_Doc a narr:Sample ;
+      dct:title "First version" ;
+      narr:inputLength 65 ;
+      dct:description "Minimal YAML-frontmatter document declaring a reviewer and a first-version label." .
+
+    # ── Actor ───────────────────────────────────────────────────
+    narr:Actor_ExpertReviewer a narr:Actor ;
+      skos:prefLabel "Expert Reviewer (test+expert-gh)" ;
+      skos:note "Reviewer listed in YAML frontmatter. Email redacted per PII policy: test+expert-gh@[redacted]." .
+
+    # ── Narrative ───────────────────────────────────────────────
+    narr:Narrative_FirstVersionDocument a narr:Narrative ;
+      narr:theme "Initial document version with reviewer assignment" ;
+      skos:broader narr:Process ;
+      skos:note "The document asserts itself as a first version and assigns a reviewer via YAML frontmatter, establishing a review-gated authoring process." ;
+      dct:source narr:Sample_FirstVersion_Doc .
+
+    # ── Observations ────────────────────────────────────────────
+    narr:Observation_ReviewerAssignment a narr:Observation ;
+      skos:broader narr:QualityReviewGates ;
+      dct:source narr:Sample_FirstVersion_Doc ;
+      skos:note "YAML frontmatter declares a reviewer, indicating a structured review workflow." ;
+      oa:hasSelector [
+        a oa:TextPositionSelector ;
+        oa:start 0 ;
+        oa:end 52
+      ] ;
+      oa:hasSelector [
+        a oa:TextQuoteSelector ;
+        oa:exact "reviewers:\n  - test+expert-gh@aswritten.ai" ;
+        oa:prefix "---\n" ;
+        oa:suffix "\n---"
+      ] .
+
+    narr:Observation_VersionLabel a narr:Observation ;
+      skos:broader narr:Process ;
+      dct:source narr:Sample_FirstVersion_Doc ;
+      skos:note "Body text 'First version' signals this is an initial draft, implying future iteration." ;
+      oa:hasSelector [
+        a oa:TextPositionSelector ;
+        oa:start 57 ;
+        oa:end 70
+      ] ;
+      oa:hasSelector [
+        a oa:TextQuoteSelector ;
+        oa:exact "First version" ;
+        oa:prefix "---\n\n" ;
+        oa:suffix ""
+      ] .
+
+    # ── Style Observations ──────────────────────────────────────
+    narr:StyleObservation_TerseRegister a narr:StyleObservation ;
+      skos:broader narr:RegisterFormality ;
+      dct:source narr:Sample_FirstVersion_Doc ;
+      skos:note "register:minimal — entire document body is two words; extremely low word count signals administrative/placeholder register." ;
+      rdf:value false ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_FirstVersion_Doc ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start 57 ;
+          oa:end 70
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "First version" ;
+          oa:prefix "---\n\n" ;
+          oa:suffix ""
+        ]
+      ] .
+
+    narr:StyleObservation_YAMLFrontmatter a narr:StyleObservation ;
+      skos:broader narr:EditorialRules ;
+      dct:source narr:Sample_FirstVersion_Doc ;
+      skos:note "convention:yaml-frontmatter — document uses triple-dash YAML block for structured metadata, consistent with static-site or docs-as-code conventions." ;
+      rdf:value true ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_FirstVersion_Doc ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start 0 ;
+          oa:end 55
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "---\nreviewers:\n  - test+expert-gh@aswritten.ai\n---" ;
+          oa:prefix "" ;
+          oa:suffix "\n\nFirst version"
+        ]
+      ] .
+
+    narr:StyleObservation_MinimalBody a narr:StyleObservation ;
+      skos:broader narr:Conciseness ;
+      dct:source narr:Sample_FirstVersion_Doc ;
+      skos:note "cadence:ultra-short — body consists of a single noun phrase with no verbs, punctuation, or elaboration; maximally compressed placeholder style." ;
+      rdf:value true ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_FirstVersion_Doc ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start 57 ;
+          oa:end 70
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "First version" ;
+          oa:prefix "---\n\n" ;
+          oa:suffix ""
+        ]
+      ] .
+
+    # ── Style Metrics ───────────────────────────────────────────
+    narr:StyleMetrics_FirstVersion a narr:StyleMetrics ;
+      skos:broader narr:StyleMetrics ;
+      dct:source narr:Sample_FirstVersion_Doc ;
+      narr:AverageSentenceLength 2 ;
+      narr:ActiveVoiceRatio "1.0"^^xsd:decimal ;
+      narr:JargonDensity "0.0"^^xsd:decimal ;
+      skos:note "Minimal document: single two-word body phrase, no sentences in conventional sense. Active voice ratio is 1.0 by default (no passive constructions). Jargon density 0.0 (no domain-specific terms in body)." .
+
+  }
+}
