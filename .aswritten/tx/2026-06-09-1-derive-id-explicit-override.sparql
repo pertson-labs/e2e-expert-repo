@@ -1,0 +1,132 @@
+PREFIX narr: <https://aswritten.ai/narrative#>
+PREFIX rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX prov: <http://www.w3.org/ns/prov#>
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+PREFIX dct:  <http://purl.org/dc/terms/>
+PREFIX xsd:  <http://www.w3.org/2001/XMLSchema#>
+PREFIX oa:   <http://www.w3.org/ns/oa#>
+
+# Transaction provenance (default graph)
+INSERT DATA {
+  narr:Tx_20250715T120000Z a prov:Activity ;
+    dct:title "Extraction: Some Other Title That Should Not Win" ;
+    prov:generatedAtTime "2025-07-15T12:00:00Z"^^xsd:dateTime ;
+    prov:wasAssociatedWith "aswritten.ai" ;
+    prov:wasAttributedTo "n8n.aswritten.ai" ;
+    narr:originPath "some-other-title-that-should-not-win" ;
+    narr:originRef "main" ;
+    prov:generated
+      narr:Sample_SomeOtherTitleShouldNotWin,
+      narr:Narrative_TitleShouldNotWin,
+      narr:Claim_TitleNotUsedAsSlug,
+      narr:StyleObs_NormativeModal,
+      narr:StyleObs_MinimalBody,
+      narr:StyleObs_YAMLFrontmatter,
+      narr:StyleMetrics_SomeOtherTitleShouldNotWin .
+} ;
+
+# Extracted entities (named graph)
+INSERT DATA {
+  GRAPH narr:Tx_20250715T120000Z {
+
+    # ── Sample ──────────────────────────────────────────────────
+    narr:Sample_SomeOtherTitleShouldNotWin a narr:Sample ;
+      dct:title "Some Other Title That Should Not Win" ;
+      dct:description "Minimal test fixture memory with YAML frontmatter (reviewer: test+expert-gh@aswritten.ai), an H1 title asserting the title should not be used as the pipeline slug, and a single-word body. Tests that the pipeline does not derive the slug from the H1 heading." ;
+      narr:inputLength 97 .
+
+    # ── Narrative ────────────────────────────────────────────────
+    narr:Narrative_TitleShouldNotWin a narr:Narrative ;
+      dct:source narr:Sample_SomeOtherTitleShouldNotWin ;
+      skos:broader narr:Process ;
+      skos:note "The H1 title of a memory document should not be used as the pipeline-generated slug or id. This test fixture asserts that the slug derivation mechanism must not fall back to the document heading as a slug source." ;
+      skos:related narr:Narrative_PipelineSlugGeneration ;
+      narr:theme "Pipeline must not use H1 title as slug when deriving id from memory content" .
+
+    # ── Claim ────────────────────────────────────────────────────
+    narr:Claim_TitleNotUsedAsSlug a narr:Claim ;
+      dct:source narr:Sample_SomeOtherTitleShouldNotWin ;
+      skos:note "The heading 'Some Other Title That Should Not Win' explicitly asserts that the H1 title must not win the slug-derivation contest — the pipeline must use a different mechanism (LLM id-gen or deterministic slugify from content) rather than the heading text." ;
+      narr:aboutNode narr:Narrative_TitleShouldNotWin ;
+      narr:hasConvictionLevel narr:Conviction_Stake ;
+      narr:supports narr:Narrative_PipelineSlugGeneration .
+
+    # ── Style Observations ───────────────────────────────────────
+
+    # SO-1: Normative modal phrasing in H1
+    narr:StyleObs_NormativeModal a narr:StyleObservation ;
+      skos:broader narr:SentenceMood ;
+      dct:source narr:Sample_SomeOtherTitleShouldNotWin ;
+      skos:note "H1 uses 'Should Not' — normative/prescriptive modal expressing a pipeline constraint as a heading. Unusual register for a document title; signals test-specification intent." ;
+      rdf:value true ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_SomeOtherTitleShouldNotWin ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start 50 ;
+          oa:end 90
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "Some Other Title That Should Not Win" ;
+          oa:prefix "# " ;
+          oa:suffix "\n\nBody."
+        ]
+      ] .
+
+    # SO-2: Minimal body — single-word content
+    narr:StyleObs_MinimalBody a narr:StyleObservation ;
+      skos:broader narr:Conciseness ;
+      dct:source narr:Sample_SomeOtherTitleShouldNotWin ;
+      skos:note "Body consists of a single word 'Body.' — an intentional placeholder indicating this is a test fixture, not a substantive document. Extreme conciseness signals synthetic/test-authored content." ;
+      rdf:value true ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_SomeOtherTitleShouldNotWin ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start 91 ;
+          oa:end 96
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "Body." ;
+          oa:prefix "Should Not Win\n\n" ;
+          oa:suffix ""
+        ]
+      ] .
+
+    # SO-3: YAML frontmatter structured metadata
+    narr:StyleObs_YAMLFrontmatter a narr:StyleObservation ;
+      skos:broader narr:EditorialRules ;
+      dct:source narr:Sample_SomeOtherTitleShouldNotWin ;
+      skos:note "Document uses YAML frontmatter with a 'reviewers' list — structured metadata convention consistent with the aswritten.ai pipeline's memory format. Signals institutional authoring convention." ;
+      rdf:value true ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_SomeOtherTitleShouldNotWin ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start 0 ;
+          oa:end 48
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "reviewers:\n  - test+expert-gh@aswritten.ai" ;
+          oa:prefix "---\n" ;
+          oa:suffix "\n---"
+        ]
+      ] .
+
+    # ── Style Metrics ────────────────────────────────────────────
+    narr:StyleMetrics_SomeOtherTitleShouldNotWin a narr:StyleMetrics ;
+      dct:source narr:Sample_SomeOtherTitleShouldNotWin ;
+      skos:broader narr:StyleMetrics ;
+      skos:note "Extremely short document (1 heading + 1 body word). Near-perfect active voice; minimal jargon (only 'reviewers' as a structured-metadata term). Register: synthetic test fixture / pipeline acceptance criteria." ;
+      narr:AverageSentenceLength 7 ;
+      narr:ActiveVoiceRatio "1.00"^^xsd:decimal ;
+      narr:JargonDensity "0.08"^^xsd:decimal .
+
+  }
+}
