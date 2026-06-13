@@ -1,0 +1,152 @@
+PREFIX narr: <https://aswritten.ai/narrative#>
+PREFIX rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX prov: <http://www.w3.org/ns/prov#>
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+PREFIX dct:  <http://purl.org/dc/terms/>
+PREFIX xsd:  <http://www.w3.org/2001/XMLSchema#>
+PREFIX oa:   <http://www.w3.org/ns/oa#>
+
+# ── Transaction provenance (default graph) ──────────────────────────────────
+INSERT DATA {
+  narr:Tx_20250715T120000Z a prov:Activity ;
+    dct:title "Sample Memory Phase 2 — Derive Id E2E" ;
+    prov:generatedAtTime "2025-07-15T12:00:00Z"^^xsd:dateTime ;
+    prov:wasAssociatedWith "aswritten.ai" ;
+    prov:wasAttributedTo "n8n.aswritten.ai" ;
+    narr:originPath "[no-id-field: slug-derived-from-content]" ;
+    narr:originRef "main@unknown" ;
+    prov:generated
+      narr:Sample_SampleMemoryPhase2DeriveIdE2E,
+      narr:Claim_PipelineMustNotCrashOnMissingId,
+      narr:StyleObs_Phase2_ToneAuthoritative,
+      narr:StyleObs_Phase2_JargonDensity,
+      narr:StyleObs_Phase2_ShortPunchyCadence,
+      narr:StyleMetrics_SampleMemoryPhase2DeriveIdE2E .
+} ;
+
+# ── New Sample node for Phase 2 memory ──────────────────────────────────────
+INSERT DATA {
+  GRAPH narr:Tx_20250715T120000Z {
+    narr:Sample_SampleMemoryPhase2DeriveIdE2E a narr:Sample ;
+      dct:title "Sample Memory Phase 2 — Derive Id E2E" ;
+      dct:description "Phase 2 test memory submitted without an explicit id field. Reproduces the missing-id failure pattern from prod (## level heading, no id field). Tests that the pipeline must not crash and must produce a valid slug." ;
+      narr:inputLength 222 .
+  }
+} ;
+
+# ── Update Narrative_PipelineSlugGenFallback to incorporate Phase 2 framing ─
+DELETE {
+  GRAPH ?g {
+    narr:Narrative_PipelineSlugGenFallback skos:note ?oldNote .
+  }
+}
+INSERT {
+  GRAPH narr:Tx_20250715T120000Z {
+    narr:Narrative_PipelineSlugGenFallback skos:note "When a memory is submitted without an explicit id field, the pipeline must derive a slug — either via the LLM id-gen call or the deterministic slugify fallback — and commit the file successfully. Phase 2 (E2E) extends this: the pipeline must also not crash when the memory uses a ## level heading with no id field, reproducing the missing-id failure pattern from prod. Both phases assert robustness of the intake and file-commit workflow." .
+  }
+}
+WHERE {
+  GRAPH ?g {
+    narr:Narrative_PipelineSlugGenFallback skos:note ?oldNote .
+  }
+} ;
+
+# ── New Claim: pipeline must not crash on missing id ────────────────────────
+INSERT DATA {
+  GRAPH narr:Tx_20250715T120000Z {
+    narr:Claim_PipelineMustNotCrashOnMissingId a narr:Claim ;
+      dct:source narr:Sample_SampleMemoryPhase2DeriveIdE2E ;
+      skos:note "Phase 2 E2E test asserts that the pipeline must not crash when processing a memory with a ## level heading and no id field. It must produce a valid slug. This is a crash-safety / robustness requirement distinct from the slug-generation mechanism claim." ;
+      narr:aboutNode narr:IncidentResponse ;
+      narr:hasConvictionLevel narr:Conviction_Stake ;
+      narr:supports narr:Narrative_PipelineSlugGenFallback .
+  }
+} ;
+
+# ── Style Observation 1: Authoritative tone with modal obligation ─────────────
+INSERT DATA {
+  GRAPH narr:Tx_20250715T120000Z {
+    narr:StyleObs_Phase2_ToneAuthoritative a narr:StyleObservation ;
+      skos:broader narr:ToneAuthoritative ;
+      dct:source narr:Sample_SampleMemoryPhase2DeriveIdE2E ;
+      skos:note "Modal obligation 'Must not crash; must produce a valid slug' signals authoritative, requirement-level tone." ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_SampleMemoryPhase2DeriveIdE2E ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start 176 ;
+          oa:end 222
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "Must not crash; must produce a valid slug." ;
+          oa:prefix "no id field). " ;
+          oa:suffix ""
+        ]
+      ] .
+  }
+} ;
+
+# ── Style Observation 2: Jargon density — domain-specific terms ──────────────
+INSERT DATA {
+  GRAPH narr:Tx_20250715T120000Z {
+    narr:StyleObs_Phase2_JargonDensity a narr:StyleObservation ;
+      skos:broader narr:JargonPolicy ;
+      dct:source narr:Sample_SampleMemoryPhase2DeriveIdE2E ;
+      skos:note "High jargon density for document length: 'missing-id failure pattern', 'prod', '## level heading', 'id field', 'slug' — all domain-specific pipeline terms in two sentences." ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_SampleMemoryPhase2DeriveIdE2E ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start 80 ;
+          oa:end 175
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "Reproduces the missing-id failure pattern from prod (## level heading,\nno id field)." ;
+          oa:prefix "Derive Id E2E\n\n" ;
+          oa:suffix " Must not crash"
+        ]
+      ] .
+  }
+} ;
+
+# ── Style Observation 3: Short punchy cadence — imperative fragments ─────────
+INSERT DATA {
+  GRAPH narr:Tx_20250715T120000Z {
+    narr:StyleObs_Phase2_ShortPunchyCadence a narr:StyleObservation ;
+      skos:broader narr:ShortPunchyCadence ;
+      dct:source narr:Sample_SampleMemoryPhase2DeriveIdE2E ;
+      skos:note "Two-clause imperative sentence with semicolon separation creates short punchy cadence: 'Must not crash; must produce a valid slug.' Anaphoric 'must' reinforces urgency." ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_SampleMemoryPhase2DeriveIdE2E ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start 176 ;
+          oa:end 222
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "Must not crash; must produce a valid slug." ;
+          oa:prefix "no id field). " ;
+          oa:suffix ""
+        ]
+      ] .
+  }
+} ;
+
+# ── Style Metrics for Phase 2 sample ────────────────────────────────────────
+INSERT DATA {
+  GRAPH narr:Tx_20250715T120000Z {
+    narr:StyleMetrics_SampleMemoryPhase2DeriveIdE2E a narr:StyleMetrics ;
+      skos:broader narr:StyleMetrics ;
+      dct:source narr:Sample_SampleMemoryPhase2DeriveIdE2E ;
+      skos:note "Very short document (2 body sentences). Active-voice modal imperatives dominate. High jargon density relative to word count given pipeline-specific terminology: missing-id, prod, slug, id field, ## level heading." ;
+      narr:AverageSentenceLength "16"^^xsd:integer ;
+      narr:ActiveVoiceRatio "0.90"^^xsd:decimal ;
+      narr:JargonDensity "0.18"^^xsd:decimal .
+  }
+}
