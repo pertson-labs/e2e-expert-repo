@@ -1,0 +1,109 @@
+PREFIX narr: <https://aswritten.ai/narrative#>
+PREFIX rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX prov: <http://www.w3.org/ns/prov#>
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+PREFIX dct:  <http://purl.org/dc/terms/>
+PREFIX xsd:  <http://www.w3.org/2001/XMLSchema#>
+PREFIX oa:   <http://www.w3.org/ns/oa#>
+
+# Transaction provenance (default graph)
+INSERT DATA {
+  narr:Tx_20250117T130000Z a prov:Activity ;
+    dct:title "Sample Memory Phase 2 — Derive Id E2E — pipeline slug-gen test" ;
+    prov:generatedAtTime "2025-01-17T13:00:00Z"^^xsd:dateTime ;
+    prov:wasAssociatedWith "aswritten.ai" ;
+    prov:wasAttributedTo "n8n.aswritten.ai" ;
+    narr:originPath "sample-memory-phase-2-derive-id-e2e" ;
+    narr:originRef "main" ;
+    prov:generated
+      narr:Sample_Phase2DeriveIdE2E,
+      narr:StyleMetrics_Phase2DeriveIdE2E,
+      narr:StyleObs_Phase2_ToneDirective,
+      narr:StyleObs_Phase2_JargonEngineering,
+      narr:StyleObs_Phase2_ImperativeCadence .
+} ;
+
+# Extracted entities (named graph)
+INSERT DATA {
+  GRAPH narr:Tx_20250117T130000Z {
+
+    # ── Sample ──────────────────────────────────────────────────
+    narr:Sample_Phase2DeriveIdE2E a narr:Sample ;
+      dct:title "Sample Memory Phase 2 — Derive Id E2E" ;
+      dct:description "Phase 2 E2E test memory submitted without an explicit id field, reproducing the missing-id failure pattern from production. Exercises the slug-generation and crash-safety paths of the intake pipeline." ;
+      narr:inputLength 199 .
+
+    # ── Style Metrics ────────────────────────────────────────────
+    narr:StyleMetrics_Phase2DeriveIdE2E a narr:StyleMetrics ;
+      skos:broader narr:StyleMetrics ;
+      dct:source narr:Sample_Phase2DeriveIdE2E ;
+      narr:AverageSentenceLength 18 ;
+      narr:ActiveVoiceRatio "0.90"^^xsd:decimal ;
+      narr:JargonDensity "0.22"^^xsd:decimal ;
+      skos:note "Very short document (2 body sentences). Predominantly active voice with imperative mood. High jargon density for engineering pipeline context (slug, id field, prod, E2E). Terse, directive register." .
+
+    # ── Style Observation 1: Authoritative/Directive Tone ────────
+    narr:StyleObs_Phase2_ToneDirective a narr:StyleObservation ;
+      skos:broader narr:ToneAuthoritative ;
+      dct:source narr:Sample_Phase2DeriveIdE2E ;
+      skos:note "Imperative directives ('Must not crash; must produce a valid slug') assert non-negotiable pipeline requirements in a terse, authoritative register." ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_Phase2DeriveIdE2E ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start 131 ;
+          oa:end 179
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "Must not crash; must produce a valid slug." ;
+          oa:prefix "no id field). " ;
+          oa:suffix ""
+        ]
+      ] .
+
+    # ── Style Observation 2: Engineering Jargon Policy ───────────
+    narr:StyleObs_Phase2_JargonEngineering a narr:StyleObservation ;
+      skos:broader narr:JargonPolicy ;
+      dct:source narr:Sample_Phase2DeriveIdE2E ;
+      skos:note "Dense use of pipeline-specific technical terms: 'missing-id failure pattern', 'prod', 'id field', 'slug', 'E2E' — consistent with an internal engineering test spec register." ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_Phase2DeriveIdE2E ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start 56 ;
+          oa:end 130
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "Reproduces the missing-id failure pattern from prod" ;
+          oa:prefix "## Sample Memory Phase 2 — Derive Id E2E\n\n" ;
+          oa:suffix " (## level heading,"
+        ]
+      ] .
+
+    # ── Style Observation 3: Short Punchy Cadence ────────────────
+    narr:StyleObs_Phase2_ImperativeCadence a narr:StyleObservation ;
+      skos:broader narr:ShortPunchyCadence ;
+      dct:source narr:Sample_Phase2DeriveIdE2E ;
+      skos:note "Two-sentence body with parallel imperative structure ('Must not crash; must produce') creates a punchy, checklist-like cadence typical of acceptance criteria." ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_Phase2DeriveIdE2E ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start 56 ;
+          oa:end 179
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "Reproduces the missing-id failure pattern from prod (## level heading,\nno id field). Must not crash; must produce a valid slug." ;
+          oa:prefix "## Sample Memory Phase 2 — Derive Id E2E\n\n" ;
+          oa:suffix ""
+        ]
+      ] .
+
+  }
+}
