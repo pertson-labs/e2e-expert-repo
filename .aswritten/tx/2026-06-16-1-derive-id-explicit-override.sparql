@@ -1,0 +1,171 @@
+PREFIX narr: <https://aswritten.ai/narrative#>
+PREFIX rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX prov: <http://www.w3.org/ns/prov#>
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+PREFIX dct:  <http://purl.org/dc/terms/>
+PREFIX xsd:  <http://www.w3.org/2001/XMLSchema#>
+PREFIX oa:   <http://www.w3.org/ns/oa#>
+
+# Transaction provenance (default graph)
+INSERT DATA {
+  narr:Tx_20250720T120000Z a prov:Activity ;
+    dct:title "Some Other Title That Should Not Win — pipeline heading-vs-title test" ;
+    prov:generatedAtTime "2025-07-20T12:00:00Z"^^xsd:dateTime ;
+    prov:wasAssociatedWith "aswritten.ai" ;
+    prov:wasAttributedTo "n8n.aswritten.ai" ;
+    narr:originPath "some-other-title-that-should-not-win" ;
+    narr:originRef "main" ;
+    prov:generated
+      narr:Sample_SomeOtherTitleThatShouldNotWin,
+      narr:Narrative_HeadingVsTitleResolution,
+      narr:Claim_HeadingNotUsedAsSlug,
+      narr:Observation_HeadingText,
+      narr:Observation_ReviewerFrontmatter,
+      narr:StyleObs_MinimalBodyRegister,
+      narr:StyleObs_ImperativeTitlePhrasing,
+      narr:StyleObs_YAMLFrontmatterConvention,
+      narr:StyleMetrics_SomeOtherTitleThatShouldNotWin .
+} ;
+
+# Extracted entities (named graph)
+INSERT DATA {
+  GRAPH narr:Tx_20250720T120000Z {
+
+    # ── Sample ──────────────────────────────────────────────────
+    narr:Sample_SomeOtherTitleThatShouldNotWin
+      a narr:Sample ;
+      dct:title "Some Other Title That Should Not Win" ;
+      dct:description "Minimal pipeline test memory with YAML frontmatter reviewer and a heading that explicitly signals it should not be used as the document title/slug. Body consists of a single word." ;
+      narr:inputLength 89 .
+
+    # ── Narrative ────────────────────────────────────────────────
+    narr:Narrative_HeadingVsTitleResolution
+      a narr:Narrative ;
+      dct:source narr:Sample_SomeOtherTitleThatShouldNotWin ;
+      skos:broader narr:IntakePrioritization ;
+      narr:theme "Pipeline heading-vs-title resolution: H1 heading should not override the canonical document title or slug" ;
+      skos:note "The memory's H1 heading explicitly states 'Some Other Title That Should Not Win', asserting that the pipeline must not use the H1 heading as the authoritative title or slug source when another source (e.g., frontmatter, id field, or LLM-derived slug) is available. This tests the intake title-resolution precedence logic." .
+
+    # ── Claims ───────────────────────────────────────────────────
+    narr:Claim_HeadingNotUsedAsSlug
+      a narr:Claim ;
+      dct:source narr:Sample_SomeOtherTitleThatShouldNotWin ;
+      narr:aboutNode narr:Narrative_HeadingVsTitleResolution ;
+      narr:hasConvictionLevel narr:Conviction_Foundation ;
+      narr:supports narr:Narrative_HeadingVsTitleResolution ;
+      skos:note "The H1 heading 'Some Other Title That Should Not Win' is a deliberate test signal: the pipeline must resolve the canonical title/slug from a source other than the H1 heading." .
+
+    # ── Observations ─────────────────────────────────────────────
+    narr:Observation_HeadingText
+      a narr:Observation ;
+      dct:source narr:Sample_SomeOtherTitleThatShouldNotWin ;
+      skos:broader narr:IntakePrioritization ;
+      skos:note "H1 heading contains explicit test signal that it should not win title resolution." ;
+      oa:hasSelector [
+        a oa:TextPositionSelector ;
+        oa:start 42 ;
+        oa:end 82
+      ] ;
+      oa:hasSelector [
+        a oa:TextQuoteSelector ;
+        oa:exact "Some Other Title That Should Not Win" ;
+        oa:prefix "# " ;
+        oa:suffix "\n\nBody."
+      ] .
+
+    narr:Observation_ReviewerFrontmatter
+      a narr:Observation ;
+      dct:source narr:Sample_SomeOtherTitleThatShouldNotWin ;
+      skos:broader narr:QualityReviewGates ;
+      skos:note "Frontmatter declares test+expert-gh@aswritten.ai as reviewer; this actor already exists in the graph as narr:Actor_TestExpertReviewer." ;
+      oa:hasSelector [
+        a oa:TextPositionSelector ;
+        oa:start 4 ;
+        oa:end 38
+      ] ;
+      oa:hasSelector [
+        a oa:TextQuoteSelector ;
+        oa:exact "test+expert-gh@aswritten.ai" ;
+        oa:prefix "reviewers:\n  - " ;
+        oa:suffix "\n---"
+      ] .
+
+    # ── Style Observations ───────────────────────────────────────
+    narr:StyleObs_MinimalBodyRegister
+      a narr:StyleObservation ;
+      skos:broader narr:RegisterFormality ;
+      dct:source narr:Sample_SomeOtherTitleThatShouldNotWin ;
+      skos:note "Extremely minimal body register: single-word body 'Body.' functions as a placeholder, signalling this is a structural/pipeline test rather than substantive content." ;
+      rdf:value false ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_SomeOtherTitleThatShouldNotWin ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start 84 ;
+          oa:end 89
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "Body." ;
+          oa:prefix "Should Not Win\n\n" ;
+          oa:suffix ""
+        ]
+      ] .
+
+    narr:StyleObs_ImperativeTitlePhrasing
+      a narr:StyleObservation ;
+      skos:broader narr:ToneDirectPersonal ;
+      dct:source narr:Sample_SomeOtherTitleThatShouldNotWin ;
+      skos:note "The heading uses a declarative-imperative construction ('Should Not Win') that reads as a directive or test assertion rather than a descriptive title — an unusual rhetorical register for a document heading." ;
+      rdf:value true ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_SomeOtherTitleThatShouldNotWin ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start 42 ;
+          oa:end 82
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "Some Other Title That Should Not Win" ;
+          oa:prefix "# " ;
+          oa:suffix "\n\nBody."
+        ]
+      ] .
+
+    narr:StyleObs_YAMLFrontmatterConvention
+      a narr:StyleObservation ;
+      skos:broader narr:EditorialRules ;
+      dct:source narr:Sample_SomeOtherTitleThatShouldNotWin ;
+      skos:note "Document uses YAML frontmatter block (--- delimiters) with a 'reviewers' key — consistent with the pipeline's intake convention for metadata injection, as seen in prior test memories." ;
+      rdf:value true ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_SomeOtherTitleThatShouldNotWin ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start 0 ;
+          oa:end 40
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "---\nreviewers:\n  - test+expert-gh@aswritten.ai\n---" ;
+          oa:prefix "" ;
+          oa:suffix "\n\n# Some Other"
+        ]
+      ] .
+
+    # ── Style Metrics ────────────────────────────────────────────
+    narr:StyleMetrics_SomeOtherTitleThatShouldNotWin
+      a narr:StyleMetrics ;
+      dct:source narr:Sample_SomeOtherTitleThatShouldNotWin ;
+      skos:broader narr:StyleMetrics ;
+      skos:note "Extremely short document (1 body sentence, 1 word). Single declarative body word. High structural jargon in heading (test-assertion phrasing). Active voice not applicable at this scale. Register is placeholder/test." ;
+      narr:AverageSentenceLength 1 ;
+      narr:ActiveVoiceRatio "1.00"^^xsd:decimal ;
+      narr:JargonDensity "0.05"^^xsd:decimal .
+
+  }
+}
