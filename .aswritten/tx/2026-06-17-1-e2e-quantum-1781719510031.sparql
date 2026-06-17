@@ -1,0 +1,176 @@
+PREFIX narr: <https://aswritten.ai/narrative#>
+PREFIX rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX prov: <http://www.w3.org/ns/prov#>
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+PREFIX dct:  <http://purl.org/dc/terms/>
+PREFIX xsd:  <http://www.w3.org/2001/XMLSchema#>
+PREFIX oa:   <http://www.w3.org/ns/oa#>
+
+INSERT DATA {
+  narr:Tx_20260401T120000Z a prov:Activity ;
+    prov:generatedAtTime "2026-04-01T12:00:00Z"^^xsd:dateTime ;
+    prov:wasAssociatedWith "aswritten.ai" ;
+    prov:wasAttributedTo "n8n.aswritten.ai" ;
+    narr:originPath "E2E Test: Quantum Widget Decision" ;
+    narr:originRef "main" ;
+    dct:title "E2E Test: Quantum Widget Decision" ;
+    prov:generated
+      narr:Sample_QuantumWidgetDecision_20260401,
+      narr:Actor_DaveQuantum_VPEngineering,
+      narr:Narrative_DatabaseMigrationPostgresToQuantumDB,
+      narr:Claim_QuantumDB10xQueryPerformance,
+      narr:Claim_QuantumDBLowerLicensingCost,
+      narr:Claim_MigrationTimelineQ32026,
+      narr:Obs_DatabaseMigrationDecision,
+      narr:Obs_PerformanceGainClaim,
+      narr:StyleObs_DirectQuoteRegister,
+      narr:StyleObs_BulletDecisionFormat,
+      narr:StyleObs_QuantifierJargon,
+      narr:StyleMetrics_QuantumWidgetDecision .
+} ;
+
+INSERT DATA {
+  GRAPH narr:Tx_20260401T120000Z {
+
+    narr:Sample_QuantumWidgetDecision_20260401 a narr:Sample ;
+      dct:title "E2E Test: Quantum Widget Decision" ;
+      dct:created "2026-04-01"^^xsd:date ;
+      narr:inputLength "432"^^xsd:integer ;
+      skos:note "E2E test memory documenting a database migration decision from PostgreSQL to QuantumDB, with performance and cost rationale, presented by Dave Quantum (VP Engineering)." .
+
+    narr:Actor_DaveQuantum_VPEngineering a narr:Actor ;
+      skos:prefLabel "Dave Quantum" ;
+      skos:note "VP Engineering; decision-maker for the analytics pipeline database migration from PostgreSQL to QuantumDB." .
+
+    narr:Narrative_DatabaseMigrationPostgresToQuantumDB a narr:Narrative ;
+      dct:source narr:Sample_QuantumWidgetDecision_20260401 ;
+      narr:theme "Database migration from PostgreSQL to QuantumDB for analytics pipeline" ;
+      skos:broader narr:StackOverview ;
+      skos:note "The core strategic shift is replacing PostgreSQL with QuantumDB in the analytics pipeline, justified by 10x query performance improvement and lower licensing cost, with a Q3 2026 timeline." .
+
+    narr:Claim_QuantumDB10xQueryPerformance a narr:Claim ;
+      narr:aboutNode narr:Narrative_DatabaseMigrationPostgresToQuantumDB ;
+      narr:hasConvictionLevel narr:Conviction_Stake ;
+      dct:source narr:Sample_QuantumWidgetDecision_20260401 ;
+      skos:note "Dave Quantum asserts 10x analytical query performance gain from QuantumDB over PostgreSQL." ;
+      narr:supports narr:Narrative_DatabaseMigrationPostgresToQuantumDB .
+
+    narr:Claim_QuantumDBLowerLicensingCost a narr:Claim ;
+      narr:aboutNode narr:Narrative_DatabaseMigrationPostgresToQuantumDB ;
+      narr:hasConvictionLevel narr:Conviction_Stake ;
+      dct:source narr:Sample_QuantumWidgetDecision_20260401 ;
+      skos:note "QuantumDB offers lower licensing cost compared to PostgreSQL, per Dave Quantum." ;
+      narr:supports narr:Narrative_DatabaseMigrationPostgresToQuantumDB .
+
+    narr:Claim_MigrationTimelineQ32026 a narr:Claim ;
+      narr:aboutNode narr:Narrative_DatabaseMigrationPostgresToQuantumDB ;
+      narr:hasConvictionLevel narr:Conviction_Stake ;
+      dct:source narr:Sample_QuantumWidgetDecision_20260401 ;
+      skos:note "The database migration is planned for Q3 2026." ;
+      narr:supports narr:Narrative_DatabaseMigrationPostgresToQuantumDB .
+
+    narr:Obs_DatabaseMigrationDecision a narr:Observation ;
+      skos:broader narr:StackOverview ;
+      dct:source narr:Sample_QuantumWidgetDecision_20260401 ;
+      skos:note "Decision to migrate analytics pipeline database from PostgreSQL to QuantumDB." ;
+      oa:hasSelector [
+        a oa:TextPositionSelector ;
+        oa:start "176"^^xsd:integer ;
+        oa:end "248"^^xsd:integer
+      ] ;
+      oa:hasSelector [
+        a oa:TextQuoteSelector ;
+        oa:exact "We're switching from PostgreSQL to QuantumDB for the analytics pipeline" ;
+        oa:prefix "Dave: \"" ;
+        oa:suffix ". 10x query performance"
+      ] .
+
+    narr:Obs_PerformanceGainClaim a narr:Observation ;
+      skos:broader narr:ScalabilityPerformance ;
+      dct:source narr:Sample_QuantumWidgetDecision_20260401 ;
+      skos:note "10x query performance improvement and lower licensing cost cited as rationale for QuantumDB migration." ;
+      oa:hasSelector [
+        a oa:TextPositionSelector ;
+        oa:start "248"^^xsd:integer ;
+        oa:end "300"^^xsd:integer
+      ] ;
+      oa:hasSelector [
+        a oa:TextQuoteSelector ;
+        oa:exact "10x query performance, lower licensing cost" ;
+        oa:prefix "analytics pipeline. " ;
+        oa:suffix ".\""
+      ] .
+
+    narr:StyleObs_DirectQuoteRegister a narr:StyleObservation ;
+      skos:broader narr:ToneDirectPersonal ;
+      dct:source narr:Sample_QuantumWidgetDecision_20260401 ;
+      skos:note "First-person direct quote from Dave Quantum signals an authoritative, conversational register for decision capture." ;
+      rdf:value "true"^^xsd:boolean ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_QuantumWidgetDecision_20260401 ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start "170"^^xsd:integer ;
+          oa:end "302"^^xsd:integer
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "We're switching from PostgreSQL to QuantumDB for the analytics pipeline. 10x query performance, lower licensing cost." ;
+          oa:prefix "Dave: \"" ;
+          oa:suffix "\""
+        ]
+      ] .
+
+    narr:StyleObs_BulletDecisionFormat a narr:StyleObservation ;
+      skos:broader narr:GrammarSyntax ;
+      dct:source narr:Sample_QuantumWidgetDecision_20260401 ;
+      skos:note "Key decisions are formatted as a bold-label bullet list (e.g., **Database migration**:), a structured documentation convention that foregrounds decision type before detail." ;
+      rdf:value "true"^^xsd:boolean ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_QuantumWidgetDecision_20260401 ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start "318"^^xsd:integer ;
+          oa:end "432"^^xsd:integer
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "**Database migration**: PostgreSQL → QuantumDB" ;
+          oa:prefix "Key decisions:\n- " ;
+          oa:suffix "\n- **Performance gain**"
+        ]
+      ] .
+
+    narr:StyleObs_QuantifierJargon a narr:StyleObservation ;
+      skos:broader narr:JargonPolicy ;
+      dct:source narr:Sample_QuantumWidgetDecision_20260401 ;
+      skos:note "Use of '10x' as a quantifier multiplier is a tech-industry jargon convention signaling magnitude without specifying measurement methodology." ;
+      rdf:value "true"^^xsd:boolean ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_QuantumWidgetDecision_20260401 ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start "248"^^xsd:integer ;
+          oa:end "270"^^xsd:integer
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "10x query performance" ;
+          oa:prefix "analytics pipeline. " ;
+          oa:suffix ", lower licensing cost"
+        ]
+      ] .
+
+    narr:StyleMetrics_QuantumWidgetDecision a narr:StyleMetrics ;
+      skos:broader narr:StyleMetrics ;
+      dct:source narr:Sample_QuantumWidgetDecision_20260401 ;
+      narr:AverageSentenceLength "9"^^xsd:integer ;
+      narr:ActiveVoiceRatio "0.85"^^xsd:decimal ;
+      narr:JargonDensity "0.12"^^xsd:decimal ;
+      skos:note "Short, punchy sentences. High active voice ratio. Moderate jargon density driven by tech product names (PostgreSQL, QuantumDB) and multiplier notation (10x). Register is technical-executive." .
+
+  }
+}
