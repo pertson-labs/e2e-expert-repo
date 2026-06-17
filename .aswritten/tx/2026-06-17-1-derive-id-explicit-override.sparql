@@ -1,0 +1,144 @@
+PREFIX narr: <https://aswritten.ai/narrative#>
+PREFIX rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX prov: <http://www.w3.org/ns/prov#>
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+PREFIX dct:  <http://purl.org/dc/terms/>
+PREFIX xsd:  <http://www.w3.org/2001/XMLSchema#>
+PREFIX oa:   <http://www.w3.org/ns/oa#>
+
+# Transaction provenance (default graph)
+INSERT DATA {
+  narr:Tx_20250718T000000Z a prov:Activity ;
+    dct:title "Some Other Title That Should Not Win — slug title-exclusion test" ;
+    prov:generatedAtTime "2025-07-18T00:00:00Z"^^xsd:dateTime ;
+    prov:wasAssociatedWith "aswritten.ai" ;
+    prov:wasAttributedTo "n8n.aswritten.ai" ;
+    narr:originPath "" ;
+    narr:originRef "main" ;
+    prov:generated
+      narr:Sample_SomeOtherTitleShouldNotWin,
+      narr:Claim_TitleShouldNotWinSlug,
+      narr:Obs_ReviewerFrontmatterSomeOtherTitle,
+      narr:StyleObs_PlaceholderBodyCadence,
+      narr:StyleObs_AssertiveNegationTitle,
+      narr:StyleObs_FrontmatterReviewerPattern,
+      narr:StyleMetrics_SomeOtherTitleShouldNotWin .
+} ;
+
+# Extracted entities (named graph)
+INSERT DATA {
+  GRAPH narr:Tx_20250718T000000Z {
+
+    # ── Sample ──────────────────────────────────────────────────
+    narr:Sample_SomeOtherTitleShouldNotWin a narr:Sample ;
+      dct:title "Some Other Title That Should Not Win" ;
+      dct:created "2025-07-18"^^xsd:date ;
+      skos:note "Minimal test memory submitted without an explicit id field. Contains a YAML frontmatter reviewer assignment and a single-word body. The H1 title is deliberately phrased to assert it should NOT be used as the slug — validating that the pipeline's title-exclusion logic holds." ;
+      narr:inputLength 88 .
+
+    # ── Claim: H1 title must not be used as slug ─────────────────
+    narr:Claim_TitleShouldNotWinSlug a narr:Claim ;
+      dct:source narr:Sample_SomeOtherTitleShouldNotWin ;
+      skos:note "The H1 heading 'Some Other Title That Should Not Win' is an explicit test assertion: the pipeline must not derive the slug from the H1 title when a better signal (LLM id-gen or slugify fallback) is available. This extends the slug-generation narrative with a title-exclusion constraint." ;
+      narr:aboutNode narr:Narrative_PipelineSlugGeneration ;
+      narr:hasConvictionLevel narr:Conviction_Stake ;
+      narr:supports narr:Narrative_PipelineSlugGeneration .
+
+    # ── Observation: reviewer in frontmatter ─────────────────────
+    narr:Obs_ReviewerFrontmatterSomeOtherTitle a narr:Observation ;
+      skos:broader narr:FrictionFailure ;
+      dct:source narr:Sample_SomeOtherTitleShouldNotWin ;
+      skos:note "A reviewer is assigned in the YAML frontmatter (email redacted per PII policy). This mirrors the pattern in the Phase 2 E2E test memory and confirms the reviewer-assignment convention is consistent across test fixtures." ;
+      oa:hasSelector [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_SomeOtherTitleShouldNotWin ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start 0 ;
+          oa:end 52
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "reviewers:\n  - test+expert-gh@aswritten.ai" ;
+          oa:prefix "---\n" ;
+          oa:suffix "\n---"
+        ]
+      ] .
+
+    # ── Style Observation 1: Placeholder body cadence ────────────
+    narr:StyleObs_PlaceholderBodyCadence a narr:StyleObservation ;
+      skos:broader narr:ShortPunchyCadence ;
+      dct:source narr:Sample_SomeOtherTitleShouldNotWin ;
+      skos:note "Single-word body sentence 'Body.' — extreme brevity, placeholder register. Signals intentional minimalism in test fixture authoring." ;
+      rdf:value true ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_SomeOtherTitleShouldNotWin ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start 80 ;
+          oa:end 85
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "Body." ;
+          oa:prefix "Should Not Win\n\n" ;
+          oa:suffix ""
+        ]
+      ] .
+
+    # ── Style Observation 2: Assertive negation in title ─────────
+    narr:StyleObs_AssertiveNegationTitle a narr:StyleObservation ;
+      skos:broader narr:ToneAuthoritative ;
+      dct:source narr:Sample_SomeOtherTitleShouldNotWin ;
+      skos:note "The H1 title uses modal negation ('Should Not Win') as a self-referential test assertion — an authoritative, declarative style that encodes the expected pipeline behavior directly in the heading text." ;
+      rdf:value true ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_SomeOtherTitleShouldNotWin ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start 56 ;
+          oa:end 79
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "Some Other Title That Should Not Win" ;
+          oa:prefix "---\n\n# " ;
+          oa:suffix "\n\nBody."
+        ]
+      ] .
+
+    # ── Style Observation 3: YAML frontmatter reviewer pattern ───
+    narr:StyleObs_FrontmatterReviewerPattern a narr:StyleObservation ;
+      skos:broader narr:JargonPolicy ;
+      dct:source narr:Sample_SomeOtherTitleShouldNotWin ;
+      skos:note "YAML frontmatter is used to assign reviewers via a structured list key ('reviewers:'). This is a recurring convention across test fixtures — a low-jargon, machine-readable metadata pattern consistent with the editorial/pipeline style." ;
+      rdf:value true ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_SomeOtherTitleShouldNotWin ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start 4 ;
+          oa:end 14
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "reviewers:" ;
+          oa:prefix "---\n" ;
+          oa:suffix "\n  - test+expert"
+        ]
+      ] .
+
+    # ── Style Metrics ────────────────────────────────────────────
+    narr:StyleMetrics_SomeOtherTitleShouldNotWin a narr:StyleMetrics ;
+      skos:broader narr:StyleMetrics ;
+      dct:source narr:Sample_SomeOtherTitleShouldNotWin ;
+      skos:note "Extremely short document: 1 body sentence of 1 word. Frontmatter is structured YAML. Active voice ratio not meaningful at this length. Jargon density very low in body; moderate in frontmatter key names." ;
+      narr:AverageSentenceLength 1 ;
+      narr:ActiveVoiceRatio "1.00"^^xsd:decimal ;
+      narr:JargonDensity "0.05"^^xsd:decimal .
+
+  }
+}
