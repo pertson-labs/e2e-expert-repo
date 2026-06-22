@@ -1,0 +1,189 @@
+PREFIX narr: <https://aswritten.ai/narrative#>
+PREFIX rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX prov: <http://www.w3.org/ns/prov#>
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+PREFIX dct:  <http://purl.org/dc/terms/>
+PREFIX xsd:  <http://www.w3.org/2001/XMLSchema#>
+PREFIX oa:   <http://www.w3.org/ns/oa#>
+
+# ── Transaction provenance (default graph) ──────────────────────────────────
+INSERT DATA {
+  narr:Tx_20250715T000000Z a prov:Activity ;
+    dct:title "Extraction: Sample Memory Phase 2 — Derive Id E2E" ;
+    prov:generatedAtTime "2025-07-15T00:00:00Z"^^xsd:dateTime ;
+    prov:wasAssociatedWith "aswritten.ai" ;
+    prov:wasAttributedTo "n8n.aswritten.ai" ;
+    narr:originPath "sample-memory-phase-2-derive-id-e2e.md" ;
+    narr:originRef "main" ;
+    prov:generated
+      narr:Sample_SampleMemoryPhase2DeriveIdE2E,
+      narr:Obs_Phase2MissingIdFailurePattern,
+      narr:StyleObs_Phase2TechnicalRegister,
+      narr:StyleObs_Phase2ImperativeMood,
+      narr:StyleObs_Phase2JargonSlugIdGen,
+      narr:StyleMetrics_SampleMemoryPhase2 .
+} ;
+
+# ── New entities (named graph) ───────────────────────────────────────────────
+INSERT DATA {
+  GRAPH narr:Tx_20250715T000000Z {
+
+    # Sample node for Phase 2 memory
+    narr:Sample_SampleMemoryPhase2DeriveIdE2E a narr:Sample ;
+      dct:title "Sample Memory Phase 2 — Derive Id E2E" ;
+      dct:description "Phase 2 E2E test memory reproducing the missing-id failure pattern from production. Submitted with a ## level heading and no id field to verify the pipeline does not crash and produces a valid slug." ;
+      narr:inputLength 271 .
+
+    # Observation: missing-id failure pattern from prod
+    narr:Obs_Phase2MissingIdFailurePattern a narr:Observation ;
+      skos:broader narr:IntakePrioritization ;
+      dct:source narr:Sample_SampleMemoryPhase2DeriveIdE2E ;
+      skos:note "Memory explicitly reproduces the missing-id failure pattern from production: ## level heading with no id field. Pipeline must not crash and must produce a valid slug." ;
+      oa:hasSelector [
+        a oa:TextPositionSelector ;
+        oa:start 82 ;
+        oa:end 195
+      ] ;
+      oa:hasSelector [
+        a oa:TextQuoteSelector ;
+        oa:exact "Reproduces the missing-id failure pattern from prod (## level heading,\nno id field). Must not crash; must produce a valid slug." ;
+        oa:prefix "## Sample Memory Phase 2 — Derive Id E2E\n\n" ;
+        oa:suffix ""
+      ] .
+
+    # Style Observation 1: Technical/engineering register
+    narr:StyleObs_Phase2TechnicalRegister a narr:StyleObservation ;
+      skos:broader narr:JargonPolicy ;
+      dct:source narr:Sample_SampleMemoryPhase2DeriveIdE2E ;
+      skos:note "Dense pipeline/engineering jargon: slug, id field, id-gen, slugify, fallback, commit. Consistent with technical QA documentation register." ;
+      rdf:value true ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_SampleMemoryPhase2DeriveIdE2E ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start 82 ;
+          oa:end 195
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "missing-id failure pattern from prod (## level heading,\nno id field). Must not crash; must produce a valid slug." ;
+          oa:prefix "Reproduces the " ;
+          oa:suffix ""
+        ]
+      ] .
+
+    # Style Observation 2: Imperative/prescriptive sentence mood
+    narr:StyleObs_Phase2ImperativeMood a narr:StyleObservation ;
+      skos:broader narr:SentenceMood ;
+      dct:source narr:Sample_SampleMemoryPhase2DeriveIdE2E ;
+      skos:note "Two imperative/prescriptive clauses ('Must not crash; must produce a valid slug') establish test acceptance criteria as direct mandates. Characteristic of QA specification style." ;
+      rdf:value true ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_SampleMemoryPhase2DeriveIdE2E ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start 155 ;
+          oa:end 195
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "Must not crash; must produce a valid slug." ;
+          oa:prefix "no id field). " ;
+          oa:suffix ""
+        ]
+      ] .
+
+    # Style Observation 3: Parenthetical inline qualification
+    narr:StyleObs_Phase2JargonSlugIdGen a narr:StyleObservation ;
+      skos:broader narr:PunctuationTypography ;
+      dct:source narr:Sample_SampleMemoryPhase2DeriveIdE2E ;
+      skos:note "Parenthetical inline qualification '(## level heading, no id field)' used to specify the exact failure condition without a separate sentence. Compact technical documentation pattern." ;
+      rdf:value true ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_SampleMemoryPhase2DeriveIdE2E ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start 117 ;
+          oa:end 153
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "(## level heading,\nno id field)" ;
+          oa:prefix "missing-id failure pattern from prod " ;
+          oa:suffix ". Must not crash"
+        ]
+      ] .
+
+    # Style Metrics for Phase 2 sample
+    narr:StyleMetrics_SampleMemoryPhase2 a narr:StyleMetrics ;
+      skos:broader narr:StyleMetrics ;
+      dct:source narr:Sample_SampleMemoryPhase2DeriveIdE2E ;
+      narr:AverageSentenceLength "16"^^xsd:integer ;
+      narr:ActiveVoiceRatio "0.90"^^xsd:decimal ;
+      narr:JargonDensity "0.32"^^xsd:decimal ;
+      skos:note "Very short document (2 body sentences). High active-voice ratio. Engineering/QA jargon density slightly above Phase 1 sample. Terse, specification-style register." .
+  }
+} ;
+
+# ── Update Narrative_PipelineSlugGeneration: add Phase 2 source ──────────────
+DELETE {
+  GRAPH ?g {
+    narr:Narrative_PipelineSlugGeneration dct:source ?oldSource .
+  }
+}
+INSERT {
+  GRAPH narr:Tx_20250715T000000Z {
+    narr:Narrative_PipelineSlugGeneration
+      dct:source narr:Sample_SampleMemoryDistinctiveHeading ;
+      dct:source narr:Sample_SampleMemoryPhase2DeriveIdE2E ;
+      skos:note "When a memory is submitted without an id field, the pipeline must derive a slug — either via an LLM id-gen call or a deterministic slugify fallback — and commit the file successfully. Evidenced by Phase 1 (distinctive heading) and Phase 2 (prod failure reproduction) E2E tests." .
+  }
+}
+WHERE {
+  GRAPH ?g {
+    narr:Narrative_PipelineSlugGeneration dct:source ?oldSource .
+  }
+} ;
+
+# ── Update Claim_SlugFallbackDeterministic: add Phase 2 source ───────────────
+DELETE {
+  GRAPH ?g {
+    narr:Claim_SlugFallbackDeterministic dct:source ?oldSource .
+  }
+}
+INSERT {
+  GRAPH narr:Tx_20250715T000000Z {
+    narr:Claim_SlugFallbackDeterministic
+      dct:source narr:Sample_SampleMemoryDistinctiveHeading ;
+      dct:source narr:Sample_SampleMemoryPhase2DeriveIdE2E ;
+      skos:note "The slug may be produced via the LLM id-gen call or the deterministic slugify fallback — both paths must result in a successful file commit. Reinforced by Phase 2 prod-pattern reproduction." .
+  }
+}
+WHERE {
+  GRAPH ?g {
+    narr:Claim_SlugFallbackDeterministic dct:source ?oldSource .
+  }
+} ;
+
+# ── Update Claim_SlugFromContent: add Phase 2 source ────────────────────────
+DELETE {
+  GRAPH ?g {
+    narr:Claim_SlugFromContent dct:source ?oldSource .
+  }
+}
+INSERT {
+  GRAPH narr:Tx_20250715T000000Z {
+    narr:Claim_SlugFromContent
+      dct:source narr:Sample_SampleMemoryDistinctiveHeading ;
+      dct:source narr:Sample_SampleMemoryPhase2DeriveIdE2E ;
+      skos:note "The pipeline must produce a slug from the memory content when no explicit id field is present. Phase 2 adds the constraint that the pipeline must also not crash on this path." .
+  }
+}
+WHERE {
+  GRAPH ?g {
+    narr:Claim_SlugFromContent dct:source ?oldSource .
+  }
+}
