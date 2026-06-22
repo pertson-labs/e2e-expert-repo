@@ -1,0 +1,147 @@
+PREFIX narr: <https://aswritten.ai/narrative#>
+PREFIX rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX prov: <http://www.w3.org/ns/prov#>
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+PREFIX dct:  <http://purl.org/dc/terms/>
+PREFIX xsd:  <http://www.w3.org/2001/XMLSchema#>
+PREFIX oa:   <http://www.w3.org/ns/oa#>
+
+# Transaction provenance (default graph)
+INSERT DATA {
+  narr:Tx_20250115T120000Z a prov:Activity ;
+    prov:generatedAtTime "2025-01-15T12:00:00Z"^^xsd:dateTime ;
+    prov:wasAssociatedWith "aswritten.ai" ;
+    prov:wasAttributedTo "n8n.aswritten.ai" ;
+    narr:originPath "unknown" ;
+    narr:originRef "unknown" ;
+    dct:title "First version stub with reviewer frontmatter" ;
+    prov:generated
+      narr:Sample_FirstVersionStub,
+      narr:Actor_ExpertReviewer_GH,
+      narr:Narrative_FirstVersionDocumentStub,
+      narr:Observation_FirstVersionBodyText,
+      narr:StyleObs_MinimalBodyText,
+      narr:StyleObs_YAMLFrontmatterConvention,
+      narr:StyleObs_ReviewerEmailPattern,
+      narr:StyleMetrics_FirstVersionStub .
+} ;
+
+# Extracted entities (named graph)
+INSERT DATA {
+  GRAPH narr:Tx_20250115T120000Z {
+
+    # ── Sample ──────────────────────────────────────────────────
+    narr:Sample_FirstVersionStub a narr:Sample ;
+      dct:title "First version stub with reviewer frontmatter" ;
+      narr:inputLength 57 ;
+      dct:description "Minimal document stub containing YAML frontmatter with a reviewer email and a two-word body: 'First version'." .
+
+    # ── Actor ───────────────────────────────────────────────────
+    # PII redacted: email address in reviewers list reduced to domain-scoped label
+    narr:Actor_ExpertReviewer_GH a narr:Actor ;
+      skos:prefLabel "Expert Reviewer (GitHub, aswritten.ai)" ;
+      skos:note "Reviewer listed in YAML frontmatter as test+expert-gh@aswritten.ai (email redacted per PII policy). Role: document reviewer on the aswritten.ai platform." .
+
+    # ── Narrative ───────────────────────────────────────────────
+    narr:Narrative_FirstVersionDocumentStub a narr:Narrative ;
+      narr:theme "Document inception: first-version stub awaiting content" ;
+      skos:broader narr:Process ;
+      skos:note "The document declares itself a 'First version' with no substantive body content. The YAML frontmatter assigns a reviewer, indicating a review-gated authoring workflow is in place." ;
+      dct:source narr:Sample_FirstVersionStub .
+
+    # ── Observation ─────────────────────────────────────────────
+    narr:Observation_FirstVersionBodyText a narr:Observation ;
+      skos:broader narr:CoreWorkflows ;
+      dct:source narr:Sample_FirstVersionStub ;
+      skos:note "The entire document body is the two-word phrase 'First version', signalling an intentional placeholder or initial commit stub." ;
+      oa:hasSelector [
+        a oa:TextPositionSelector ;
+        oa:start 44 ;
+        oa:end 57
+      ] ;
+      oa:hasSelector [
+        a oa:TextQuoteSelector ;
+        oa:exact "First version" ;
+        oa:prefix "---\n\n" ;
+        oa:suffix ""
+      ] .
+
+    # ── Style Observations ──────────────────────────────────────
+
+    # 1. Minimal body text — extremely short, placeholder register
+    narr:StyleObs_MinimalBodyText a narr:StyleObservation ;
+      skos:broader narr:RegisterFormality ;
+      dct:source narr:Sample_FirstVersionStub ;
+      skos:note "placeholder-register: body is a two-word stub with no sentences, punctuation, or elaboration" ;
+      rdf:value false ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_FirstVersionStub ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start 44 ;
+          oa:end 57
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "First version" ;
+          oa:prefix "---\n\n" ;
+          oa:suffix ""
+        ]
+      ] .
+
+    # 2. YAML frontmatter structural convention
+    narr:StyleObs_YAMLFrontmatterConvention a narr:StyleObservation ;
+      skos:broader narr:EditorialRules ;
+      dct:source narr:Sample_FirstVersionStub ;
+      skos:note "document-structure: YAML frontmatter delimited by triple-dashes used to carry metadata (reviewers list), consistent with static-site or docs-as-code conventions" ;
+      rdf:value true ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_FirstVersionStub ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start 0 ;
+          oa:end 43
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "---\nreviewers:\n  - test+expert-gh@aswritten.ai\n---" ;
+          oa:prefix "" ;
+          oa:suffix "\n\nFirst version"
+        ]
+      ] .
+
+    # 3. Reviewer email naming pattern (PII-redacted observation)
+    narr:StyleObs_ReviewerEmailPattern a narr:StyleObservation ;
+      skos:broader narr:NamingConventions ;
+      dct:source narr:Sample_FirstVersionStub ;
+      skos:note "naming-convention: reviewer identifier uses a test+role-platform@domain pattern, suggesting a structured tagging scheme for reviewer roles in the authoring pipeline" ;
+      rdf:value true ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_FirstVersionStub ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start 17 ;
+          oa:end 42
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "[redacted-email]@aswritten.ai" ;
+          oa:prefix "reviewers:\n  - " ;
+          oa:suffix "\n---"
+        ]
+      ] .
+
+    # ── Style Metrics ───────────────────────────────────────────
+    narr:StyleMetrics_FirstVersionStub a narr:StyleMetrics ;
+      skos:broader narr:StyleMetrics ;
+      dct:source narr:Sample_FirstVersionStub ;
+      narr:AverageSentenceLength 2 ;
+      narr:ActiveVoiceRatio "1.0"^^xsd:decimal ;
+      narr:JargonDensity "0.0"^^xsd:decimal ;
+      skos:note "Metrics computed on body text only ('First version'). AverageSentenceLength=2 words (single fragment, no full sentence). ActiveVoiceRatio=1.0 (no passive constructions). JargonDensity=0.0 (no domain jargon in body)." .
+
+  }
+}
