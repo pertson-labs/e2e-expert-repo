@@ -1,0 +1,131 @@
+PREFIX narr: <https://aswritten.ai/narrative#>
+PREFIX rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX prov: <http://www.w3.org/ns/prov#>
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+PREFIX dct:  <http://purl.org/dc/terms/>
+PREFIX xsd:  <http://www.w3.org/2001/XMLSchema#>
+PREFIX oa:   <http://www.w3.org/ns/oa#>
+
+# Transaction provenance (default graph)
+INSERT DATA {
+  narr:Tx_20250130T120000Z a prov:Activity ;
+    prov:generatedAtTime "2025-01-30T12:00:00Z"^^xsd:dateTime ;
+    prov:wasAssociatedWith "aswritten.ai" ;
+    prov:wasAttributedTo "n8n.aswritten.ai" ;
+    narr:originPath "(no id provided)" ;
+    narr:originRef "unknown" ;
+    dct:title "First Version Document Extraction" ;
+    prov:generated
+      narr:Sample_FirstVersion,
+      narr:Actor_Reviewer_ExpertGH,
+      narr:Narrative_FirstVersionDeclaration,
+      narr:Claim_FirstVersionStatus,
+      narr:StyleObservation_YAMLFrontMatterConvention,
+      narr:StyleObservation_TerseDeclarativeBody,
+      narr:StyleObservation_MinimalRegister,
+      narr:StyleMetrics_FirstVersion .
+} ;
+
+# Extracted entities (named graph)
+INSERT DATA {
+  GRAPH narr:Tx_20250130T120000Z {
+
+    # ── Sample ──────────────────────────────────────────────────
+    narr:Sample_FirstVersion a narr:Sample ;
+      dct:title "First Version" ;
+      narr:inputLength 66 ;
+      dct:description "Minimal YAML front-matter document declaring a first version with a single reviewer." .
+
+    # ── Actor ───────────────────────────────────────────────────
+    narr:Actor_Reviewer_ExpertGH a narr:Actor ;
+      skos:prefLabel "Expert GH Reviewer" ;
+      skos:note "Reviewer listed in YAML front-matter. Email redacted per PII policy (contains personal address)." .
+
+    # ── Narrative ───────────────────────────────────────────────
+    narr:Narrative_FirstVersionDeclaration a narr:Narrative ;
+      narr:theme "Initial version declaration" ;
+      skos:broader narr:NarrativeDrivenRoadmap ;
+      skos:note "The document body consists solely of the phrase 'First version', asserting an initial state or draft milestone. The YAML front-matter assigns a reviewer, establishing a minimal review workflow." ;
+      dct:source narr:Sample_FirstVersion .
+
+    # ── Claim ───────────────────────────────────────────────────
+    narr:Claim_FirstVersionStatus a narr:Claim ;
+      narr:aboutNode narr:Narrative_FirstVersionDeclaration ;
+      narr:hasConvictionLevel narr:Conviction_Notion ;
+      skos:note "The document asserts 'First version' as its sole body content — a low-conviction placeholder claim indicating initial draft status." ;
+      dct:source narr:Sample_FirstVersion .
+
+    # ── Style Observation 1: YAML Front-Matter Convention ───────
+    narr:StyleObservation_YAMLFrontMatterConvention a narr:StyleObservation ;
+      skos:broader narr:CitationConventions ;
+      dct:source narr:Sample_FirstVersion ;
+      skos:note "Document uses YAML front-matter delimited by triple-dashes to encode structured metadata (reviewer list) separate from prose body." ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_FirstVersion ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start 0 ;
+          oa:end 47
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "---\nreviewers:\n  - [REDACTED]\n---" ;
+          oa:prefix "" ;
+          oa:suffix "\n\nFirst version"
+        ]
+      ] .
+
+    # ── Style Observation 2: Terse Declarative Body ──────────────
+    narr:StyleObservation_TerseDeclarativeBody a narr:StyleObservation ;
+      skos:broader narr:ShortPunchyCadence ;
+      dct:source narr:Sample_FirstVersion ;
+      skos:note "The prose body is a single two-word declarative phrase with no elaboration, exemplifying extreme brevity and placeholder register." ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_FirstVersion ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start 53 ;
+          oa:end 66
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "First version" ;
+          oa:prefix "---\n\n" ;
+          oa:suffix ""
+        ]
+      ] .
+
+    # ── Style Observation 3: Minimal Register ────────────────────
+    narr:StyleObservation_MinimalRegister a narr:StyleObservation ;
+      skos:broader narr:RegisterFormality ;
+      dct:source narr:Sample_FirstVersion ;
+      skos:note "Overall register is minimal/functional: no prose sentences, no rhetorical devices, no elaboration. The document operates as a metadata stub rather than a communicative artifact." ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_FirstVersion ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start 0 ;
+          oa:end 66
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "---\nreviewers:\n  - [REDACTED]\n---\n\nFirst version" ;
+          oa:prefix "" ;
+          oa:suffix ""
+        ]
+      ] .
+
+    # ── Style Metrics ────────────────────────────────────────────
+    narr:StyleMetrics_FirstVersion a narr:StyleMetrics ;
+      skos:broader narr:StyleMetrics ;
+      dct:source narr:Sample_FirstVersion ;
+      narr:AverageSentenceLength 2 ;
+      narr:ActiveVoiceRatio "1.0"^^xsd:decimal ;
+      narr:JargonDensity "0.0"^^xsd:decimal ;
+      skos:note "Prose body is two words ('First version'). No sentences in conventional sense. Active voice ratio and jargon density are trivially computable from the single phrase. Register: placeholder/stub." .
+
+  }
+}
