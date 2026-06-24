@@ -1,0 +1,151 @@
+PREFIX narr: <https://aswritten.ai/narrative#>
+PREFIX rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX prov: <http://www.w3.org/ns/prov#>
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+PREFIX dct:  <http://purl.org/dc/terms/>
+PREFIX xsd:  <http://www.w3.org/2001/XMLSchema#>
+PREFIX oa:   <http://www.w3.org/ns/oa#>
+
+# ── Transaction provenance (default graph) ──────────────────────────────────
+INSERT DATA {
+  narr:Tx_20250714T120000Z a prov:Activity ;
+    dct:title "Sample Memory Phase 2 — Derive Id E2E (slug generation test, no id field)" ;
+    prov:generatedAtTime "2025-07-14T12:00:00Z"^^xsd:dateTime ;
+    prov:wasAssociatedWith "aswritten.ai" ;
+    prov:wasAttributedTo "n8n.aswritten.ai" ;
+    narr:originPath "unknown" ;
+    narr:originRef "unknown" ;
+    prov:generated
+      narr:Claim_ProdFailurePatternReproduction,
+      narr:StyleObs_DeriveIdE2E_ImperativeMood,
+      narr:StyleObs_DeriveIdE2E_JargonDensity,
+      narr:StyleObs_DeriveIdE2E_ToneAuthoritative .
+} ;
+
+# ── UPDATE: narr:Sample_SampleMemoryDistinctiveHeading ──────────────────────
+# Memory adds Phase 2 / Derive Id E2E label and "from prod" provenance detail
+# not present in the snapshot description. Updating dct:title and dct:description.
+DELETE {
+  GRAPH ?g {
+    narr:Sample_SampleMemoryDistinctiveHeading dct:title ?oldTitle .
+    narr:Sample_SampleMemoryDistinctiveHeading dct:description ?oldDesc .
+  }
+}
+INSERT {
+  GRAPH narr:Tx_20250714T120000Z {
+    narr:Sample_SampleMemoryDistinctiveHeading
+      dct:title "Sample Memory Phase 2 — Derive Id E2E" ;
+      dct:description "Phase 2 E2E test memory. Reproduces the missing-id failure pattern from prod (## level heading, no id field). Must not crash; must produce a valid slug." .
+  }
+}
+WHERE {
+  GRAPH ?g {
+    narr:Sample_SampleMemoryDistinctiveHeading dct:title ?oldTitle .
+    OPTIONAL { narr:Sample_SampleMemoryDistinctiveHeading dct:description ?oldDesc . }
+  }
+} ;
+
+# ── INSERT: new Claim — production failure pattern reproduction ──────────────
+INSERT DATA {
+  GRAPH narr:Tx_20250714T120000Z {
+    narr:Claim_ProdFailurePatternReproduction a narr:Claim ;
+      dct:source narr:Sample_SampleMemoryDistinctiveHeading ;
+      skos:note "The memory explicitly states this test reproduces a failure pattern observed in production: a ## level heading with no id field must not crash the pipeline and must yield a valid slug." ;
+      narr:aboutNode narr:Narrative_PipelineSlugGeneration ;
+      narr:hasConvictionLevel narr:Conviction_Stake ;
+      narr:supports narr:Process ;
+      oa:hasSelector [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_SampleMemoryDistinctiveHeading ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start 60 ;
+          oa:end 155
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "Reproduces the missing-id failure pattern from prod (## level heading, no id field). Must not crash; must produce a valid slug." ;
+          oa:prefix "## Sample Memory Phase 2 — Derive Id E2E\n\n" ;
+          oa:suffix ""
+        ]
+      ] .
+  }
+} ;
+
+# ── INSERT: StyleObservation 1 — Imperative mood / directive tone ────────────
+INSERT DATA {
+  GRAPH narr:Tx_20250714T120000Z {
+    narr:StyleObs_DeriveIdE2E_ImperativeMood a narr:StyleObservation ;
+      skos:broader narr:SentenceMood ;
+      dct:source narr:Sample_SampleMemoryDistinctiveHeading ;
+      skos:note "Imperative/modal constructions ('Must not crash; must produce') signal test acceptance criteria written as hard constraints, not suggestions." ;
+      rdf:value true ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_SampleMemoryDistinctiveHeading ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start 116 ;
+          oa:end 155
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "Must not crash; must produce a valid slug." ;
+          oa:prefix "no id field). " ;
+          oa:suffix ""
+        ]
+      ] .
+  }
+} ;
+
+# ── INSERT: StyleObservation 2 — Jargon / pipeline-specific terminology ──────
+INSERT DATA {
+  GRAPH narr:Tx_20250714T120000Z {
+    narr:StyleObs_DeriveIdE2E_JargonDensity a narr:StyleObservation ;
+      skos:broader narr:JargonPolicy ;
+      dct:source narr:Sample_SampleMemoryDistinctiveHeading ;
+      skos:note "High jargon density for document length: 'missing-id failure pattern', 'prod', '## level heading', 'no id field', 'valid slug' are all pipeline-domain terms within two sentences." ;
+      rdf:value true ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_SampleMemoryDistinctiveHeading ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start 60 ;
+          oa:end 115
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "Reproduces the missing-id failure pattern from prod (## level heading, no id field)." ;
+          oa:prefix "## Sample Memory Phase 2 — Derive Id E2E\n\n" ;
+          oa:suffix " Must not crash"
+        ]
+      ] .
+  }
+} ;
+
+# ── INSERT: StyleObservation 3 — Authoritative / test-spec register ──────────
+INSERT DATA {
+  GRAPH narr:Tx_20250714T120000Z {
+    narr:StyleObs_DeriveIdE2E_ToneAuthoritative a narr:StyleObservation ;
+      skos:broader narr:ToneAuthoritative ;
+      dct:source narr:Sample_SampleMemoryDistinctiveHeading ;
+      skos:note "The heading 'Derive Id E2E' and the declarative framing ('Reproduces the … failure pattern') adopt an authoritative test-specification register — asserting facts about system behavior rather than describing intent." ;
+      rdf:value true ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_SampleMemoryDistinctiveHeading ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start 4 ;
+          oa:end 58
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "Sample Memory Phase 2 — Derive Id E2E" ;
+          oa:prefix "## " ;
+          oa:suffix "\n\nReproduces"
+        ]
+      ] .
+  }
+}
