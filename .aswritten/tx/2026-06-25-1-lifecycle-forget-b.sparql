@@ -1,0 +1,271 @@
+PREFIX narr: <https://aswritten.ai/narrative#>
+PREFIX rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX prov: <http://www.w3.org/ns/prov#>
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+PREFIX dct:  <http://purl.org/dc/terms/>
+PREFIX xsd:  <http://www.w3.org/2001/XMLSchema#>
+PREFIX oa:   <http://www.w3.org/ns/oa#>
+
+# ── Transaction node (retraction event, default graph) ──────────────────────
+INSERT DATA {
+  narr:Tx_20260406T160000Z a prov:Activity ;
+    dct:title "RETRACTION: Forget database decision — Zypherion, Meridian, Quinton Fairweather, analytics pipeline" ;
+    prov:generatedAtTime "2026-04-06T16:00:00Z"^^xsd:dateTime ;
+    prov:wasAssociatedWith "aswritten.ai" ;
+    prov:wasAttributedTo "n8n.aswritten.ai" ;
+    narr:originPath "inline-message" ;
+    narr:originRef "main" ;
+    prov:generated
+      narr:Actor_QuintonFairweather,
+      narr:Claim_MeridianStreamingCapability,
+      narr:Claim_ZypherionDatabaseSelection,
+      narr:Claim_ZypherionMigrationQ3,
+      narr:Claim_ZypherionPerformance15x,
+      narr:Claim_ZypherionStreamingGap,
+      narr:Narrative_ZypherionAdoption,
+      narr:Obs_MeridianBulletDecision,
+      narr:Obs_MeridianQuote,
+      narr:Obs_MigrationTimeline,
+      narr:Obs_PerformanceClaim,
+      narr:Obs_QuintonAdoptionStatement,
+      narr:Obs_SupersessionStatement,
+      narr:Sample_MeridianDecision_20260406,
+      narr:Sample_ZypherionDecision_20260406,
+      narr:StyleMetrics_MeridianDecision,
+      narr:StyleMetrics_ZypherionDecision,
+      narr:Tx_20260406T120000Z,
+      narr:Tx_20260406T140000Z .
+} ;
+
+# ── DELETE Actor_QuintonFairweather (all graphs) ────────────────────────────
+DELETE WHERE {
+  GRAPH ?g {
+    narr:Actor_QuintonFairweather ?p ?o .
+  }
+} ;
+DELETE WHERE {
+  narr:Actor_QuintonFairweather ?p ?o .
+} ;
+
+# ── DELETE Narrative_ZypherionAdoption (all graphs) ─────────────────────────
+DELETE WHERE {
+  GRAPH ?g {
+    narr:Narrative_ZypherionAdoption ?p ?o .
+  }
+} ;
+DELETE WHERE {
+  narr:Narrative_ZypherionAdoption ?p ?o .
+} ;
+
+# ── DELETE Claim_ZypherionDatabaseSelection (all graphs) ────────────────────
+DELETE WHERE {
+  GRAPH ?g {
+    narr:Claim_ZypherionDatabaseSelection ?p ?o .
+  }
+} ;
+DELETE WHERE {
+  narr:Claim_ZypherionDatabaseSelection ?p ?o .
+} ;
+
+# ── DELETE Claim_ZypherionMigrationQ3 (all graphs) ──────────────────────────
+DELETE WHERE {
+  GRAPH ?g {
+    narr:Claim_ZypherionMigrationQ3 ?p ?o .
+  }
+} ;
+DELETE WHERE {
+  narr:Claim_ZypherionMigrationQ3 ?p ?o .
+} ;
+
+# ── DELETE Claim_ZypherionPerformance15x (all graphs) ───────────────────────
+DELETE WHERE {
+  GRAPH ?g {
+    narr:Claim_ZypherionPerformance15x ?p ?o .
+  }
+} ;
+DELETE WHERE {
+  narr:Claim_ZypherionPerformance15x ?p ?o .
+} ;
+
+# ── DELETE Claim_ZypherionStreamingGap (all graphs) ─────────────────────────
+DELETE WHERE {
+  GRAPH ?g {
+    narr:Claim_ZypherionStreamingGap ?p ?o .
+  }
+} ;
+DELETE WHERE {
+  narr:Claim_ZypherionStreamingGap ?p ?o .
+} ;
+
+# ── DELETE Claim_MeridianStreamingCapability (all graphs) ───────────────────
+DELETE WHERE {
+  GRAPH ?g {
+    narr:Claim_MeridianStreamingCapability ?p ?o .
+  }
+} ;
+DELETE WHERE {
+  narr:Claim_MeridianStreamingCapability ?p ?o .
+} ;
+
+# ── DELETE Obs_QuintonAdoptionStatement (all graphs) ────────────────────────
+DELETE WHERE {
+  GRAPH ?g {
+    narr:Obs_QuintonAdoptionStatement ?p ?o .
+  }
+} ;
+DELETE WHERE {
+  narr:Obs_QuintonAdoptionStatement ?p ?o .
+} ;
+
+# ── DELETE Obs_PerformanceClaim (all graphs) ─────────────────────────────────
+DELETE WHERE {
+  GRAPH ?g {
+    narr:Obs_PerformanceClaim ?p ?o .
+  }
+} ;
+DELETE WHERE {
+  narr:Obs_PerformanceClaim ?p ?o .
+} ;
+
+# ── DELETE Obs_MigrationTimeline (all graphs) ────────────────────────────────
+DELETE WHERE {
+  GRAPH ?g {
+    narr:Obs_MigrationTimeline ?p ?o .
+  }
+} ;
+DELETE WHERE {
+  narr:Obs_MigrationTimeline ?p ?o .
+} ;
+
+# ── DELETE Obs_MeridianQuote (all graphs) ────────────────────────────────────
+DELETE WHERE {
+  GRAPH ?g {
+    narr:Obs_MeridianQuote ?p ?o .
+  }
+} ;
+DELETE WHERE {
+  narr:Obs_MeridianQuote ?p ?o .
+} ;
+
+# ── DELETE Obs_MeridianBulletDecision (all graphs) ───────────────────────────
+DELETE WHERE {
+  GRAPH ?g {
+    narr:Obs_MeridianBulletDecision ?p ?o .
+  }
+} ;
+DELETE WHERE {
+  narr:Obs_MeridianBulletDecision ?p ?o .
+} ;
+
+# ── DELETE Obs_SupersessionStatement (all graphs) ────────────────────────────
+DELETE WHERE {
+  GRAPH ?g {
+    narr:Obs_SupersessionStatement ?p ?o .
+  }
+} ;
+DELETE WHERE {
+  narr:Obs_SupersessionStatement ?p ?o .
+} ;
+
+# ── DELETE Sample_ZypherionDecision_20260406 (all graphs) ────────────────────
+DELETE WHERE {
+  GRAPH ?g {
+    narr:Sample_ZypherionDecision_20260406 ?p ?o .
+  }
+} ;
+DELETE WHERE {
+  narr:Sample_ZypherionDecision_20260406 ?p ?o .
+} ;
+
+# ── DELETE Sample_MeridianDecision_20260406 (all graphs) ─────────────────────
+DELETE WHERE {
+  GRAPH ?g {
+    narr:Sample_MeridianDecision_20260406 ?p ?o .
+  }
+} ;
+DELETE WHERE {
+  narr:Sample_MeridianDecision_20260406 ?p ?o .
+} ;
+
+# ── DELETE StyleMetrics_ZypherionDecision (all graphs) ───────────────────────
+DELETE WHERE {
+  GRAPH ?g {
+    narr:StyleMetrics_ZypherionDecision ?p ?o .
+  }
+} ;
+DELETE WHERE {
+  narr:StyleMetrics_ZypherionDecision ?p ?o .
+} ;
+
+# ── DELETE StyleMetrics_MeridianDecision (all graphs) ────────────────────────
+DELETE WHERE {
+  GRAPH ?g {
+    narr:StyleMetrics_MeridianDecision ?p ?o .
+  }
+} ;
+DELETE WHERE {
+  narr:StyleMetrics_MeridianDecision ?p ?o .
+} ;
+
+# ── DELETE Tx_20260406T120000Z (Zypherion decision transaction) ───────────────
+DELETE WHERE {
+  GRAPH ?g {
+    narr:Tx_20260406T120000Z ?p ?o .
+  }
+} ;
+DELETE WHERE {
+  narr:Tx_20260406T120000Z ?p ?o .
+} ;
+
+# ── DELETE Tx_20260406T140000Z (Meridian decision transaction) ────────────────
+DELETE WHERE {
+  GRAPH ?g {
+    narr:Tx_20260406T140000Z ?p ?o .
+  }
+} ;
+DELETE WHERE {
+  narr:Tx_20260406T140000Z ?p ?o .
+} ;
+
+# ── DELETE any dangling references to retracted entities ─────────────────────
+# Remove triples where retracted entities appear as objects (e.g. dct:source, narr:supports, narr:challenges)
+DELETE WHERE {
+  GRAPH ?g {
+    ?s ?p narr:Narrative_ZypherionAdoption .
+  }
+} ;
+DELETE WHERE {
+  ?s ?p narr:Narrative_ZypherionAdoption .
+} ;
+DELETE WHERE {
+  GRAPH ?g {
+    ?s ?p narr:Claim_ZypherionDatabaseSelection .
+  }
+} ;
+DELETE WHERE {
+  ?s ?p narr:Claim_ZypherionDatabaseSelection .
+} ;
+DELETE WHERE {
+  GRAPH ?g {
+    ?s ?p narr:Sample_ZypherionDecision_20260406 .
+  }
+} ;
+DELETE WHERE {
+  ?s ?p narr:Sample_ZypherionDecision_20260406 .
+} ;
+DELETE WHERE {
+  GRAPH ?g {
+    ?s ?p narr:Sample_MeridianDecision_20260406 .
+  }
+} ;
+DELETE WHERE {
+  ?s ?p narr:Sample_MeridianDecision_20260406 .
+} ;
+DELETE WHERE {
+  GRAPH ?g {
+    ?s ?p narr:Actor_QuintonFairweather .
+  }
+} ;
+DELETE WHERE {
+  ?s ?p narr:Actor_QuintonFairweather .
+}
