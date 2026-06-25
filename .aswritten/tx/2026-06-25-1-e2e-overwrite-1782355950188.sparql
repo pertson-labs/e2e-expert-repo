@@ -8,149 +8,142 @@ PREFIX oa:   <http://www.w3.org/ns/oa#>
 
 # Transaction provenance (default graph)
 INSERT DATA {
-  narr:Tx_20250115T120000Z a prov:Activity ;
-    prov:generatedAtTime "2025-01-15T12:00:00Z"^^xsd:dateTime ;
+  narr:Tx_20250115T130000Z a prov:Activity ;
+    dct:title "Extraction: Second version document with reviewer frontmatter" ;
+    prov:generatedAtTime "2025-01-15T13:00:00Z"^^xsd:dateTime ;
     prov:wasAssociatedWith "aswritten.ai" ;
     prov:wasAttributedTo "n8n.aswritten.ai" ;
     narr:originPath "unknown" ;
     narr:originRef "unknown" ;
-    dct:title "Extraction: First version document with reviewer frontmatter" ;
     prov:generated
-      narr:Sample_FirstVersion,
-      narr:Actor_ExpertReviewer_GH,
-      narr:Narrative_FirstVersionDocument,
-      narr:Claim_DocumentAtFirstVersion,
-      narr:Observation_FirstVersionBody,
-      narr:StyleObs_MinimalBody,
-      narr:StyleObs_YAMLFrontmatter,
-      narr:StyleObs_InformalVersionLabel,
-      narr:StyleMetrics_FirstVersion .
+      narr:Sample_SecondVersion,
+      narr:Narrative_SecondVersionDocument,
+      narr:Claim_DocumentAtSecondVersion,
+      narr:Observation_SecondVersionBody,
+      narr:StyleObs_SecondVersion_ShortCadence,
+      narr:StyleObs_SecondVersion_NamingConvention,
+      narr:StyleObs_SecondVersion_DraftRegister,
+      narr:StyleMetrics_SecondVersion .
 } ;
 
 # Extracted entities (named graph)
 INSERT DATA {
-  GRAPH narr:Tx_20250115T120000Z {
+  GRAPH narr:Tx_20250115T130000Z {
 
     # ── Sample ──────────────────────────────────────────────────
-    narr:Sample_FirstVersion a narr:Sample ;
-      dct:title "First version document with reviewer frontmatter" ;
-      dct:description "Minimal document containing YAML frontmatter with a reviewer address and the body text 'First version'." ;
-      narr:inputLength 60 .
+    narr:Sample_SecondVersion a narr:Sample ;
+      dct:title "Second version document with reviewer frontmatter" ;
+      dct:description "Minimal document containing YAML frontmatter with a reviewer address and the body text 'Second version'. Structurally identical to first version; body text incremented." ;
+      narr:inputLength 67 .
 
-    # ── Actor ───────────────────────────────────────────────────
-    # PII redacted: email address suppressed per verbatim policy (allow_pii=false)
-    narr:Actor_ExpertReviewer_GH a narr:Actor ;
-      skos:prefLabel "Expert Reviewer (GitHub)" ;
-      skos:note "Reviewer listed in YAML frontmatter. Email redacted per PII policy. Role: document reviewer assigned via GitHub integration." .
-
-    # ── Narrative ───────────────────────────────────────────────
-    narr:Narrative_FirstVersionDocument a narr:Narrative ;
-      dct:source narr:Sample_FirstVersion ;
-      narr:theme "Document inception: first version with assigned reviewer" ;
+    # ── Narrative ────────────────────────────────────────────────
+    narr:Narrative_SecondVersionDocument a narr:Narrative ;
+      dct:source narr:Sample_SecondVersion ;
       skos:broader narr:Process ;
-      skos:note "The document is at its initial state ('First version') and has a designated expert reviewer, indicating a review-gated workflow is in place from the outset." .
+      narr:theme "Document iteration: second version with assigned reviewer" ;
+      skos:note "The document has advanced from first to second version while retaining the same reviewer assignment in YAML frontmatter, indicating an active review-gated iteration cycle." .
 
-    # ── Claim ───────────────────────────────────────────────────
-    narr:Claim_DocumentAtFirstVersion a narr:Claim ;
-      narr:aboutNode narr:Narrative_FirstVersionDocument ;
+    # ── Claim ────────────────────────────────────────────────────
+    narr:Claim_DocumentAtSecondVersion a narr:Claim ;
+      dct:source narr:Sample_SecondVersion ;
+      narr:aboutNode narr:Narrative_SecondVersionDocument ;
       narr:hasConvictionLevel narr:Conviction_Notion ;
       narr:supports narr:Process ;
-      dct:source narr:Sample_FirstVersion ;
-      skos:note "The body text 'First version' asserts this is the initial iteration of the document. Conviction is Notion — minimal content, no corroborating detail." .
+      skos:note "The body text 'Second version' asserts this is the second iteration of the document. Conviction is Notion — minimal content, no corroborating detail beyond the version label." .
 
-    # ── Observation ─────────────────────────────────────────────
-    narr:Observation_FirstVersionBody a narr:Observation ;
+    # ── Observation ──────────────────────────────────────────────
+    narr:Observation_SecondVersionBody a narr:Observation ;
+      dct:source narr:Sample_SecondVersion ;
       skos:broader narr:QualityReviewGates ;
-      dct:source narr:Sample_FirstVersion ;
-      skos:note "Body text asserts document is at first version; reviewer is assigned in frontmatter, suggesting a quality-review gate." ;
+      skos:note "Body text asserts document is at second version; reviewer is assigned in frontmatter, suggesting a quality-review gate is active across iterations." ;
       oa:hasSelector [
         a oa:TextPositionSelector ;
-        oa:start 52 ;
-        oa:end 65
+        oa:start 53 ;
+        oa:end 67
       ] ;
       oa:hasSelector [
         a oa:TextQuoteSelector ;
-        oa:exact "First version" ;
-        oa:prefix "\n\n" ;
+        oa:exact "Second version" ;
+        oa:prefix "---\n\n" ;
         oa:suffix ""
       ] .
 
-    # ── Style Observations (minimum 3) ──────────────────────────
+    # ── Style Observations ───────────────────────────────────────
 
-    # 1. YAML frontmatter usage — structural/formatting convention
-    narr:StyleObs_YAMLFrontmatter a narr:StyleObservation ;
-      skos:broader narr:PunctuationTypography ;
-      dct:source narr:Sample_FirstVersion ;
-      skos:note "Document uses YAML frontmatter delimited by triple-dashes (---) to encode metadata. This is a structured-document convention common in static-site generators and documentation pipelines." ;
-      rdf:value true ;
-      oa:hasTarget [
-        a oa:SpecificResource ;
-        oa:hasSource narr:Sample_FirstVersion ;
-        oa:hasSelector [
-          a oa:TextPositionSelector ;
-          oa:start 0 ;
-          oa:end 3
-        ] ;
-        oa:hasSelector [
-          a oa:TextQuoteSelector ;
-          oa:exact "---" ;
-          oa:prefix "" ;
-          oa:suffix "\nreviewers:"
-        ]
-      ] .
-
-    # 2. Minimal body — extreme conciseness / short punchy cadence
-    narr:StyleObs_MinimalBody a narr:StyleObservation ;
+    # 1. Short punchy cadence — two-word body fragment
+    narr:StyleObs_SecondVersion_ShortCadence a narr:StyleObservation ;
       skos:broader narr:ShortPunchyCadence ;
-      dct:source narr:Sample_FirstVersion ;
-      skos:note "The entire document body is two words ('First version'), representing maximum conciseness. No elaboration, no context — a placeholder register." ;
+      dct:source narr:Sample_SecondVersion ;
       rdf:value true ;
+      skos:note "Body text is a two-word nominal fragment ('Second version'), consistent with placeholder/draft cadence." ;
       oa:hasTarget [
         a oa:SpecificResource ;
-        oa:hasSource narr:Sample_FirstVersion ;
+        oa:hasSource narr:Sample_SecondVersion ;
         oa:hasSelector [
           a oa:TextPositionSelector ;
-          oa:start 52 ;
-          oa:end 65
+          oa:start 53 ;
+          oa:end 67
         ] ;
         oa:hasSelector [
           a oa:TextQuoteSelector ;
-          oa:exact "First version" ;
-          oa:prefix "\n\n" ;
+          oa:exact "Second version" ;
+          oa:prefix "---\n\n" ;
           oa:suffix ""
         ]
       ] .
 
-    # 3. Informal version label — naming convention / jargon policy
-    narr:StyleObs_InformalVersionLabel a narr:StyleObservation ;
+    # 2. Naming conventions — YAML key uses lowercase plural
+    narr:StyleObs_SecondVersion_NamingConvention a narr:StyleObservation ;
       skos:broader narr:NamingConventions ;
-      dct:source narr:Sample_FirstVersion ;
-      skos:note "'First version' uses a natural-language ordinal label rather than a semantic version string (e.g., v1.0.0). This informal convention suggests a pre-release or draft-stage document culture." ;
-      rdf:value false ;
+      dct:source narr:Sample_SecondVersion ;
+      rdf:value true ;
+      skos:note "YAML frontmatter key 'reviewers' follows lowercase plural naming convention, consistent with standard YAML/Jekyll frontmatter style." ;
       oa:hasTarget [
         a oa:SpecificResource ;
-        oa:hasSource narr:Sample_FirstVersion ;
+        oa:hasSource narr:Sample_SecondVersion ;
         oa:hasSelector [
           a oa:TextPositionSelector ;
-          oa:start 52 ;
-          oa:end 65
+          oa:start 4 ;
+          oa:end 14
         ] ;
         oa:hasSelector [
           a oa:TextQuoteSelector ;
-          oa:exact "First version" ;
-          oa:prefix "\n\n" ;
+          oa:exact "reviewers:" ;
+          oa:prefix "---\n" ;
+          oa:suffix "\n  - "
+        ]
+      ] .
+
+    # 3. Draft/placeholder register
+    narr:StyleObs_SecondVersion_DraftRegister a narr:StyleObservation ;
+      skos:broader narr:RegisterFormality ;
+      dct:source narr:Sample_SecondVersion ;
+      rdf:value false ;
+      skos:note "Document body is a bare version label with no prose, indicating a placeholder/draft register. No formal register markers present." ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_SecondVersion ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start 53 ;
+          oa:end 67
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "Second version" ;
+          oa:prefix "---\n\n" ;
           oa:suffix ""
         ]
       ] .
 
     # ── Style Metrics ────────────────────────────────────────────
-    narr:StyleMetrics_FirstVersion a narr:StyleMetrics ;
+    narr:StyleMetrics_SecondVersion a narr:StyleMetrics ;
+      dct:source narr:Sample_SecondVersion ;
       skos:broader narr:StyleMetrics ;
-      dct:source narr:Sample_FirstVersion ;
       narr:AverageSentenceLength 2 ;
       narr:ActiveVoiceRatio "1.0"^^xsd:decimal ;
       narr:JargonDensity "0.0"^^xsd:decimal ;
-      skos:note "Extremely minimal document. One sentence fragment of 2 words. No passive constructions. No technical jargon. Register: placeholder/draft." .
+      skos:note "Extremely minimal document. One two-word nominal fragment. No passive constructions. No technical jargon. Register: placeholder/draft. Structurally identical metrics to first version." .
 
   }
 }
