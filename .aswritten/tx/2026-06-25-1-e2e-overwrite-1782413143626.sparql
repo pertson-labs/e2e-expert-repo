@@ -6,124 +6,138 @@ PREFIX dct:  <http://purl.org/dc/terms/>
 PREFIX xsd:  <http://www.w3.org/2001/XMLSchema#>
 PREFIX oa:   <http://www.w3.org/ns/oa#>
 
-# Transaction provenance (default graph)
+# ── Transaction provenance (default graph) ──────────────────────
 INSERT DATA {
-  narr:Tx_20250115T120000Z a prov:Activity ;
-    prov:generatedAtTime "2025-01-15T12:00:00Z"^^xsd:dateTime ;
+  narr:Tx_20250715T000000Z a prov:Activity ;
+    dct:title "Extraction: stub document — Second version" ;
+    prov:generatedAtTime "2025-07-15T00:00:00Z"^^xsd:dateTime ;
     prov:wasAssociatedWith "aswritten.ai" ;
     prov:wasAttributedTo "n8n.aswritten.ai" ;
     narr:originPath "(no id provided in input)" ;
     narr:originRef "unknown" ;
-    dct:title "Extraction: stub document — First version" ;
     prov:generated
-      narr:Sample_FirstVersion_Stub,
-      narr:Actor_Reviewer_ExpertGH,
-      narr:Narrative_FirstVersionStub,
-      narr:StyleObs_FrontmatterReviewerField,
-      narr:StyleObs_MinimalBodyText,
-      narr:StyleObs_YAMLFrontmatterConvention,
-      narr:StyleMetrics_FirstVersion_Stub .
+      narr:Sample_SecondVersion_Stub,
+      narr:StyleMetrics_SecondVersion_Stub,
+      narr:StyleObs_SecondVersion_NounPhrase,
+      narr:StyleObs_SecondVersion_MinimalRegister,
+      narr:StyleObs_SecondVersion_YAMLFrontmatter .
 } ;
 
-# Extracted entities (named graph)
+# ── Update Narrative to reflect second version ───────────────────
+DELETE {
+  GRAPH ?g {
+    narr:Narrative_FirstVersionStub
+      dct:source ?oldSource ;
+      skos:note ?oldNote ;
+      narr:theme ?oldTheme .
+  }
+}
+INSERT {
+  GRAPH narr:Tx_20250715T000000Z {
+    narr:Narrative_FirstVersionStub
+      dct:source narr:Sample_SecondVersion_Stub ;
+      skos:note "The document asserts only that this is a 'Second version' with a designated reviewer. No strategic, product, or architectural claims are present. Represents a second minimal commit of a memory document stub." ;
+      narr:theme "Document stub — second version placeholder" .
+  }
+}
+WHERE {
+  GRAPH ?g {
+    narr:Narrative_FirstVersionStub
+      dct:source ?oldSource ;
+      skos:note ?oldNote ;
+      narr:theme ?oldTheme .
+  }
+} ;
+
+# ── New entities (named graph) ────────────────────────────────────
 INSERT DATA {
-  GRAPH narr:Tx_20250115T120000Z {
+  GRAPH narr:Tx_20250715T000000Z {
 
-    # ── Sample ──────────────────────────────────────────────────
-    narr:Sample_FirstVersion_Stub a narr:Sample ;
-      dct:title "First version (stub document)" ;
-      narr:inputLength 62 ;
-      dct:description "Minimal YAML-frontmatter document containing a reviewer field and the body text 'First version'. No substantive narrative content." .
+    # Sample
+    narr:Sample_SecondVersion_Stub
+      a narr:Sample ;
+      dct:title "Second version (stub document)" ;
+      dct:description "Minimal YAML-frontmatter document containing a reviewer field and the body text 'Second version'. No substantive narrative content. Reviewer email redacted per PII policy." ;
+      narr:inputLength 65 .
 
-    # ── Actor ───────────────────────────────────────────────────
-    # PII redacted: reviewer email test+expert-gh@aswritten.ai → role label only
-    narr:Actor_Reviewer_ExpertGH a narr:Actor ;
-      skos:prefLabel "expert-gh (reviewer)" ;
-      skos:note "Reviewer listed in YAML frontmatter. Email redacted per PII policy (domain: aswritten.ai, handle: expert-gh)." .
+    # Style Metrics
+    narr:StyleMetrics_SecondVersion_Stub
+      a narr:StyleMetrics ;
+      dct:source narr:Sample_SecondVersion_Stub ;
+      skos:broader narr:StyleMetrics ;
+      skos:note "Stub document. Body is a single 2-word noun phrase. No sentences, no jargon, no passive constructions. Metrics reflect placeholder content only." ;
+      narr:AverageSentenceLength "2"^^xsd:integer ;
+      narr:ActiveVoiceRatio "1.0"^^xsd:decimal ;
+      narr:JargonDensity "0.0"^^xsd:decimal .
 
-    # ── Narrative ────────────────────────────────────────────────
-    narr:Narrative_FirstVersionStub a narr:Narrative ;
-      dct:source narr:Sample_FirstVersion_Stub ;
-      narr:theme "Document stub — initial version placeholder" ;
-      skos:broader narr:Process ;
-      skos:note "The document asserts only that this is a 'First version' with a designated reviewer. No strategic, product, or architectural claims are present. Represents an empty initial commit of a memory document." .
-
-    # ── Style Observations ───────────────────────────────────────
-
-    # 1. YAML frontmatter reviewer field convention
-    narr:StyleObs_FrontmatterReviewerField a narr:StyleObservation ;
-      skos:broader narr:EditorialRules ;
-      dct:source narr:Sample_FirstVersion_Stub ;
-      skos:note "Document uses YAML frontmatter with a 'reviewers' list field — an editorial/process convention for assigning review ownership." ;
-      rdf:value true ;
+    # Style Observation 1 — bare noun phrase body
+    narr:StyleObs_SecondVersion_NounPhrase
+      a narr:StyleObservation ;
+      skos:broader narr:ShortPunchyCadence ;
+      dct:source narr:Sample_SecondVersion_Stub ;
+      skos:note "Body consists of a bare two-word noun phrase with no verb, no sentence structure, and no punctuation — minimal placeholder cadence." ;
+      rdf:value "true"^^xsd:boolean ;
       oa:hasTarget [
         a oa:SpecificResource ;
-        oa:hasSource narr:Sample_FirstVersion_Stub ;
+        oa:hasSource narr:Sample_SecondVersion_Stub ;
         oa:hasSelector [
           a oa:TextPositionSelector ;
-          oa:start 4 ;
-          oa:end 43
+          oa:start 56 ;
+          oa:end 70
         ] ;
         oa:hasSelector [
           a oa:TextQuoteSelector ;
-          oa:exact "reviewers:\n  - test+expert-gh@aswritten.ai" ;
-          oa:prefix "---\n" ;
-          oa:suffix "\n---"
-        ]
-      ] .
-
-    # 2. Minimal body text — placeholder register
-    narr:StyleObs_MinimalBodyText a narr:StyleObservation ;
-      skos:broader narr:RegisterFormality ;
-      dct:source narr:Sample_FirstVersion_Stub ;
-      skos:note "Body consists of a single two-word phrase 'First version' — an extremely low-register placeholder indicating document inception rather than substantive content." ;
-      rdf:value false ;
-      oa:hasTarget [
-        a oa:SpecificResource ;
-        oa:hasSource narr:Sample_FirstVersion_Stub ;
-        oa:hasSelector [
-          a oa:TextPositionSelector ;
-          oa:start 52 ;
-          oa:end 65
-        ] ;
-        oa:hasSelector [
-          a oa:TextQuoteSelector ;
-          oa:exact "First version" ;
+          oa:exact "Second version" ;
           oa:prefix "---\n\n" ;
           oa:suffix ""
         ]
       ] .
 
-    # 3. YAML triple-dash delimiter convention
-    narr:StyleObs_YAMLFrontmatterConvention a narr:StyleObservation ;
-      skos:broader narr:PunctuationTypography ;
-      dct:source narr:Sample_FirstVersion_Stub ;
-      skos:note "Document uses triple-dash (---) delimiters to demarcate YAML frontmatter from body content — a Markdown/Jekyll/Hugo convention signalling structured metadata." ;
-      rdf:value true ;
+    # Style Observation 2 — minimal register / no formality markers
+    narr:StyleObs_SecondVersion_MinimalRegister
+      a narr:StyleObservation ;
+      skos:broader narr:RegisterFormality ;
+      dct:source narr:Sample_SecondVersion_Stub ;
+      skos:note "Document uses no formal register markers, no salutation, no closing. Register is effectively absent — consistent with an internal version label rather than authored prose." ;
+      rdf:value "false"^^xsd:boolean ;
       oa:hasTarget [
         a oa:SpecificResource ;
-        oa:hasSource narr:Sample_FirstVersion_Stub ;
+        oa:hasSource narr:Sample_SecondVersion_Stub ;
         oa:hasSelector [
           a oa:TextPositionSelector ;
           oa:start 0 ;
-          oa:end 3
+          oa:end 70
         ] ;
         oa:hasSelector [
           a oa:TextQuoteSelector ;
-          oa:exact "---" ;
+          oa:exact "---\nreviewers:\n  - test+expert-gh@aswritten.ai\n---\n\nSecond version" ;
           oa:prefix "" ;
-          oa:suffix "\nreviewers:"
+          oa:suffix ""
         ]
       ] .
 
-    # ── Style Metrics ────────────────────────────────────────────
-    narr:StyleMetrics_FirstVersion_Stub a narr:StyleMetrics ;
-      skos:broader narr:StyleMetrics ;
-      dct:source narr:Sample_FirstVersion_Stub ;
-      narr:AverageSentenceLength 2 ;
-      narr:ActiveVoiceRatio "1.0"^^xsd:decimal ;
-      narr:JargonDensity "0.0"^^xsd:decimal ;
-      skos:note "Stub document. Body is a single 2-word noun phrase. No sentences, no jargon, no passive constructions. Metrics reflect placeholder content only." .
+    # Style Observation 3 — YAML frontmatter structural convention
+    narr:StyleObs_SecondVersion_YAMLFrontmatter
+      a narr:StyleObservation ;
+      skos:broader narr:EditorialRules ;
+      dct:source narr:Sample_SecondVersion_Stub ;
+      skos:note "Document uses YAML frontmatter delimited by triple-dashes to declare metadata (reviewer). This is a structural editorial convention consistent with the first version." ;
+      rdf:value "true"^^xsd:boolean ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_SecondVersion_Stub ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start 0 ;
+          oa:end 53
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "---\nreviewers:\n  - test+expert-gh@aswritten.ai\n---" ;
+          oa:prefix "" ;
+          oa:suffix "\n\nSecond version"
+        ]
+      ] .
 
   }
 }
