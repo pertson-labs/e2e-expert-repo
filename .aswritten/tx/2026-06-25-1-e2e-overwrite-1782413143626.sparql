@@ -1,0 +1,129 @@
+PREFIX narr: <https://aswritten.ai/narrative#>
+PREFIX rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX prov: <http://www.w3.org/ns/prov#>
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+PREFIX dct:  <http://purl.org/dc/terms/>
+PREFIX xsd:  <http://www.w3.org/2001/XMLSchema#>
+PREFIX oa:   <http://www.w3.org/ns/oa#>
+
+# Transaction provenance (default graph)
+INSERT DATA {
+  narr:Tx_20250115T120000Z a prov:Activity ;
+    prov:generatedAtTime "2025-01-15T12:00:00Z"^^xsd:dateTime ;
+    prov:wasAssociatedWith "aswritten.ai" ;
+    prov:wasAttributedTo "n8n.aswritten.ai" ;
+    narr:originPath "(no id provided in input)" ;
+    narr:originRef "unknown" ;
+    dct:title "Extraction: stub document — First version" ;
+    prov:generated
+      narr:Sample_FirstVersion_Stub,
+      narr:Actor_Reviewer_ExpertGH,
+      narr:Narrative_FirstVersionStub,
+      narr:StyleObs_FrontmatterReviewerField,
+      narr:StyleObs_MinimalBodyText,
+      narr:StyleObs_YAMLFrontmatterConvention,
+      narr:StyleMetrics_FirstVersion_Stub .
+} ;
+
+# Extracted entities (named graph)
+INSERT DATA {
+  GRAPH narr:Tx_20250115T120000Z {
+
+    # ── Sample ──────────────────────────────────────────────────
+    narr:Sample_FirstVersion_Stub a narr:Sample ;
+      dct:title "First version (stub document)" ;
+      narr:inputLength 62 ;
+      dct:description "Minimal YAML-frontmatter document containing a reviewer field and the body text 'First version'. No substantive narrative content." .
+
+    # ── Actor ───────────────────────────────────────────────────
+    # PII redacted: reviewer email test+expert-gh@aswritten.ai → role label only
+    narr:Actor_Reviewer_ExpertGH a narr:Actor ;
+      skos:prefLabel "expert-gh (reviewer)" ;
+      skos:note "Reviewer listed in YAML frontmatter. Email redacted per PII policy (domain: aswritten.ai, handle: expert-gh)." .
+
+    # ── Narrative ────────────────────────────────────────────────
+    narr:Narrative_FirstVersionStub a narr:Narrative ;
+      dct:source narr:Sample_FirstVersion_Stub ;
+      narr:theme "Document stub — initial version placeholder" ;
+      skos:broader narr:Process ;
+      skos:note "The document asserts only that this is a 'First version' with a designated reviewer. No strategic, product, or architectural claims are present. Represents an empty initial commit of a memory document." .
+
+    # ── Style Observations ───────────────────────────────────────
+
+    # 1. YAML frontmatter reviewer field convention
+    narr:StyleObs_FrontmatterReviewerField a narr:StyleObservation ;
+      skos:broader narr:EditorialRules ;
+      dct:source narr:Sample_FirstVersion_Stub ;
+      skos:note "Document uses YAML frontmatter with a 'reviewers' list field — an editorial/process convention for assigning review ownership." ;
+      rdf:value true ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_FirstVersion_Stub ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start 4 ;
+          oa:end 43
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "reviewers:\n  - test+expert-gh@aswritten.ai" ;
+          oa:prefix "---\n" ;
+          oa:suffix "\n---"
+        ]
+      ] .
+
+    # 2. Minimal body text — placeholder register
+    narr:StyleObs_MinimalBodyText a narr:StyleObservation ;
+      skos:broader narr:RegisterFormality ;
+      dct:source narr:Sample_FirstVersion_Stub ;
+      skos:note "Body consists of a single two-word phrase 'First version' — an extremely low-register placeholder indicating document inception rather than substantive content." ;
+      rdf:value false ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_FirstVersion_Stub ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start 52 ;
+          oa:end 65
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "First version" ;
+          oa:prefix "---\n\n" ;
+          oa:suffix ""
+        ]
+      ] .
+
+    # 3. YAML triple-dash delimiter convention
+    narr:StyleObs_YAMLFrontmatterConvention a narr:StyleObservation ;
+      skos:broader narr:PunctuationTypography ;
+      dct:source narr:Sample_FirstVersion_Stub ;
+      skos:note "Document uses triple-dash (---) delimiters to demarcate YAML frontmatter from body content — a Markdown/Jekyll/Hugo convention signalling structured metadata." ;
+      rdf:value true ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_FirstVersion_Stub ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start 0 ;
+          oa:end 3
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "---" ;
+          oa:prefix "" ;
+          oa:suffix "\nreviewers:"
+        ]
+      ] .
+
+    # ── Style Metrics ────────────────────────────────────────────
+    narr:StyleMetrics_FirstVersion_Stub a narr:StyleMetrics ;
+      skos:broader narr:StyleMetrics ;
+      dct:source narr:Sample_FirstVersion_Stub ;
+      narr:AverageSentenceLength 2 ;
+      narr:ActiveVoiceRatio "1.0"^^xsd:decimal ;
+      narr:JargonDensity "0.0"^^xsd:decimal ;
+      skos:note "Stub document. Body is a single 2-word noun phrase. No sentences, no jargon, no passive constructions. Metrics reflect placeholder content only." .
+
+  }
+}
