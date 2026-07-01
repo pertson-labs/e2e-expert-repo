@@ -1,0 +1,120 @@
+PREFIX narr: <https://aswritten.ai/narrative#>
+PREFIX rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX prov: <http://www.w3.org/ns/prov#>
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+PREFIX dct:  <http://purl.org/dc/terms/>
+PREFIX xsd:  <http://www.w3.org/2001/XMLSchema#>
+PREFIX oa:   <http://www.w3.org/ns/oa#>
+
+# Transaction provenance (default graph)
+INSERT DATA {
+  narr:Tx_20260701T235154Z a prov:Activity ;
+    prov:generatedAtTime "2026-07-01T23:51:54Z"^^xsd:dateTime ;
+    prov:wasAssociatedWith "aswritten.ai" ;
+    prov:wasAttributedTo "n8n.aswritten.ai" ;
+    narr:originPath "2026-07-01-1-e2e-overwrite-1782949608047" ;
+    narr:originRef "e2e-overwrite-1782949608047" ;
+    dct:title "Second version — e2e-expert-repo" ;
+    prov:generated
+      narr:Sample_SecondVersion_E2EExpert,
+      narr:Narrative_SecondVersion,
+      narr:StyleObs_YAMLFrontMatter_V2,
+      narr:StyleObs_ShortDeclarativeLabel_V2,
+      narr:StyleObs_MinimalBodyContent_V2,
+      narr:StyleMetrics_SecondVersion .
+} ;
+
+# Extracted entities (named graph)
+INSERT DATA {
+  GRAPH narr:Tx_20260701T235154Z {
+
+    # ── Sample ──────────────────────────────────────────────────
+    narr:Sample_SecondVersion_E2EExpert a narr:Sample ;
+      dct:title "Second version — e2e-expert-repo" ;
+      dct:created "2025-07-15"^^xsd:date ;
+      narr:inputLength "73"^^xsd:integer ;
+      skos:note "Minimal document with YAML front-matter (reviewer) and body text 'Second version'. Structurally identical to first version; body label incremented." .
+
+    # ── Narrative ────────────────────────────────────────────────
+    narr:Narrative_SecondVersion a narr:Narrative ;
+      dct:source narr:Sample_SecondVersion_E2EExpert ;
+      narr:theme "Second document version" ;
+      skos:broader narr:CoreNarratives ;
+      skos:note "The document declares itself a 'Second version' with the same assigned reviewer as the first version. No substantive body content beyond the version label. Supersedes the first-version label in the document series." .
+
+    # ── Style Observations ───────────────────────────────────────
+
+    # SO1: YAML front-matter structural pattern (same as v1, now on v2 sample)
+    narr:StyleObs_YAMLFrontMatter_V2 a narr:StyleObservation ;
+      skos:broader narr:EditorialRules ;
+      dct:source narr:Sample_SecondVersion_E2EExpert ;
+      rdf:value true ;
+      skos:note "Document uses YAML front-matter delimited by triple-dashes to declare structured metadata (reviewers list). Pattern consistent with first version." ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_SecondVersion_E2EExpert ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start 6 ; oa:end 16
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "reviewers:" ;
+          oa:prefix "---\n" ;
+          oa:suffix "\n  - test+"
+        ]
+      ] .
+
+    # SO2: Short declarative version label
+    narr:StyleObs_ShortDeclarativeLabel_V2 a narr:StyleObservation ;
+      skos:broader narr:ShortPunchyCadence ;
+      dct:source narr:Sample_SecondVersion_E2EExpert ;
+      rdf:value true ;
+      skos:note "Body content is a single two-word declarative phrase with no elaboration. Version label incremented from 'First version' to 'Second version'." ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_SecondVersion_E2EExpert ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start 58 ; oa:end 72
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "Second version" ;
+          oa:prefix "---\n\n" ;
+          oa:suffix ""
+        ]
+      ] .
+
+    # SO3: Minimal body content / placeholder register
+    narr:StyleObs_MinimalBodyContent_V2 a narr:StyleObservation ;
+      skos:broader narr:Conciseness ;
+      dct:source narr:Sample_SecondVersion_E2EExpert ;
+      rdf:value true ;
+      skos:note "Document body contains no prose sentences, no explanatory content — only a version label. Extreme conciseness / placeholder register. Identical structural pattern to first version." ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_SecondVersion_E2EExpert ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start 58 ; oa:end 72
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "Second version" ;
+          oa:prefix "---\n\n" ;
+          oa:suffix ""
+        ]
+      ] .
+
+    # ── Style Metrics ────────────────────────────────────────────
+    narr:StyleMetrics_SecondVersion a narr:StyleMetrics ;
+      skos:broader narr:StyleMetrics ;
+      dct:source narr:Sample_SecondVersion_E2EExpert ;
+      narr:AverageSentenceLength "2"^^xsd:integer ;
+      narr:ActiveVoiceRatio "1.0"^^xsd:decimal ;
+      narr:JargonDensity "0.0"^^xsd:decimal ;
+      skos:note "Single 2-word body phrase. No sentences in the traditional sense. Active voice ratio and jargon density trivially computed from minimal content. Metrics identical to first-version document." .
+
+  }
+}
