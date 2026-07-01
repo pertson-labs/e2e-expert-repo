@@ -1,0 +1,117 @@
+PREFIX narr: <https://aswritten.ai/narrative#>
+PREFIX rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX prov: <http://www.w3.org/ns/prov#>
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+PREFIX dct:  <http://purl.org/dc/terms/>
+PREFIX xsd:  <http://www.w3.org/2001/XMLSchema#>
+PREFIX oa:   <http://www.w3.org/ns/oa#>
+
+# Transaction provenance (default graph)
+INSERT DATA {
+  narr:Tx_20260701T223424Z a prov:Activity ;
+    prov:generatedAtTime "2026-07-01T22:34:24Z"^^xsd:dateTime ;
+    prov:wasAssociatedWith "aswritten.ai" ;
+    prov:wasAttributedTo "n8n.aswritten.ai" ;
+    narr:originPath "2026-07-01-1-e2e-overwrite-1782945160375" ;
+    narr:originRef "e2e-overwrite-1782945160375" ;
+    dct:title "First version stub — e2e-expert-repo" ;
+    prov:generated
+      narr:Sample_FirstVersion_E2EExpert,
+      narr:Narrative_FirstVersionPlaceholder,
+      narr:StyleObs_YAMLFrontMatter,
+      narr:StyleObs_TerseBody,
+      narr:StyleObs_PlaceholderPhrasing,
+      narr:StyleMetrics_FirstVersion .
+} ;
+
+# Extracted entities (named graph)
+INSERT DATA {
+  GRAPH narr:Tx_20260701T223424Z {
+
+    # ── Sample ──────────────────────────────────────────────────
+    narr:Sample_FirstVersion_E2EExpert a narr:Sample ;
+      dct:title "First version (e2e-expert-repo)" ;
+      narr:inputLength 72 .
+
+    # ── Narrative ───────────────────────────────────────────────
+    narr:Narrative_FirstVersionPlaceholder a narr:Narrative ;
+      dct:source narr:Sample_FirstVersion_E2EExpert ;
+      narr:theme "Document initialisation — first-version placeholder stub" ;
+      skos:broader narr:Process ;
+      skos:note "The memory is a minimal stub marking the first version of a document. It carries YAML front-matter with a reviewer assignment and no substantive body content beyond the phrase 'First version'." .
+
+    # ── Style Observations ──────────────────────────────────────
+
+    # 1. YAML front-matter structural convention
+    narr:StyleObs_YAMLFrontMatter a narr:StyleObservation ;
+      skos:broader narr:EditorialRules ;
+      dct:source narr:Sample_FirstVersion_E2EExpert ;
+      skos:note "Document uses YAML front-matter delimited by triple-dashes to declare metadata (reviewers list). This is a structured editorial convention." ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_FirstVersion_E2EExpert ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start 0 ;
+          oa:end 44
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "---\nreviewers:\n  - test+expert-gh@aswritten.ai\n---" ;
+          oa:prefix "" ;
+          oa:suffix "\n\nFirst version"
+        ]
+      ] .
+
+    # 2. Terse single-sentence body
+    narr:StyleObs_TerseBody a narr:StyleObservation ;
+      skos:broader narr:ShortPunchyCadence ;
+      dct:source narr:Sample_FirstVersion_E2EExpert ;
+      skos:note "The document body consists of a single two-word sentence. Extremely terse register; no elaboration." ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_FirstVersion_E2EExpert ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start 58 ; oa:end 71
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "First version" ;
+          oa:prefix "---\n\n" ;
+          oa:suffix ""
+        ]
+      ] .
+
+    # 3. Placeholder / initialisation phrasing
+    narr:StyleObs_PlaceholderPhrasing a narr:StyleObservation ;
+      skos:broader narr:IdiolectPhrasing ;
+      dct:source narr:Sample_FirstVersion_E2EExpert ;
+      skos:note "'First version' is a conventional placeholder phrase signalling document initialisation rather than substantive content. It functions as a version-state marker, not a narrative claim." ;
+      rdf:value false ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_FirstVersion_E2EExpert ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start 58 ; oa:end 71
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "First version" ;
+          oa:prefix "---\n\n" ;
+          oa:suffix ""
+        ]
+      ] .
+
+    # ── Style Metrics ───────────────────────────────────────────
+    narr:StyleMetrics_FirstVersion a narr:StyleMetrics ;
+      skos:broader narr:StyleMetrics ;
+      dct:source narr:Sample_FirstVersion_E2EExpert ;
+      narr:AverageSentenceLength 2 ;
+      narr:ActiveVoiceRatio "1.0"^^xsd:decimal ;
+      narr:JargonDensity "0.0"^^xsd:decimal ;
+      skos:note "Single two-word sentence body. No jargon. Active voice (nominal phrase). Extremely minimal register." .
+
+  }
+}
