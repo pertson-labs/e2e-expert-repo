@@ -1,0 +1,150 @@
+PREFIX narr: <https://aswritten.ai/narrative#>
+PREFIX rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX prov: <http://www.w3.org/ns/prov#>
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+PREFIX dct:  <http://purl.org/dc/terms/>
+PREFIX xsd:  <http://www.w3.org/2001/XMLSchema#>
+PREFIX oa:   <http://www.w3.org/ns/oa#>
+
+# ── Transaction provenance (default graph) ──────────────────────────────────
+INSERT DATA {
+  narr:Tx_20260701T195121Z a prov:Activity ;
+    prov:generatedAtTime "2026-07-01T19:51:21Z"^^xsd:dateTime ;
+    prov:wasAssociatedWith "aswritten.ai" ;
+    prov:wasAttributedTo "n8n.aswritten.ai" ;
+    narr:originPath "2026-07-01-1-sample-memory-phase2-derive-id-e2e" ;
+    narr:originRef "e2e-derive-id-1782935139944" ;
+    dct:title "Sample Memory Phase 2 — Derive Id E2E extraction" ;
+    prov:generated
+      narr:Sample_SampleMemoryPhase2_DeriveIdE2E,
+      narr:Claim_PipelineMustNotCrashH2Heading,
+      narr:StyleObs_Phase2_MustNotCrashImperative,
+      narr:StyleObs_Phase2_ProdFailureReference,
+      narr:StyleObs_Phase2_H2HeadingLevelNote,
+      narr:StyleMetrics_SampleMemoryPhase2_DeriveIdE2E .
+} ;
+
+# ── New entities (named graph) ───────────────────────────────────────────────
+INSERT DATA {
+  GRAPH narr:Tx_20260701T195121Z {
+
+    # Sample — Phase 2 test document
+    narr:Sample_SampleMemoryPhase2_DeriveIdE2E a narr:Sample ;
+      dct:title "Sample Memory Phase 2 — Derive Id E2E" ;
+      dct:created "2025-07-15"^^xsd:date ;
+      narr:inputLength 231 ;
+      skos:note "Phase 2 E2E test: reproduces the missing-id failure pattern from prod using an H2-level heading and no id field. Exercises the must-not-crash and valid-slug requirements." .
+
+    # New Claim — H2 heading variant of the slug-derivation requirement
+    narr:Claim_PipelineMustNotCrashH2Heading a narr:Claim ;
+      narr:aboutNode narr:Narrative_PipelineSlugDerivation ;
+      narr:hasConvictionLevel narr:Conviction_Stake ;
+      narr:supports narr:Claim_PipelineMustDeriveSlug ;
+      dct:source narr:Sample_SampleMemoryPhase2_DeriveIdE2E ;
+      skos:note "When a memory uses an H2-level heading (## prefix) and has no id field, the pipeline must not crash and must produce a valid slug. This reproduces a specific failure pattern observed in production." .
+
+    # Style Observation 1 — imperative "must not crash" requirement framing
+    narr:StyleObs_Phase2_MustNotCrashImperative a narr:StyleObservation ;
+      skos:broader narr:ToneAuthoritative ;
+      dct:source narr:Sample_SampleMemoryPhase2_DeriveIdE2E ;
+      skos:note "Imperative modal framing: 'Must not crash; must produce a valid slug' states acceptance criteria as hard requirements without hedging." ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_SampleMemoryPhase2_DeriveIdE2E ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start 188 ; oa:end 230
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "Must not crash; must produce a valid slug." ;
+          oa:prefix "no id field). " ;
+          oa:suffix ""
+        ]
+      ] .
+
+    # Style Observation 2 — production failure reference
+    narr:StyleObs_Phase2_ProdFailureReference a narr:StyleObservation ;
+      skos:broader narr:ToneAuthoritative ;
+      dct:source narr:Sample_SampleMemoryPhase2_DeriveIdE2E ;
+      skos:note "Grounding in production evidence: 'from prod' anchors the test scenario in a real observed failure, lending urgency and specificity to the requirement." ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_SampleMemoryPhase2_DeriveIdE2E ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start 102 ; oa:end 153
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "Reproduces the missing-id failure pattern from prod" ;
+          oa:prefix "\n\n" ;
+          oa:suffix " (## level heading,"
+        ]
+      ] .
+
+    # Style Observation 3 — parenthetical technical annotation
+    narr:StyleObs_Phase2_H2HeadingLevelNote a narr:StyleObservation ;
+      skos:broader narr:JargonPolicy ;
+      dct:source narr:Sample_SampleMemoryPhase2_DeriveIdE2E ;
+      skos:note "Parenthetical technical annotation: '(## level heading, no id field)' embeds the precise failure conditions inline as a code-style aside, characteristic of engineering acceptance-test prose." ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_SampleMemoryPhase2_DeriveIdE2E ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start 148 ;
+          oa:end 181
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "(## level heading,\nno id field)" ;
+          oa:prefix "failure pattern from prod " ;
+          oa:suffix ". Must not crash"
+        ]
+      ] .
+
+    # Style Metrics
+    narr:StyleMetrics_SampleMemoryPhase2_DeriveIdE2E a narr:StyleMetrics ;
+      skos:broader narr:StyleMetrics ;
+      dct:source narr:Sample_SampleMemoryPhase2_DeriveIdE2E ;
+      narr:AverageSentenceLength 12 ;
+      narr:ActiveVoiceRatio "0.75"^^xsd:decimal ;
+      narr:JargonDensity "0.35"^^xsd:decimal ;
+      skos:note "Very short document (~239 chars, 2 content sentences). Technical-internal register; jargon driven by '## level heading', 'id field', 'slug', 'prod'. Active voice dominant; one passive construction ('Reproduces')." .
+  }
+} ;
+
+# ── Update existing Narrative_PipelineSlugDerivation — add Phase 2 context ──
+DELETE {
+  GRAPH ?g {
+    narr:Narrative_PipelineSlugDerivation skos:note ?oldNote .
+  }
+}
+INSERT {
+  GRAPH narr:Tx_20260701T195121Z {
+    narr:Narrative_PipelineSlugDerivation skos:note "When a memory is submitted without an explicit id field, the pipeline must produce a slug — either via an LLM id-gen call or a deterministic slugify fallback — and commit the file successfully. This memory exercises that code path. Phase 2 extends this by reproducing the failure pattern from production using an H2-level (##) heading, confirming the pipeline must not crash and must produce a valid slug regardless of heading level." .
+  }
+}
+WHERE {
+  GRAPH ?g {
+    narr:Narrative_PipelineSlugDerivation skos:note ?oldNote .
+  }
+} ;
+
+# ── Update existing Claim_PipelineMustDeriveSlug — add must-not-crash requirement ──
+DELETE {
+  GRAPH ?g {
+    narr:Claim_PipelineMustDeriveSlug skos:note ?oldNote .
+  }
+}
+INSERT {
+  GRAPH narr:Tx_20260701T195121Z {
+    narr:Claim_PipelineMustDeriveSlug skos:note "The pipeline must produce a slug from the memory content — either via the LLM id-gen call or the deterministic slugify fallback — and commit the file successfully. Additionally (Phase 2): the pipeline must not crash when the heading is H2 (## prefix); it must produce a valid slug in all cases." .
+  }
+}
+WHERE {
+  GRAPH ?g {
+    narr:Claim_PipelineMustDeriveSlug skos:note ?oldNote .
+  }
+}
