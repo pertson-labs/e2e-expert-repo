@@ -6,111 +6,113 @@ PREFIX dct:  <http://purl.org/dc/terms/>
 PREFIX xsd:  <http://www.w3.org/2001/XMLSchema#>
 PREFIX oa:   <http://www.w3.org/ns/oa#>
 
+# Transaction provenance (default graph)
 INSERT DATA {
-  narr:Tx_20260701T235610Z a prov:Activity ;
-    prov:generatedAtTime "2026-07-01T23:56:10Z"^^xsd:dateTime ;
+  narr:Tx_20260701T235854Z a prov:Activity ;
+    prov:generatedAtTime "2026-07-01T23:58:54Z"^^xsd:dateTime ;
     prov:wasAssociatedWith "aswritten.ai" ;
     prov:wasAttributedTo "n8n.aswritten.ai" ;
     narr:originPath "2026-07-01-1-e2e-overwrite-1782950094593" ;
     narr:originRef "e2e-overwrite-1782950094593" ;
-    dct:title "First version stub extraction" ;
+    dct:title "Second version stub extraction" ;
     prov:generated
-      narr:Sample_FirstVersionStub,
-      narr:Claim_FirstVersionLabel,
-      narr:StyleObservation_MinimalRegister,
-      narr:StyleObservation_FrontMatterConvention,
-      narr:StyleObservation_VersionLabel,
-      narr:StyleMetrics_FirstVersionStub .
+      narr:Sample_SecondVersionStub,
+      narr:Claim_SecondVersionLabel,
+      narr:StyleObservation_SecondVersionFrontMatter,
+      narr:StyleObservation_SecondVersionMinimalRegister,
+      narr:StyleObservation_SecondVersionLabel,
+      narr:StyleMetrics_SecondVersionStub .
 } ;
 
+# Extracted entities (named graph)
 INSERT DATA {
-  GRAPH narr:Tx_20260701T235610Z {
+  GRAPH narr:Tx_20260701T235854Z {
 
-    # ── Sample ──────────────────────────────────────────────────
-    narr:Sample_FirstVersionStub a narr:Sample ;
-      dct:title "First version (stub document)" ;
-      narr:inputLength 72 ;
-      dct:description "Minimal stub document with YAML front-matter reviewer annotation and a single 'First version' body line. No substantive narrative content." .
+    # ── Sample ──────────────────────────────────────────────────────
+    narr:Sample_SecondVersionStub a narr:Sample ;
+      dct:title "Second version (stub document)" ;
+      narr:inputLength 73 ;
+      dct:description "Minimal stub document with YAML front-matter reviewer annotation and a single 'Second version' body line. Parallel structure to Sample_FirstVersionStub." .
 
-    # ── Claim ───────────────────────────────────────────────────
-    narr:Claim_FirstVersionLabel a narr:Claim ;
-      narr:aboutNode narr:Sample_FirstVersionStub ;
+    # ── Claim ───────────────────────────────────────────────────────
+    narr:Claim_SecondVersionLabel a narr:Claim ;
+      narr:aboutNode narr:Sample_SecondVersionStub ;
       narr:hasConvictionLevel narr:Conviction_Notion ;
-      skos:note "The document declares itself a first version with no further elaboration. Conviction is Notion — the label is present but carries no supporting evidence or context." ;
-      dct:source narr:Sample_FirstVersionStub .
+      dct:source narr:Sample_SecondVersionStub ;
+      skos:note "The document declares itself a second version with no further elaboration. Conviction is Notion — the label is present but carries no supporting evidence or context." .
 
-    # ── Style Observations ──────────────────────────────────────
+    # ── Style Observations ──────────────────────────────────────────
 
-    # 1. Minimal / bare register
-    narr:StyleObservation_MinimalRegister a narr:StyleObservation ;
-      skos:broader narr:RegisterFormality ;
-      dct:source narr:Sample_FirstVersionStub ;
-      skos:note "Entire body is a single two-word phrase; register is maximally sparse." ;
-      oa:hasTarget [
-        a oa:SpecificResource ;
-        oa:hasSource narr:Sample_FirstVersionStub ;
-        oa:hasSelector [
-          a oa:TextPositionSelector ;
-          oa:start 58 ; oa:end 71
-        ] ;
-        oa:hasSelector [
-          a oa:TextQuoteSelector ;
-          oa:exact "First version" ;
-          oa:prefix "\n\n" ;
-          oa:suffix ""
-        ]
-      ] .
-
-    # 2. YAML front-matter convention
-    narr:StyleObservation_FrontMatterConvention a narr:StyleObservation ;
+    # 1. YAML front-matter convention
+    narr:StyleObservation_SecondVersionFrontMatter a narr:StyleObservation ;
       skos:broader narr:EditorialRules ;
-      dct:source narr:Sample_FirstVersionStub ;
-      skos:note "Document uses YAML front-matter delimited by triple-dashes to carry metadata (reviewers list), consistent with Jekyll/Hugo/markdown-it conventions." ;
+      dct:source narr:Sample_SecondVersionStub ;
+      skos:note "Document uses YAML front-matter delimited by triple-dashes to carry metadata (reviewers list), consistent with Jekyll/Hugo/markdown-it conventions. Mirrors pattern in Sample_FirstVersionStub." ;
       oa:hasTarget [
         a oa:SpecificResource ;
-        oa:hasSource narr:Sample_FirstVersionStub ;
+        oa:hasSource narr:Sample_SecondVersionStub ;
         oa:hasSelector [
           a oa:TextPositionSelector ;
           oa:start 0 ;
-          oa:end 43
+          oa:end 44
         ] ;
         oa:hasSelector [
           a oa:TextQuoteSelector ;
-          oa:exact "---\nreviewers:\n  - [REDACTED]\n---" ;
+          oa:exact "---\nreviewers:\n  - test+expert-gh@[REDACTED]\n---" ;
           oa:prefix "" ;
-          oa:suffix "\n\nFirst version"
+          oa:suffix "\n\nSecond version"
         ]
       ] .
 
-    # 3. Version label as sole body content
-    narr:StyleObservation_VersionLabel a narr:StyleObservation ;
-      skos:broader narr:NamingConventions ;
-      dct:source narr:Sample_FirstVersionStub ;
-      skos:note "'First version' used as a standalone body sentence — a naming/versioning convention rather than a narrative statement. No verb, no subject beyond the implicit document." ;
-      rdf:value false ;
+    # 2. Minimal register
+    narr:StyleObservation_SecondVersionMinimalRegister a narr:StyleObservation ;
+      skos:broader narr:RegisterFormality ;
+      dct:source narr:Sample_SecondVersionStub ;
+      skos:note "Entire body is a single two-word phrase; register is maximally sparse. Identical structural pattern to the first version stub." ;
       oa:hasTarget [
         a oa:SpecificResource ;
-        oa:hasSource narr:Sample_FirstVersionStub ;
+        oa:hasSource narr:Sample_SecondVersionStub ;
         oa:hasSelector [
           a oa:TextPositionSelector ;
-          oa:start 58 ; oa:end 71
+          oa:start 58 ; oa:end 72
         ] ;
         oa:hasSelector [
           a oa:TextQuoteSelector ;
-          oa:exact "First version" ;
+          oa:exact "Second version" ;
           oa:prefix "---\n\n" ;
           oa:suffix ""
         ]
       ] .
 
-    # ── Style Metrics ───────────────────────────────────────────
-    narr:StyleMetrics_FirstVersionStub a narr:StyleMetrics ;
+    # 3. Version label naming convention
+    narr:StyleObservation_SecondVersionLabel a narr:StyleObservation ;
+      skos:broader narr:NamingConventions ;
+      dct:source narr:Sample_SecondVersionStub ;
+      rdf:value false ;
+      skos:note "'Second version' used as a standalone body sentence — a naming/versioning convention rather than a narrative statement. No verb, no subject beyond the implicit document. Mirrors 'First version' pattern." ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_SecondVersionStub ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start 58 ; oa:end 72
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "Second version" ;
+          oa:prefix "---\n\n" ;
+          oa:suffix ""
+        ]
+      ] .
+
+    # ── Style Metrics ───────────────────────────────────────────────
+    narr:StyleMetrics_SecondVersionStub a narr:StyleMetrics ;
       skos:broader narr:StyleMetrics ;
-      dct:source narr:Sample_FirstVersionStub ;
+      dct:source narr:Sample_SecondVersionStub ;
       narr:AverageSentenceLength 2 ;
       narr:ActiveVoiceRatio "1.0"^^xsd:decimal ;
       narr:JargonDensity "0.0"^^xsd:decimal ;
-      skos:note "Single two-word fragment body. No passive constructions. No domain jargon. Metrics are degenerate due to near-zero content." .
+      skos:note "Single two-word fragment body. No passive constructions. No domain jargon. Metrics are degenerate due to near-zero content. Identical profile to StyleMetrics_FirstVersionStub." .
 
   }
 }
