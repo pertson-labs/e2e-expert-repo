@@ -1,0 +1,125 @@
+PREFIX narr: <https://aswritten.ai/narrative#>
+PREFIX rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX prov: <http://www.w3.org/ns/prov#>
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+PREFIX dct:  <http://purl.org/dc/terms/>
+PREFIX xsd:  <http://www.w3.org/2001/XMLSchema#>
+PREFIX oa:   <http://www.w3.org/ns/oa#>
+
+INSERT DATA {
+  narr:Tx_20260701T234447Z a prov:Activity ;
+    prov:generatedAtTime "2026-07-01T23:44:47Z"^^xsd:dateTime ;
+    prov:wasAssociatedWith "aswritten.ai" ;
+    prov:wasAttributedTo "n8n.aswritten.ai" ;
+    narr:originPath "2026-07-01-1-e2e-overwrite-1782949248880" ;
+    narr:originRef "e2e-overwrite-1782949248880" ;
+    dct:title "Extraction: Second version stub (e2e-expert-repo)" ;
+    prov:generated
+      narr:Sample_SecondVersionStub,
+      narr:Actor_Reviewer_ExpertGH,
+      narr:Claim_SecondVersionIteration,
+      narr:StyleObs_MinimalBodyText,
+      narr:StyleObs_YAMLFrontMatterConvention,
+      narr:StyleObs_TwoWordBody,
+      narr:StyleMetrics_SecondVersionStub .
+} ;
+
+INSERT DATA {
+  GRAPH narr:Tx_20260701T234447Z {
+
+    # ── Sample ──────────────────────────────────────────────────
+    narr:Sample_SecondVersionStub a narr:Sample ;
+      dct:title "Second version stub" ;
+      narr:inputLength 73 ;
+      dct:description "Minimal document stub: YAML front-matter with reviewer assignment and two-word body 'Second version'." .
+
+    # ── Actor ───────────────────────────────────────────────────
+    # Reviewer email redacted per PII policy (allow_pii not set)
+    narr:Actor_Reviewer_ExpertGH a narr:Actor ;
+      skos:prefLabel "Expert Reviewer (test+expert-gh)" ;
+      skos:note "Assigned reviewer listed in YAML front-matter of the document stub. Email redacted per PII policy." .
+
+    # ── Claim ───────────────────────────────────────────────────
+    narr:Claim_SecondVersionIteration a narr:Claim ;
+      narr:aboutNode narr:Sample_SecondVersionStub ;
+      narr:hasConvictionLevel narr:Conviction_Notion ;
+      skos:note "The document body declares itself 'Second version', indicating this is an iterated revision of a prior document. No further content is present to assess the nature of the revision." ;
+      dct:source narr:Sample_SecondVersionStub .
+
+    # ── Style Observations ──────────────────────────────────────
+
+    # 1. Minimal body text — extreme brevity
+    narr:StyleObs_MinimalBodyText a narr:StyleObservation ;
+      skos:broader narr:ShortPunchyCadence ;
+      dct:source narr:Sample_SecondVersionStub ;
+      skos:note "Body consists of exactly two words: 'Second version'. Represents maximum brevity — no elaboration, no context." ;
+      rdf:value true ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_SecondVersionStub ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start 58 ; oa:end 72
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "Second version" ;
+          oa:prefix "---\n\n" ;
+          oa:suffix ""
+        ]
+      ] .
+
+    # 2. YAML front-matter convention
+    narr:StyleObs_YAMLFrontMatterConvention a narr:StyleObservation ;
+      skos:broader narr:EditorialRules ;
+      dct:source narr:Sample_SecondVersionStub ;
+      skos:note "Document uses YAML front-matter delimited by triple-dashes to declare structured metadata (reviewers list). This is a structured editorial convention." ;
+      rdf:value true ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_SecondVersionStub ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start 0 ;
+          oa:end 45
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "---\nreviewers:\n  - [REDACTED]\n---" ;
+          oa:prefix "" ;
+          oa:suffix "\n\nSecond version"
+        ]
+      ] .
+
+    # 3. Lowercase version label (no capitalisation of 'version')
+    narr:StyleObs_TwoWordBody a narr:StyleObservation ;
+      skos:broader narr:CapitalizationCase ;
+      dct:source narr:Sample_SecondVersionStub ;
+      skos:note "'Second version' uses sentence-case: only the first word is capitalised. 'version' is lowercase, suggesting informal or draft register." ;
+      rdf:value false ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_SecondVersionStub ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start 58 ; oa:end 72
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "Second version" ;
+          oa:prefix "---\n\n" ;
+          oa:suffix ""
+        ]
+      ] .
+
+    # ── Style Metrics ───────────────────────────────────────────
+    narr:StyleMetrics_SecondVersionStub a narr:StyleMetrics ;
+      skos:broader narr:StyleMetrics ;
+      dct:source narr:Sample_SecondVersionStub ;
+      narr:AverageSentenceLength 2 ;
+      narr:ActiveVoiceRatio "1.0"^^xsd:decimal ;
+      narr:JargonDensity "0.0"^^xsd:decimal ;
+      skos:note "Single two-word sentence in body. No passive constructions. No jargon. Register: minimal/draft." .
+
+  }
+}
