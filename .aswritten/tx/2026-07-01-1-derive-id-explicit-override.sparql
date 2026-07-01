@@ -1,0 +1,140 @@
+PREFIX narr: <https://aswritten.ai/narrative#>
+PREFIX rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX prov: <http://www.w3.org/ns/prov#>
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+PREFIX dct:  <http://purl.org/dc/terms/>
+PREFIX xsd:  <http://www.w3.org/2001/XMLSchema#>
+PREFIX oa:   <http://www.w3.org/ns/oa#>
+
+# Transaction provenance (default graph)
+INSERT DATA {
+  narr:Tx_20260701T220804Z a prov:Activity ;
+    prov:generatedAtTime "2026-07-01T22:08:04Z"^^xsd:dateTime ;
+    prov:wasAssociatedWith "aswritten.ai" ;
+    prov:wasAttributedTo "n8n.aswritten.ai" ;
+    narr:originPath "2026-07-01-1-derive-id-explicit-override" ;
+    narr:originRef "e2e-derive-id-1782942757201" ;
+    dct:title "Extraction: Some Other Title That Should Not Win" ;
+    prov:generated
+      narr:Sample_SomeOtherTitleShouldNotWin,
+      narr:Claim_TitleHeadingShouldNotWinSlug,
+      narr:StyleObs_TitleNegationRhetoric,
+      narr:StyleObs_MinimalBodyRegister,
+      narr:StyleObs_FrontmatterReviewerPattern,
+      narr:StyleMetrics_SomeOtherTitleShouldNotWin .
+} ;
+
+# Extracted entities (named graph)
+INSERT DATA {
+  GRAPH narr:Tx_20260701T220804Z {
+
+    # ── Sample ──────────────────────────────────────────────────
+    narr:Sample_SomeOtherTitleShouldNotWin a narr:Sample ;
+      dct:title "Some Other Title That Should Not Win" ;
+      narr:inputLength "106"^^xsd:integer ;
+      dct:description "Minimal test memory with YAML frontmatter reviewer and H1 heading explicitly named to not win slug derivation. Body is a single word." .
+
+    # ── Claim: H1 title must not be adopted as the pipeline slug ─
+    narr:Claim_TitleHeadingShouldNotWinSlug a narr:Claim ;
+      narr:aboutNode narr:Narrative_PipelineSlugDerivation ;
+      narr:hasConvictionLevel narr:Conviction_Stake ;
+      narr:supports narr:Narrative_PipelineSlugDerivation ;
+      dct:source narr:Sample_SomeOtherTitleShouldNotWin ;
+      skos:broader narr:Process ;
+      skos:note "The H1 heading ('Some Other Title That Should Not Win') is explicitly named to signal that the document title must not be used as the pipeline-derived slug/id. The pipeline must derive the id through the LLM id-gen or slugify fallback, not by adopting the heading verbatim." ;
+      oa:hasSelector [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_SomeOtherTitleShouldNotWin ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start "22"^^xsd:integer ;
+          oa:end "60"^^xsd:integer
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "Some Other Title That Should Not Win" ;
+          oa:prefix "# " ;
+          oa:suffix "\n\nBody."
+        ]
+      ] .
+
+    # ── Style Observations ───────────────────────────────────────
+
+    # 1. Negation rhetoric in title — "Should Not Win"
+    narr:StyleObs_TitleNegationRhetoric a narr:StyleObservation ;
+      skos:broader narr:RhetoricalDevices ;
+      dct:source narr:Sample_SomeOtherTitleShouldNotWin ;
+      rdf:value true ;
+      skos:note "Title uses explicit negation ('Should Not Win') as a rhetorical signal, embedding the test assertion directly into the document heading rather than body prose." ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_SomeOtherTitleShouldNotWin ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start "22"^^xsd:integer ;
+          oa:end "60"^^xsd:integer
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "Some Other Title That Should Not Win" ;
+          oa:prefix "# " ;
+          oa:suffix "\n\nBody."
+        ]
+      ] .
+
+    # 2. Minimal body register — single-word body
+    narr:StyleObs_MinimalBodyRegister a narr:StyleObservation ;
+      skos:broader narr:RegisterFormality ;
+      dct:source narr:Sample_SomeOtherTitleShouldNotWin ;
+      rdf:value false ;
+      skos:note "Body consists of a single word ('Body.') — a placeholder register indicating this is a structural/test document rather than substantive prose. Extremely low information density in body relative to heading." ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_SomeOtherTitleShouldNotWin ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start "62"^^xsd:integer ;
+          oa:end "67"^^xsd:integer
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "Body." ;
+          oa:prefix "Should Not Win\n\n" ;
+          oa:suffix ""
+        ]
+      ] .
+
+    # 3. YAML frontmatter reviewer pattern
+    narr:StyleObs_FrontmatterReviewerPattern a narr:StyleObservation ;
+      skos:broader narr:EditorialRules ;
+      dct:source narr:Sample_SomeOtherTitleShouldNotWin ;
+      rdf:value true ;
+      skos:note "YAML frontmatter declares a 'reviewers' list with a single email entry — consistent with the editorial convention observed in prior memories from this repo (test+expert-gh@aswritten.ai, PII-redacted)." ;
+      skos:related narr:Actor_TestExpertReviewer ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_SomeOtherTitleShouldNotWin ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start "0"^^xsd:integer ;
+          oa:end "20"^^xsd:integer
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "reviewers:" ;
+          oa:prefix "---\n" ;
+          oa:suffix "\n  - test+expert-gh"
+        ]
+      ] .
+
+    # ── Style Metrics ────────────────────────────────────────────
+    narr:StyleMetrics_SomeOtherTitleShouldNotWin a narr:StyleMetrics ;
+      skos:broader narr:StyleMetrics ;
+      dct:source narr:Sample_SomeOtherTitleShouldNotWin ;
+      narr:AverageSentenceLength "1"^^xsd:integer ;
+      narr:ActiveVoiceRatio "1.0"^^xsd:decimal ;
+      narr:JargonDensity "0.0"^^xsd:decimal ;
+      skos:note "Extremely short document: 1 body sentence of 1 word. No technical jargon in body. Title carries the semantic load. Register: test fixture / structural placeholder." .
+
+  }
+}
