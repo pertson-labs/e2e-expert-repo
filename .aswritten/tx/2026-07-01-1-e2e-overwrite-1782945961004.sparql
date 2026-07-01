@@ -1,0 +1,125 @@
+PREFIX narr: <https://aswritten.ai/narrative#>
+PREFIX rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX prov: <http://www.w3.org/ns/prov#>
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+PREFIX dct:  <http://purl.org/dc/terms/>
+PREFIX xsd:  <http://www.w3.org/2001/XMLSchema#>
+PREFIX oa:   <http://www.w3.org/ns/oa#>
+
+# Transaction provenance (default graph)
+INSERT DATA {
+  narr:Tx_20260701T224828Z a prov:Activity ;
+    prov:generatedAtTime "2026-07-01T22:48:28Z"^^xsd:dateTime ;
+    prov:wasAssociatedWith "aswritten.ai" ;
+    prov:wasAttributedTo "n8n.aswritten.ai" ;
+    narr:originPath "2026-07-01-1-e2e-overwrite-1782945961004" ;
+    narr:originRef "e2e-overwrite-1782945961004" ;
+    dct:title "Extraction: Second version stub with reviewer front-matter" ;
+    prov:generated
+      narr:Sample_SecondVersionStub,
+      narr:Actor_Reviewer_ExpertGH,
+      narr:Narrative_DocumentVersioning,
+      narr:StyleObs_MinimalBody,
+      narr:StyleObs_YAMLFrontMatter,
+      narr:StyleObs_VersionLabel,
+      narr:StyleMetrics_SecondVersionStub .
+} ;
+
+# Extracted entities (named graph)
+INSERT DATA {
+  GRAPH narr:Tx_20260701T224828Z {
+
+    # ── Sample ──────────────────────────────────────────────────
+    narr:Sample_SecondVersionStub a narr:Sample ;
+      dct:title "Second version stub" ;
+      narr:inputLength 73 ;
+      dct:description "Minimal document stub: YAML front-matter listing one reviewer (email redacted) and a two-word body 'Second version'." .
+
+    # ── Actor ───────────────────────────────────────────────────
+    # Email redacted per PII policy (allow_pii not set)
+    narr:Actor_Reviewer_ExpertGH a narr:Actor ;
+      skos:prefLabel "Expert GH Reviewer (test+expert-gh@aswritten.ai — redacted)" ;
+      skos:note "Listed as reviewer in YAML front-matter of the source document. Email address redacted per PII policy." .
+
+    # ── Narrative ───────────────────────────────────────────────
+    narr:Narrative_DocumentVersioning a narr:Narrative ;
+      dct:source narr:Sample_SecondVersionStub ;
+      narr:theme "Document versioning and review assignment" ;
+      skos:broader narr:Process ;
+      skos:note "The document declares itself a 'Second version' and assigns a named reviewer via YAML front-matter, indicating an iterative review process is in place." .
+
+    # ── Style Observations ──────────────────────────────────────
+
+    # 1. YAML front-matter as structural convention
+    narr:StyleObs_YAMLFrontMatter a narr:StyleObservation ;
+      skos:broader narr:EditorialRules ;
+      dct:source narr:Sample_SecondVersionStub ;
+      skos:note "Document uses YAML front-matter delimited by triple-dashes to declare metadata (reviewers list), a structured editorial convention." ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_SecondVersionStub ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start 0 ;
+          oa:end 46
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "---\nreviewers:\n  - test+expert-gh@aswritten.ai\n---" ;
+          oa:prefix "" ;
+          oa:suffix "\n\nSecond version"
+        ]
+      ] .
+
+    # 2. Minimal body — ultra-short declarative label
+    narr:StyleObs_MinimalBody a narr:StyleObservation ;
+      skos:broader narr:ShortPunchyCadence ;
+      dct:source narr:Sample_SecondVersionStub ;
+      rdf:value true ;
+      skos:note "Body text is a two-word declarative noun phrase ('Second version'), exhibiting extreme brevity with no elaboration." ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_SecondVersionStub ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start 58 ; oa:end 72
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "Second version" ;
+          oa:prefix "---\n\n" ;
+          oa:suffix ""
+        ]
+      ] .
+
+    # 3. Version label as naming convention
+    narr:StyleObs_VersionLabel a narr:StyleObservation ;
+      skos:broader narr:NamingConventions ;
+      dct:source narr:Sample_SecondVersionStub ;
+      skos:note "Version is expressed as an ordinal noun phrase ('Second version') rather than a semantic version number (e.g., v2.0), reflecting informal naming convention." ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_SecondVersionStub ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start 58 ; oa:end 72
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "Second version" ;
+          oa:prefix "---\n\n" ;
+          oa:suffix ""
+        ]
+      ] .
+
+    # ── Style Metrics ───────────────────────────────────────────
+    narr:StyleMetrics_SecondVersionStub a narr:StyleMetrics ;
+      skos:broader narr:StyleMetrics ;
+      dct:source narr:Sample_SecondVersionStub ;
+      narr:AverageSentenceLength 2 ;
+      narr:ActiveVoiceRatio "1.0"^^xsd:decimal ;
+      narr:JargonDensity "0.0"^^xsd:decimal ;
+      skos:note "Body is a single two-word noun phrase. No sentences, no jargon, no passive constructions. Metrics reflect the extreme minimalism of the document body." .
+
+  }
+}
