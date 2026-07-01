@@ -1,0 +1,109 @@
+PREFIX narr: <https://aswritten.ai/narrative#>
+PREFIX rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX prov: <http://www.w3.org/ns/prov#>
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+PREFIX dct:  <http://purl.org/dc/terms/>
+PREFIX xsd:  <http://www.w3.org/2001/XMLSchema#>
+PREFIX oa:   <http://www.w3.org/ns/oa#>
+
+# Transaction provenance (default graph)
+INSERT DATA {
+  narr:Tx_20260701T225026Z a prov:Activity ;
+    prov:generatedAtTime "2026-07-01T22:50:26Z"^^xsd:dateTime ;
+    prov:wasAssociatedWith "aswritten.ai" ;
+    prov:wasAttributedTo "n8n.aswritten.ai" ;
+    narr:originPath "2026-07-01-1-e2e-overwrite-1782946155773" ;
+    narr:originRef "e2e-overwrite-1782946155773" ;
+    dct:title "First version stub — pertson-labs/e2e-expert-repo" ;
+    prov:generated
+      narr:Sample_FirstVersion_E2EExpertRepo,
+      narr:StyleObs_PlaceholderRegister,
+      narr:StyleObs_YAMLFrontmatterConvention,
+      narr:StyleObs_PlusAddressEmail,
+      narr:StyleMetrics_FirstVersion_E2EExpertRepo .
+} ;
+
+# Extracted entities (named graph)
+INSERT DATA {
+  GRAPH narr:Tx_20260701T225026Z {
+
+    # ── Sample ──────────────────────────────────────────────────
+    narr:Sample_FirstVersion_E2EExpertRepo a narr:Sample ;
+      dct:title "First version (e2e-expert-repo)" ;
+      narr:inputLength 72 ;
+      dct:description "Minimal stub document with YAML front-matter reviewer field and placeholder body text." .
+
+    # ── Style Observation 1: Placeholder / terse register ───────
+    narr:StyleObs_PlaceholderRegister a narr:StyleObservation ;
+      skos:broader narr:RegisterFormality ;
+      dct:source narr:Sample_FirstVersion_E2EExpertRepo ;
+      skos:note "Entire body is a single two-word placeholder phrase indicating an initial stub, with no substantive content." ;
+      rdf:value false ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_FirstVersion_E2EExpertRepo ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start 58 ; oa:end 71
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "First version" ;
+          oa:prefix "\n\n" ;
+          oa:suffix ""
+        ]
+      ] .
+
+    # ── Style Observation 2: YAML front-matter formatting ───────
+    narr:StyleObs_YAMLFrontmatterConvention a narr:StyleObservation ;
+      skos:broader narr:EditorialRules ;
+      dct:source narr:Sample_FirstVersion_E2EExpertRepo ;
+      skos:note "Document uses YAML front-matter delimited by triple-dashes to declare structured metadata (reviewers list), a common static-site / docs-as-code convention." ;
+      rdf:value true ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_FirstVersion_E2EExpertRepo ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start 0 ;
+          oa:end 42
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "---\nreviewers:\n  - test+expert-gh@aswritten.ai\n---" ;
+          oa:prefix "" ;
+          oa:suffix "\n\nFirst version"
+        ]
+      ] .
+
+    # ── Style Observation 3: Plus-addressing email pattern ──────
+    narr:StyleObs_PlusAddressEmail a narr:StyleObservation ;
+      skos:broader narr:NamingConventions ;
+      dct:source narr:Sample_FirstVersion_E2EExpertRepo ;
+      skos:note "Reviewer email uses plus-addressing (test+expert-gh@aswritten.ai) to encode role/context tags within the local part of the address — a systematic naming convention for routing or filtering." ;
+      rdf:value true ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_FirstVersion_E2EExpertRepo ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start 22 ; oa:end 49
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "test+expert-gh@aswritten.ai" ;
+          oa:prefix "  - " ;
+          oa:suffix "\n---"
+        ]
+      ] .
+
+    # ── Style Metrics ────────────────────────────────────────────
+    narr:StyleMetrics_FirstVersion_E2EExpertRepo a narr:StyleMetrics ;
+      skos:broader narr:StyleMetrics ;
+      dct:source narr:Sample_FirstVersion_E2EExpertRepo ;
+      narr:AverageSentenceLength 2 ;
+      narr:ActiveVoiceRatio "1.0"^^xsd:decimal ;
+      narr:JargonDensity "0.0"^^xsd:decimal ;
+      skos:note "Single two-word body phrase; no sentences, no jargon, no passive constructions. Metrics reflect stub-level content only."
+  }
+}
