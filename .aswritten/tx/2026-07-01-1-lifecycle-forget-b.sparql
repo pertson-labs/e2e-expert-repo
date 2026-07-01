@@ -1,0 +1,183 @@
+PREFIX narr: <https://aswritten.ai/narrative#>
+PREFIX rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX prov: <http://www.w3.org/ns/prov#>
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+PREFIX dct:  <http://purl.org/dc/terms/>
+PREFIX xsd:  <http://www.w3.org/2001/XMLSchema#>
+PREFIX oa:   <http://www.w3.org/ns/oa#>
+
+# ── Retraction transaction (default graph) ──────────────────────────────────
+INSERT DATA {
+  narr:Tx_20260701T214743Z a prov:Activity ;
+    prov:generatedAtTime "2026-07-01T21:47:43Z"^^xsd:dateTime ;
+    prov:wasAssociatedWith "aswritten.ai" ;
+    prov:wasAttributedTo "test+expert-gh@aswritten.ai" ;
+    narr:originPath "2026-07-01-1-lifecycle-forget-b" ;
+    narr:originRef "e2e-lifecycle-1782941678391" ;
+    dct:title "Retraction: forget all database decision knowledge (Zypherion, Meridian, Quinton Fairweather, analytics pipeline)" ;
+    prov:generated narr:Tx_20260701T214743Z .
+} ;
+
+# ── Remove all triples in any named graph for the two source transactions ────
+DELETE WHERE {
+  GRAPH narr:Tx_20260701T213654Z { ?s ?p ?o }
+} ;
+
+DELETE WHERE {
+  GRAPH narr:Tx_20260701T214100Z { ?s ?p ?o }
+} ;
+
+# ── Remove the transaction activity nodes from the default graph ─────────────
+DELETE WHERE {
+  narr:Tx_20260701T213654Z ?p ?o .
+} ;
+
+DELETE WHERE {
+  narr:Tx_20260701T214100Z ?p ?o .
+} ;
+
+# ── Remove all triples where retracted entities appear as subjects ────────────
+DELETE WHERE {
+  GRAPH ?g {
+    narr:Narrative_ZypherionAdoption ?p ?o .
+  }
+} ;
+
+DELETE WHERE {
+  GRAPH ?g {
+    narr:Claim_MeridianBatchStreamingCapability ?p ?o .
+  }
+} ;
+
+DELETE WHERE {
+  GRAPH ?g {
+    narr:Claim_ZypherionColumnarPerformance ?p ?o .
+  }
+} ;
+
+DELETE WHERE {
+  GRAPH ?g {
+    narr:Claim_ZypherionMigrationTimeline ?p ?o .
+  }
+} ;
+
+DELETE WHERE {
+  GRAPH ?g {
+    narr:Claim_ZypherionStreamingGap ?p ?o .
+  }
+} ;
+
+DELETE WHERE {
+  GRAPH ?g {
+    narr:Actor_QuintonFairweather ?p ?o .
+  }
+} ;
+
+DELETE WHERE {
+  GRAPH ?g {
+    narr:Observation_QuintonStatement ?p ?o .
+  }
+} ;
+
+DELETE WHERE {
+  GRAPH ?g {
+    narr:StyleObservation_BoldKeyDecisions ?p ?o .
+  }
+} ;
+
+DELETE WHERE {
+  GRAPH ?g {
+    narr:StyleObservation_DirectQuote ?p ?o .
+  }
+} ;
+
+DELETE WHERE {
+  GRAPH ?g {
+    narr:StyleMetrics_ZypherionDecision ?p ?o .
+  }
+} ;
+
+DELETE WHERE {
+  GRAPH ?g {
+    narr:Sample_MeridianDatabaseDecision_20260406 ?p ?o .
+  }
+} ;
+
+DELETE WHERE {
+  GRAPH ?g {
+    narr:Sample_ZypherionDatabaseDecision_20260406 ?p ?o .
+  }
+} ;
+
+# ── Remove all triples where retracted entities appear as objects ─────────────
+DELETE WHERE {
+  GRAPH ?g {
+    ?s ?p narr:Narrative_ZypherionAdoption .
+  }
+} ;
+
+DELETE WHERE {
+  GRAPH ?g {
+    ?s ?p narr:Claim_MeridianBatchStreamingCapability .
+  }
+} ;
+
+DELETE WHERE {
+  GRAPH ?g {
+    ?s ?p narr:Claim_ZypherionColumnarPerformance .
+  }
+} ;
+
+DELETE WHERE {
+  GRAPH ?g {
+    ?s ?p narr:Claim_ZypherionMigrationTimeline .
+  }
+} ;
+
+DELETE WHERE {
+  GRAPH ?g {
+    ?s ?p narr:Claim_ZypherionStreamingGap .
+  }
+} ;
+
+DELETE WHERE {
+  GRAPH ?g {
+    ?s ?p narr:Actor_QuintonFairweather .
+  }
+} ;
+
+DELETE WHERE {
+  GRAPH ?g {
+    ?s ?p narr:Observation_QuintonStatement .
+  }
+} ;
+
+DELETE WHERE {
+  GRAPH ?g {
+    ?s ?p narr:StyleObservation_BoldKeyDecisions .
+  }
+} ;
+
+DELETE WHERE {
+  GRAPH ?g {
+    ?s ?p narr:StyleObservation_DirectQuote .
+  }
+} ;
+
+DELETE WHERE {
+  GRAPH ?g {
+    ?s ?p narr:StyleMetrics_ZypherionDecision .
+  }
+} ;
+
+DELETE WHERE {
+  GRAPH ?g {
+    ?s ?p narr:Sample_MeridianDatabaseDecision_20260406 .
+  }
+} ;
+
+DELETE WHERE {
+  GRAPH ?g {
+    ?s ?p narr:Sample_ZypherionDatabaseDecision_20260406 .
+  }
+}
