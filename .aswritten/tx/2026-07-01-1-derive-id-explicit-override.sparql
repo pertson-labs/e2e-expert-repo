@@ -1,0 +1,121 @@
+PREFIX narr: <https://aswritten.ai/narrative#>
+PREFIX rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX prov: <http://www.w3.org/ns/prov#>
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+PREFIX dct:  <http://purl.org/dc/terms/>
+PREFIX xsd:  <http://www.w3.org/2001/XMLSchema#>
+PREFIX oa:   <http://www.w3.org/ns/oa#>
+
+# Transaction provenance (default graph)
+INSERT DATA {
+  narr:Tx_20260701T195449Z a prov:Activity ;
+    prov:generatedAtTime "2026-07-01T19:54:49Z"^^xsd:dateTime ;
+    prov:wasAssociatedWith "aswritten.ai" ;
+    prov:wasAttributedTo "n8n.aswritten.ai" ;
+    narr:originPath "2026-07-01-1-derive-id-explicit-override" ;
+    narr:originRef "e2e-derive-id-1782935139944" ;
+    dct:title "E2E Derive-Id: Title Should Not Win" ;
+    prov:generated
+      narr:Sample_SomeOtherTitleShouldNotWin,
+      narr:Claim_PipelineMustNotUseTitleAsSlug,
+      narr:StyleObs_TitleShouldNotWin_IronicAssertion,
+      narr:StyleObs_TitleShouldNotWin_MinimalBody,
+      narr:StyleObs_TitleShouldNotWin_H1Heading,
+      narr:StyleMetrics_SampleSomeOtherTitleShouldNotWin .
+} ;
+
+# Extracted entities (named graph)
+INSERT DATA {
+  GRAPH narr:Tx_20260701T195449Z {
+
+    # ── Sample ──────────────────────────────────────────────────
+    narr:Sample_SomeOtherTitleShouldNotWin a narr:Sample ;
+      dct:title "Some Other Title That Should Not Win" ;
+      narr:inputLength 106 ;
+      dct:description "Minimal E2E test memory: YAML frontmatter with reviewer, H1 heading asserting the title should not be used as the pipeline slug, and a one-word body. Tests that the pipeline does not derive its id/slug from the document title." .
+
+    # ── Claim: title must not become the slug ───────────────────
+    narr:Claim_PipelineMustNotUseTitleAsSlug a narr:Claim ;
+      narr:aboutNode narr:Narrative_PipelineSlugDerivation ;
+      narr:hasConvictionLevel narr:Conviction_Stake ;
+      narr:supports narr:Claim_PipelineMustDeriveSlug ;
+      dct:source narr:Sample_SomeOtherTitleShouldNotWin ;
+      skos:note "The document title 'Some Other Title That Should Not Win' is an explicit test assertion: the pipeline must not use the H1 heading text as the slug/id. The correct slug must be derived from content or a deterministic fallback, not from the title string." ;
+      skos:broader narr:Process .
+
+    # ── Style Observations ───────────────────────────────────────
+
+    # 1. Ironic / self-referential title as test assertion
+    narr:StyleObs_TitleShouldNotWin_IronicAssertion a narr:StyleObservation ;
+      skos:broader narr:ToneAuthoritative ;
+      dct:source narr:Sample_SomeOtherTitleShouldNotWin ;
+      skos:note "Self-referential irony: the heading text encodes the test expectation ('Should Not Win'), making the title itself the assertion under test." ;
+      rdf:value true ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_SomeOtherTitleShouldNotWin ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start 60 ; oa:end 96
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "Some Other Title That Should Not Win" ;
+          oa:prefix "# " ;
+          oa:suffix "\n\nBody."
+        ]
+      ] .
+
+    # 2. Minimal body — single word
+    narr:StyleObs_TitleShouldNotWin_MinimalBody a narr:StyleObservation ;
+      skos:broader narr:ShortPunchyCadence ;
+      dct:source narr:Sample_SomeOtherTitleShouldNotWin ;
+      skos:note "Extreme brevity in body: a single word 'Body.' constitutes the entire document content, signalling this is a structural/pipeline test rather than a content document." ;
+      rdf:value true ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_SomeOtherTitleShouldNotWin ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start 100 ; oa:end 105
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "Body." ;
+          oa:prefix "Should Not Win\n\n" ;
+          oa:suffix ""
+        ]
+      ] .
+
+    # 3. H1 heading (not H2) — structural variation from prior test
+    narr:StyleObs_TitleShouldNotWin_H1Heading a narr:StyleObservation ;
+      skos:broader narr:GrammarSyntax ;
+      dct:source narr:Sample_SomeOtherTitleShouldNotWin ;
+      skos:note "Uses a single-hash H1 heading (# prefix) rather than the H2 (## prefix) used in the Phase 2 E2E test, exercising a different heading-level code path in the slug derivation pipeline." ;
+      rdf:value true ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_SomeOtherTitleShouldNotWin ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start 58 ; oa:end 96
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "# Some Other Title That Should Not Win" ;
+          oa:prefix "---\n\n" ;
+          oa:suffix "\n\nBody."
+        ]
+      ] .
+
+    # ── Style Metrics ────────────────────────────────────────────
+    narr:StyleMetrics_SampleSomeOtherTitleShouldNotWin a narr:StyleMetrics ;
+      skos:broader narr:StyleMetrics ;
+      dct:source narr:Sample_SomeOtherTitleShouldNotWin ;
+      narr:AverageSentenceLength 6 ;
+      narr:ActiveVoiceRatio "1.0"^^xsd:decimal ;
+      narr:JargonDensity "0.0"^^xsd:decimal ;
+      skos:note "Extremely short document (2 content tokens: heading + body word). No jargon; no passive constructions. Register is structural/test rather than technical-internal." .
+
+  }
+}
