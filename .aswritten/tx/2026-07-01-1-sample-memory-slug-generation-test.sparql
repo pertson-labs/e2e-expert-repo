@@ -1,0 +1,158 @@
+PREFIX narr: <https://aswritten.ai/narrative#>
+PREFIX rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX prov: <http://www.w3.org/ns/prov#>
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+PREFIX dct:  <http://purl.org/dc/terms/>
+PREFIX xsd:  <http://www.w3.org/2001/XMLSchema#>
+PREFIX oa:   <http://www.w3.org/ns/oa#>
+
+# Transaction provenance (default graph)
+INSERT DATA {
+  narr:Tx_20260701T215416Z a prov:Activity ;
+    prov:generatedAtTime "2026-07-01T21:54:16Z"^^xsd:dateTime ;
+    prov:wasAssociatedWith "aswritten.ai" ;
+    prov:wasAttributedTo "n8n.aswritten.ai" ;
+    narr:originPath "2026-07-01-1-sample-memory-slug-generation-test" ;
+    narr:originRef "e2e-derive-id-1782942757201" ;
+    dct:title "Sample Memory With Distinctive Heading — slug derivation test" ;
+    prov:generated
+      narr:Sample_SampleMemoryDistinctiveHeading,
+      narr:Narrative_PipelineSlugDerivation,
+      narr:Claim_SlugFallbackMechanism,
+      narr:Actor_TestExpertReviewer,
+      narr:Obs_SlugDerivationStatement,
+      narr:StyleObs_InformalDirectRegister,
+      narr:StyleObs_TechnicalJargonPipeline,
+      narr:StyleObs_EmDashRhetoricalEnumeration,
+      narr:StyleMetrics_SampleMemoryDistinctiveHeading .
+} ;
+
+# Extracted entities (named graph)
+INSERT DATA {
+  GRAPH narr:Tx_20260701T215416Z {
+
+    # ── Sample ──────────────────────────────────────────────────
+    narr:Sample_SampleMemoryDistinctiveHeading a narr:Sample ;
+      dct:title "Sample Memory With Distinctive Heading" ;
+      narr:inputLength 308 ;
+      dct:description "Test memory submitted without an explicit id field to exercise pipeline slug derivation via LLM id-gen or deterministic slugify fallback." .
+
+    # ── Actor ───────────────────────────────────────────────────
+    narr:Actor_TestExpertReviewer a narr:Actor ;
+      skos:prefLabel "test+expert-gh" ;
+      skos:note "Reviewer listed in YAML frontmatter; email redacted per PII policy (test+expert-gh@aswritten.ai)." .
+
+    # ── Narrative ───────────────────────────────────────────────
+    narr:Narrative_PipelineSlugDerivation a narr:Narrative ;
+      narr:theme "Pipeline must derive a slug/id from memory content when no explicit id field is provided" ;
+      skos:broader narr:Process ;
+      skos:note "When a memory is submitted without an explicit id field, the pipeline must produce a slug — either via the LLM id-gen call or the deterministic slugify fallback — and commit the file successfully." ;
+      dct:source narr:Sample_SampleMemoryDistinctiveHeading .
+
+    # ── Claim ───────────────────────────────────────────────────
+    narr:Claim_SlugFallbackMechanism a narr:Claim ;
+      narr:aboutNode narr:Process ;
+      narr:hasConvictionLevel narr:Conviction_Stake ;
+      narr:supports narr:Narrative_PipelineSlugDerivation ;
+      dct:source narr:Sample_SampleMemoryDistinctiveHeading ;
+      skos:note "The pipeline uses either the LLM id-gen call or the deterministic slugify fallback to produce a slug from memory content, then commits the file successfully." .
+
+    # ── Observation ─────────────────────────────────────────────
+    narr:Obs_SlugDerivationStatement a narr:Observation ;
+      skos:broader narr:CoreWorkflows ;
+      dct:source narr:Sample_SampleMemoryDistinctiveHeading ;
+      skos:note "Core assertion: pipeline must produce a slug when no id is provided, via LLM or slugify fallback." ;
+      oa:hasSelector [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_SampleMemoryDistinctiveHeading ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start 68 ;
+          oa:end 222
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "The pipeline must produce a\nslug from the memory content — either via the LLM id-gen call or the\ndeterministic slugify fallback — and commit the file successfully." ;
+          oa:prefix "Submitted without an explicit id field. " ;
+          oa:suffix ""
+        ]
+      ] .
+
+    # ── Style Observations ──────────────────────────────────────
+
+    # 1. Informal direct register — declarative imperative tone
+    narr:StyleObs_InformalDirectRegister a narr:StyleObservation ;
+      skos:broader narr:ToneDirectPersonal ;
+      dct:source narr:Sample_SampleMemoryDistinctiveHeading ;
+      skos:note "Declarative imperative register: 'The pipeline must produce a slug' — direct, unhedged obligation statement typical of engineering spec prose." ;
+      rdf:value true ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_SampleMemoryDistinctiveHeading ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start 142 ; oa:end 169
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "The pipeline must produce a" ;
+          oa:prefix "Submitted without an explicit id field. " ;
+          oa:suffix "\nslug from the memory content"
+        ]
+      ] .
+
+    # 2. Technical jargon density — pipeline/slug/LLM/slugify
+    narr:StyleObs_TechnicalJargonPipeline a narr:StyleObservation ;
+      skos:broader narr:JargonPolicy ;
+      dct:source narr:Sample_SampleMemoryDistinctiveHeading ;
+      skos:note "High jargon density for a short passage: 'pipeline', 'slug', 'LLM id-gen call', 'deterministic slugify fallback' — assumes reader familiarity with CI/CD and NLP tooling." ;
+      rdf:value true ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_SampleMemoryDistinctiveHeading ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start 107 ;
+          oa:end 222
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "either via the LLM id-gen call or the\ndeterministic slugify fallback" ;
+          oa:prefix "slug from the memory content — " ;
+          oa:suffix " — and commit the file successfully."
+        ]
+      ] .
+
+    # 3. Em-dash rhetorical enumeration — parenthetical elaboration
+    narr:StyleObs_EmDashRhetoricalEnumeration a narr:StyleObservation ;
+      skos:broader narr:PunctuationTypography ;
+      dct:source narr:Sample_SampleMemoryDistinctiveHeading ;
+      skos:note "Double em-dash parenthetical used to enumerate two alternative mechanisms inline, a compact technical-prose pattern: '— either via … or the … fallback —'." ;
+      rdf:value true ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_SampleMemoryDistinctiveHeading ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start 95 ;
+          oa:end 222
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "slug from the memory content — either via the LLM id-gen call or the\ndeterministic slugify fallback —" ;
+          oa:prefix "The pipeline must produce a\n" ;
+          oa:suffix " and commit the file successfully."
+        ]
+      ] .
+
+    # ── Style Metrics ───────────────────────────────────────────
+    narr:StyleMetrics_SampleMemoryDistinctiveHeading a narr:StyleMetrics ;
+      skos:broader narr:StyleMetrics ;
+      dct:source narr:Sample_SampleMemoryDistinctiveHeading ;
+      narr:AverageSentenceLength 22 ;
+      narr:ActiveVoiceRatio "0.85"^^xsd:decimal ;
+      narr:JargonDensity "0.18"^^xsd:decimal ;
+      skos:note "Short document (2 sentences in body). Active voice dominates ('must produce', 'commit'). Jargon density elevated by pipeline/slug/LLM/slugify terminology in a very short passage. Register: technical spec / engineering brief." .
+
+  }
+}
