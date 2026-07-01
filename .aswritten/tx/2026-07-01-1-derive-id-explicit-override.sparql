@@ -1,0 +1,130 @@
+PREFIX narr: <https://aswritten.ai/narrative#>
+PREFIX rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX prov: <http://www.w3.org/ns/prov#>
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+PREFIX dct:  <http://purl.org/dc/terms/>
+PREFIX xsd:  <http://www.w3.org/2001/XMLSchema#>
+PREFIX oa:   <http://www.w3.org/ns/oa#>
+
+# Transaction provenance (default graph)
+INSERT DATA {
+  narr:Tx_20260701T203647Z a prov:Activity ;
+    prov:generatedAtTime "2026-07-01T20:36:47Z"^^xsd:dateTime ;
+    prov:wasAssociatedWith "aswritten.ai" ;
+    prov:wasAttributedTo "n8n.aswritten.ai" ;
+    narr:originPath "2026-07-01-1-derive-id-explicit-override" ;
+    narr:originRef "e2e-derive-id-1782937662058" ;
+    dct:title "Some Other Title That Should Not Win — slug derivation test (Phase 3)" ;
+    prov:generated
+      narr:Sample_SomeOtherTitleThatShouldNotWin,
+      narr:Obs_SomeOtherTitleHeadingPattern,
+      narr:StyleObs_SomeOtherTitle_ImperativeMood,
+      narr:StyleObs_SomeOtherTitle_MinimalBody,
+      narr:StyleObs_SomeOtherTitle_ReviewerFrontmatter,
+      narr:StyleMetrics_SomeOtherTitleThatShouldNotWin .
+} ;
+
+# Extracted entities (named graph)
+INSERT DATA {
+  GRAPH narr:Tx_20260701T203647Z {
+
+    # ── Sample ──────────────────────────────────────────────────
+    narr:Sample_SomeOtherTitleThatShouldNotWin a narr:Sample ;
+      dct:title "Some Other Title That Should Not Win" ;
+      narr:inputLength 106 ;
+      dct:description "A test memory submitted without an explicit id field, with an H1 heading that should not be used as the slug. Exercises the pipeline's slug-derivation path and validates that the heading text does not override the derived id." .
+
+    # ── Observation: H1 heading without id field ─────────────────
+    narr:Obs_SomeOtherTitleHeadingPattern a narr:Observation ;
+      skos:broader narr:EdgeCaseHandling ;
+      dct:source narr:Sample_SomeOtherTitleThatShouldNotWin ;
+      skos:note "The memory has an H1 heading ('Some Other Title That Should Not Win') but no id field in frontmatter. This exercises the slug-derivation path and asserts the heading title should not win over the pipeline-derived id." ;
+      narr:supports narr:Claim_SlugFallbackRequired ;
+      oa:hasSelector [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_SomeOtherTitleThatShouldNotWin ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start 58 ; oa:end 96
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "# Some Other Title That Should Not Win" ;
+          oa:prefix "---\n\n" ;
+          oa:suffix "\n\nBody."
+        ]
+      ] .
+
+    # ── Style Observations ───────────────────────────────────────
+
+    narr:StyleObs_SomeOtherTitle_ImperativeMood a narr:StyleObservation ;
+      skos:broader narr:ToneAuthoritative ;
+      dct:source narr:Sample_SomeOtherTitleThatShouldNotWin ;
+      rdf:value true ;
+      skos:note "The heading 'Should Not Win' uses a modal-negative construction that reads as a test assertion or specification directive, not a descriptive title — characteristic of test-fixture authorship." ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_SomeOtherTitleThatShouldNotWin ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start 58 ; oa:end 96
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "# Some Other Title That Should Not Win" ;
+          oa:prefix "---\n\n" ;
+          oa:suffix "\n\nBody."
+        ]
+      ] .
+
+    narr:StyleObs_SomeOtherTitle_MinimalBody a narr:StyleObservation ;
+      skos:broader narr:Conciseness ;
+      dct:source narr:Sample_SomeOtherTitleThatShouldNotWin ;
+      rdf:value true ;
+      skos:note "Body content is a single word ('Body.') — an intentionally minimal stub, typical of E2E test scaffolding where content is irrelevant and only structure/metadata is under test." ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_SomeOtherTitleThatShouldNotWin ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start 100 ; oa:end 105
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "Body." ;
+          oa:prefix "# Some Other Title That Should Not Win\n\n" ;
+          oa:suffix ""
+        ]
+      ] .
+
+    narr:StyleObs_SomeOtherTitle_ReviewerFrontmatter a narr:StyleObservation ;
+      skos:broader narr:EditorialRules ;
+      dct:source narr:Sample_SomeOtherTitleThatShouldNotWin ;
+      rdf:value true ;
+      skos:note "YAML frontmatter declares a reviewer (test+expert-gh@aswritten.ai) without an id field — the absence of id is the structural feature under test, while the reviewer field confirms the expert-review pipeline is engaged." ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_SomeOtherTitleThatShouldNotWin ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start 0 ;
+          oa:end 45
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "---\nreviewers:\n  - test+expert-gh@aswritten.ai\n---" ;
+          oa:prefix "" ;
+          oa:suffix "\n\n# Some Other Title"
+        ]
+      ] .
+
+    # ── Style Metrics ────────────────────────────────────────────
+    narr:StyleMetrics_SomeOtherTitleThatShouldNotWin a narr:StyleMetrics ;
+      skos:broader narr:StyleMetrics ;
+      dct:source narr:Sample_SomeOtherTitleThatShouldNotWin ;
+      narr:AverageSentenceLength 5 ;
+      narr:ActiveVoiceRatio "1.0"^^xsd:decimal ;
+      narr:JargonDensity "0.1"^^xsd:decimal ;
+      skos:note "Extremely short document: 1 heading + 1 body word. No complex sentences. Active voice throughout. Minimal jargon (only 'reviewers' as a pipeline term). Register: E2E test scaffold / stub."
+  }
+}
