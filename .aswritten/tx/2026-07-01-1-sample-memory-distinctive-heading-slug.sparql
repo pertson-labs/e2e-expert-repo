@@ -1,0 +1,148 @@
+PREFIX narr: <https://aswritten.ai/narrative#>
+PREFIX rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX prov: <http://www.w3.org/ns/prov#>
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+PREFIX dct:  <http://purl.org/dc/terms/>
+PREFIX xsd:  <http://www.w3.org/2001/XMLSchema#>
+PREFIX oa:   <http://www.w3.org/ns/oa#>
+
+# Transaction provenance (default graph)
+INSERT DATA {
+  narr:Tx_20260701T172228Z a prov:Activity ;
+    prov:generatedAtTime "2026-07-01T17:22:28Z"^^xsd:dateTime ;
+    prov:wasAssociatedWith "aswritten.ai" ;
+    prov:wasAttributedTo "n8n.aswritten.ai" ;
+    narr:originPath "2026-07-01-1-sample-memory-distinctive-heading-slug" ;
+    narr:originRef "e2e-derive-id-1782926440568" ;
+    dct:title "Pipeline Slug Generation — Sample Memory With Distinctive Heading" ;
+    prov:generated
+      narr:Sample_PipelineSlugGeneration,
+      narr:Narrative_PipelineSlugDerivation,
+      narr:Claim_SlugFromContentWhenNoId,
+      narr:Observation_SlugFallbackMechanism,
+      narr:StyleObs_ImperativeTone,
+      narr:StyleObs_TechnicalJargon,
+      narr:StyleObs_ConditionalAlternative,
+      narr:StyleMetrics_PipelineSlugGeneration .
+} ;
+
+# Extracted entities (named graph)
+INSERT DATA {
+  GRAPH narr:Tx_20260701T172228Z {
+
+    # ── Sample ──────────────────────────────────────────────────
+    narr:Sample_PipelineSlugGeneration a narr:Sample ;
+      dct:title "Sample Memory With Distinctive Heading" ;
+      narr:inputLength 308 ;
+      dct:description "A test memory submitted without an explicit id field, exercising the pipeline's slug-generation and file-commit path." .
+
+    # ── Narrative ────────────────────────────────────────────────
+    narr:Narrative_PipelineSlugDerivation a narr:Narrative ;
+      narr:theme "Pipeline must derive a slug from memory content when no explicit id is provided" ;
+      skos:broader narr:Process ;
+      skos:note "When a memory is submitted without an id field, the pipeline falls back to either an LLM id-gen call or a deterministic slugify function to produce a commit-safe filename slug." ;
+      dct:source narr:Sample_PipelineSlugGeneration .
+
+    # ── Claim ────────────────────────────────────────────────────
+    narr:Claim_SlugFromContentWhenNoId a narr:Claim ;
+      narr:aboutNode narr:Process ;
+      narr:hasConvictionLevel narr:Conviction_Stake ;
+      narr:supports narr:Narrative_PipelineSlugDerivation ;
+      skos:note "The pipeline must produce a slug from the memory content — either via the LLM id-gen call or the deterministic slugify fallback — and commit the file successfully." ;
+      dct:source narr:Sample_PipelineSlugGeneration .
+
+    # ── Observation ──────────────────────────────────────────────
+    narr:Observation_SlugFallbackMechanism a narr:Observation ;
+      skos:broader narr:CoreWorkflows ;
+      skos:note "Describes the two-path slug derivation: LLM id-gen call first, deterministic slugify fallback second." ;
+      dct:source narr:Sample_PipelineSlugGeneration ;
+      oa:hasSelector [
+        a oa:TextPositionSelector ;
+        oa:start 136 ;
+        oa:end 234
+      ] ;
+      oa:hasSelector [
+        a oa:TextQuoteSelector ;
+        oa:exact "The pipeline must produce a slug from the memory content" ;
+        oa:prefix "Submitted without an explicit id field. " ;
+        oa:suffix " — either via the LLM id-gen call or the"
+      ] .
+
+    # ── Style Observations ───────────────────────────────────────
+
+    # 1. Imperative / authoritative tone: "must produce"
+    narr:StyleObs_ImperativeTone a narr:StyleObservation ;
+      skos:broader narr:ToneAuthoritative ;
+      dct:source narr:Sample_PipelineSlugGeneration ;
+      rdf:value true ;
+      skos:note "Imperative modal 'must' frames pipeline behaviour as a hard requirement, not a suggestion." ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_PipelineSlugGeneration ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start 142 ; oa:end 169
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "The pipeline must produce a" ;
+          oa:prefix "Submitted without an explicit id field. " ;
+          oa:suffix " slug from the memory content"
+        ]
+      ] .
+
+    # 2. Technical jargon / domain terminology
+    narr:StyleObs_TechnicalJargon a narr:StyleObservation ;
+      skos:broader narr:JargonPolicy ;
+      dct:source narr:Sample_PipelineSlugGeneration ;
+      rdf:value true ;
+      skos:note "Cluster of pipeline-specific terms: 'slug', 'LLM id-gen call', 'deterministic slugify fallback' — assumes reader familiarity with CI/CD and NLP tooling." ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_PipelineSlugGeneration ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start 191 ;
+          oa:end 264
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "either via the LLM id-gen call or the deterministic slugify fallback" ;
+          oa:prefix "slug from the memory content — " ;
+          oa:suffix " — and commit the file successfully."
+        ]
+      ] .
+
+    # 3. Conditional alternative structure (either/or)
+    narr:StyleObs_ConditionalAlternative a narr:StyleObservation ;
+      skos:broader narr:GrammarSyntax ;
+      dct:source narr:Sample_PipelineSlugGeneration ;
+      rdf:value true ;
+      skos:note "'either … or …' construction presents two mutually exclusive fallback paths, a common pattern in technical specification prose." ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_PipelineSlugGeneration ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start 191 ;
+          oa:end 264
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "either via the LLM id-gen call or the deterministic slugify fallback" ;
+          oa:prefix "slug from the memory content — " ;
+          oa:suffix " — and commit the file successfully."
+        ]
+      ] .
+
+    # ── Style Metrics ────────────────────────────────────────────
+    narr:StyleMetrics_PipelineSlugGeneration a narr:StyleMetrics ;
+      skos:broader narr:StyleMetrics ;
+      dct:source narr:Sample_PipelineSlugGeneration ;
+      narr:AverageSentenceLength 22 ;
+      narr:ActiveVoiceRatio "0.85"^^xsd:decimal ;
+      narr:JargonDensity "0.30"^^xsd:decimal ;
+      skos:note "Short technical spec: two sentences in the body, high active-voice ratio, moderate jargon density driven by pipeline/slug/LLM terminology." .
+
+  }
+}
