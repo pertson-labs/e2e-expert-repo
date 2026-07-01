@@ -6,119 +6,141 @@ PREFIX dct:  <http://purl.org/dc/terms/>
 PREFIX xsd:  <http://www.w3.org/2001/XMLSchema#>
 PREFIX oa:   <http://www.w3.org/ns/oa#>
 
+# Transaction provenance (default graph)
 INSERT DATA {
-  narr:Tx_20260701T190840Z a prov:Activity ;
-    prov:generatedAtTime "2026-07-01T19:08:40Z"^^xsd:dateTime ;
+  narr:Tx_20260701T191214Z a prov:Activity ;
+    prov:generatedAtTime "2026-07-01T19:12:14Z"^^xsd:dateTime ;
     prov:wasAssociatedWith "aswritten.ai" ;
     prov:wasAttributedTo "n8n.aswritten.ai" ;
     narr:originPath "2026-07-01-1-e2e-overwrite-1782932823443" ;
     narr:originRef "e2e-overwrite-1782932823443" ;
-    dct:title "First version — reviewer stub" ;
+    dct:title "Second version — reviewer stub update" ;
     prov:generated
-      narr:Sample_FirstVersion_E2EExpert,
-      narr:Actor_TestExpertGH_AsWritten,
-      narr:Narrative_FirstVersionStub,
-      narr:StyleObs_MinimalRegister,
-      narr:StyleObs_PlaceholderCadence,
-      narr:StyleObs_YAMLFrontmatterConvention,
-      narr:StyleMetrics_FirstVersion .
+      narr:Sample_SecondVersion_E2EExpert,
+      narr:StyleMetrics_SecondVersion .
 } ;
 
+# New Sample for second version
 INSERT DATA {
-  GRAPH narr:Tx_20260701T190840Z {
+  GRAPH narr:Tx_20260701T191214Z {
+    narr:Sample_SecondVersion_E2EExpert a narr:Sample ;
+      dct:title "Second version — e2e-expert-repo stub" ;
+      narr:inputLength 73 ;
+      dct:description "Second version of the minimal stub document with YAML front-matter reviewer annotation and placeholder body text." ;
+      dct:replaces narr:Sample_FirstVersion_E2EExpert .
 
-    # ── Sample ──────────────────────────────────────────────────
-    narr:Sample_FirstVersion_E2EExpert a narr:Sample ;
-      dct:title "First version" ;
-      dct:description "Minimal stub document with YAML front-matter reviewer annotation and placeholder body text." ;
-      narr:inputLength 72 .
+    narr:StyleMetrics_SecondVersion a narr:StyleMetrics ;
+      skos:broader narr:StyleMetrics ;
+      dct:source narr:Sample_SecondVersion_E2EExpert ;
+      narr:AverageSentenceLength 2 ;
+      narr:ActiveVoiceRatio "1.0"^^xsd:decimal ;
+      narr:JargonDensity "0.0"^^xsd:decimal ;
+      skos:note "Single two-word body sentence. No passive constructions. No jargon. Minimal register throughout. Body text updated from 'First version' to 'Second version'." .
+  }
+} ;
 
-    # ── Actor ───────────────────────────────────────────────────
-    narr:Actor_TestExpertGH_AsWritten a narr:Actor ;
-      skos:prefLabel "test+expert-gh@aswritten.ai" ;
-      skos:note "Reviewer listed in YAML front-matter of the first-version stub document for the e2e-expert-repo." .
+# Update Narrative_FirstVersionStub to reflect second version body
+DELETE {
+  GRAPH ?g {
+    narr:Narrative_FirstVersionStub narr:theme ?oldTheme ;
+      skos:note ?oldNote .
+  }
+}
+INSERT {
+  GRAPH narr:Tx_20260701T191214Z {
+    narr:Narrative_FirstVersionStub narr:theme "Placeholder document updated to second version with reviewer assignment" ;
+      skos:note "The document now declares itself a second version with a single reviewer (test+expert-gh@aswritten.ai) and no substantive body content beyond the placeholder phrase 'Second version'. Supersedes the first version stub." ;
+      dct:source narr:Sample_SecondVersion_E2EExpert .
+  }
+}
+WHERE {
+  GRAPH ?g {
+    narr:Narrative_FirstVersionStub narr:theme ?oldTheme .
+    OPTIONAL { narr:Narrative_FirstVersionStub skos:note ?oldNote . }
+  }
+} ;
 
-    # ── Narrative ───────────────────────────────────────────────
-    narr:Narrative_FirstVersionStub a narr:Narrative ;
-      narr:theme "Initial placeholder document with reviewer assignment" ;
-      skos:broader narr:NarrativeAnchor ;
-      skos:note "The document declares itself a first version with a single reviewer (test+expert-gh@aswritten.ai) and no substantive body content beyond the placeholder phrase 'First version'." ;
-      dct:source narr:Sample_FirstVersion_E2EExpert .
-
-    # ── Style Observations ──────────────────────────────────────
-
-    # 1. Minimal / placeholder register
-    narr:StyleObs_MinimalRegister a narr:StyleObservation ;
-      skos:broader narr:RegisterFormality ;
-      dct:source narr:Sample_FirstVersion_E2EExpert ;
-      skos:note "Extremely minimal register: the entire body is a two-word placeholder phrase with no elaboration." ;
-      rdf:value false ;
+# Update StyleObs_PlaceholderCadence — body text changed from "First version" to "Second version"
+DELETE {
+  GRAPH ?g {
+    narr:StyleObs_PlaceholderCadence dct:source ?oldSource ;
+      skos:note ?oldNote .
+  }
+}
+INSERT {
+  GRAPH narr:Tx_20260701T191214Z {
+    narr:StyleObs_PlaceholderCadence dct:source narr:Sample_SecondVersion_E2EExpert ;
+      skos:note "Body text is a single two-word declarative phrase, representing maximum brevity — a placeholder cadence pattern common in stub documents. Updated from 'First version' to 'Second version'." ;
       oa:hasTarget [
         a oa:SpecificResource ;
-        oa:hasSource narr:Sample_FirstVersion_E2EExpert ;
+        oa:hasSource narr:Sample_SecondVersion_E2EExpert ;
         oa:hasSelector [
           a oa:TextPositionSelector ;
-          oa:start 58 ; oa:end 71
+          oa:start 58 ; oa:end 72
         ] ;
         oa:hasSelector [
           a oa:TextQuoteSelector ;
-          oa:exact "First version" ;
-          oa:prefix "\n\n" ;
-          oa:suffix ""
-        ]
-      ] .
-
-    # 2. YAML front-matter structural convention
-    narr:StyleObs_YAMLFrontmatterConvention a narr:StyleObservation ;
-      skos:broader narr:CitationConventions ;
-      dct:source narr:Sample_FirstVersion_E2EExpert ;
-      skos:note "Document uses YAML front-matter delimited by triple-dashes to encode structured metadata (reviewer list), a common editorial convention in static-site and docs-as-code workflows." ;
-      rdf:value true ;
-      oa:hasTarget [
-        a oa:SpecificResource ;
-        oa:hasSource narr:Sample_FirstVersion_E2EExpert ;
-        oa:hasSelector [
-          a oa:TextPositionSelector ;
-          oa:start 0 ;
-          oa:end 43
-        ] ;
-        oa:hasSelector [
-          a oa:TextQuoteSelector ;
-          oa:exact "---\nreviewers:\n  - test+expert-gh@aswritten.ai\n---" ;
-          oa:prefix "" ;
-          oa:suffix "\n\nFirst version"
-        ]
-      ] .
-
-    # 3. Short punchy cadence (single declarative phrase body)
-    narr:StyleObs_PlaceholderCadence a narr:StyleObservation ;
-      skos:broader narr:ShortPunchyCadence ;
-      dct:source narr:Sample_FirstVersion_E2EExpert ;
-      skos:note "Body text is a single two-word declarative phrase, representing maximum brevity — a placeholder cadence pattern common in stub documents." ;
-      rdf:value true ;
-      oa:hasTarget [
-        a oa:SpecificResource ;
-        oa:hasSource narr:Sample_FirstVersion_E2EExpert ;
-        oa:hasSelector [
-          a oa:TextPositionSelector ;
-          oa:start 58 ; oa:end 71
-        ] ;
-        oa:hasSelector [
-          a oa:TextQuoteSelector ;
-          oa:exact "First version" ;
+          oa:exact "Second version" ;
           oa:prefix "---\n\n" ;
           oa:suffix ""
         ]
       ] .
+  }
+}
+WHERE {
+  GRAPH ?g {
+    narr:StyleObs_PlaceholderCadence dct:source ?oldSource .
+    OPTIONAL { narr:StyleObs_PlaceholderCadence skos:note ?oldNote . }
+  }
+} ;
 
-    # ── Style Metrics ───────────────────────────────────────────
-    narr:StyleMetrics_FirstVersion a narr:StyleMetrics ;
-      skos:broader narr:StyleMetrics ;
-      dct:source narr:Sample_FirstVersion_E2EExpert ;
-      narr:AverageSentenceLength 2 ;
-      narr:ActiveVoiceRatio "1.0"^^xsd:decimal ;
-      narr:JargonDensity "0.0"^^xsd:decimal ;
-      skos:note "Single two-word body sentence. No passive constructions. No jargon. Minimal register throughout." .
+# Update StyleObs_MinimalRegister — body text changed from "First version" to "Second version"
+DELETE {
+  GRAPH ?g {
+    narr:StyleObs_MinimalRegister dct:source ?oldSource ;
+      skos:note ?oldNote .
+  }
+}
+INSERT {
+  GRAPH narr:Tx_20260701T191214Z {
+    narr:StyleObs_MinimalRegister dct:source narr:Sample_SecondVersion_E2EExpert ;
+      skos:note "Extremely minimal register: the entire body is a two-word placeholder phrase with no elaboration. Body updated to 'Second version'." ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_SecondVersion_E2EExpert ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start 58 ; oa:end 72
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "Second version" ;
+          oa:prefix "---\n\n" ;
+          oa:suffix ""
+        ]
+      ] .
+  }
+}
+WHERE {
+  GRAPH ?g {
+    narr:StyleObs_MinimalRegister dct:source ?oldSource .
+    OPTIONAL { narr:StyleObs_MinimalRegister skos:note ?oldNote . }
+  }
+} ;
 
+# Update StyleObs_YAMLFrontmatterConvention — source pointer updated to new sample (YAML unchanged)
+DELETE {
+  GRAPH ?g {
+    narr:StyleObs_YAMLFrontmatterConvention dct:source ?oldSource .
+  }
+}
+INSERT {
+  GRAPH narr:Tx_20260701T191214Z {
+    narr:StyleObs_YAMLFrontmatterConvention dct:source narr:Sample_SecondVersion_E2EExpert .
+  }
+}
+WHERE {
+  GRAPH ?g {
+    narr:StyleObs_YAMLFrontmatterConvention dct:source ?oldSource .
   }
 }
