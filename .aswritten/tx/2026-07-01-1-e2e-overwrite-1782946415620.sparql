@@ -8,120 +8,123 @@ PREFIX oa:   <http://www.w3.org/ns/oa#>
 
 # Transaction provenance (default graph)
 INSERT DATA {
-  narr:Tx_20260701T225524Z a prov:Activity ;
-    prov:generatedAtTime "2026-07-01T22:55:24Z"^^xsd:dateTime ;
+  narr:Tx_20260701T225840Z a prov:Activity ;
+    prov:generatedAtTime "2026-07-01T22:58:40Z"^^xsd:dateTime ;
     prov:wasAssociatedWith "aswritten.ai" ;
     prov:wasAttributedTo "n8n.aswritten.ai" ;
     narr:originPath "2026-07-01-1-e2e-overwrite-1782946415620" ;
     narr:originRef "e2e-overwrite-1782946415620" ;
-    dct:title "First version stub — pertson-labs/e2e-expert-repo" ;
+    dct:title "Second version stub — pertson-labs/e2e-expert-repo" ;
     prov:generated
-      narr:Sample_FirstVersion_e2eExpertRepo,
-      narr:Actor_Reviewer_ExpertGH,
-      narr:Narrative_FirstVersionPlaceholder,
-      narr:StyleObs_ShortBodyText,
-      narr:StyleObs_YAMLFrontMatterReviewerField,
-      narr:StyleObs_MinimalBodyCadence,
-      narr:StyleMetrics_FirstVersion .
+      narr:Sample_SecondVersion_e2eExpertRepo,
+      narr:StyleObs_ShortBodyText_V2,
+      narr:StyleMetrics_SecondVersion .
 } ;
 
-# Extracted entities (named graph)
+# New Sample for the second version document
 INSERT DATA {
-  GRAPH narr:Tx_20260701T225524Z {
-
-    # ── Sample ──────────────────────────────────────────────────
-    narr:Sample_FirstVersion_e2eExpertRepo a narr:Sample ;
-      dct:title "First version" ;
-      dct:description "Minimal stub document with YAML front matter listing a reviewer and a two-word body." ;
-      narr:inputLength 72 ;
+  GRAPH narr:Tx_20260701T225840Z {
+    narr:Sample_SecondVersion_e2eExpertRepo a narr:Sample ;
+      dct:title "Second version" ;
+      narr:inputLength 73 ;
+      dct:description "Minimal stub document with YAML front matter listing a reviewer and a two-word body: 'Second version'." ;
       dct:created "2025-07-17"^^xsd:date .
+  }
+} ;
 
-    # ── Actor ───────────────────────────────────────────────────
-    # Reviewer email redacted per PII policy (allow_pii not set)
-    narr:Actor_Reviewer_ExpertGH a narr:Actor ;
-      skos:prefLabel "Reviewer (test+expert-gh — redacted)" ;
-      skos:note "Listed as reviewer in YAML front matter. Email redacted per PII policy." .
+# Update Narrative_FirstVersionPlaceholder to reflect document lifecycle progression to second version
+DELETE {
+  GRAPH ?g {
+    narr:Narrative_FirstVersionPlaceholder skos:note ?oldNote ;
+      narr:theme ?oldTheme ;
+      dct:source ?oldSource .
+  }
+}
+INSERT {
+  GRAPH narr:Tx_20260701T225840Z {
+    narr:Narrative_FirstVersionPlaceholder skos:note "The document has progressed from a first version stub to a second version, continuing the document lifecycle pattern of minimal placeholder content with structured YAML front matter." ;
+      narr:theme "Document lifecycle progression — second version stub" ;
+      dct:source narr:Sample_SecondVersion_e2eExpertRepo .
+  }
+}
+WHERE {
+  GRAPH ?g {
+    narr:Narrative_FirstVersionPlaceholder skos:note ?oldNote ;
+      narr:theme ?oldTheme ;
+      dct:source ?oldSource .
+  }
+} ;
 
-    # ── Narrative ───────────────────────────────────────────────
-    narr:Narrative_FirstVersionPlaceholder a narr:Narrative ;
-      dct:source narr:Sample_FirstVersion_e2eExpertRepo ;
-      narr:theme "Initial document stub awaiting content" ;
-      skos:broader narr:NarrativeDrivenRoadmap ;
-      skos:note "The document declares itself a first version with no substantive body content. It signals the start of a document lifecycle rather than conveying a developed narrative." .
+# Update StyleObs_ShortBodyText: body text changed from 'First version' to 'Second version'
+DELETE {
+  GRAPH ?g {
+    narr:StyleObs_ShortBodyText dct:source ?oldSource ;
+      skos:note ?oldNote ;
+      oa:hasTarget ?oldTarget .
+  }
+}
+INSERT {
+  GRAPH narr:Tx_20260701T225840Z {
+    narr:StyleObs_ShortBodyText dct:source narr:Sample_SecondVersion_e2eExpertRepo ;
+      skos:note "Body consists of exactly two words: 'Second version'. Maximally compressed cadence, same pattern as first version." ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_SecondVersion_e2eExpertRepo ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start 58 ; oa:end 72
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "Second version" ;
+          oa:prefix "---\n\n" ;
+          oa:suffix ""
+        ]
+      ] .
+  }
+}
+WHERE {
+  GRAPH ?g {
+    narr:StyleObs_ShortBodyText dct:source ?oldSource ;
+      skos:note ?oldNote ;
+      oa:hasTarget ?oldTarget .
+  }
+} ;
 
-    # ── Style Observations ──────────────────────────────────────
-
-    # 1. Extremely short body — cadence observation
-    narr:StyleObs_ShortBodyText a narr:StyleObservation ;
+# New StyleObservation for 'Second version' body text (new sample-scoped observation)
+INSERT DATA {
+  GRAPH narr:Tx_20260701T225840Z {
+    narr:StyleObs_ShortBodyText_V2 a narr:StyleObservation ;
       skos:broader narr:ShortPunchyCadence ;
-      dct:source narr:Sample_FirstVersion_e2eExpertRepo ;
-      skos:note "Body consists of exactly two words: 'First version'. Maximally compressed cadence." ;
+      dct:source narr:Sample_SecondVersion_e2eExpertRepo ;
       rdf:value true ;
+      skos:note "Body is a two-word noun phrase 'Second version' — same maximally compressed cadence pattern as the first version stub." ;
       oa:hasTarget [
         a oa:SpecificResource ;
-        oa:hasSource narr:Sample_FirstVersion_e2eExpertRepo ;
+        oa:hasSource narr:Sample_SecondVersion_e2eExpertRepo ;
         oa:hasSelector [
           a oa:TextPositionSelector ;
-          oa:start 58 ; oa:end 71
+          oa:start 58 ; oa:end 72
         ] ;
         oa:hasSelector [
           a oa:TextQuoteSelector ;
-          oa:exact "First version" ;
-          oa:prefix "\n\n" ;
+          oa:exact "Second version" ;
+          oa:prefix "---\n\n" ;
           oa:suffix ""
         ]
       ] .
+  }
+} ;
 
-    # 2. YAML front matter reviewer field — structural/formatting convention
-    narr:StyleObs_YAMLFrontMatterReviewerField a narr:StyleObservation ;
-      skos:broader narr:EditorialRules ;
-      dct:source narr:Sample_FirstVersion_e2eExpertRepo ;
-      skos:note "Document uses YAML front matter with a 'reviewers' list field, indicating a structured editorial workflow convention." ;
-      rdf:value true ;
-      oa:hasTarget [
-        a oa:SpecificResource ;
-        oa:hasSource narr:Sample_FirstVersion_e2eExpertRepo ;
-        oa:hasSelector [
-          a oa:TextPositionSelector ;
-          oa:start 6 ; oa:end 16
-        ] ;
-        oa:hasSelector [
-          a oa:TextQuoteSelector ;
-          oa:exact "reviewers:" ;
-          oa:prefix "---\n" ;
-          oa:suffix "\n  - test+expert"
-        ]
-      ] .
-
-    # 3. Noun-phrase-only body — no verbs, no active voice
-    narr:StyleObs_MinimalBodyCadence a narr:StyleObservation ;
-      skos:broader narr:ToneVoice ;
-      dct:source narr:Sample_FirstVersion_e2eExpertRepo ;
-      skos:note "Body text is a bare noun phrase with no predicate or active verb, indicating a placeholder register rather than an authored voice." ;
-      rdf:value false ;
-      oa:hasTarget [
-        a oa:SpecificResource ;
-        oa:hasSource narr:Sample_FirstVersion_e2eExpertRepo ;
-        oa:hasSelector [
-          a oa:TextPositionSelector ;
-          oa:start 58 ; oa:end 71
-        ] ;
-        oa:hasSelector [
-          a oa:TextQuoteSelector ;
-          oa:exact "First version" ;
-          oa:prefix "\n\n" ;
-          oa:suffix ""
-        ]
-      ] .
-
-    # ── Style Metrics ───────────────────────────────────────────
-    narr:StyleMetrics_FirstVersion a narr:StyleMetrics ;
+# New StyleMetrics for the second version sample
+INSERT DATA {
+  GRAPH narr:Tx_20260701T225840Z {
+    narr:StyleMetrics_SecondVersion a narr:StyleMetrics ;
       skos:broader narr:StyleMetrics ;
-      dct:source narr:Sample_FirstVersion_e2eExpertRepo ;
+      dct:source narr:Sample_SecondVersion_e2eExpertRepo ;
       narr:AverageSentenceLength 2 ;
       narr:ActiveVoiceRatio "0.0"^^xsd:decimal ;
       narr:JargonDensity "0.0"^^xsd:decimal ;
-      skos:note "Body is a two-word noun phrase. No sentences, no active voice, no jargon. Metrics reflect a stub/placeholder document." .
-
+      skos:note "Body is a two-word noun phrase. No sentences, no active voice, no jargon. Metrics reflect a stub/placeholder document identical in structure to the first version." .
   }
 }
