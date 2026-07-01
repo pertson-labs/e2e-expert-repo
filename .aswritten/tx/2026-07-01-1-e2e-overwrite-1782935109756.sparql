@@ -7,39 +7,40 @@ PREFIX xsd:  <http://www.w3.org/2001/XMLSchema#>
 PREFIX oa:   <http://www.w3.org/ns/oa#>
 
 INSERT DATA {
-  narr:Tx_20260701T194636Z a prov:Activity ;
-    prov:generatedAtTime "2026-07-01T19:46:36Z"^^xsd:dateTime ;
+  narr:Tx_20260701T194926Z a prov:Activity ;
+    prov:generatedAtTime "2026-07-01T19:49:26Z"^^xsd:dateTime ;
     prov:wasAssociatedWith "aswritten.ai" ;
     prov:wasAttributedTo "n8n.aswritten.ai" ;
     narr:originPath "2026-07-01-1-e2e-overwrite-1782935109756" ;
     narr:originRef "e2e-overwrite-1782935109756" ;
-    dct:title "First version stub extraction" ;
+    dct:title "Second version stub extraction" ;
     prov:generated
-      narr:Sample_FirstVersion,
-      narr:StyleObs_YAMLFrontmatter,
-      narr:StyleObs_TerseRegister,
-      narr:StyleObs_ReviewerMetadata,
-      narr:StyleMetrics_FirstVersion .
+      narr:Sample_SecondVersion,
+      narr:StyleObs_SecondVersion_YAMLFrontmatter,
+      narr:StyleObs_SecondVersion_ReviewerMetadata,
+      narr:StyleObs_SecondVersion_TerseRegister,
+      narr:StyleMetrics_SecondVersion .
 } ;
 
 INSERT DATA {
-  GRAPH narr:Tx_20260701T194636Z {
+  GRAPH narr:Tx_20260701T194926Z {
 
-    narr:Sample_FirstVersion a narr:Sample ;
-      dct:title "First version" ;
-      narr:inputLength 72 ;
-      dct:description "Minimal stub document with YAML front-matter reviewer field and version label." .
+    narr:Sample_SecondVersion a narr:Sample ;
+      dct:title "Second version" ;
+      narr:inputLength "73"^^xsd:integer ;
+      dct:description "Minimal stub document with YAML front-matter reviewer field and version label. Second version." .
 
-    narr:StyleObs_YAMLFrontmatter a narr:StyleObservation ;
+    narr:StyleObs_SecondVersion_YAMLFrontmatter a narr:StyleObservation ;
       skos:broader narr:PunctuationTypography ;
-      dct:source narr:Sample_FirstVersion ;
+      dct:source narr:Sample_SecondVersion ;
       skos:note "Document opens with YAML front-matter delimited by triple-dashes, a structured metadata convention." ;
       oa:hasTarget [
         a oa:SpecificResource ;
-        oa:hasSource narr:Sample_FirstVersion ;
+        oa:hasSource narr:Sample_SecondVersion ;
         oa:hasSelector [
           a oa:TextPositionSelector ;
-          oa:start 1 ; oa:end 4
+          oa:start "0"^^xsd:integer ;
+          oa:end "3"^^xsd:integer
         ] ;
         oa:hasSelector [
           a oa:TextQuoteSelector ;
@@ -49,36 +50,17 @@ INSERT DATA {
         ]
       ] .
 
-    narr:StyleObs_TerseRegister a narr:StyleObservation ;
-      skos:broader narr:RegisterFormality ;
-      dct:source narr:Sample_FirstVersion ;
-      skos:note "Body content is a single two-word phrase 'First version', indicating an extremely terse, placeholder register with no elaboration." ;
-      oa:hasTarget [
-        a oa:SpecificResource ;
-        oa:hasSource narr:Sample_FirstVersion ;
-        oa:hasSelector [
-          a oa:TextPositionSelector ;
-          oa:start 58 ; oa:end 71
-        ] ;
-        oa:hasSelector [
-          a oa:TextQuoteSelector ;
-          oa:exact "First version" ;
-          oa:prefix "---\n\n" ;
-          oa:suffix ""
-        ]
-      ] .
-
-    narr:StyleObs_ReviewerMetadata a narr:StyleObservation ;
+    narr:StyleObs_SecondVersion_ReviewerMetadata a narr:StyleObservation ;
       skos:broader narr:EditorialRules ;
-      dct:source narr:Sample_FirstVersion ;
+      dct:source narr:Sample_SecondVersion ;
       skos:note "Reviewer attribution is embedded in YAML front-matter as a list value, following an institutional metadata convention for review workflow." ;
       oa:hasTarget [
         a oa:SpecificResource ;
-        oa:hasSource narr:Sample_FirstVersion ;
+        oa:hasSource narr:Sample_SecondVersion ;
         oa:hasSelector [
           a oa:TextPositionSelector ;
-          oa:start 4 ;
-          oa:end 46
+          oa:start "4"^^xsd:integer ;
+          oa:end "40"^^xsd:integer
         ] ;
         oa:hasSelector [
           a oa:TextQuoteSelector ;
@@ -88,13 +70,33 @@ INSERT DATA {
         ]
       ] .
 
-    narr:StyleMetrics_FirstVersion a narr:StyleMetrics ;
+    narr:StyleObs_SecondVersion_TerseRegister a narr:StyleObservation ;
+      skos:broader narr:RegisterFormality ;
+      dct:source narr:Sample_SecondVersion ;
+      skos:note "Body content is a single two-word phrase 'Second version', indicating an extremely terse, placeholder register with no elaboration. Version label incremented from 'First version'." ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_SecondVersion ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start "56"^^xsd:integer ;
+          oa:end "70"^^xsd:integer
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "Second version" ;
+          oa:prefix "---\n\n" ;
+          oa:suffix ""
+        ]
+      ] .
+
+    narr:StyleMetrics_SecondVersion a narr:StyleMetrics ;
       skos:broader narr:StyleMetrics ;
-      dct:source narr:Sample_FirstVersion ;
-      narr:AverageSentenceLength 2 ;
+      dct:source narr:Sample_SecondVersion ;
+      narr:AverageSentenceLength "2"^^xsd:integer ;
       narr:ActiveVoiceRatio "1.0"^^xsd:decimal ;
       narr:JargonDensity "0.0"^^xsd:decimal ;
-      skos:note "Minimal document: single two-word body phrase, no sentences, no jargon. Metrics reflect near-empty content." .
+      skos:note "Minimal document: single two-word body phrase, no sentences, no jargon. Metrics reflect near-empty content. Version label updated to 'Second version'." .
 
   }
 }
