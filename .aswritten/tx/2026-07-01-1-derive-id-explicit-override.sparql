@@ -1,0 +1,111 @@
+PREFIX narr: <https://aswritten.ai/narrative#>
+PREFIX rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX prov: <http://www.w3.org/ns/prov#>
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+PREFIX dct:  <http://purl.org/dc/terms/>
+PREFIX xsd:  <http://www.w3.org/2001/XMLSchema#>
+PREFIX oa:   <http://www.w3.org/ns/oa#>
+
+INSERT DATA {
+  narr:Tx_20260701T234006Z a prov:Activity ;
+    prov:generatedAtTime "2026-07-01T23:40:06Z"^^xsd:dateTime ;
+    prov:wasAssociatedWith "aswritten.ai" ;
+    prov:wasAttributedTo "n8n.aswritten.ai" ;
+    narr:originPath "2026-07-01-1-derive-id-explicit-override" ;
+    narr:originRef "e2e-derive-id-1782948588974" ;
+    dct:title "Extraction: Some Other Title That Should Not Win" ;
+    prov:generated
+      narr:Sample_SomeOtherTitle,
+      narr:Actor_Reviewer_ExpertGH,
+      narr:Narrative_MinimalDocumentStructure,
+      narr:StyleObs_TitleCadence,
+      narr:StyleObs_MinimalBody,
+      narr:StyleObs_FrontmatterReviewer,
+      narr:StyleMetrics_SomeOtherTitle .
+} ;
+
+INSERT DATA {
+  GRAPH narr:Tx_20260701T234006Z {
+
+    narr:Sample_SomeOtherTitle a narr:Sample ;
+      dct:title "Some Other Title That Should Not Win" ;
+      narr:inputLength 106 ;
+      dct:description "Minimal markdown document with YAML frontmatter reviewer metadata, a single H1 heading, and a one-word body." .
+
+    narr:Actor_Reviewer_ExpertGH a narr:Actor ;
+      skos:prefLabel "test+expert-gh@aswritten.ai" ;
+      skos:note "Reviewer listed in YAML frontmatter of the source document." .
+
+    narr:Narrative_MinimalDocumentStructure a narr:Narrative ;
+      dct:source narr:Sample_SomeOtherTitle ;
+      narr:theme "Minimal document with reviewer metadata and placeholder body" ;
+      skos:broader narr:NarrativeAnchor ;
+      skos:note "The document consists of a YAML frontmatter block naming a reviewer, a single H1 heading titled 'Some Other Title That Should Not Win', and a single-word body 'Body.' — suggesting a template or stub document rather than substantive content." .
+
+    narr:StyleObs_TitleCadence a narr:StyleObservation ;
+      skos:broader narr:CadenceRhythm ;
+      dct:source narr:Sample_SomeOtherTitle ;
+      skos:note "H1 heading uses a five-word noun phrase with hedging qualifier 'Should Not Win', signalling self-aware or provisional titling." ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_SomeOtherTitle ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start 60 ; oa:end 96
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "Some Other Title That Should Not Win" ;
+          oa:prefix "# " ;
+          oa:suffix "\n\nBody."
+        ]
+      ] .
+
+    narr:StyleObs_MinimalBody a narr:StyleObservation ;
+      skos:broader narr:PlainLanguage ;
+      dct:source narr:Sample_SomeOtherTitle ;
+      skos:note "Body section is a single word 'Body.' — a placeholder indicating the document is a stub or template with no substantive prose." ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_SomeOtherTitle ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start 100 ; oa:end 105
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "Body." ;
+          oa:prefix "Should Not Win\n\n" ;
+          oa:suffix ""
+        ]
+      ] .
+
+    narr:StyleObs_FrontmatterReviewer a narr:StyleObservation ;
+      skos:broader narr:EditorialRules ;
+      dct:source narr:Sample_SomeOtherTitle ;
+      skos:note "YAML frontmatter uses a 'reviewers' list with a tagged email address, indicating a structured editorial workflow convention." ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_SomeOtherTitle ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start 6 ; oa:end 16
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "reviewers:" ;
+          oa:prefix "---\n" ;
+          oa:suffix "\n  - test+expert-gh"
+        ]
+      ] .
+
+    narr:StyleMetrics_SomeOtherTitle a narr:StyleMetrics ;
+      skos:broader narr:StyleMetrics ;
+      dct:source narr:Sample_SomeOtherTitle ;
+      narr:AverageSentenceLength 5 ;
+      narr:ActiveVoiceRatio "1.0"^^xsd:decimal ;
+      narr:JargonDensity "0.0"^^xsd:decimal ;
+      skos:note "Extremely short document: one heading sentence of 6 words and one body word. No jargon. Active voice throughout (imperative/declarative stub)." .
+
+  }
+}
