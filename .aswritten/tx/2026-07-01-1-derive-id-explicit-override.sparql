@@ -1,0 +1,142 @@
+PREFIX narr: <https://aswritten.ai/narrative#>
+PREFIX rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX prov: <http://www.w3.org/ns/prov#>
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+PREFIX dct:  <http://purl.org/dc/terms/>
+PREFIX xsd:  <http://www.w3.org/2001/XMLSchema#>
+PREFIX oa:   <http://www.w3.org/ns/oa#>
+
+# Transaction provenance (default graph)
+INSERT DATA {
+  narr:Tx_20260701T234032Z a prov:Activity ;
+    prov:generatedAtTime "2026-07-01T23:40:32Z"^^xsd:dateTime ;
+    prov:wasAssociatedWith "aswritten.ai" ;
+    prov:wasAttributedTo "n8n.aswritten.ai" ;
+    narr:originPath "2026-07-01-1-derive-id-explicit-override" ;
+    narr:originRef "e2e-derive-id-1782948734770" ;
+    dct:title "E2E Derive-Id: Title Precedence Test (Should Not Win)" ;
+    prov:generated
+      narr:Sample_DeriveIdTitlePrecedenceE2E,
+      narr:Narrative_SlugTitlePrecedenceRule,
+      narr:Claim_PipelineMustNotSelectLowPriorityTitle,
+      narr:Obs_TitleShouldNotWin,
+      narr:StyleObs_TitlePrecedenceImperative,
+      narr:StyleObs_FrontmatterReviewerField,
+      narr:StyleObs_MinimalBodyRegister,
+      narr:StyleMetrics_DeriveIdTitlePrecedenceE2E .
+} ;
+
+# Extracted entities (named graph)
+INSERT DATA {
+  GRAPH narr:Tx_20260701T234032Z {
+
+    # ── Sample ────────────────────────────────────────────────────
+    narr:Sample_DeriveIdTitlePrecedenceE2E a narr:Sample ;
+      dct:title "E2E Derive-Id: Title Precedence Test (Should Not Win)" ;
+      dct:created "2025-07-17"^^xsd:date ;
+      narr:inputLength 106 ;
+      skos:note "Minimal test document with YAML frontmatter (reviewers field, no id field) and a heading explicitly named to test that it is NOT selected as the derived slug/id. Body is a single word." .
+
+    # ── Narrative ─────────────────────────────────────────────────
+    narr:Narrative_SlugTitlePrecedenceRule a narr:Narrative ;
+      skos:broader narr:Narrative_PipelineSlugGeneration ;
+      narr:theme "Title priority and precedence in slug derivation" ;
+      dct:source narr:Sample_DeriveIdTitlePrecedenceE2E ;
+      skos:note "When multiple title candidates exist (e.g., frontmatter fields vs. H1 heading), the pipeline must apply a defined precedence rule and must NOT select a lower-priority candidate. This test asserts that the heading 'Some Other Title That Should Not Win' is excluded from slug derivation in favour of a higher-priority source." .
+
+    # ── Claims ────────────────────────────────────────────────────
+    narr:Claim_PipelineMustNotSelectLowPriorityTitle a narr:Claim ;
+      narr:aboutNode narr:Narrative_SlugTitlePrecedenceRule ;
+      narr:hasConvictionLevel narr:Conviction_Stake ;
+      narr:supports narr:Narrative_PipelineSlugGeneration ;
+      dct:source narr:Sample_DeriveIdTitlePrecedenceE2E ;
+      skos:note "The pipeline must not use a heading that is explicitly designated as a non-winning candidate when deriving the document id/slug. This extends the crash-safety and valid-slug requirements with a title-selection correctness requirement." .
+
+    # ── Observation ───────────────────────────────────────────────
+    narr:Obs_TitleShouldNotWin a narr:Observation ;
+      skos:broader narr:NarrativeDrivenRoadmap ;
+      dct:source narr:Sample_DeriveIdTitlePrecedenceE2E ;
+      skos:note "The heading 'Some Other Title That Should Not Win' encodes the test expectation directly in the title string — a self-describing test fixture pattern." ;
+      oa:hasSelector [
+        a oa:TextPositionSelector ;
+        oa:start 60 ; oa:end 96
+      ] ;
+      oa:hasSelector [
+        a oa:TextQuoteSelector ;
+        oa:exact "Some Other Title That Should Not Win" ;
+        oa:prefix "# " ;
+        oa:suffix "\n\nBody."
+      ] .
+
+    # ── Style Observations ────────────────────────────────────────
+    narr:StyleObs_TitlePrecedenceImperative a narr:StyleObservation ;
+      skos:broader narr:ToneAuthoritative ;
+      dct:source narr:Sample_DeriveIdTitlePrecedenceE2E ;
+      rdf:value true ;
+      skos:note "The phrase 'Should Not Win' uses a modal-negative construction to assert a normative pipeline constraint directly in the heading — imperative test-specification register." ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_DeriveIdTitlePrecedenceE2E ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start 60 ; oa:end 96
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "Some Other Title That Should Not Win" ;
+          oa:prefix "# " ;
+          oa:suffix "\n\nBody."
+        ]
+      ] .
+
+    narr:StyleObs_FrontmatterReviewerField a narr:StyleObservation ;
+      skos:broader narr:JargonPolicy ;
+      dct:source narr:Sample_DeriveIdTitlePrecedenceE2E ;
+      rdf:value false ;
+      skos:note "YAML frontmatter uses a 'reviewers' key with an email-format value — a structured metadata convention targeting pipeline/CI tooling rather than human readers. Email redacted per PII policy." ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_DeriveIdTitlePrecedenceE2E ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start 6 ; oa:end 16
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "reviewers:" ;
+          oa:prefix "---\n" ;
+          oa:suffix "\n  - [REDACTED]"
+        ]
+      ] .
+
+    narr:StyleObs_MinimalBodyRegister a narr:StyleObservation ;
+      skos:broader narr:RegisterFormality ;
+      dct:source narr:Sample_DeriveIdTitlePrecedenceE2E ;
+      rdf:value false ;
+      skos:note "Body text is a single word ('Body.') — a placeholder stub indicating this document is a structural/routing test fixture, not a content document. Extremely low lexical density." ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_DeriveIdTitlePrecedenceE2E ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start 100 ; oa:end 105
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "Body." ;
+          oa:prefix "Should Not Win\n\n" ;
+          oa:suffix ""
+        ]
+      ] .
+
+    # ── Style Metrics ─────────────────────────────────────────────
+    narr:StyleMetrics_DeriveIdTitlePrecedenceE2E a narr:StyleMetrics ;
+      skos:broader narr:StyleMetrics ;
+      dct:source narr:Sample_DeriveIdTitlePrecedenceE2E ;
+      narr:AverageSentenceLength 5 ;
+      narr:ActiveVoiceRatio "0.5"^^xsd:decimal ;
+      narr:JargonDensity "0.1"^^xsd:decimal ;
+      skos:note "Extremely short document (2 content tokens in body). Heading uses modal-negative ('Should Not Win'). Single-word body ('Body.') yields near-zero lexical density. Mixed register: structured YAML metadata + imperative heading + stub body." .
+
+  }
+}
