@@ -1,0 +1,68 @@
+PREFIX narr: <https://aswritten.ai/narrative#>
+PREFIX rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX prov: <http://www.w3.org/ns/prov#>
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+PREFIX dct:  <http://purl.org/dc/terms/>
+PREFIX xsd:  <http://www.w3.org/2001/XMLSchema#>
+PREFIX oa:   <http://www.w3.org/ns/oa#>
+
+# Transaction provenance (default graph) — documents the retraction event
+INSERT DATA {
+  narr:Tx_20260702T015717Z a prov:Activity ;
+    prov:generatedAtTime "2026-07-02T01:57:17Z"^^xsd:dateTime ;
+    prov:wasAssociatedWith "aswritten.ai" ;
+    prov:wasAttributedTo "test+expert-gh@aswritten.ai" ;
+    narr:originPath "2026-07-02-1-e2e-forget-quantum-1782957387521" ;
+    narr:originRef "e2e-forget-1782956732025" ;
+    dct:title "Retraction: Quantum Widget Decision and PostgreSQL→QuantumDB migration" ;
+    prov:generated narr:Tx_20260702T015717Z .
+} ;
+
+# Broad DELETE WHERE — remove any entity whose label/note/theme references Quantum Widget or QuantumDB migration
+DELETE {
+  GRAPH ?g {
+    ?entity ?p ?o .
+  }
+}
+WHERE {
+  GRAPH ?g {
+    ?entity ?p ?o .
+    FILTER (
+      (isLiteral(?o) && (
+        CONTAINS(LCASE(STR(?o)), "quantum widget") ||
+        CONTAINS(LCASE(STR(?o)), "quantumdb") ||
+        CONTAINS(LCASE(STR(?o)), "postgresql to quantum") ||
+        CONTAINS(LCASE(STR(?o)), "postgres to quantum")
+      )) ||
+      (isIRI(?entity) && (
+        CONTAINS(LCASE(STR(?entity)), "quantumwidget") ||
+        CONTAINS(LCASE(STR(?entity)), "quantumdb") ||
+        CONTAINS(LCASE(STR(?entity)), "postgresqlquantum") ||
+        CONTAINS(LCASE(STR(?entity)), "quantum_widget") ||
+        CONTAINS(LCASE(STR(?entity)), "quantum_db")
+      ))
+    )
+  }
+} ;
+
+# Also remove any triples where the subject is a known Quantum Widget / QuantumDB entity IRI
+DELETE {
+  GRAPH ?g {
+    ?s ?p ?o .
+  }
+}
+WHERE {
+  GRAPH ?g {
+    ?s ?p ?o .
+    FILTER (
+      isIRI(?s) && (
+        CONTAINS(LCASE(STR(?s)), "quantumwidget") ||
+        CONTAINS(LCASE(STR(?s)), "quantum_widget") ||
+        CONTAINS(LCASE(STR(?s)), "quantumdb") ||
+        CONTAINS(LCASE(STR(?s)), "quantum_db") ||
+        CONTAINS(LCASE(STR(?s)), "postgresqlmigration") ||
+        CONTAINS(LCASE(STR(?s)), "postgresql_quantum")
+      )
+    )
+  }
+}
