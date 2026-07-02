@@ -6,149 +6,193 @@ PREFIX dct:  <http://purl.org/dc/terms/>
 PREFIX xsd:  <http://www.w3.org/2001/XMLSchema#>
 PREFIX oa:   <http://www.w3.org/ns/oa#>
 
-# Transaction provenance (default graph)
+# ── Transaction provenance (default graph) ──────────────────────────────────
 INSERT DATA {
-  narr:Tx_20260702T011454Z a prov:Activity ;
-    prov:generatedAtTime "2026-07-02T01:14:54Z"^^xsd:dateTime ;
+  narr:Tx_20260702T011828Z a prov:Activity ;
+    prov:generatedAtTime "2026-07-02T01:18:28Z"^^xsd:dateTime ;
     prov:wasAssociatedWith "aswritten.ai" ;
     prov:wasAttributedTo "n8n.aswritten.ai" ;
     narr:originPath "2026-07-02-1-e2e-overwrite-1782954795859" ;
     narr:originRef "e2e-overwrite-1782954795859" ;
-    dct:title "First version — e2e-expert-repo" ;
     prov:generated
-      narr:Sample_FirstVersion_E2E,
-      narr:Narrative_FirstVersionDocument,
-      narr:Actor_Reviewer_ExpertGH,
-      narr:Claim_FirstVersionInitialState,
-      narr:Obs_FirstVersionBody,
-      narr:StyleObs_MinimalRegister,
-      narr:StyleObs_FrontmatterConvention,
-      narr:StyleObs_TerseBodyText,
-      narr:StyleMetrics_FirstVersion .
+      narr:Sample_SecondVersion_E2E,
+      narr:Narrative_SecondVersionDocument,
+      narr:Claim_SecondVersionState,
+      narr:Obs_SecondVersionBody,
+      narr:StyleObs_SecondVersion_MinimalRegister,
+      narr:StyleObs_SecondVersion_FrontmatterConvention,
+      narr:StyleObs_SecondVersion_TerseBodyText,
+      narr:StyleMetrics_SecondVersion_E2E .
 } ;
 
-# Extracted entities (named graph)
+# ── New Sample for the second version document ───────────────────────────────
 INSERT DATA {
-  GRAPH narr:Tx_20260702T011454Z {
+  GRAPH narr:Tx_20260702T011828Z {
+    narr:Sample_SecondVersion_E2E a narr:Sample ;
+      dct:title "Second version — e2e-expert-repo" ;
+      narr:inputLength 73 ;
+      dct:description "Minimal document with YAML frontmatter listing a reviewer and body text 'Second version'. Structurally identical to first version; body text updated." ;
+      dct:isVersionOf narr:Sample_FirstVersion_E2E .
+  }
+} ;
 
-    # ── Sample ──────────────────────────────────────────────────
-    narr:Sample_FirstVersion_E2E a narr:Sample ;
-      dct:title "First version" ;
-      narr:inputLength "72"^^xsd:integer ;
-      dct:description "Minimal document with YAML frontmatter listing a reviewer and body text 'First version'." .
-
-    # ── Actor ───────────────────────────────────────────────────
-    narr:Actor_Reviewer_ExpertGH a narr:Actor ;
-      skos:prefLabel "Expert Reviewer (GitHub)" ;
-      skos:note "Reviewer listed in YAML frontmatter of the first-version document. Email redacted per PII policy (test+expert-gh@aswritten.ai)." .
-
-    # ── Narrative ───────────────────────────────────────────────
-    narr:Narrative_FirstVersionDocument a narr:Narrative ;
-      dct:source narr:Sample_FirstVersion_E2E ;
-      narr:theme "Initial document state" ;
+# ── New Narrative: second version document state ─────────────────────────────
+INSERT DATA {
+  GRAPH narr:Tx_20260702T011828Z {
+    narr:Narrative_SecondVersionDocument a narr:Narrative ;
+      dct:source narr:Sample_SecondVersion_E2E ;
+      narr:theme "Second version document state" ;
       skos:broader narr:NarrativeDrivenRoadmap ;
-      skos:note "Document declares itself a first version with a designated reviewer, establishing the baseline state of the artifact in the repository." .
+      skos:note "Document declares itself a second version with the same designated reviewer, establishing the next iteration state of the artifact in the repository. Supersedes the first-version baseline." ;
+      dct:replaces narr:Narrative_FirstVersionDocument .
+  }
+} ;
 
-    # ── Claim ───────────────────────────────────────────────────
-    narr:Claim_FirstVersionInitialState a narr:Claim ;
-      narr:aboutNode narr:Narrative_FirstVersionDocument ;
-      narr:hasConvictionLevel narr:Conviction_Notion ;
-      dct:source narr:Sample_FirstVersion_E2E ;
-      skos:note "The document is explicitly labeled 'First version', indicating it is at the earliest stage of its lifecycle with no prior iterations recorded." .
+# ── UPDATE Narrative_FirstVersionDocument: mark as superseded ────────────────
+DELETE {
+  GRAPH ?g {
+    narr:Narrative_FirstVersionDocument skos:note ?oldNote .
+  }
+}
+INSERT {
+  GRAPH narr:Tx_20260702T011828Z {
+    narr:Narrative_FirstVersionDocument skos:note "Document declared itself a first version with a designated reviewer, establishing the baseline state of the artifact in the repository. Superseded by narr:Narrative_SecondVersionDocument." .
+  }
+}
+WHERE {
+  GRAPH ?g {
+    narr:Narrative_FirstVersionDocument skos:note ?oldNote .
+  }
+} ;
 
-    # ── Observation ─────────────────────────────────────────────
-    narr:Obs_FirstVersionBody a narr:Observation ;
+# ── New Claim: second version state (supersedes Claim_FirstVersionInitialState) ─
+INSERT DATA {
+  GRAPH narr:Tx_20260702T011828Z {
+    narr:Claim_SecondVersionState a narr:Claim ;
+      narr:aboutNode narr:Narrative_SecondVersionDocument ;
+      narr:hasConvictionLevel narr:Conviction_Stake ;
+      dct:source narr:Sample_SecondVersion_E2E ;
+      skos:note "The document is explicitly labeled 'Second version', indicating a prior iteration exists and the artifact has progressed beyond its initial state." ;
+      narr:supports narr:Narrative_SecondVersionDocument .
+  }
+} ;
+
+# ── UPDATE Claim_FirstVersionInitialState: contradicted by second version ────
+# The claim that the document is "at the earliest stage with no prior iterations"
+# is directly contradicted by the existence of a second version.
+DELETE {
+  GRAPH ?g {
+    narr:Claim_FirstVersionInitialState skos:note ?oldNote .
+  }
+}
+INSERT {
+  GRAPH narr:Tx_20260702T011828Z {
+    narr:Claim_FirstVersionInitialState skos:note "The document was explicitly labeled 'First version', indicating it was at the earliest stage of its lifecycle. Superseded: a second version now exists, confirming at least one iteration has occurred." .
+  }
+}
+WHERE {
+  GRAPH ?g {
+    narr:Claim_FirstVersionInitialState skos:note ?oldNote .
+  }
+} ;
+
+# ── New Observation: second version body text ─────────────────────────────────
+INSERT DATA {
+  GRAPH narr:Tx_20260702T011828Z {
+    narr:Obs_SecondVersionBody a narr:Observation ;
       skos:broader narr:Milestones ;
-      dct:source narr:Sample_FirstVersion_E2E ;
-      skos:note "Body text asserts document version status." ;
+      dct:source narr:Sample_SecondVersion_E2E ;
+      skos:note "Body text asserts updated document version status." ;
       oa:hasSelector [
         a oa:TextPositionSelector ;
-        oa:start "42"^^xsd:integer ;
-        oa:end "55"^^xsd:integer
+        oa:start 58 ; oa:end 72
       ] ;
       oa:hasSelector [
         a oa:TextQuoteSelector ;
-        oa:exact "First version" ;
-        oa:prefix "\n\n" ;
+        oa:exact "Second version" ;
+        oa:prefix "---\n\n" ;
         oa:suffix ""
       ] .
+  }
+} ;
 
-    # ── Style Observations ──────────────────────────────────────
+# ── Style Observations for second version ────────────────────────────────────
+INSERT DATA {
+  GRAPH narr:Tx_20260702T011828Z {
 
-    # 1. Minimal / terse register
-    narr:StyleObs_MinimalRegister a narr:StyleObservation ;
+    narr:StyleObs_SecondVersion_MinimalRegister a narr:StyleObservation ;
       skos:broader narr:RegisterFormality ;
-      dct:source narr:Sample_FirstVersion_E2E ;
-      rdf:value "true"^^xsd:boolean ;
-      skos:note "Extremely terse body: two words only. Register is minimal/functional, no rhetorical elaboration." ;
+      dct:source narr:Sample_SecondVersion_E2E ;
+      rdf:value true ;
+      skos:note "Extremely terse body: two words only. Register is minimal/functional, no rhetorical elaboration. Pattern persists from first version." ;
       oa:hasTarget [
         a oa:SpecificResource ;
-        oa:hasSource narr:Sample_FirstVersion_E2E ;
+        oa:hasSource narr:Sample_SecondVersion_E2E ;
         oa:hasSelector [
           a oa:TextPositionSelector ;
-          oa:start "42"^^xsd:integer ;
-          oa:end "55"^^xsd:integer
+          oa:start 58 ; oa:end 72
         ] ;
         oa:hasSelector [
           a oa:TextQuoteSelector ;
-          oa:exact "First version" ;
-          oa:prefix "\n\n" ;
+          oa:exact "Second version" ;
+          oa:prefix "---\n\n" ;
           oa:suffix ""
         ]
       ] .
 
-    # 2. YAML frontmatter convention
-    narr:StyleObs_FrontmatterConvention a narr:StyleObservation ;
+    narr:StyleObs_SecondVersion_FrontmatterConvention a narr:StyleObservation ;
       skos:broader narr:EditorialRules ;
-      dct:source narr:Sample_FirstVersion_E2E ;
-      rdf:value "true"^^xsd:boolean ;
-      skos:note "Document uses YAML frontmatter delimited by triple-dashes to declare metadata (reviewers), a structured editorial convention." ;
+      dct:source narr:Sample_SecondVersion_E2E ;
+      rdf:value true ;
+      skos:note "Document uses YAML frontmatter delimited by triple-dashes to declare metadata (reviewers), a structured editorial convention. Pattern persists unchanged from first version." ;
       oa:hasTarget [
         a oa:SpecificResource ;
-        oa:hasSource narr:Sample_FirstVersion_E2E ;
+        oa:hasSource narr:Sample_SecondVersion_E2E ;
         oa:hasSelector [
           a oa:TextPositionSelector ;
-          oa:start "0"^^xsd:integer ;
-          oa:end "41"^^xsd:integer
+          oa:start 0 ;
+          oa:end 48
         ] ;
         oa:hasSelector [
           a oa:TextQuoteSelector ;
           oa:exact "---\nreviewers:\n  - test+expert-gh@aswritten.ai\n---" ;
           oa:prefix "" ;
-          oa:suffix "\n\nFirst version"
+          oa:suffix "\n\nSecond version"
         ]
       ] .
 
-    # 3. Terse body cadence
-    narr:StyleObs_TerseBodyText a narr:StyleObservation ;
+    narr:StyleObs_SecondVersion_TerseBodyText a narr:StyleObservation ;
       skos:broader narr:ShortPunchyCadence ;
-      dct:source narr:Sample_FirstVersion_E2E ;
-      rdf:value "true"^^xsd:boolean ;
-      skos:note "Body consists of a single two-word declarative phrase with no punctuation, exemplifying maximum brevity." ;
+      dct:source narr:Sample_SecondVersion_E2E ;
+      rdf:value true ;
+      skos:note "Body consists of a single two-word declarative phrase with no punctuation, exemplifying maximum brevity. Cadence pattern identical to first version." ;
       oa:hasTarget [
         a oa:SpecificResource ;
-        oa:hasSource narr:Sample_FirstVersion_E2E ;
+        oa:hasSource narr:Sample_SecondVersion_E2E ;
         oa:hasSelector [
           a oa:TextPositionSelector ;
-          oa:start "42"^^xsd:integer ;
-          oa:end "55"^^xsd:integer
+          oa:start 58 ; oa:end 72
         ] ;
         oa:hasSelector [
           a oa:TextQuoteSelector ;
-          oa:exact "First version" ;
-          oa:prefix "\n\n" ;
+          oa:exact "Second version" ;
+          oa:prefix "---\n\n" ;
           oa:suffix ""
         ]
       ] .
 
-    # ── Style Metrics ───────────────────────────────────────────
-    narr:StyleMetrics_FirstVersion a narr:StyleMetrics ;
+  }
+} ;
+
+# ── Style Metrics for second version ─────────────────────────────────────────
+INSERT DATA {
+  GRAPH narr:Tx_20260702T011828Z {
+    narr:StyleMetrics_SecondVersion_E2E a narr:StyleMetrics ;
       skos:broader narr:StyleMetrics ;
-      dct:source narr:Sample_FirstVersion_E2E ;
-      narr:AverageSentenceLength "2"^^xsd:integer ;
+      dct:source narr:Sample_SecondVersion_E2E ;
+      narr:AverageSentenceLength 2 ;
       narr:ActiveVoiceRatio "1.0"^^xsd:decimal ;
       narr:JargonDensity "0.0"^^xsd:decimal ;
-      skos:note "Single two-word body sentence. No jargon. Fully active (declarative noun phrase). Minimal register throughout." .
-
+      skos:note "Minimal document: single two-word declarative body. Active voice, zero jargon, maximum brevity. Style profile unchanged from first version." .
   }
 }
