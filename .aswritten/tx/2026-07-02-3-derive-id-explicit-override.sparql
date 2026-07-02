@@ -1,0 +1,133 @@
+PREFIX narr: <https://aswritten.ai/narrative#>
+PREFIX rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX prov: <http://www.w3.org/ns/prov#>
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+PREFIX dct:  <http://purl.org/dc/terms/>
+PREFIX xsd:  <http://www.w3.org/2001/XMLSchema#>
+PREFIX oa:   <http://www.w3.org/ns/oa#>
+
+# Transaction provenance (default graph)
+INSERT DATA {
+  narr:Tx_20260702T174035Z a prov:Activity ;
+    prov:generatedAtTime "2026-07-02T17:40:35Z"^^xsd:dateTime ;
+    prov:wasAssociatedWith "aswritten.ai" ;
+    prov:wasAttributedTo "n8n.aswritten.ai" ;
+    narr:originPath ".aswritten/memories/2026-07-02-3-derive-id-explicit-override.md" ;
+    narr:originRef "e2e-derive-id-1783013397476" ;
+    dct:title "Extraction: Some Other Title That Should Not Win" ;
+    prov:generated
+      narr:Sample_SomeOtherTitleShouldNotWin,
+      narr:Claim_H1TitleShouldNotWinSlugDerivation,
+      narr:StyleObs_MinimalistBodyText,
+      narr:StyleObs_SubversiveTitlePhrasing,
+      narr:StyleObs_YAMLFrontmatterReviewerField,
+      narr:StyleMetrics_SomeOtherTitleShouldNotWin .
+} ;
+
+# Extracted entities (named graph)
+INSERT DATA {
+  GRAPH narr:Tx_20260702T174035Z {
+
+    # ── Sample ──────────────────────────────────────────────────
+    narr:Sample_SomeOtherTitleShouldNotWin a narr:Sample ;
+      dct:title "Some Other Title That Should Not Win" ;
+      narr:inputLength 97 ;
+      skos:note "Minimal E2E test fixture: YAML frontmatter with reviewer, H1 heading asserting non-winning title, single-word body. No id field present — tests slug derivation precedence." .
+
+    # ── Claim: H1 heading should not win slug derivation ────────
+    narr:Claim_H1TitleShouldNotWinSlugDerivation a narr:Claim ;
+      narr:aboutNode narr:Narrative_PipelineSlugDerivationFromContent ;
+      narr:hasConvictionLevel narr:Conviction_Stake ;
+      narr:supports narr:Claim_SlugDerivedFromContentWhenNoIdProvided ;
+      dct:source narr:Sample_SomeOtherTitleShouldNotWin ;
+      skos:broader narr:EdgeCaseHandling ;
+      skos:note "The H1 heading 'Some Other Title That Should Not Win' is explicitly framed as a non-winning candidate for slug derivation — asserting that some other derivation rule (e.g., YAML-derived id, LLM id-gen, or deterministic slugify) takes precedence over the raw H1 text when no id field is present." ;
+      oa:hasSelector [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_SomeOtherTitleShouldNotWin ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start 52 ; oa:end 90
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "# Some Other Title That Should Not Win" ;
+          oa:prefix "---\n\n" ;
+          oa:suffix "\n\nBody."
+        ]
+      ] .
+
+    # ── Style Observation 1: Minimalist body text ────────────────
+    narr:StyleObs_MinimalistBodyText a narr:StyleObservation ;
+      skos:broader narr:ShortPunchyCadence ;
+      dct:source narr:Sample_SomeOtherTitleShouldNotWin ;
+      rdf:value true ;
+      skos:note "Single-word body 'Body.' — extreme minimalism; the document body carries no semantic content, functioning purely as a structural placeholder in a test fixture." ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_SomeOtherTitleShouldNotWin ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start 92 ; oa:end 97
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "Body." ;
+          oa:prefix "Should Not Win\n\n" ;
+          oa:suffix ""
+        ]
+      ] .
+
+    # ── Style Observation 2: Subversive / self-referential title ─
+    narr:StyleObs_SubversiveTitlePhrasing a narr:StyleObservation ;
+      skos:broader narr:ToneAuthoritative ;
+      dct:source narr:Sample_SomeOtherTitleShouldNotWin ;
+      rdf:value true ;
+      skos:note "Title 'Some Other Title That Should Not Win' is self-referentially meta — it names itself as a non-winning candidate, embedding the test assertion directly into the document heading rather than in a separate comment or annotation." ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_SomeOtherTitleShouldNotWin ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start 54 ; oa:end 90
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "Some Other Title That Should Not Win" ;
+          oa:prefix "# " ;
+          oa:suffix "\n\nBody."
+        ]
+      ] .
+
+    # ── Style Observation 3: YAML frontmatter reviewer field ─────
+    narr:StyleObs_YAMLFrontmatterReviewerField a narr:StyleObservation ;
+      skos:broader narr:EditorialRules ;
+      dct:source narr:Sample_SomeOtherTitleShouldNotWin ;
+      rdf:value true ;
+      skos:note "YAML frontmatter uses a 'reviewers' list field — a structured metadata convention for attributing review responsibility, consistent with editorial workflow tooling." ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_SomeOtherTitleShouldNotWin ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start 4 ;
+          oa:end 43
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "reviewers:\n  - test+expert-gh@aswritten" ;
+          oa:prefix "---\n" ;
+          oa:suffix ".ai\n---"
+        ]
+      ] .
+
+    # ── Style Metrics ────────────────────────────────────────────
+    narr:StyleMetrics_SomeOtherTitleShouldNotWin a narr:StyleMetrics ;
+      skos:broader narr:StyleMetrics ;
+      dct:source narr:Sample_SomeOtherTitleShouldNotWin ;
+      narr:AverageSentenceLength 1 ;
+      narr:ActiveVoiceRatio "1.0"^^xsd:decimal ;
+      narr:JargonDensity "0.1"^^xsd:decimal ;
+      skos:note "Extremely short document: one-word body sentence, one heading. Active voice only. Low jargon density in body (only 'reviewers' as a structured field term); heading is plain English with a meta-test assertion." .
+  }
+}
