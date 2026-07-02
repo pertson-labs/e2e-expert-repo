@@ -1,0 +1,116 @@
+PREFIX narr: <https://aswritten.ai/narrative#>
+PREFIX rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX prov: <http://www.w3.org/ns/prov#>
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+PREFIX dct:  <http://purl.org/dc/terms/>
+PREFIX xsd:  <http://www.w3.org/2001/XMLSchema#>
+PREFIX oa:   <http://www.w3.org/ns/oa#>
+
+# Transaction provenance (default graph)
+INSERT DATA {
+  narr:Tx_20260702T164540Z a prov:Activity ;
+    prov:generatedAtTime "2026-07-02T16:45:40Z"^^xsd:dateTime ;
+    prov:wasAssociatedWith "aswritten.ai" ;
+    prov:wasAttributedTo "n8n.aswritten.ai" ;
+    narr:originPath ".aswritten/memories/2026-07-02-1-e2e-overwrite-1783010596742.md" ;
+    narr:originRef "e2e-overwrite-1783010596742" ;
+    dct:title "First version stub — e2e-expert-repo" ;
+    prov:generated
+      narr:Sample_FirstVersion_E2E,
+      narr:Actor_Reviewer_ExpertGH,
+      narr:StyleObs_MinimalBody,
+      narr:StyleObs_YAMLFrontmatter,
+      narr:StyleObs_VersionLabel,
+      narr:StyleMetrics_FirstVersion_E2E .
+} ;
+
+# Extracted entities (named graph)
+INSERT DATA {
+  GRAPH narr:Tx_20260702T164540Z {
+
+    # ── Sample ──────────────────────────────────────────────────
+    narr:Sample_FirstVersion_E2E a narr:Sample ;
+      dct:title "First version" ;
+      dct:description "Minimal stub document with YAML frontmatter listing a reviewer and body text 'First version'." ;
+      narr:inputLength 65 .
+
+    # ── Actor (reviewer — email redacted per PII policy) ────────
+    narr:Actor_Reviewer_ExpertGH a narr:Actor ;
+      skos:prefLabel "test+expert-gh (aswritten.ai)" ;
+      skos:note "Reviewer listed in YAML frontmatter. Email redacted per PII policy (test+expert-gh@aswritten.ai)." .
+
+    # ── Style Observations ──────────────────────────────────────
+
+    # 1. Minimal body text — plain language / conciseness
+    narr:StyleObs_MinimalBody a narr:StyleObservation ;
+      skos:broader narr:Conciseness ;
+      dct:source narr:Sample_FirstVersion_E2E ;
+      skos:note "Body consists of a single two-word phrase, indicating an extremely terse, placeholder register." ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_FirstVersion_E2E ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start 52 ; oa:end 65
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "First version" ;
+          oa:prefix "\n\n" ;
+          oa:suffix ""
+        ]
+      ] .
+
+    # 2. YAML frontmatter usage — document structure / formatting convention
+    narr:StyleObs_YAMLFrontmatter a narr:StyleObservation ;
+      skos:broader narr:EditorialRules ;
+      dct:source narr:Sample_FirstVersion_E2E ;
+      skos:note "Document uses YAML frontmatter delimited by triple-dashes to encode metadata (reviewers list), a structured editorial convention." ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_FirstVersion_E2E ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start 0 ;
+          oa:end 50
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "---\nreviewers:\n  - test+expert-gh@aswritten.ai\n---" ;
+          oa:prefix "" ;
+          oa:suffix "\n\nFirst version"
+        ]
+      ] .
+
+    # 3. Version label as document title — naming convention
+    narr:StyleObs_VersionLabel a narr:StyleObservation ;
+      skos:broader narr:NamingConventions ;
+      dct:source narr:Sample_FirstVersion_E2E ;
+      skos:note "Body text uses a bare ordinal version label ('First version') as the sole content, consistent with a draft-placeholder naming convention." ;
+      rdf:value false ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_FirstVersion_E2E ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start 52 ; oa:end 65
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "First version" ;
+          oa:prefix "---\n\n" ;
+          oa:suffix ""
+        ]
+      ] .
+
+    # ── Style Metrics ───────────────────────────────────────────
+    narr:StyleMetrics_FirstVersion_E2E a narr:StyleMetrics ;
+      skos:broader narr:StyleMetrics ;
+      dct:source narr:Sample_FirstVersion_E2E ;
+      narr:AverageSentenceLength 2 ;
+      narr:ActiveVoiceRatio "1.0"^^xsd:decimal ;
+      narr:JargonDensity "0.0"^^xsd:decimal ;
+      skos:note "Stub document: single two-word body sentence, no jargon, no passive constructions. Metrics reflect placeholder content only."
+
+  }
+}
