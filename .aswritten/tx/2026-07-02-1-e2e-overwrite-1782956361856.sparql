@@ -8,96 +8,71 @@ PREFIX oa:   <http://www.w3.org/ns/oa#>
 
 # Transaction provenance (default graph)
 INSERT DATA {
-  narr:Tx_20260702T014051Z a prov:Activity ;
-    prov:generatedAtTime "2026-07-02T01:40:51Z"^^xsd:dateTime ;
+  narr:Tx_20260702T014413Z a prov:Activity ;
+    prov:generatedAtTime "2026-07-02T01:44:13Z"^^xsd:dateTime ;
     prov:wasAssociatedWith "aswritten.ai" ;
     prov:wasAttributedTo "n8n.aswritten.ai" ;
     narr:originPath "2026-07-02-1-e2e-overwrite-1782956361856" ;
     narr:originRef "e2e-overwrite-1782956361856" ;
-    dct:title "First version — e2e-expert-repo" ;
+    dct:title "Second version — e2e-expert-repo" ;
     prov:generated
-      narr:Sample_FirstVersion_E2E,
-      narr:Actor_Reviewer_ExpertGH,
-      narr:Narrative_FirstVersionDocument,
-      narr:StyleObs_YAMLFrontmatter,
-      narr:StyleObs_MinimalBodyText,
-      narr:StyleObs_ReviewerAnnotation,
-      narr:StyleMetrics_FirstVersion .
+      narr:Sample_SecondVersion_E2E,
+      narr:Narrative_SecondVersionDocument,
+      narr:StyleObs_YAMLFrontmatter_V2,
+      narr:StyleObs_ReviewerAnnotation_V2,
+      narr:StyleObs_MinimalBodyText_V2,
+      narr:StyleMetrics_SecondVersion .
 } ;
 
 # Extracted entities (named graph)
 INSERT DATA {
-  GRAPH narr:Tx_20260702T014051Z {
+  GRAPH narr:Tx_20260702T014413Z {
 
     # ── Sample ──────────────────────────────────────────────────
-    narr:Sample_FirstVersion_E2E a narr:Sample ;
-      dct:title "First version" ;
-      narr:inputLength 72 ;
-      dct:description "Minimal first-version document with YAML front-matter declaring a reviewer and a single-sentence body." .
+    narr:Sample_SecondVersion_E2E a narr:Sample ;
+      dct:title "Second version — e2e-expert-repo" ;
+      dct:created "2025-07-15"^^xsd:date ;
+      narr:inputLength 73 ;
+      skos:note "Minimal second-version document with YAML front-matter declaring the same reviewer and a single-sentence body reading 'Second version'." .
 
-    # ── Actor ───────────────────────────────────────────────────
-    narr:Actor_Reviewer_ExpertGH a narr:Actor ;
-      skos:prefLabel "Expert Reviewer (test+expert-gh)" ;
-      skos:note "Reviewer listed in YAML front-matter of the first-version document. Email redacted per PII policy." .
-
-    # ── Narrative ───────────────────────────────────────────────
-    narr:Narrative_FirstVersionDocument a narr:Narrative ;
-      narr:theme "Initial document version with assigned reviewer" ;
+    # ── Narrative ────────────────────────────────────────────────
+    narr:Narrative_SecondVersionDocument a narr:Narrative ;
+      dct:source narr:Sample_SecondVersion_E2E ;
+      narr:theme "Document versioning with structured reviewer assignment" ;
       skos:broader narr:Process ;
-      skos:note "The document declares itself a first version and assigns a reviewer via YAML front-matter. No substantive content beyond version declaration." ;
-      dct:source narr:Sample_FirstVersion_E2E .
+      skos:note "The document declares itself a second version and assigns the same reviewer via YAML front-matter. Structurally identical to the first version; only the body label advances from 'First version' to 'Second version'. No substantive content beyond version declaration." .
 
-    # ── Style Observations ──────────────────────────────────────
+    # ── Style Observations ───────────────────────────────────────
 
-    # 1. YAML front-matter reviewer annotation
-    narr:StyleObs_YAMLFrontmatter a narr:StyleObservation ;
+    # 1. YAML front-matter convention (same structural pattern, new sample)
+    narr:StyleObs_YAMLFrontmatter_V2 a narr:StyleObservation ;
       skos:broader narr:CitationConventions ;
-      dct:source narr:Sample_FirstVersion_E2E ;
-      skos:note "Document uses YAML front-matter block to declare metadata (reviewers list), a structured-data convention embedded in prose documents." ;
+      dct:source narr:Sample_SecondVersion_E2E ;
+      skos:note "Document uses YAML front-matter block to declare metadata (reviewers list), a structured-data convention embedded in prose documents. Pattern identical to first version." ;
       oa:hasTarget [
         a oa:SpecificResource ;
-        oa:hasSource narr:Sample_FirstVersion_E2E ;
+        oa:hasSource narr:Sample_SecondVersion_E2E ;
         oa:hasSelector [
           a oa:TextPositionSelector ;
-          oa:start 4 ;
-          oa:end 46
+          oa:start 0 ;
+          oa:end 50
         ] ;
         oa:hasSelector [
           a oa:TextQuoteSelector ;
-          oa:exact "reviewers:\n  - test+expert-gh@aswritten.ai" ;
-          oa:prefix "---\n" ;
-          oa:suffix "\n---"
+          oa:exact "---\nreviewers:\n  - [REDACTED]\n---" ;
+          oa:prefix "" ;
+          oa:suffix "\n\nSecond version"
         ]
       ] .
 
-    # 2. Minimal body text — plain declarative register
-    narr:StyleObs_MinimalBodyText a narr:StyleObservation ;
-      skos:broader narr:RegisterFormality ;
-      dct:source narr:Sample_FirstVersion_E2E ;
-      skos:note "Body text is a single two-word phrase ('First version'), representing an extremely minimal, label-style register with no elaboration." ;
-      oa:hasTarget [
-        a oa:SpecificResource ;
-        oa:hasSource narr:Sample_FirstVersion_E2E ;
-        oa:hasSelector [
-          a oa:TextPositionSelector ;
-          oa:start 52 ; oa:end 65
-        ] ;
-        oa:hasSelector [
-          a oa:TextQuoteSelector ;
-          oa:exact "First version" ;
-          oa:prefix "---\n\n" ;
-          oa:suffix ""
-        ]
-      ] .
-
-    # 3. Reviewer key in YAML — naming convention
-    narr:StyleObs_ReviewerAnnotation a narr:StyleObservation ;
+    # 2. Reviewer naming convention (same key, new sample)
+    narr:StyleObs_ReviewerAnnotation_V2 a narr:StyleObservation ;
       skos:broader narr:NamingConventions ;
-      dct:source narr:Sample_FirstVersion_E2E ;
-      skos:note "The key 'reviewers' (plural, lowercase) is used as a YAML list field for assigning review responsibility, indicating a structured editorial workflow convention." ;
+      dct:source narr:Sample_SecondVersion_E2E ;
+      skos:note "The key 'reviewers' (plural, lowercase) is used as a YAML list field for assigning review responsibility, confirming a persistent structured editorial workflow convention across document versions." ;
       oa:hasTarget [
         a oa:SpecificResource ;
-        oa:hasSource narr:Sample_FirstVersion_E2E ;
+        oa:hasSource narr:Sample_SecondVersion_E2E ;
         oa:hasSelector [
           a oa:TextPositionSelector ;
           oa:start 4 ; oa:end 14
@@ -106,18 +81,38 @@ INSERT DATA {
           a oa:TextQuoteSelector ;
           oa:exact "reviewers:" ;
           oa:prefix "---\n" ;
-          oa:suffix "\n  - "
+          oa:suffix "\n  - [REDACTED]"
         ]
       ] .
 
-    # ── Style Metrics ───────────────────────────────────────────
-    narr:StyleMetrics_FirstVersion a narr:StyleMetrics ;
+    # 3. Minimal body text — version label incremented
+    narr:StyleObs_MinimalBodyText_V2 a narr:StyleObservation ;
+      skos:broader narr:RegisterFormality ;
+      dct:source narr:Sample_SecondVersion_E2E ;
+      skos:note "Body text is a single two-word phrase ('Second version'), maintaining the extremely minimal, label-style register established in the first version. Version ordinal incremented; no elaboration added." ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_SecondVersion_E2E ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start 52 ; oa:end 66
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "Second version" ;
+          oa:prefix "---\n\n" ;
+          oa:suffix ""
+        ]
+      ] .
+
+    # ── Style Metrics ────────────────────────────────────────────
+    narr:StyleMetrics_SecondVersion a narr:StyleMetrics ;
       skos:broader narr:StyleMetrics ;
-      dct:source narr:Sample_FirstVersion_E2E ;
+      dct:source narr:Sample_SecondVersion_E2E ;
       narr:AverageSentenceLength 2 ;
       narr:ActiveVoiceRatio "1.0"^^xsd:decimal ;
       narr:JargonDensity "0.0"^^xsd:decimal ;
-      skos:note "Single two-word body sentence. No passive constructions. No domain jargon in prose body. YAML metadata excluded from prose metrics." .
+      skos:note "Single two-word body sentence. No passive constructions. No domain jargon in prose body. YAML metadata excluded from prose metrics. Pattern identical to first version metrics." .
 
   }
 }
