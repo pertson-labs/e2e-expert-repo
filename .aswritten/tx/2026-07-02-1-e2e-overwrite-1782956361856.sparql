@@ -1,0 +1,123 @@
+PREFIX narr: <https://aswritten.ai/narrative#>
+PREFIX rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX prov: <http://www.w3.org/ns/prov#>
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+PREFIX dct:  <http://purl.org/dc/terms/>
+PREFIX xsd:  <http://www.w3.org/2001/XMLSchema#>
+PREFIX oa:   <http://www.w3.org/ns/oa#>
+
+# Transaction provenance (default graph)
+INSERT DATA {
+  narr:Tx_20260702T014051Z a prov:Activity ;
+    prov:generatedAtTime "2026-07-02T01:40:51Z"^^xsd:dateTime ;
+    prov:wasAssociatedWith "aswritten.ai" ;
+    prov:wasAttributedTo "n8n.aswritten.ai" ;
+    narr:originPath "2026-07-02-1-e2e-overwrite-1782956361856" ;
+    narr:originRef "e2e-overwrite-1782956361856" ;
+    dct:title "First version — e2e-expert-repo" ;
+    prov:generated
+      narr:Sample_FirstVersion_E2E,
+      narr:Actor_Reviewer_ExpertGH,
+      narr:Narrative_FirstVersionDocument,
+      narr:StyleObs_YAMLFrontmatter,
+      narr:StyleObs_MinimalBodyText,
+      narr:StyleObs_ReviewerAnnotation,
+      narr:StyleMetrics_FirstVersion .
+} ;
+
+# Extracted entities (named graph)
+INSERT DATA {
+  GRAPH narr:Tx_20260702T014051Z {
+
+    # ── Sample ──────────────────────────────────────────────────
+    narr:Sample_FirstVersion_E2E a narr:Sample ;
+      dct:title "First version" ;
+      narr:inputLength 72 ;
+      dct:description "Minimal first-version document with YAML front-matter declaring a reviewer and a single-sentence body." .
+
+    # ── Actor ───────────────────────────────────────────────────
+    narr:Actor_Reviewer_ExpertGH a narr:Actor ;
+      skos:prefLabel "Expert Reviewer (test+expert-gh)" ;
+      skos:note "Reviewer listed in YAML front-matter of the first-version document. Email redacted per PII policy." .
+
+    # ── Narrative ───────────────────────────────────────────────
+    narr:Narrative_FirstVersionDocument a narr:Narrative ;
+      narr:theme "Initial document version with assigned reviewer" ;
+      skos:broader narr:Process ;
+      skos:note "The document declares itself a first version and assigns a reviewer via YAML front-matter. No substantive content beyond version declaration." ;
+      dct:source narr:Sample_FirstVersion_E2E .
+
+    # ── Style Observations ──────────────────────────────────────
+
+    # 1. YAML front-matter reviewer annotation
+    narr:StyleObs_YAMLFrontmatter a narr:StyleObservation ;
+      skos:broader narr:CitationConventions ;
+      dct:source narr:Sample_FirstVersion_E2E ;
+      skos:note "Document uses YAML front-matter block to declare metadata (reviewers list), a structured-data convention embedded in prose documents." ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_FirstVersion_E2E ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start 4 ;
+          oa:end 46
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "reviewers:\n  - test+expert-gh@aswritten.ai" ;
+          oa:prefix "---\n" ;
+          oa:suffix "\n---"
+        ]
+      ] .
+
+    # 2. Minimal body text — plain declarative register
+    narr:StyleObs_MinimalBodyText a narr:StyleObservation ;
+      skos:broader narr:RegisterFormality ;
+      dct:source narr:Sample_FirstVersion_E2E ;
+      skos:note "Body text is a single two-word phrase ('First version'), representing an extremely minimal, label-style register with no elaboration." ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_FirstVersion_E2E ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start 52 ; oa:end 65
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "First version" ;
+          oa:prefix "---\n\n" ;
+          oa:suffix ""
+        ]
+      ] .
+
+    # 3. Reviewer key in YAML — naming convention
+    narr:StyleObs_ReviewerAnnotation a narr:StyleObservation ;
+      skos:broader narr:NamingConventions ;
+      dct:source narr:Sample_FirstVersion_E2E ;
+      skos:note "The key 'reviewers' (plural, lowercase) is used as a YAML list field for assigning review responsibility, indicating a structured editorial workflow convention." ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_FirstVersion_E2E ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start 4 ; oa:end 14
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "reviewers:" ;
+          oa:prefix "---\n" ;
+          oa:suffix "\n  - "
+        ]
+      ] .
+
+    # ── Style Metrics ───────────────────────────────────────────
+    narr:StyleMetrics_FirstVersion a narr:StyleMetrics ;
+      skos:broader narr:StyleMetrics ;
+      dct:source narr:Sample_FirstVersion_E2E ;
+      narr:AverageSentenceLength 2 ;
+      narr:ActiveVoiceRatio "1.0"^^xsd:decimal ;
+      narr:JargonDensity "0.0"^^xsd:decimal ;
+      skos:note "Single two-word body sentence. No passive constructions. No domain jargon in prose body. YAML metadata excluded from prose metrics." .
+
+  }
+}
