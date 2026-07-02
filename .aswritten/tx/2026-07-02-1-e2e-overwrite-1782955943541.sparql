@@ -1,0 +1,119 @@
+PREFIX narr: <https://aswritten.ai/narrative#>
+PREFIX rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX prov: <http://www.w3.org/ns/prov#>
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+PREFIX dct:  <http://purl.org/dc/terms/>
+PREFIX xsd:  <http://www.w3.org/2001/XMLSchema#>
+PREFIX oa:   <http://www.w3.org/ns/oa#>
+
+INSERT DATA {
+  narr:Tx_20260702T013703Z a prov:Activity ;
+    prov:generatedAtTime "2026-07-02T01:37:03Z"^^xsd:dateTime ;
+    prov:wasAssociatedWith "aswritten.ai" ;
+    prov:wasAttributedTo "n8n.aswritten.ai" ;
+    narr:originPath "2026-07-02-1-e2e-overwrite-1782955943541" ;
+    narr:originRef "e2e-overwrite-1782955943541" ;
+    dct:title "Second version stub document" ;
+    prov:generated
+      narr:Sample_SecondVersionStub,
+      narr:Claim_SecondVersionDocument,
+      narr:StyleObs_FrontMatterConvention_SecondVersion,
+      narr:StyleObs_RegisterFormality_SecondVersion,
+      narr:StyleObs_ShortPunchyCadence_SecondVersion,
+      narr:StyleMetrics_SecondVersionStub .
+} ;
+
+INSERT DATA {
+  GRAPH narr:Tx_20260702T013703Z {
+
+    # ── Sample ──────────────────────────────────────────────────
+    narr:Sample_SecondVersionStub a narr:Sample ;
+      dct:title "Second version stub document" ;
+      dct:description "Minimal stub document with YAML front-matter reviewer field and a single 'Second version' body line. Successor to Sample_FirstVersionStub." ;
+      narr:inputLength 73 ;
+      dct:created "2026-07-02"^^xsd:date ;
+      skos:note "Second iteration of the versioned stub document. Same structural pattern as first version: YAML front-matter with reviewers list, single-line body." .
+
+    # ── Claim: document is at second version ────────────────────
+    narr:Claim_SecondVersionDocument a narr:Claim ;
+      narr:aboutNode narr:Sample_SecondVersionStub ;
+      narr:hasConvictionLevel narr:Conviction_Foundation ;
+      dct:source narr:Sample_SecondVersionStub ;
+      skos:note "The document declares itself to be at its second version, superseding the first-version declaration. Indicates at least one prior revision cycle has occurred." ;
+      narr:challenges narr:Claim_FirstVersionDocument .
+
+    # ── Style Observation 1: Front-matter convention ─────────────
+    narr:StyleObs_FrontMatterConvention_SecondVersion a narr:StyleObservation ;
+      skos:broader narr:EditorialRules ;
+      dct:source narr:Sample_SecondVersionStub ;
+      rdf:value true ;
+      skos:note "Document uses YAML front-matter delimited by triple-dashes to declare metadata (reviewers list). Reviewer email address redacted per PII policy. Pattern identical to first version." ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_SecondVersionStub ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start 0 ;
+          oa:end 50
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "---\nreviewers:\n  - test+expert-gh@aswritten.ai\n---" ;
+          oa:prefix "" ;
+          oa:suffix "\n\nSecond version"
+        ]
+      ] .
+
+    # ── Style Observation 2: Register / formality ────────────────
+    narr:StyleObs_RegisterFormality_SecondVersion a narr:StyleObservation ;
+      skos:broader narr:RegisterFormality ;
+      dct:source narr:Sample_SecondVersionStub ;
+      rdf:value false ;
+      skos:note "Register is neutral and functional; no rhetorical elaboration, no hedging, no audience address. Consistent with an internal placeholder or versioning commit message." ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_SecondVersionStub ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start 52 ; oa:end 66
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "Second version" ;
+          oa:prefix "---\n\n" ;
+          oa:suffix ""
+        ]
+      ] .
+
+    # ── Style Observation 3: Short punchy cadence ────────────────
+    narr:StyleObs_ShortPunchyCadence_SecondVersion a narr:StyleObservation ;
+      skos:broader narr:ShortPunchyCadence ;
+      dct:source narr:Sample_SecondVersionStub ;
+      rdf:value true ;
+      skos:note "Body consists of a single two-word declarative sentence, the shortest possible versioning statement. Identical cadence pattern to first version." ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_SecondVersionStub ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start 52 ; oa:end 66
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "Second version" ;
+          oa:prefix "---\n\n" ;
+          oa:suffix ""
+        ]
+      ] .
+
+    # ── Style Metrics ────────────────────────────────────────────
+    narr:StyleMetrics_SecondVersionStub a narr:StyleMetrics ;
+      skos:broader narr:StyleMetrics ;
+      dct:source narr:Sample_SecondVersionStub ;
+      narr:AverageSentenceLength 2 ;
+      narr:ActiveVoiceRatio "1.0"^^xsd:decimal ;
+      narr:JargonDensity "0.0"^^xsd:decimal ;
+      skos:note "Single two-word sentence body. Active voice (nominal declarative). No domain jargon present. Metrics identical to first version stub." .
+
+  }
+}
