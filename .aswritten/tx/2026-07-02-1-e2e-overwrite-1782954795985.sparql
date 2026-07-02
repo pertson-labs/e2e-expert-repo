@@ -1,0 +1,107 @@
+PREFIX narr: <https://aswritten.ai/narrative#>
+PREFIX rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX prov: <http://www.w3.org/ns/prov#>
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+PREFIX dct:  <http://purl.org/dc/terms/>
+PREFIX xsd:  <http://www.w3.org/2001/XMLSchema#>
+PREFIX oa:   <http://www.w3.org/ns/oa#>
+
+INSERT DATA {
+  narr:Tx_20260702T011528Z a prov:Activity ;
+    prov:generatedAtTime "2026-07-02T01:15:28Z"^^xsd:dateTime ;
+    prov:wasAssociatedWith "aswritten.ai" ;
+    prov:wasAttributedTo "n8n.aswritten.ai" ;
+    narr:originPath "2026-07-02-1-e2e-overwrite-1782954795985" ;
+    narr:originRef "e2e-overwrite-1782954795985" ;
+    prov:generated
+      narr:Sample_FirstVersion,
+      narr:Narrative_FirstVersion,
+      narr:StyleObservation_MinimalContent,
+      narr:StyleObservation_FrontMatterConvention,
+      narr:StyleObservation_ReviewerEmailPattern,
+      narr:StyleMetrics_FirstVersion .
+} ;
+
+INSERT DATA {
+  GRAPH narr:Tx_20260702T011528Z {
+
+    narr:Sample_FirstVersion a narr:Sample ;
+      dct:title "First version" ;
+      narr:inputLength "72"^^xsd:integer .
+
+    narr:Narrative_FirstVersion a narr:Narrative ;
+      dct:source narr:Sample_FirstVersion ;
+      narr:theme "Initial document version with reviewer metadata" ;
+      skos:broader narr:NarrativeAnchor ;
+      skos:note "Minimal first-version memory containing only YAML front matter with a reviewer email and the text 'First version'. Establishes document provenance and review assignment." .
+
+    narr:StyleObservation_MinimalContent a narr:StyleObservation ;
+      skos:broader narr:RegisterFormality ;
+      dct:source narr:Sample_FirstVersion ;
+      skos:note "Extremely minimal body content — single phrase 'First version' with no elaboration. Register is declarative and terse." ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_FirstVersion ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start "62"^^xsd:integer ;
+          oa:end "75"^^xsd:integer
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "First version" ;
+          oa:prefix "---\n\n" ;
+          oa:suffix ""
+        ]
+      ] .
+
+    narr:StyleObservation_FrontMatterConvention a narr:StyleObservation ;
+      skos:broader narr:CitationConventions ;
+      dct:source narr:Sample_FirstVersion ;
+      skos:note "YAML front matter used for document metadata, following a structured key-value convention with 'reviewers' as a list field." ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_FirstVersion ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start "0"^^xsd:integer ;
+          oa:end "55"^^xsd:integer
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "---\nreviewers:\n  - test+expert-gh@aswritten.ai\n---" ;
+          oa:prefix "" ;
+          oa:suffix "\n\nFirst version"
+        ]
+      ] .
+
+    narr:StyleObservation_ReviewerEmailPattern a narr:StyleObservation ;
+      skos:broader narr:NamingConventions ;
+      dct:source narr:Sample_FirstVersion ;
+      skos:note "Reviewer identified by email address using a plus-addressing pattern (test+expert-gh@aswritten.ai), indicating role-tagged routing convention." ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_FirstVersion ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start "22"^^xsd:integer ;
+          oa:end "52"^^xsd:integer
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "test+expert-gh@aswritten.ai" ;
+          oa:prefix "reviewers:\n  - " ;
+          oa:suffix "\n---"
+        ]
+      ] .
+
+    narr:StyleMetrics_FirstVersion a narr:StyleMetrics ;
+      skos:broader narr:StyleMetrics ;
+      dct:source narr:Sample_FirstVersion ;
+      narr:AverageSentenceLength "2"^^xsd:integer ;
+      narr:ActiveVoiceRatio "1.0"^^xsd:decimal ;
+      narr:JargonDensity "0.0"^^xsd:decimal ;
+      skos:note "Single two-word sentence body. Active voice. No jargon. Extremely low content density." .
+
+  }
+}
