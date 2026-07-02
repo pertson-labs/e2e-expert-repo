@@ -1,0 +1,154 @@
+PREFIX narr: <https://aswritten.ai/narrative#>
+PREFIX rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX prov: <http://www.w3.org/ns/prov#>
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+PREFIX dct:  <http://purl.org/dc/terms/>
+PREFIX xsd:  <http://www.w3.org/2001/XMLSchema#>
+PREFIX oa:   <http://www.w3.org/ns/oa#>
+
+# Transaction provenance (default graph)
+INSERT DATA {
+  narr:Tx_20260702T011454Z a prov:Activity ;
+    prov:generatedAtTime "2026-07-02T01:14:54Z"^^xsd:dateTime ;
+    prov:wasAssociatedWith "aswritten.ai" ;
+    prov:wasAttributedTo "n8n.aswritten.ai" ;
+    narr:originPath "2026-07-02-1-e2e-overwrite-1782954795859" ;
+    narr:originRef "e2e-overwrite-1782954795859" ;
+    dct:title "First version — e2e-expert-repo" ;
+    prov:generated
+      narr:Sample_FirstVersion_E2E,
+      narr:Narrative_FirstVersionDocument,
+      narr:Actor_Reviewer_ExpertGH,
+      narr:Claim_FirstVersionInitialState,
+      narr:Obs_FirstVersionBody,
+      narr:StyleObs_MinimalRegister,
+      narr:StyleObs_FrontmatterConvention,
+      narr:StyleObs_TerseBodyText,
+      narr:StyleMetrics_FirstVersion .
+} ;
+
+# Extracted entities (named graph)
+INSERT DATA {
+  GRAPH narr:Tx_20260702T011454Z {
+
+    # ── Sample ──────────────────────────────────────────────────
+    narr:Sample_FirstVersion_E2E a narr:Sample ;
+      dct:title "First version" ;
+      narr:inputLength "72"^^xsd:integer ;
+      dct:description "Minimal document with YAML frontmatter listing a reviewer and body text 'First version'." .
+
+    # ── Actor ───────────────────────────────────────────────────
+    narr:Actor_Reviewer_ExpertGH a narr:Actor ;
+      skos:prefLabel "Expert Reviewer (GitHub)" ;
+      skos:note "Reviewer listed in YAML frontmatter of the first-version document. Email redacted per PII policy (test+expert-gh@aswritten.ai)." .
+
+    # ── Narrative ───────────────────────────────────────────────
+    narr:Narrative_FirstVersionDocument a narr:Narrative ;
+      dct:source narr:Sample_FirstVersion_E2E ;
+      narr:theme "Initial document state" ;
+      skos:broader narr:NarrativeDrivenRoadmap ;
+      skos:note "Document declares itself a first version with a designated reviewer, establishing the baseline state of the artifact in the repository." .
+
+    # ── Claim ───────────────────────────────────────────────────
+    narr:Claim_FirstVersionInitialState a narr:Claim ;
+      narr:aboutNode narr:Narrative_FirstVersionDocument ;
+      narr:hasConvictionLevel narr:Conviction_Notion ;
+      dct:source narr:Sample_FirstVersion_E2E ;
+      skos:note "The document is explicitly labeled 'First version', indicating it is at the earliest stage of its lifecycle with no prior iterations recorded." .
+
+    # ── Observation ─────────────────────────────────────────────
+    narr:Obs_FirstVersionBody a narr:Observation ;
+      skos:broader narr:Milestones ;
+      dct:source narr:Sample_FirstVersion_E2E ;
+      skos:note "Body text asserts document version status." ;
+      oa:hasSelector [
+        a oa:TextPositionSelector ;
+        oa:start "42"^^xsd:integer ;
+        oa:end "55"^^xsd:integer
+      ] ;
+      oa:hasSelector [
+        a oa:TextQuoteSelector ;
+        oa:exact "First version" ;
+        oa:prefix "\n\n" ;
+        oa:suffix ""
+      ] .
+
+    # ── Style Observations ──────────────────────────────────────
+
+    # 1. Minimal / terse register
+    narr:StyleObs_MinimalRegister a narr:StyleObservation ;
+      skos:broader narr:RegisterFormality ;
+      dct:source narr:Sample_FirstVersion_E2E ;
+      rdf:value "true"^^xsd:boolean ;
+      skos:note "Extremely terse body: two words only. Register is minimal/functional, no rhetorical elaboration." ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_FirstVersion_E2E ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start "42"^^xsd:integer ;
+          oa:end "55"^^xsd:integer
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "First version" ;
+          oa:prefix "\n\n" ;
+          oa:suffix ""
+        ]
+      ] .
+
+    # 2. YAML frontmatter convention
+    narr:StyleObs_FrontmatterConvention a narr:StyleObservation ;
+      skos:broader narr:EditorialRules ;
+      dct:source narr:Sample_FirstVersion_E2E ;
+      rdf:value "true"^^xsd:boolean ;
+      skos:note "Document uses YAML frontmatter delimited by triple-dashes to declare metadata (reviewers), a structured editorial convention." ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_FirstVersion_E2E ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start "0"^^xsd:integer ;
+          oa:end "41"^^xsd:integer
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "---\nreviewers:\n  - test+expert-gh@aswritten.ai\n---" ;
+          oa:prefix "" ;
+          oa:suffix "\n\nFirst version"
+        ]
+      ] .
+
+    # 3. Terse body cadence
+    narr:StyleObs_TerseBodyText a narr:StyleObservation ;
+      skos:broader narr:ShortPunchyCadence ;
+      dct:source narr:Sample_FirstVersion_E2E ;
+      rdf:value "true"^^xsd:boolean ;
+      skos:note "Body consists of a single two-word declarative phrase with no punctuation, exemplifying maximum brevity." ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_FirstVersion_E2E ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start "42"^^xsd:integer ;
+          oa:end "55"^^xsd:integer
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "First version" ;
+          oa:prefix "\n\n" ;
+          oa:suffix ""
+        ]
+      ] .
+
+    # ── Style Metrics ───────────────────────────────────────────
+    narr:StyleMetrics_FirstVersion a narr:StyleMetrics ;
+      skos:broader narr:StyleMetrics ;
+      dct:source narr:Sample_FirstVersion_E2E ;
+      narr:AverageSentenceLength "2"^^xsd:integer ;
+      narr:ActiveVoiceRatio "1.0"^^xsd:decimal ;
+      narr:JargonDensity "0.0"^^xsd:decimal ;
+      skos:note "Single two-word body sentence. No jargon. Fully active (declarative noun phrase). Minimal register throughout." .
+
+  }
+}
