@@ -1,0 +1,156 @@
+PREFIX narr: <https://aswritten.ai/narrative#>
+PREFIX rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX prov: <http://www.w3.org/ns/prov#>
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+PREFIX dct:  <http://purl.org/dc/terms/>
+PREFIX xsd:  <http://www.w3.org/2001/XMLSchema#>
+PREFIX oa:   <http://www.w3.org/ns/oa#>
+
+# ── Transaction provenance (default graph) ───────────────────────────────────
+INSERT DATA {
+  narr:Tx_20260703T212327Z a prov:Activity ;
+    dct:title "Sample Memory Phase 2 — Derive Id E2E" ;
+    prov:generatedAtTime "2026-07-03T21:23:27Z"^^xsd:dateTime ;
+    prov:wasAssociatedWith "aswritten.ai" ;
+    prov:wasAttributedTo "n8n.aswritten.ai" ;
+    narr:originPath ".aswritten/memories/2026-07-03-2-missing-id-heading-slug-generation.md" ;
+    narr:originRef "e2e-derive-id-1783113455790" ;
+    prov:generated
+      narr:Sample_SampleMemoryPhase2DeriveIdE2E,
+      narr:Claim_PipelineMustNotCrashOnMissingId,
+      narr:Observation_Phase2MissingIdFailurePattern,
+      narr:StyleObs_Phase2TechnicalImperative,
+      narr:StyleObs_Phase2JargonDensity,
+      narr:StyleObs_Phase2ParentheticQualifier,
+      narr:StyleMetrics_SampleMemoryPhase2DeriveIdE2E .
+} ;
+
+# ── New entities (named graph) ────────────────────────────────────────────────
+INSERT DATA {
+  GRAPH narr:Tx_20260703T212327Z {
+
+    # ── Sample ────────────────────────────────────────────────────────────────
+    narr:Sample_SampleMemoryPhase2DeriveIdE2E a narr:Sample ;
+      dct:title "Sample Memory Phase 2 — Derive Id E2E" ;
+      dct:created "2025-07-17"^^xsd:date ;
+      narr:inputLength 219 ;
+      skos:note "Phase 2 E2E test artifact: exercises the missing-id failure pattern using a ## level heading with no id field. Distinct from Phase 1 (Sample_SampleMemoryWithDistinctiveHeading)." .
+
+    # ── Claim: crash-safety requirement ──────────────────────────────────────
+    narr:Claim_PipelineMustNotCrashOnMissingId a narr:Claim ;
+      narr:aboutNode narr:Narrative_PipelineSlugDerivation ;
+      narr:hasConvictionLevel narr:Conviction_Boulder ;
+      narr:supports narr:Claim_SlugFallbackRequired ;
+      dct:source narr:Sample_SampleMemoryPhase2DeriveIdE2E ;
+      skos:note "Phase 2 adds an explicit crash-safety constraint: the pipeline must not crash when encountering a ## level heading with no id field, and must still produce a valid slug. This is a distinct assertion from the slug-production requirement captured in Claim_SlugFallbackRequired." .
+
+    # ── Observation: prod failure pattern ────────────────────────────────────
+    narr:Observation_Phase2MissingIdFailurePattern a narr:Observation ;
+      skos:broader narr:FailureModesSafety ;
+      dct:source narr:Sample_SampleMemoryPhase2DeriveIdE2E ;
+      skos:note "The memory explicitly references a prod failure pattern: ## level heading with no id field caused a crash. Phase 2 reproduces this to validate the fix." ;
+      oa:hasSelector [
+        a oa:TextPositionSelector ;
+        oa:start 92 ;
+        oa:end 176
+      ] ;
+      oa:hasSelector [
+        a oa:TextQuoteSelector ;
+        oa:exact "Reproduces the missing-id failure pattern from prod (## level heading,\nno id field)." ;
+        oa:prefix "Memory Phase 2 — Derive Id E2E\n\n" ;
+        oa:suffix " Must not crash; must produce a "
+      ] .
+
+    # ── Style Observation 1: imperative register ──────────────────────────────
+    narr:StyleObs_Phase2TechnicalImperative a narr:StyleObservation ;
+      skos:broader narr:ToneAuthoritative ;
+      dct:source narr:Sample_SampleMemoryPhase2DeriveIdE2E ;
+      rdf:value true ;
+      skos:note "Dual imperative clauses ('Must not crash; must produce a valid slug.') assert hard requirements in an authoritative, specification-style register." ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_SampleMemoryPhase2DeriveIdE2E ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start 177 ; oa:end 219
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "Must not crash; must produce a valid slug." ;
+          oa:prefix "## level heading,\nno id field). " ;
+          oa:suffix ""
+        ]
+      ] .
+
+    # ── Style Observation 2: jargon density ──────────────────────────────────
+    narr:StyleObs_Phase2JargonDensity a narr:StyleObservation ;
+      skos:broader narr:JargonPolicy ;
+      dct:source narr:Sample_SampleMemoryPhase2DeriveIdE2E ;
+      rdf:value true ;
+      skos:note "High jargon density for a two-sentence body: 'missing-id failure pattern', 'prod', '## level heading', 'id field', 'valid slug' — all pipeline/domain-specific terms." ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_SampleMemoryPhase2DeriveIdE2E ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start 92 ;
+          oa:end 219
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "Reproduces the missing-id failure pattern from prod (## level heading,\nno id field). Must not crash; must produce a valid slug." ;
+          oa:prefix "Memory Phase 2 — Derive Id E2E\n\n" ;
+          oa:suffix ""
+        ]
+      ] .
+
+    # ── Style Observation 3: parenthetic qualifier ────────────────────────────
+    narr:StyleObs_Phase2ParentheticQualifier a narr:StyleObservation ;
+      skos:broader narr:GrammarSyntax ;
+      dct:source narr:Sample_SampleMemoryPhase2DeriveIdE2E ;
+      rdf:value true ;
+      skos:note "Parenthetic inline qualifier '(## level heading, no id field)' embeds the precise technical precondition mid-sentence, a pattern common in test-specification prose." ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_SampleMemoryPhase2DeriveIdE2E ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start 144 ;
+          oa:end 175
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "(## level heading,\nno id field)" ;
+          oa:prefix "ng-id failure pattern from prod " ;
+          oa:suffix ". Must not crash; must produce a"
+        ]
+      ] .
+
+    # ── Style Metrics ─────────────────────────────────────────────────────────
+    narr:StyleMetrics_SampleMemoryPhase2DeriveIdE2E a narr:StyleMetrics ;
+      skos:broader narr:StyleMetrics ;
+      dct:source narr:Sample_SampleMemoryPhase2DeriveIdE2E ;
+      narr:AverageSentenceLength 14 ;
+      narr:ActiveVoiceRatio "0.5"^^xsd:decimal ;
+      narr:JargonDensity "0.35"^^xsd:decimal ;
+      skos:note "Two-sentence body. One passive/impersonal ('Reproduces…'), one active imperative pair ('Must not crash; must produce…'). High jargon density relative to word count." .
+
+  }
+} ;
+
+# ── Update existing Narrative to reflect Phase 2 specificity ─────────────────
+DELETE {
+  GRAPH ?g {
+    narr:Narrative_PipelineSlugDerivation skos:note ?oldNote .
+  }
+}
+INSERT {
+  GRAPH narr:Tx_20260703T212327Z {
+    narr:Narrative_PipelineSlugDerivation skos:note "When a memory is submitted without an explicit id field, the pipeline must derive a slug — either via an LLM id-gen call or a deterministic slugify fallback — and commit the file successfully. Phase 2 (E2E) adds: the pipeline must not crash when the heading is ## level with no id field, and must produce a valid slug. This narrative is exercised by both Phase 1 (Sample_SampleMemoryWithDistinctiveHeading) and Phase 2 (Sample_SampleMemoryPhase2DeriveIdE2E) test artifacts." .
+  }
+}
+WHERE {
+  GRAPH ?g {
+    narr:Narrative_PipelineSlugDerivation skos:note ?oldNote .
+  }
+}
