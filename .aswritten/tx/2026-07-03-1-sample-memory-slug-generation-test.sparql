@@ -1,0 +1,152 @@
+PREFIX narr: <https://aswritten.ai/narrative#>
+PREFIX rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX prov: <http://www.w3.org/ns/prov#>
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+PREFIX dct:  <http://purl.org/dc/terms/>
+PREFIX xsd:  <http://www.w3.org/2001/XMLSchema#>
+PREFIX oa:   <http://www.w3.org/ns/oa#>
+
+# Transaction provenance (default graph)
+INSERT DATA {
+  narr:Tx_20260703T105144Z a prov:Activity ;
+    prov:generatedAtTime "2026-07-03T10:51:44Z"^^xsd:dateTime ;
+    prov:wasAssociatedWith "aswritten.ai" ;
+    prov:wasAttributedTo "n8n.aswritten.ai" ;
+    narr:originPath ".aswritten/memories/2026-07-03-1-sample-memory-slug-generation-test.md" ;
+    narr:originRef "e2e-derive-id-1783075755728" ;
+    dct:title "E2E: Derive ID from memory content (no explicit id field)" ;
+    prov:generated
+      narr:Sample_SampleMemoryDistinctiveHeading,
+      narr:Narrative_PipelineSlugGeneration,
+      narr:Claim_PipelineSlugFallback,
+      narr:Observation_SlugGenDescription,
+      narr:StyleObs_TechnicalRegister,
+      narr:StyleObs_ImperativeMood,
+      narr:StyleObs_DisjunctivePhrasing,
+      narr:StyleMetrics_SampleMemoryDistinctiveHeading .
+} ;
+
+# Extracted entities (named graph)
+INSERT DATA {
+  GRAPH narr:Tx_20260703T105144Z {
+
+    # ── Sample ──────────────────────────────────────────────────
+    narr:Sample_SampleMemoryDistinctiveHeading a narr:Sample ;
+      dct:title "Sample Memory With Distinctive Heading" ;
+      narr:inputLength 295 ;
+      dct:description "E2E test memory submitted without an explicit id field to exercise the pipeline slug-generation path." .
+
+    # ── Narrative ────────────────────────────────────────────────
+    narr:Narrative_PipelineSlugGeneration a narr:Narrative ;
+      dct:source narr:Sample_SampleMemoryDistinctiveHeading ;
+      narr:theme "Pipeline must derive a slug identifier when no explicit id is provided" ;
+      skos:broader narr:Process ;
+      skos:note "When a memory is submitted without an id field, the pipeline must produce a slug via either the LLM id-gen call or the deterministic slugify fallback, then commit the file successfully. This tests the robustness of the id-generation pathway." .
+
+    # ── Claim ────────────────────────────────────────────────────
+    narr:Claim_PipelineSlugFallback a narr:Claim ;
+      narr:aboutNode narr:Narrative_PipelineSlugGeneration ;
+      narr:hasConvictionLevel narr:Conviction_Stake ;
+      narr:supports narr:Process ;
+      dct:source narr:Sample_SampleMemoryDistinctiveHeading ;
+      skos:note "The pipeline has two slug-generation strategies: (1) LLM id-gen call, (2) deterministic slugify fallback. Both must result in a successful file commit." .
+
+    # ── Observation ──────────────────────────────────────────────
+    narr:Observation_SlugGenDescription a narr:Observation ;
+      skos:broader narr:CoreWorkflows ;
+      dct:source narr:Sample_SampleMemoryDistinctiveHeading ;
+      skos:note "Pipeline slug generation from memory content when id field is absent" ;
+      oa:hasSelector [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_SampleMemoryDistinctiveHeading ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start 132 ;
+          oa:end 295
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "The pipeline must produce a\nslug from the memory content — either via the LLM id-gen call or the\ndeterministic slugify fallback — and commit the file successfully." ;
+          oa:prefix "d without an explicit id field. " ;
+          oa:suffix ""
+        ]
+      ] .
+
+    # ── Style Observations ───────────────────────────────────────
+
+    # 1. Technical register / process-oriented imperative
+    narr:StyleObs_TechnicalRegister a narr:StyleObservation ;
+      skos:broader narr:ToneAuthoritative ;
+      dct:source narr:Sample_SampleMemoryDistinctiveHeading ;
+      skos:note "Authoritative, specification-style register: the pipeline 'must' produce a slug — modal obligation framing typical of engineering acceptance criteria." ;
+      rdf:value true ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_SampleMemoryDistinctiveHeading ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start 132 ;
+          oa:end 188
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "The pipeline must produce a\nslug from the memory content" ;
+          oa:prefix "d without an explicit id field. " ;
+          oa:suffix " — either via the LLM id-gen cal"
+        ]
+      ] .
+
+    # 2. Disjunctive phrasing (either/or fallback pattern)
+    narr:StyleObs_DisjunctivePhrasing a narr:StyleObservation ;
+      skos:broader narr:GrammarSyntax ;
+      dct:source narr:Sample_SampleMemoryDistinctiveHeading ;
+      skos:note "Disjunctive 'either … or' construction used to enumerate two alternative execution paths, a pattern common in technical specifications and test criteria." ;
+      rdf:value true ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_SampleMemoryDistinctiveHeading ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start 191 ;
+          oa:end 259
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "either via the LLM id-gen call or the\ndeterministic slugify fallback" ;
+          oa:prefix "\nslug from the memory content — " ;
+          oa:suffix " — and commit the file successfu"
+        ]
+      ] .
+
+    # 3. Imperative mood / outcome-anchored close
+    narr:StyleObs_ImperativeMood a narr:StyleObservation ;
+      skos:broader narr:SentenceMood ;
+      dct:source narr:Sample_SampleMemoryDistinctiveHeading ;
+      skos:note "Sentence closes with a success criterion stated as an imperative outcome ('commit the file successfully'), anchoring the test assertion to a concrete observable result." ;
+      rdf:value true ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_SampleMemoryDistinctiveHeading ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start 262 ; oa:end 295
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "and commit the file successfully." ;
+          oa:prefix "eterministic slugify fallback — " ;
+          oa:suffix ""
+        ]
+      ] .
+
+    # ── Style Metrics ────────────────────────────────────────────
+    narr:StyleMetrics_SampleMemoryDistinctiveHeading a narr:StyleMetrics ;
+      skos:broader narr:StyleMetrics ;
+      dct:source narr:Sample_SampleMemoryDistinctiveHeading ;
+      narr:AverageSentenceLength 22 ;
+      narr:ActiveVoiceRatio "0.85"^^xsd:decimal ;
+      narr:JargonDensity "0.18"^^xsd:decimal ;
+      skos:note "Short document (2 sentences in body). Technical register with engineering jargon (slug, LLM, id-gen, slugify, fallback). Active voice dominant. Sentence length moderate for specification prose." .
+
+  }
+}
