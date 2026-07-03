@@ -8,73 +8,154 @@ PREFIX oa:   <http://www.w3.org/ns/oa#>
 
 # Transaction provenance (default graph)
 INSERT DATA {
-  narr:Tx_20260703T172305Z a prov:Activity ;
-    prov:generatedAtTime "2026-07-03T17:23:05Z"^^xsd:dateTime ;
+  narr:Tx_20260703T172610Z a prov:Activity ;
+    prov:generatedAtTime "2026-07-03T17:26:10Z"^^xsd:dateTime ;
     prov:wasAssociatedWith "aswritten.ai" ;
     prov:wasAttributedTo "n8n.aswritten.ai" ;
     narr:originPath ".aswritten/memories/2026-07-03-1-e2e-overwrite-1783099240528.md" ;
     narr:originRef "e2e-overwrite-1783099240528" ;
-    dct:title "First version — reviewer staging doc" ;
+    dct:title "Second version — reviewer staging doc" ;
     prov:generated
-      narr:Sample_FirstVersionStagingDoc,
-      narr:Actor_Xena_Staging,
-      narr:Claim_FirstVersionStatus,
-      narr:StyleObs_MinimalBody,
-      narr:StyleObs_YAMLFrontMatter,
-      narr:StyleObs_InformalVersionLabel,
-      narr:StyleMetrics_FirstVersionStagingDoc .
+      narr:Sample_SecondVersionStagingDoc,
+      narr:StyleObs_SecondVersion_MinimalBody,
+      narr:StyleObs_SecondVersion_YAMLFrontMatter,
+      narr:StyleObs_SecondVersion_InformalVersionLabel,
+      narr:StyleMetrics_SecondVersionStagingDoc .
 } ;
 
-# Extracted entities (named graph)
+# New Sample for second version document
 INSERT DATA {
-  GRAPH narr:Tx_20260703T172305Z {
+  GRAPH narr:Tx_20260703T172610Z {
+    narr:Sample_SecondVersionStagingDoc a narr:Sample ;
+      dct:title "Second version — reviewer staging doc" ;
+      narr:inputLength 64 ;
+      dct:description "Second version of the staging document with YAML front-matter listing a reviewer and a two-word body." ;
+      dct:replaces narr:Sample_FirstVersionStagingDoc .
+  }
+} ;
 
-    # ── Sample ──────────────────────────────────────────────────
-    narr:Sample_FirstVersionStagingDoc a narr:Sample ;
-      dct:title "First version — reviewer staging doc" ;
-      narr:inputLength 63 .
+# Update Claim_FirstVersionStatus: body text has changed from 'First version' to 'Second version'
+DELETE {
+  GRAPH ?g {
+    narr:Claim_FirstVersionStatus skos:note ?oldNote ;
+      dct:source ?oldSource .
+  }
+}
+INSERT {
+  GRAPH narr:Tx_20260703T172610Z {
+    narr:Claim_FirstVersionStatus skos:note "The body of the document now contains only the text 'Second version', indicating this is the second iteration of the draft with no additional substantive content." ;
+      dct:source narr:Sample_SecondVersionStagingDoc .
+  }
+}
+WHERE {
+  GRAPH ?g {
+    narr:Claim_FirstVersionStatus skos:note ?oldNote ;
+      dct:source ?oldSource .
+  }
+} ;
 
-    # ── Actor ───────────────────────────────────────────────────
-    # Email redacted per PII policy (allow_pii not set)
-    narr:Actor_Xena_Staging a narr:Actor ;
-      skos:prefLabel "Xena (staging reviewer)" ;
-      skos:note "Listed as a reviewer in the YAML front-matter of this document. Email redacted per PII policy." .
-
-    # ── Claim: document is at first-version status ───────────────
-    narr:Claim_FirstVersionStatus a narr:Claim ;
-      narr:aboutNode narr:Sample_FirstVersionStagingDoc ;
-      narr:hasConvictionLevel narr:Conviction_Notion ;
-      skos:note "The body of the document contains only the text 'First version', indicating this is an initial draft with no substantive content yet." ;
-      dct:source narr:Sample_FirstVersionStagingDoc .
-
-    # ── Style Observation 1: Minimal body content ────────────────
-    narr:StyleObs_MinimalBody a narr:StyleObservation ;
-      skos:broader narr:Conciseness ;
-      dct:source narr:Sample_FirstVersionStagingDoc ;
+# Update StyleObs_MinimalBody: exact quote changed from 'First version' to 'Second version'
+DELETE {
+  GRAPH ?g {
+    narr:StyleObs_MinimalBody dct:source ?oldSource ;
+      skos:note ?oldNote ;
+      oa:hasTarget ?oldTarget .
+  }
+}
+INSERT {
+  GRAPH narr:Tx_20260703T172610Z {
+    narr:StyleObs_MinimalBody dct:source narr:Sample_SecondVersionStagingDoc ;
       skos:note "The entire document body is a single two-word phrase, representing extreme brevity." ;
       oa:hasTarget [
         a oa:SpecificResource ;
-        oa:hasSource narr:Sample_FirstVersionStagingDoc ;
+        oa:hasSource narr:Sample_SecondVersionStagingDoc ;
         oa:hasSelector [
           a oa:TextPositionSelector ;
-          oa:start 50 ; oa:end 63
+          oa:start 50 ; oa:end 64
         ] ;
         oa:hasSelector [
           a oa:TextQuoteSelector ;
-          oa:exact "First version" ;
+          oa:exact "Second version" ;
+          oa:prefix " xena+staging@aswritten.ai\n---\n\n" ;
+          oa:suffix ""
+        ]
+      ] .
+  }
+}
+WHERE {
+  GRAPH ?g {
+    narr:StyleObs_MinimalBody dct:source ?oldSource ;
+      skos:note ?oldNote ;
+      oa:hasTarget ?oldTarget .
+  }
+} ;
+
+# Update StyleObs_InformalVersionLabel: label changed from 'First version' to 'Second version'
+DELETE {
+  GRAPH ?g {
+    narr:StyleObs_InformalVersionLabel dct:source ?oldSource ;
+      skos:note ?oldNote ;
+      oa:hasTarget ?oldTarget .
+  }
+}
+INSERT {
+  GRAPH narr:Tx_20260703T172610Z {
+    narr:StyleObs_InformalVersionLabel dct:source narr:Sample_SecondVersionStagingDoc ;
+      skos:note "'Second version' is an informal, lowercase version label rather than a semantic version string (e.g. v2.0.0), continuing the low-formality internal draft register established in the first version." ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_SecondVersionStagingDoc ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start 50 ; oa:end 64
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "Second version" ;
+          oa:prefix " xena+staging@aswritten.ai\n---\n\n" ;
+          oa:suffix ""
+        ]
+      ] .
+  }
+}
+WHERE {
+  GRAPH ?g {
+    narr:StyleObs_InformalVersionLabel dct:source ?oldSource ;
+      skos:note ?oldNote ;
+      oa:hasTarget ?oldTarget .
+  }
+} ;
+
+# New style observations and metrics for second version
+INSERT DATA {
+  GRAPH narr:Tx_20260703T172610Z {
+
+    narr:StyleObs_SecondVersion_MinimalBody a narr:StyleObservation ;
+      skos:broader narr:Conciseness ;
+      dct:source narr:Sample_SecondVersionStagingDoc ;
+      skos:note "Document body remains a single two-word nominal phrase in the second version, sustaining the pattern of extreme brevity." ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_SecondVersionStagingDoc ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start 50 ; oa:end 64
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "Second version" ;
           oa:prefix " xena+staging@aswritten.ai\n---\n\n" ;
           oa:suffix ""
         ]
       ] .
 
-    # ── Style Observation 2: YAML front-matter metadata convention
-    narr:StyleObs_YAMLFrontMatter a narr:StyleObservation ;
+    narr:StyleObs_SecondVersion_YAMLFrontMatter a narr:StyleObservation ;
       skos:broader narr:EditorialRules ;
-      dct:source narr:Sample_FirstVersionStagingDoc ;
-      skos:note "Document uses YAML front-matter delimited by triple-dashes to carry structured metadata (reviewer list), a common editorial/publishing convention." ;
+      dct:source narr:Sample_SecondVersionStagingDoc ;
+      skos:note "Document retains YAML front-matter delimited by triple-dashes carrying the same reviewer list, confirming this structural convention persists across versions." ;
       oa:hasTarget [
         a oa:SpecificResource ;
-        oa:hasSource narr:Sample_FirstVersionStagingDoc ;
+        oa:hasSource narr:Sample_SecondVersionStagingDoc ;
         oa:hasSelector [
           a oa:TextPositionSelector ;
           oa:start 0 ;
@@ -84,38 +165,35 @@ INSERT DATA {
           a oa:TextQuoteSelector ;
           oa:exact "---\nreviewers:\n  - xena+staging@aswritten.ai\n---" ;
           oa:prefix "" ;
-          oa:suffix "\n\nFirst version"
+          oa:suffix "\n\nSecond version"
         ]
       ] .
 
-    # ── Style Observation 3: Informal version label ──────────────
-    narr:StyleObs_InformalVersionLabel a narr:StyleObservation ;
+    narr:StyleObs_SecondVersion_InformalVersionLabel a narr:StyleObservation ;
       skos:broader narr:RegisterFormality ;
-      dct:source narr:Sample_FirstVersionStagingDoc ;
-      skos:note "'First version' is an informal, lowercase version label rather than a semantic version string (e.g. v1.0.0), signalling a low-formality internal draft register." ;
+      dct:source narr:Sample_SecondVersionStagingDoc ;
+      skos:note "'Second version' continues the informal, lowercase versioning convention from the first version, signalling a low-formality internal draft register." ;
       oa:hasTarget [
         a oa:SpecificResource ;
-        oa:hasSource narr:Sample_FirstVersionStagingDoc ;
+        oa:hasSource narr:Sample_SecondVersionStagingDoc ;
         oa:hasSelector [
           a oa:TextPositionSelector ;
-          oa:start 50 ; oa:end 63
+          oa:start 50 ; oa:end 64
         ] ;
         oa:hasSelector [
           a oa:TextQuoteSelector ;
-          oa:exact "First version" ;
+          oa:exact "Second version" ;
           oa:prefix " xena+staging@aswritten.ai\n---\n\n" ;
           oa:suffix ""
         ]
       ] .
 
-    # ── Style Metrics ────────────────────────────────────────────
-    narr:StyleMetrics_FirstVersionStagingDoc a narr:StyleMetrics ;
+    narr:StyleMetrics_SecondVersionStagingDoc a narr:StyleMetrics ;
       skos:broader narr:StyleMetrics ;
-      dct:source narr:Sample_FirstVersionStagingDoc ;
+      dct:source narr:Sample_SecondVersionStagingDoc ;
       narr:AverageSentenceLength 2 ;
       narr:ActiveVoiceRatio "1.0"^^xsd:decimal ;
       narr:JargonDensity "0.0"^^xsd:decimal ;
-      skos:note "Document body is a single two-word nominal phrase. No sentences, no jargon, no passive constructions. Metrics reflect near-zero content." .
-
+      skos:note "Document body is a single two-word nominal phrase. No sentences, no jargon, no passive constructions. Metrics reflect near-zero content, identical profile to first version." .
   }
 }
