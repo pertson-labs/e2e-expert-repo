@@ -1,0 +1,122 @@
+PREFIX narr: <https://aswritten.ai/narrative#>
+PREFIX rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX prov: <http://www.w3.org/ns/prov#>
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+PREFIX dct:  <http://purl.org/dc/terms/>
+PREFIX xsd:  <http://www.w3.org/2001/XMLSchema#>
+PREFIX oa:   <http://www.w3.org/ns/oa#>
+
+# Transaction provenance (default graph)
+INSERT DATA {
+  narr:Tx_20260703T105922Z a prov:Activity ;
+    prov:generatedAtTime "2026-07-03T10:59:22Z"^^xsd:dateTime ;
+    prov:wasAssociatedWith "aswritten.ai" ;
+    prov:wasAttributedTo "n8n.aswritten.ai" ;
+    narr:originPath ".aswritten/memories/2026-07-03-3-derive-id-explicit-override.md" ;
+    narr:originRef "e2e-derive-id-1783075755728" ;
+    dct:title "E2E test fixture: heading that should not win slug derivation" ;
+    prov:generated
+      narr:Sample_E2EDeriveIdStagingFixture,
+      narr:Actor_XenaStaging,
+      narr:Claim_PipelineHeadingNotUsedAsSlug,
+      narr:StyleObs_MinimalBodyRegister,
+      narr:StyleObs_FrontmatterReviewerField,
+      narr:StyleObs_HeadingAsNegativeAssertion,
+      narr:StyleMetrics_E2EDeriveIdStagingFixture .
+} ;
+
+# Extracted entities (named graph)
+INSERT DATA {
+  GRAPH narr:Tx_20260703T105922Z {
+
+    # ── Sample ──────────────────────────────────────────────────
+    narr:Sample_E2EDeriveIdStagingFixture a narr:Sample ;
+      dct:title "Some Other Title That Should Not Win" ;
+      narr:inputLength 95 ;
+      dct:description "Minimal e2e test fixture for slug-derivation pipeline: YAML frontmatter with reviewer field, a heading whose text asserts it should not be chosen as the derived slug, and a one-word body." .
+
+    # ── Actor ───────────────────────────────────────────────────
+    narr:Actor_XenaStaging a narr:Actor ;
+      skos:prefLabel "xena+staging (reviewer)" ;
+      skos:note "Staging reviewer listed in YAML frontmatter of e2e test fixture. Email redacted per PII policy." .
+
+    # ── Claim ───────────────────────────────────────────────────
+    narr:Claim_PipelineHeadingNotUsedAsSlug a narr:Claim ;
+      narr:aboutNode narr:Narrative_PipelineSlugGeneration ;
+      narr:hasConvictionLevel narr:Conviction_Stake ;
+      narr:supports narr:Narrative_PipelineSlugGeneration ;
+      dct:source narr:Sample_E2EDeriveIdStagingFixture ;
+      skos:note "The heading 'Some Other Title That Should Not Win' is a test assertion: the pipeline must NOT derive the slug from the document heading/title when the correct slug-derivation mechanism (LLM id-gen or slugify fallback) is available. The heading text encodes the expected negative outcome." .
+
+    # ── Style Observations ──────────────────────────────────────
+    narr:StyleObs_MinimalBodyRegister a narr:StyleObservation ;
+      skos:broader narr:RegisterFormality ;
+      dct:source narr:Sample_E2EDeriveIdStagingFixture ;
+      skos:note "Single-word body ('Body.') signals a deliberate placeholder register — the document is a structural test fixture, not a content document. Minimal prose is intentional." ;
+      rdf:value true ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_E2EDeriveIdStagingFixture ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start 90 ; oa:end 95
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "Body." ;
+          oa:prefix "ther Title That Should Not Win\n\n" ;
+          oa:suffix ""
+        ]
+      ] .
+
+    narr:StyleObs_FrontmatterReviewerField a narr:StyleObservation ;
+      skos:broader narr:StructuredDataConventions ;
+      dct:source narr:Sample_E2EDeriveIdStagingFixture ;
+      skos:note "YAML frontmatter uses a 'reviewers' list field — a structured metadata convention for routing documents to named reviewers. The presence of a staging-suffixed email signals a test/non-production context." ;
+      rdf:value true ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_E2EDeriveIdStagingFixture ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start 4 ;
+          oa:end 41
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "reviewers:\n  - xena+staging@aswritten" ;
+          oa:prefix "---\n" ;
+          oa:suffix ".ai\n---\n\n# Some Other Title That"
+        ]
+      ] .
+
+    narr:StyleObs_HeadingAsNegativeAssertion a narr:StyleObservation ;
+      skos:broader narr:ToneAuthoritative ;
+      dct:source narr:Sample_E2EDeriveIdStagingFixture ;
+      skos:note "The H1 heading embeds a negative test assertion in plain English ('Should Not Win'), a rhetorical device that encodes the expected pipeline behaviour directly into the document title rather than in a separate test spec." ;
+      rdf:value true ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_E2EDeriveIdStagingFixture ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start 74 ; oa:end 88
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "Should Not Win" ;
+          oa:prefix "ai\n---\n\n# Some Other Title That " ;
+          oa:suffix "\n\nBody."
+        ]
+      ] .
+
+    # ── Style Metrics ───────────────────────────────────────────
+    narr:StyleMetrics_E2EDeriveIdStagingFixture a narr:StyleMetrics ;
+      skos:broader narr:StyleMetrics ;
+      dct:source narr:Sample_E2EDeriveIdStagingFixture ;
+      narr:AverageSentenceLength 1 ;
+      narr:ActiveVoiceRatio "1.0"^^xsd:decimal ;
+      narr:JargonDensity "0.0"^^xsd:decimal ;
+      skos:note "Extremely short document: one heading, one body word. No jargon. Active voice by default. Average sentence length is 1 word (body only). Structural/fixture register." .
+  }
+}
