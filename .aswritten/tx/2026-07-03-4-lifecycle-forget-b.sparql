@@ -1,0 +1,224 @@
+PREFIX narr: <https://aswritten.ai/narrative#>
+PREFIX rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX prov: <http://www.w3.org/ns/prov#>
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+PREFIX dct:  <http://purl.org/dc/terms/>
+PREFIX xsd:  <http://www.w3.org/2001/XMLSchema#>
+PREFIX oa:   <http://www.w3.org/ns/oa#>
+
+# ── Retraction transaction (default graph) ──────────────────────────────────
+INSERT DATA {
+  narr:Tx_20260703T175536Z a prov:Activity ;
+    prov:generatedAtTime "2026-07-03T17:55:36Z"^^xsd:dateTime ;
+    prov:wasAssociatedWith "aswritten.ai" ;
+    prov:wasAttributedTo "n8n.aswritten.ai" ;
+    narr:originPath ".aswritten/memories/2026-07-03-4-lifecycle-forget-b.md" ;
+    narr:originRef "e2e-lifecycle-1783100384711" ;
+    dct:title "RETRACTION: Forget database decision — Zypherion, Meridian, Quinton Fairweather, analytics pipeline migration" ;
+    prov:generated narr:Tx_20260703T175536Z .
+} ;
+
+# ── DELETE all triples about Narrative_MeridianAdoption across all graphs ───
+DELETE WHERE {
+  GRAPH ?g {
+    narr:Narrative_MeridianAdoption ?p ?o .
+  }
+} ;
+
+DELETE WHERE {
+  GRAPH ?g {
+    ?s ?p narr:Narrative_MeridianAdoption .
+  }
+} ;
+
+# ── DELETE all triples about Narrative_ZypherionAdoption across all graphs ──
+DELETE WHERE {
+  GRAPH ?g {
+    narr:Narrative_ZypherionAdoption ?p ?o .
+  }
+} ;
+
+DELETE WHERE {
+  GRAPH ?g {
+    ?s ?p narr:Narrative_ZypherionAdoption .
+  }
+} ;
+
+# ── DELETE all triples about Claim_MeridianMigrationQ3_2026 ─────────────────
+DELETE WHERE {
+  GRAPH ?g {
+    narr:Claim_MeridianMigrationQ3_2026 ?p ?o .
+  }
+} ;
+
+DELETE WHERE {
+  GRAPH ?g {
+    ?s ?p narr:Claim_MeridianMigrationQ3_2026 .
+  }
+} ;
+
+# ── DELETE all triples about Claim_ZypherionMigrationQ3_2026 ────────────────
+DELETE WHERE {
+  GRAPH ?g {
+    narr:Claim_ZypherionMigrationQ3_2026 ?p ?o .
+  }
+} ;
+
+DELETE WHERE {
+  GRAPH ?g {
+    ?s ?p narr:Claim_ZypherionMigrationQ3_2026 .
+  }
+} ;
+
+# ── DELETE all triples about Claim_ZypherionPerformance15x ──────────────────
+DELETE WHERE {
+  GRAPH ?g {
+    narr:Claim_ZypherionPerformance15x ?p ?o .
+  }
+} ;
+
+DELETE WHERE {
+  GRAPH ?g {
+    ?s ?p narr:Claim_ZypherionPerformance15x .
+  }
+} ;
+
+# ── DELETE all triples about Claim_ZypherionStreamingGap ────────────────────
+DELETE WHERE {
+  GRAPH ?g {
+    narr:Claim_ZypherionStreamingGap ?p ?o .
+  }
+} ;
+
+DELETE WHERE {
+  GRAPH ?g {
+    ?s ?p narr:Claim_ZypherionStreamingGap .
+  }
+} ;
+
+# ── DELETE all triples about Claim_MeridianBatchStreamingNative ─────────────
+DELETE WHERE {
+  GRAPH ?g {
+    narr:Claim_MeridianBatchStreamingNative ?p ?o .
+  }
+} ;
+
+DELETE WHERE {
+  GRAPH ?g {
+    ?s ?p narr:Claim_MeridianBatchStreamingNative .
+  }
+} ;
+
+# ── DELETE all triples about StyleObs_MeridianBulletKeyDecisions ────────────
+DELETE WHERE {
+  GRAPH ?g {
+    narr:StyleObs_MeridianBulletKeyDecisions ?p ?o .
+  }
+} ;
+
+DELETE WHERE {
+  GRAPH ?g {
+    ?s ?p narr:StyleObs_MeridianBulletKeyDecisions .
+  }
+} ;
+
+# ── DELETE all triples about Actor_QuintonFairweather ───────────────────────
+DELETE WHERE {
+  GRAPH ?g {
+    narr:Actor_QuintonFairweather ?p ?o .
+  }
+} ;
+
+DELETE WHERE {
+  GRAPH ?g {
+    ?s ?p narr:Actor_QuintonFairweather .
+  }
+} ;
+
+# ── DELETE all triples about Observation_QuintonStatement ───────────────────
+DELETE WHERE {
+  GRAPH ?g {
+    narr:Observation_QuintonStatement ?p ?o .
+  }
+} ;
+
+DELETE WHERE {
+  GRAPH ?g {
+    ?s ?p narr:Observation_QuintonStatement .
+  }
+} ;
+
+# ── DELETE all triples about Observation_QuintonMeridianStatement ───────────
+DELETE WHERE {
+  GRAPH ?g {
+    narr:Observation_QuintonMeridianStatement ?p ?o .
+  }
+} ;
+
+DELETE WHERE {
+  GRAPH ?g {
+    ?s ?p narr:Observation_QuintonMeridianStatement .
+  }
+} ;
+
+# ── DELETE all triples about Sample_ZypherionDBDecision_20260406 ─────────────
+DELETE WHERE {
+  GRAPH ?g {
+    narr:Sample_ZypherionDBDecision_20260406 ?p ?o .
+  }
+} ;
+
+DELETE WHERE {
+  GRAPH ?g {
+    ?s ?p narr:Sample_ZypherionDBDecision_20260406 .
+  }
+} ;
+
+# ── DELETE all triples about Sample_MeridianDBDecision_20260406 ─────────────
+DELETE WHERE {
+  GRAPH ?g {
+    narr:Sample_MeridianDBDecision_20260406 ?p ?o .
+  }
+} ;
+
+DELETE WHERE {
+  GRAPH ?g {
+    ?s ?p narr:Sample_MeridianDBDecision_20260406 .
+  }
+} ;
+
+# ── REMOVE prov:generated links from original Tx nodes for deleted entities ─
+DELETE {
+  narr:Tx_20260703T175536Z prov:generated ?e .
+}
+WHERE {
+  narr:Tx_20260703T175536Z prov:generated ?e .
+  FILTER(?e IN (
+    narr:Narrative_ZypherionAdoption,
+    narr:Claim_ZypherionMigrationQ3_2026,
+    narr:Claim_ZypherionPerformance15x,
+    narr:Actor_QuintonFairweather,
+    narr:Observation_QuintonStatement,
+    narr:Sample_ZypherionDBDecision_20260406
+  ))
+} ;
+
+DELETE {
+  narr:Tx_20260703T175536Z prov:generated ?e .
+}
+WHERE {
+  narr:Tx_20260703T175536Z prov:generated ?e .
+  FILTER(?e IN (
+    narr:Narrative_MeridianAdoption,
+    narr:Narrative_ZypherionAdoption,
+    narr:Claim_MeridianMigrationQ3_2026,
+    narr:Claim_ZypherionMigrationQ3_2026,
+    narr:Claim_ZypherionStreamingGap,
+    narr:Claim_MeridianBatchStreamingNative,
+    narr:StyleObs_MeridianBulletKeyDecisions,
+    narr:Actor_QuintonFairweather,
+    narr:Observation_QuintonStatement,
+    narr:Observation_QuintonMeridianStatement,
+    narr:Sample_MeridianDBDecision_20260406
+  ))
+}
