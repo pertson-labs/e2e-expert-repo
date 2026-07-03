@@ -1,0 +1,153 @@
+PREFIX narr: <https://aswritten.ai/narrative#>
+PREFIX rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX prov: <http://www.w3.org/ns/prov#>
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+PREFIX dct:  <http://purl.org/dc/terms/>
+PREFIX xsd:  <http://www.w3.org/2001/XMLSchema#>
+PREFIX oa:   <http://www.w3.org/ns/oa#>
+
+# Transaction provenance (default graph)
+INSERT DATA {
+  narr:Tx_20260703T211712Z a prov:Activity ;
+    prov:generatedAtTime "2026-07-03T21:17:12Z"^^xsd:dateTime ;
+    prov:wasAssociatedWith "aswritten.ai" ;
+    prov:wasAttributedTo "n8n.aswritten.ai" ;
+    narr:originPath ".aswritten/memories/2026-07-03-1-direct-after-unprotect-probe.md" ;
+    narr:originRef "e2e-protected" ;
+    dct:title "Atlas Rollback Drill Decision — 2026-07-02" ;
+    prov:generated
+      narr:Sample_AtlasRollbackDrill_20260702,
+      narr:Actor_QuintonFairweather,
+      narr:Narrative_AtlasRollbackRehearsalCadence,
+      narr:Claim_MonthlyAtlasRollbackCadence,
+      narr:Observation_RollbackNotRehearsedQuote,
+      narr:StyleObs_AtlasAntithesis,
+      narr:StyleObs_AtlasToneAuthoritative,
+      narr:StyleObs_AtlasShortPunchyCadence,
+      narr:StyleMetrics_AtlasRollbackDrill .
+} ;
+
+# Extracted entities (named graph)
+INSERT DATA {
+  GRAPH narr:Tx_20260703T211712Z {
+
+    # ── Sample ──────────────────────────────────────────────────
+    narr:Sample_AtlasRollbackDrill_20260702 a narr:Sample ;
+      dct:title "Rollback Drill Decision: Atlas Rehearsals" ;
+      dct:created "2026-07-02"^^xsd:date ;
+      narr:inputLength "392"^^xsd:integer .
+
+    # ── Actor ───────────────────────────────────────────────────
+    narr:Actor_QuintonFairweather a narr:Actor ;
+      skos:prefLabel "Quinton Fairweather" ;
+      skos:note "CTO; owner of Atlas rollback rehearsal cadence decision (2026-07-02)" .
+
+    # ── Narrative ───────────────────────────────────────────────
+    narr:Narrative_AtlasRollbackRehearsalCadence a narr:Narrative ;
+      narr:theme "Unrehearsed rollbacks are not real rollbacks — rehearsal cadence is an operational prerequisite" ;
+      skos:broader narr:IncidentResponse ;
+      skos:note "Quinton Fairweather mandated monthly Atlas rollback rehearsals on 2026-07-02, asserting that a rollback not rehearsed is not operationally available. Positions rehearsal as the gate to genuine recovery capability." ;
+      dct:source narr:Sample_AtlasRollbackDrill_20260702 .
+
+    # ── Claim ───────────────────────────────────────────────────
+    narr:Claim_MonthlyAtlasRollbackCadence a narr:Claim ;
+      narr:aboutNode narr:Narrative_AtlasRollbackRehearsalCadence ;
+      narr:hasConvictionLevel narr:Conviction_Boulder ;
+      narr:supports narr:Narrative_AtlasRollbackRehearsalCadence ;
+      dct:source narr:Sample_AtlasRollbackDrill_20260702 ;
+      skos:note "Monthly cadence for Atlas rollback rehearsals; owned by Quinton Fairweather (CTO). Decided 2026-07-02." .
+
+    # ── Observation (key quote) ──────────────────────────────────
+    narr:Observation_RollbackNotRehearsedQuote a narr:Observation ;
+      skos:broader narr:IncidentResponse ;
+      dct:source narr:Sample_AtlasRollbackDrill_20260702 ;
+      skos:note "Quinton Fairweather's core rationale: rehearsal is the condition of existence for a rollback capability" ;
+      oa:hasSelector [
+        a oa:TextPositionSelector ;
+        oa:start "222"^^xsd:integer ;
+        oa:end "293"^^xsd:integer
+      ] ;
+      oa:hasSelector [
+        a oa:TextQuoteSelector ;
+        oa:exact "A rollback\nwe have not rehearsed is a rollback we do not actually have." ;
+        oa:prefix "arsals run monthly from now on. " ;
+        oa:suffix "\"\n\nKey decisions:\n- **Cadence**:"
+      ] .
+
+    # ── Style Observation 1: Antithesis / parallel negation ──────
+    narr:StyleObs_AtlasAntithesis a narr:StyleObservation ;
+      skos:broader narr:Antithesis ;
+      dct:source narr:Sample_AtlasRollbackDrill_20260702 ;
+      skos:note "Chiastic antithesis: 'a rollback we have not rehearsed / a rollback we do not actually have' — parallel noun phrases with escalating negation" ;
+      rdf:value true ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_AtlasRollbackDrill_20260702 ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start "222"^^xsd:integer ;
+          oa:end "293"^^xsd:integer
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "A rollback\nwe have not rehearsed is a rollback we do not actually have." ;
+          oa:prefix "arsals run monthly from now on. " ;
+          oa:suffix "\"\n\nKey decisions:\n- **Cadence**:"
+        ]
+      ] .
+
+    # ── Style Observation 2: Authoritative tone / mandate ────────
+    narr:StyleObs_AtlasToneAuthoritative a narr:StyleObservation ;
+      skos:broader narr:ToneAuthoritative ;
+      dct:source narr:Sample_AtlasRollbackDrill_20260702 ;
+      skos:note "Declarative mandate with no hedging: 'run monthly from now on' — present-tense directive establishing policy as fait accompli" ;
+      rdf:value true ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_AtlasRollbackDrill_20260702 ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start "171"^^xsd:integer ;
+          oa:end "221"^^xsd:integer
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "Atlas rollback rehearsals run monthly from now on." ;
+          oa:prefix "on Fairweather (CTO)\n\nQuinton: \"" ;
+          oa:suffix " A rollback\nwe have not rehearse"
+        ]
+      ] .
+
+    # ── Style Observation 3: Short punchy cadence ────────────────
+    narr:StyleObs_AtlasShortPunchyCadence a narr:StyleObservation ;
+      skos:broader narr:ShortPunchyCadence ;
+      dct:source narr:Sample_AtlasRollbackDrill_20260702 ;
+      skos:note "Bullet-point key decisions use terse label-colon-value format ('Cadence: monthly Atlas rollback rehearsals') — compressed, scannable, no prose padding" ;
+      rdf:value true ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_AtlasRollbackDrill_20260702 ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start "311"^^xsd:integer ;
+          oa:end "392"^^xsd:integer
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "- **Cadence**: monthly Atlas rollback rehearsals\n- **Owner**: Quinton Fairweather" ;
+          oa:prefix "actually have.\"\n\nKey decisions:\n" ;
+          oa:suffix ""
+        ]
+      ] .
+
+    # ── Style Metrics ────────────────────────────────────────────
+    narr:StyleMetrics_AtlasRollbackDrill a narr:StyleMetrics ;
+      skos:broader narr:StyleMetrics ;
+      dct:source narr:Sample_AtlasRollbackDrill_20260702 ;
+      narr:AverageSentenceLength "12"^^xsd:integer ;
+      narr:ActiveVoiceRatio "0.90"^^xsd:decimal ;
+      narr:JargonDensity "0.10"^^xsd:decimal ;
+      skos:note "Short, declarative register. High active voice. Low jargon — 'Atlas' and 'rollback' are domain terms but accessible in context. Authoritative, policy-setting tone throughout." .
+
+  }
+}
