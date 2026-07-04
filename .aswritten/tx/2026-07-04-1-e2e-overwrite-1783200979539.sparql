@@ -1,0 +1,115 @@
+PREFIX narr: <https://aswritten.ai/narrative#>
+PREFIX rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX prov: <http://www.w3.org/ns/prov#>
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+PREFIX dct:  <http://purl.org/dc/terms/>
+PREFIX xsd:  <http://www.w3.org/2001/XMLSchema#>
+PREFIX oa:   <http://www.w3.org/ns/oa#>
+
+# Transaction provenance (default graph)
+INSERT DATA {
+  narr:Tx_20260704T213854Z a prov:Activity ;
+    prov:generatedAtTime "2026-07-04T21:38:54Z"^^xsd:dateTime ;
+    prov:wasAssociatedWith "aswritten.ai" ;
+    prov:wasAttributedTo "n8n.aswritten.ai" ;
+    narr:originPath ".aswritten/memories/2026-07-04-1-e2e-overwrite-1783200979539.md" ;
+    narr:originRef "e2e-overwrite-1783200979539" ;
+    dct:title "First version — minimal stub document" ;
+    prov:generated
+      narr:Sample_FirstVersion,
+      narr:Actor_XenaStaging,
+      narr:StyleObs_RegisterInformal,
+      narr:StyleObs_BrevityMarker,
+      narr:StyleObs_YAMLFrontmatter,
+      narr:StyleMetrics_FirstVersion .
+} ;
+
+# Extracted entities (named graph)
+INSERT DATA {
+  GRAPH narr:Tx_20260704T213854Z {
+
+    # ── Sample ──────────────────────────────────────────────────
+    narr:Sample_FirstVersion a narr:Sample ;
+      dct:title "First version" ;
+      narr:inputLength 63 ;
+      dct:description "Minimal stub document with YAML front-matter declaring a reviewer and a two-word body." .
+
+    # ── Actor (PII redacted) ─────────────────────────────────────
+    narr:Actor_XenaStaging a narr:Actor ;
+      skos:prefLabel "xena (staging reviewer)" ;
+      skos:note "Reviewer listed in YAML front-matter. Email address redacted per PII policy (xena+staging@aswritten.ai)." .
+
+    # ── Style Observations ───────────────────────────────────────
+
+    # 1. Informal / placeholder register — "First version"
+    narr:StyleObs_RegisterInformal a narr:StyleObservation ;
+      skos:broader narr:RegisterFormality ;
+      dct:source narr:Sample_FirstVersion ;
+      skos:note "Body text is a bare placeholder phrase indicating an early draft state, signalling informal/internal register." ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_FirstVersion ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start 50 ; oa:end 63
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "First version" ;
+          oa:prefix " xena+staging@aswritten.ai\n---\n\n" ;
+          oa:suffix ""
+        ]
+      ] .
+
+    # 2. Brevity / short punchy cadence — two-word body
+    narr:StyleObs_BrevityMarker a narr:StyleObservation ;
+      skos:broader narr:ShortPunchyCadence ;
+      dct:source narr:Sample_FirstVersion ;
+      skos:note "Entire document body is two words, exemplifying extreme brevity and minimal cadence." ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_FirstVersion ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start 50 ; oa:end 63
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "First version" ;
+          oa:prefix " xena+staging@aswritten.ai\n---\n\n" ;
+          oa:suffix ""
+        ]
+      ] .
+
+    # 3. YAML front-matter formatting convention
+    narr:StyleObs_YAMLFrontmatter a narr:StyleObservation ;
+      skos:broader narr:PunctuationTypography ;
+      dct:source narr:Sample_FirstVersion ;
+      skos:note "Document uses YAML front-matter delimited by triple-dash fences to declare metadata (reviewers), a structural/typographic convention." ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_FirstVersion ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start 0 ;
+          oa:end 44
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "---\nreviewers:\n  - [REDACTED]\n---" ;
+          oa:prefix "" ;
+          oa:suffix "\n\nFirst version"
+        ]
+      ] .
+
+    # ── Style Metrics ────────────────────────────────────────────
+    narr:StyleMetrics_FirstVersion a narr:StyleMetrics ;
+      skos:broader narr:StyleMetrics ;
+      dct:source narr:Sample_FirstVersion ;
+      narr:AverageSentenceLength 2 ;
+      narr:ActiveVoiceRatio "1.0"^^xsd:decimal ;
+      narr:JargonDensity "0.0"^^xsd:decimal ;
+      skos:note "Single two-word sentence body; no passive constructions; no jargon. Metrics reflect a placeholder stub document." .
+
+  }
+}
