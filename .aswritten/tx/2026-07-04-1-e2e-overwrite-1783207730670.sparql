@@ -6,116 +6,115 @@ PREFIX dct:  <http://purl.org/dc/terms/>
 PREFIX xsd:  <http://www.w3.org/2001/XMLSchema#>
 PREFIX oa:   <http://www.w3.org/ns/oa#>
 
+# Transaction provenance (default graph)
 INSERT DATA {
-  narr:Tx_20260704T233132Z a prov:Activity ;
-    prov:generatedAtTime "2026-07-04T23:31:32Z"^^xsd:dateTime ;
+  narr:Tx_20260704T233407Z a prov:Activity ;
+    prov:generatedAtTime "2026-07-04T23:34:07Z"^^xsd:dateTime ;
     prov:wasAssociatedWith "aswritten.ai" ;
     prov:wasAttributedTo "n8n.aswritten.ai" ;
     narr:originPath ".aswritten/memories/2026-07-04-1-e2e-overwrite-1783207730670.md" ;
     narr:originRef "e2e-overwrite-1783207730670" ;
-    dct:title "First version stub document" ;
+    dct:title "Second version stub document" ;
     prov:generated
-      narr:Sample_FirstVersion_e2e,
-      narr:Narrative_FirstVersionStub,
-      narr:StyleObs_MinimalBody,
-      narr:StyleObs_FrontmatterReviewer,
-      narr:StyleObs_TwoWordRegister,
-      narr:StyleMetrics_FirstVersion .
+      narr:Sample_SecondVersion_e2e,
+      narr:Narrative_SecondVersionStub,
+      narr:StyleObs_FrontmatterReviewer_V2,
+      narr:StyleObs_MinimalBody_V2,
+      narr:StyleObs_TwoWordRegister_V2,
+      narr:StyleMetrics_SecondVersion .
 } ;
 
+# Extracted entities (named graph)
 INSERT DATA {
-  GRAPH narr:Tx_20260704T233132Z {
+  GRAPH narr:Tx_20260704T233407Z {
 
     # ── Sample ──────────────────────────────────────────────────
-    narr:Sample_FirstVersion_e2e a narr:Sample ;
-      dct:title "First version" ;
-      narr:inputLength 63 ;
-      dct:description "Minimal stub document with YAML frontmatter assigning a reviewer and a two-word body." .
+    narr:Sample_SecondVersion_e2e a narr:Sample ;
+      dct:title "Second version" ;
+      dct:description "Minimal stub document with YAML frontmatter assigning a reviewer and a two-word body. Second iteration of the e2e stub pattern." ;
+      narr:inputLength 64 ;
+      dct:created "2025-07-11"^^xsd:date .
 
     # ── Narrative ────────────────────────────────────────────────
-    narr:Narrative_FirstVersionStub a narr:Narrative ;
-      narr:theme "Document initialisation — first version stub" ;
+    narr:Narrative_SecondVersionStub a narr:Narrative ;
+      dct:source narr:Sample_SecondVersion_e2e ;
+      narr:theme "Document initialisation — second version stub" ;
       skos:broader narr:Process ;
-      skos:note "The document declares itself a first version with a single reviewer assigned via YAML frontmatter. No substantive content is present beyond the version declaration." ;
-      dct:source narr:Sample_FirstVersion_e2e .
-
-    # ── Reviewer actor link (existing IRI) ──────────────────────
-    # ns__Actor_XenaGithubber already exists; assert reviewer role on this sample
-    narr:Sample_FirstVersion_e2e dct:contributor <https://aswritten.ai/narrative#Actor_XenaGithubber> .
+      skos:note "The document declares itself a second version with a single reviewer assigned via YAML frontmatter. No substantive content is present beyond the version declaration. Follows the same structural pattern as the first version stub." .
 
     # ── Style Observations ───────────────────────────────────────
 
-    # 1. Minimal body — ultra-short declarative phrase
-    narr:StyleObs_MinimalBody a narr:StyleObservation ;
-      skos:broader narr:ShortPunchyCadence ;
-      dct:source narr:Sample_FirstVersion_e2e ;
+    # 1. YAML frontmatter reviewer convention (same pattern, new source)
+    narr:StyleObs_FrontmatterReviewer_V2 a narr:StyleObservation ;
+      skos:broader narr:EditorialRules ;
+      dct:source narr:Sample_SecondVersion_e2e ;
       rdf:value true ;
-      skos:note "Body text is a two-word declarative phrase with no elaboration, representing maximum brevity." ;
+      skos:note "Reviewer is declared via YAML frontmatter key 'reviewers', following a structured metadata convention. Email address redacted per PII policy. Pattern consistent with first version." ;
       oa:hasTarget [
         a oa:SpecificResource ;
-        oa:hasSource narr:Sample_FirstVersion_e2e ;
+        oa:hasSource narr:Sample_SecondVersion_e2e ;
         oa:hasSelector [
           a oa:TextPositionSelector ;
-          oa:start 50 ; oa:end 63
+          oa:start 4 ; oa:end 13
         ] ;
         oa:hasSelector [
           a oa:TextQuoteSelector ;
-          oa:exact "First version" ;
+          oa:exact "reviewers" ;
+          oa:prefix "---\n" ;
+          oa:suffix ":\n  - xena+staging@aswritten.ai\n"
+        ]
+      ] .
+
+    # 2. Two-word body — maximum brevity (new body text)
+    narr:StyleObs_MinimalBody_V2 a narr:StyleObservation ;
+      skos:broader narr:ShortPunchyCadence ;
+      dct:source narr:Sample_SecondVersion_e2e ;
+      rdf:value true ;
+      skos:note "Body text is a two-word declarative phrase with no elaboration, representing maximum brevity. Mirrors the first version pattern with an incremented version label." ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_SecondVersion_e2e ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start 50 ; oa:end 64
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "Second version" ;
           oa:prefix " xena+staging@aswritten.ai\n---\n\n" ;
           oa:suffix ""
         ]
       ] .
 
-    # 2. YAML frontmatter reviewer assignment — institutional metadata convention
-    narr:StyleObs_FrontmatterReviewer a narr:StyleObservation ;
-      skos:broader narr:EditorialRules ;
-      dct:source narr:Sample_FirstVersion_e2e ;
-      rdf:value true ;
-      skos:note "Reviewer is declared via YAML frontmatter key 'reviewers', following a structured metadata convention. Email address redacted per PII policy." ;
-      oa:hasTarget [
-        a oa:SpecificResource ;
-        oa:hasSource narr:Sample_FirstVersion_e2e ;
-        oa:hasSelector [
-          a oa:TextPositionSelector ;
-          oa:start 4 ; oa:end 14
-        ] ;
-        oa:hasSelector [
-          a oa:TextQuoteSelector ;
-          oa:exact "reviewers:" ;
-          oa:prefix "---\n" ;
-          oa:suffix "\n  - xena+staging@aswritten.ai\n-"
-        ]
-      ] .
-
-    # 3. Register — plain declarative, no jargon
-    narr:StyleObs_TwoWordRegister a narr:StyleObservation ;
+    # 3. Register — neutral and minimal
+    narr:StyleObs_TwoWordRegister_V2 a narr:StyleObservation ;
       skos:broader narr:RegisterFormality ;
-      dct:source narr:Sample_FirstVersion_e2e ;
+      dct:source narr:Sample_SecondVersion_e2e ;
       rdf:value false ;
-      skos:note "Register is neutral and minimal. No jargon, no rhetorical devices, no sentence structure beyond a two-word noun phrase." ;
+      skos:note "Register is neutral and minimal. No jargon, no rhetorical devices, no sentence structure beyond a two-word noun phrase. Identical register profile to first version." ;
       oa:hasTarget [
         a oa:SpecificResource ;
-        oa:hasSource narr:Sample_FirstVersion_e2e ;
+        oa:hasSource narr:Sample_SecondVersion_e2e ;
         oa:hasSelector [
           a oa:TextPositionSelector ;
-          oa:start 50 ; oa:end 63
+          oa:start 50 ; oa:end 64
         ] ;
         oa:hasSelector [
           a oa:TextQuoteSelector ;
-          oa:exact "First version" ;
+          oa:exact "Second version" ;
           oa:prefix " xena+staging@aswritten.ai\n---\n\n" ;
           oa:suffix ""
         ]
       ] .
 
     # ── Style Metrics ────────────────────────────────────────────
-    narr:StyleMetrics_FirstVersion a narr:StyleMetrics ;
+    narr:StyleMetrics_SecondVersion a narr:StyleMetrics ;
       skos:broader narr:StyleMetrics ;
-      dct:source narr:Sample_FirstVersion_e2e ;
+      dct:source narr:Sample_SecondVersion_e2e ;
       narr:AverageSentenceLength 2 ;
       narr:ActiveVoiceRatio "1.0"^^xsd:decimal ;
       narr:JargonDensity "0.0"^^xsd:decimal ;
-      skos:note "Single two-word body phrase. No sentences in the traditional sense; average sentence length approximated as 2 words. No passive constructions. Zero jargon." .
+      skos:note "Single two-word body phrase. No sentences in the traditional sense; average sentence length approximated as 2 words. No passive constructions. Zero jargon. Metrics identical to first version stub." .
 
   }
 }
