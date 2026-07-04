@@ -1,0 +1,26 @@
+@prefix narr: <https://aswritten.ai/narrative#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+GRAPH <https://aswritten.ai/narrative#Digest_StackOverview> {
+  <https://aswritten.ai/narrative#Digest_StackOverview> a narr:Digest ;
+    narr:digestOf <https://aswritten.ai/narrative#StackOverview> ;
+    narr:childCount "7"^^xsd:integer ;
+    narr:generatedFrom "a10d80d24c4d993da7fa524620af472d264b0980" ;
+    narr:narration """The stack overview covers the analytics database selection and its reversal. Originally, Zypherion was the chosen database — a framing now [explicitly superseded](narr:https://aswritten.ai/narrative#Claim_ZypherionDBChoice) as of 2026-04-06. On that date, [CTO Quinton Fairweather announced the switch](narr:https://aswritten.ai/narrative#Obs_QuintonMeridianStatement), citing streaming ingestion gaps as the disqualifying defect. [Meridian became the replacement choice](narr:https://aswritten.ai/narrative#Claim_MeridianDBChoice), selected for its native handling of both batch and streaming workloads. The [Meridian adoption narrative](narr:https://aswritten.ai/narrative#Narrative_MeridianAdoption) and the [revised Zypherion adoption narrative](narr:https://aswritten.ai/narrative#Narrative_ZypherionAdoption) both document this transition from their respective framings. Crucially, [migration remains in the Q3 2026 window](narr:https://aswritten.ai/narrative#Claim_MeridianMigrationQ3) — the same slot originally planned for Zypherion — though no child addresses whether the late-April switch affects schedule feasibility.""" ;
+    narr:covers <https://aswritten.ai/narrative#Claim_MeridianDBChoice> ;
+    narr:covers <https://aswritten.ai/narrative#Claim_MeridianMigrationQ3> ;
+    narr:covers <https://aswritten.ai/narrative#Claim_ZypherionDBChoice> ;
+    narr:covers <https://aswritten.ai/narrative#Narrative_MeridianAdoption> ;
+    narr:covers <https://aswritten.ai/narrative#Narrative_ZypherionAdoption> ;
+    narr:covers <https://aswritten.ai/narrative#Obs_QuintonMeridianStatement> ;
+    narr:covers <https://aswritten.ai/narrative#Obs_QuintonStatement> ;
+    narr:keyPhrase [ narr:text "Meridian is the chosen database for the analytics pipeline, replacing Zypherion." ; narr:phraseSource <https://aswritten.ai/narrative#Claim_MeridianDBChoice> ] ;
+    narr:keyPhrase [ narr:text "Decision made by CTO Quinton Fairweather on 2026-04-06." ; narr:phraseSource <https://aswritten.ai/narrative#Claim_MeridianDBChoice> ] ;
+    narr:keyPhrase [ narr:text "Migration to Meridian is scheduled for the same Q3 2026 window originally planned for Zypherion." ; narr:phraseSource <https://aswritten.ai/narrative#Claim_MeridianMigrationQ3> ] ;
+    narr:keyPhrase [ narr:text "Zypherion was found to have critical streaming ingestion gaps." ; narr:phraseSource <https://aswritten.ai/narrative#Narrative_MeridianAdoption> ] ;
+    narr:keyPhrase [ narr:text "Meridian, which handles both batch and streaming natively, is now the chosen analytics database." ; narr:phraseSource <https://aswritten.ai/narrative#Narrative_MeridianAdoption> ] ;
+    narr:variation [ narr:text "Zypherion was the prior chosen database and its adoption narrative persists in the graph — an agent querying for the original database decision may surface that superseded framing before reaching the reversal." ; narr:over <https://aswritten.ai/narrative#Claim_ZypherionDBChoice> ; narr:over <https://aswritten.ai/narrative#Narrative_ZypherionAdoption> ] ;
+    narr:variation [ narr:text "Two near-duplicate CTO observation nodes record the same announcement with slightly different wording — the graph carries mild structural redundancy whose resolution (canonical vs. archived) is not stated." ; narr:over <https://aswritten.ai/narrative#Obs_QuintonMeridianStatement> ; narr:over <https://aswritten.ai/narrative#Obs_QuintonStatement> ] ;
+    narr:variation [ narr:text "The Q3 2026 migration window is asserted as preserved, but no child addresses whether a mid-April database switch leaves the original timeline achievable — schedule risk is unresolved in this graph." ; narr:over <https://aswritten.ai/narrative#Claim_MeridianMigrationQ3> ] ;
+    narr:writer "anthropic/claude-sonnet-4.6" .
+}
