@@ -1,0 +1,124 @@
+PREFIX narr: <https://aswritten.ai/narrative#>
+PREFIX rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX prov: <http://www.w3.org/ns/prov#>
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+PREFIX dct:  <http://purl.org/dc/terms/>
+PREFIX xsd:  <http://www.w3.org/2001/XMLSchema#>
+PREFIX oa:   <http://www.w3.org/ns/oa#>
+
+INSERT DATA {
+  narr:Tx_20260704T220340Z a prov:Activity ;
+    prov:generatedAtTime "2026-07-04T22:03:40Z"^^xsd:dateTime ;
+    prov:wasAssociatedWith "aswritten.ai" ;
+    prov:wasAttributedTo "n8n.aswritten.ai" ;
+    narr:originPath ".aswritten/memories/2026-07-04-1-e2e-overwrite-1783202444252.md" ;
+    narr:originRef "e2e-overwrite-1783202444252" ;
+    dct:title "Extraction: Second version reviewer stub" ;
+    prov:generated
+      narr:Sample_SecondVersionStub,
+      narr:Actor_Xena_Staging,
+      narr:Narrative_SecondVersionReview,
+      narr:StyleObs_MinimalBody,
+      narr:StyleObs_FrontMatterReviewer,
+      narr:StyleObs_VersionLabel,
+      narr:StyleMetrics_SecondVersionStub .
+} ;
+
+INSERT DATA {
+  GRAPH narr:Tx_20260704T220340Z {
+
+    # ── Sample ──────────────────────────────────────────────────
+    narr:Sample_SecondVersionStub a narr:Sample ;
+      dct:title "Second version (reviewer stub)" ;
+      narr:inputLength 64 ;
+      dct:description "Minimal document stub: YAML front matter with one reviewer address and the body text 'Second version'." .
+
+    # ── Actor ───────────────────────────────────────────────────
+    # PII redaction: email address redacted per verbatim policy (allow_pii=false)
+    narr:Actor_Xena_Staging a narr:Actor ;
+      skos:prefLabel "Xena (staging reviewer)" ;
+      skos:note "Listed as reviewer in YAML front matter. Email redacted (PII policy). Staging environment context inferred from address domain suffix." .
+
+    # ── Narrative ───────────────────────────────────────────────
+    narr:Narrative_SecondVersionReview a narr:Narrative ;
+      dct:source narr:Sample_SecondVersionStub ;
+      narr:theme "Document versioning with assigned reviewer" ;
+      skos:broader narr:QualityReviewGates ;
+      skos:note "The document declares itself a second version and assigns a staging reviewer, indicating an iterative review workflow is in place." .
+
+    # ── Style Observations ──────────────────────────────────────
+
+    # 1. Minimal body — extreme brevity / short punchy cadence
+    narr:StyleObs_MinimalBody a narr:StyleObservation ;
+      skos:broader narr:ShortPunchyCadence ;
+      dct:source narr:Sample_SecondVersionStub ;
+      skos:note "Body text is a single two-word declarative phrase with no elaboration." ;
+      rdf:value true ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_SecondVersionStub ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start 50 ; oa:end 64
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "Second version" ;
+          oa:prefix " xena+staging@aswritten.ai\n---\n\n" ;
+          oa:suffix ""
+        ]
+      ] .
+
+    # 2. YAML front matter — structured metadata / editorial convention
+    narr:StyleObs_FrontMatterReviewer a narr:StyleObservation ;
+      skos:broader narr:EditorialRules ;
+      dct:source narr:Sample_SecondVersionStub ;
+      skos:note "Document uses YAML front matter to declare reviewers, indicating a structured editorial workflow convention." ;
+      rdf:value true ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_SecondVersionStub ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start 4 ; oa:end 14
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "reviewers:" ;
+          oa:prefix "---\n" ;
+          oa:suffix "\n  - xena+staging@aswritten.ai\n-"
+        ]
+      ] .
+
+    # 3. Version label — naming convention / orthography
+    narr:StyleObs_VersionLabel a narr:StyleObservation ;
+      skos:broader narr:NamingConventions ;
+      dct:source narr:Sample_SecondVersionStub ;
+      skos:note "Version is expressed as an ordinal noun phrase ('Second version') rather than a semantic version string (e.g., v2.0), reflecting informal document versioning style." ;
+      rdf:value false ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_SecondVersionStub ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start 50 ; oa:end 64
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "Second version" ;
+          oa:prefix " xena+staging@aswritten.ai\n---\n\n" ;
+          oa:suffix ""
+        ]
+      ] .
+
+    # ── Style Metrics ───────────────────────────────────────────
+    narr:StyleMetrics_SecondVersionStub a narr:StyleMetrics ;
+      skos:broader narr:StyleMetrics ;
+      dct:source narr:Sample_SecondVersionStub ;
+      narr:AverageSentenceLength 2 ;
+      narr:ActiveVoiceRatio "1.0"^^xsd:decimal ;
+      narr:JargonDensity "0.0"^^xsd:decimal ;
+      skos:note "Body is a single two-word nominal phrase. No verbs, no jargon, no passive constructions. Metrics reflect the stub nature of the document." .
+
+  }
+}
