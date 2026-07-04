@@ -1,0 +1,127 @@
+PREFIX narr: <https://aswritten.ai/narrative#>
+PREFIX rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX prov: <http://www.w3.org/ns/prov#>
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+PREFIX dct:  <http://purl.org/dc/terms/>
+PREFIX xsd:  <http://www.w3.org/2001/XMLSchema#>
+PREFIX oa:   <http://www.w3.org/ns/oa#>
+
+# Transaction provenance (default graph)
+INSERT DATA {
+  narr:Tx_20260704T224823Z a prov:Activity ;
+    prov:generatedAtTime "2026-07-04T22:48:23Z"^^xsd:dateTime ;
+    prov:wasAssociatedWith "aswritten.ai" ;
+    prov:wasAttributedTo "n8n.aswritten.ai" ;
+    narr:originPath ".aswritten/memories/2026-07-04-1-review-enrollment-probe.md" ;
+    narr:originRef "e2e-review-enrollment-1783205168108" ;
+    dct:title "Review enrollment probe extraction" ;
+    prov:generated
+      narr:Sample_ReviewEnrollmentProbe,
+      narr:Claim_ReviewEnrollmentProbe,
+      narr:Actor_XenaStaging_AswrittenAI,
+      narr:StyleObs_ToneFunctional,
+      narr:StyleObs_RegisterTechnical,
+      narr:StyleObs_SentenceDeclarative,
+      narr:StyleMetrics_ReviewEnrollmentProbe .
+} ;
+
+# Extracted entities (named graph)
+INSERT DATA {
+  GRAPH narr:Tx_20260704T224823Z {
+
+    # ── Sample ──────────────────────────────────────────────────
+    narr:Sample_ReviewEnrollmentProbe a narr:Sample ;
+      dct:title "Review enrollment probe" ;
+      narr:inputLength 219 .
+
+    # ── Actor ───────────────────────────────────────────────────
+    # Email redacted per PII policy (allow_pii not set)
+    narr:Actor_XenaStaging_AswrittenAI a narr:Actor ;
+      skos:prefLabel "xena+staging (aswritten.ai)" ;
+      skos:note "Reviewer enrolled via frontmatter in the probe memory; email redacted per PII policy." .
+
+    # ── Claim ───────────────────────────────────────────────────
+    narr:Claim_ReviewEnrollmentProbe a narr:Claim ;
+      narr:aboutNode narr:Process ;
+      narr:hasConvictionLevel narr:Conviction_Foundation ;
+      skos:broader narr:QualityReviewGates ;
+      dct:source narr:Sample_ReviewEnrollmentProbe ;
+      skos:note "The e2e suite asserts that saving a memory automatically enrolls its creator as a reviewer. This probe memory exists solely to carry and verify that assertion." ;
+      narr:supports narr:QualityReviewGates .
+
+    # ── Style Observations ──────────────────────────────────────
+
+    # 1. Functional / declarative tone
+    narr:StyleObs_ToneFunctional a narr:StyleObservation ;
+      skos:broader narr:ToneAuthoritative ;
+      dct:source narr:Sample_ReviewEnrollmentProbe ;
+      skos:note "Flat declarative register: the document states its purpose without hedging or elaboration." ;
+      rdf:value true ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_ReviewEnrollmentProbe ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start 87 ; oa:end 163
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "the e2e suite asserts that saving a memory enrolls its creator as a reviewer" ;
+          oa:prefix "iew enrollment probe\n\nDecision: " ;
+          oa:suffix ". This probe memory exists only "
+        ]
+      ] .
+
+    # 2. Self-referential / meta-documentary register
+    narr:StyleObs_RegisterTechnical a narr:StyleObservation ;
+      skos:broader narr:RegisterFormality ;
+      dct:source narr:Sample_ReviewEnrollmentProbe ;
+      skos:note "The document explicitly names itself as a probe and states its own purpose, a self-referential technical register common in e2e fixture files." ;
+      rdf:value true ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_ReviewEnrollmentProbe ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start 165 ; oa:end 218
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "This probe memory exists only to carry that assertion" ;
+          oa:prefix "olls its creator as a reviewer. " ;
+          oa:suffix "."
+        ]
+      ] .
+
+    # 3. Imperative / label-first heading style
+    narr:StyleObs_SentenceDeclarative a narr:StyleObservation ;
+      skos:broader narr:ToneDirectPersonal ;
+      dct:source narr:Sample_ReviewEnrollmentProbe ;
+      skos:note "Heading uses a noun-phrase label ('Review enrollment probe') rather than a verb-led instruction, consistent with technical fixture naming conventions." ;
+      rdf:value false ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_ReviewEnrollmentProbe ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start 52 ; oa:end 75
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "Review enrollment probe" ;
+          oa:prefix "ena+staging@aswritten.ai\n---\n\n# " ;
+          oa:suffix "\n\nDecision: the e2e suite assert"
+        ]
+      ] .
+
+    # ── Style Metrics ───────────────────────────────────────────
+    narr:StyleMetrics_ReviewEnrollmentProbe a narr:StyleMetrics ;
+      skos:broader narr:StyleMetrics ;
+      dct:source narr:Sample_ReviewEnrollmentProbe ;
+      narr:AverageSentenceLength "15"^^xsd:integer ;
+      narr:ActiveVoiceRatio "0.80"^^xsd:decimal ;
+      narr:JargonDensity "0.15"^^xsd:decimal ;
+      skos:note "Very short document (2 substantive sentences). Active voice dominates; light technical jargon (e2e suite, reviewer, assertion)." .
+
+  }
+}
