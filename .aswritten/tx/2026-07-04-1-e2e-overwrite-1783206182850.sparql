@@ -8,61 +8,39 @@ PREFIX oa:   <http://www.w3.org/ns/oa#>
 
 # Transaction provenance (default graph)
 INSERT DATA {
-  narr:Tx_20260704T230459Z a prov:Activity ;
-    prov:generatedAtTime "2026-07-04T23:04:59Z"^^xsd:dateTime ;
+  narr:Tx_20260704T230706Z a prov:Activity ;
+    prov:generatedAtTime "2026-07-04T23:07:06Z"^^xsd:dateTime ;
     prov:wasAssociatedWith "aswritten.ai" ;
     prov:wasAttributedTo "n8n.aswritten.ai" ;
     narr:originPath ".aswritten/memories/2026-07-04-1-e2e-overwrite-1783206182850.md" ;
     narr:originRef "e2e-overwrite-1783206182850" ;
-    dct:title "First version stub document" ;
+    dct:title "Second version stub document" ;
     prov:generated
-      narr:Sample_FirstVersion,
-      narr:StyleObs_RegisterMinimal,
-      narr:StyleObs_FrontMatterYAML,
-      narr:StyleObs_BodyStub,
-      narr:StyleMetrics_FirstVersion .
+      narr:Sample_SecondVersion,
+      narr:StyleObs_FrontMatterYAML_V2,
+      narr:StyleObs_RegisterMinimal_V2,
+      narr:StyleObs_BodyStub_V2,
+      narr:StyleMetrics_SecondVersion .
 } ;
 
-# Extracted entities (named graph)
+# New Sample and style entities (named graph)
 INSERT DATA {
-  GRAPH narr:Tx_20260704T230459Z {
+  GRAPH narr:Tx_20260704T230706Z {
 
-    # ── Sample ──────────────────────────────────────────────────
-    narr:Sample_FirstVersion a narr:Sample ;
-      dct:title "First version" ;
-      narr:inputLength 63 ;
-      dct:description "Minimal stub document with YAML front-matter listing a reviewer (redacted) and a two-word body." .
+    narr:Sample_SecondVersion a narr:Sample ;
+      dct:title "Second version stub document" ;
+      narr:inputLength 64 ;
+      skos:note "Minimal stub document with YAML front-matter listing a reviewer (redacted) and a two-word body: 'Second version'." .
 
-    # ── Style Observation 1: Minimal register / placeholder body ─
-    narr:StyleObs_RegisterMinimal a narr:StyleObservation ;
-      skos:broader narr:RegisterFormality ;
-      dct:source narr:Sample_FirstVersion ;
-      skos:note "Body text is a bare placeholder phrase ('First version') with no elaboration, indicating a stub or draft-zero register." ;
-      rdf:value false ;
-      oa:hasTarget [
-        a oa:SpecificResource ;
-        oa:hasSource narr:Sample_FirstVersion ;
-        oa:hasSelector [
-          a oa:TextPositionSelector ;
-          oa:start 50 ; oa:end 63
-        ] ;
-        oa:hasSelector [
-          a oa:TextQuoteSelector ;
-          oa:exact "First version" ;
-          oa:prefix " xena+staging@aswritten.ai\n---\n\n" ;
-          oa:suffix ""
-        ]
-      ] .
-
-    # ── Style Observation 2: YAML front-matter convention ────────
-    narr:StyleObs_FrontMatterYAML a narr:StyleObservation ;
+    # Style Observation 1: YAML front-matter delimiter (same pattern as V1, now sourced to V2)
+    narr:StyleObs_FrontMatterYAML_V2 a narr:StyleObservation ;
       skos:broader narr:CitationConventions ;
-      dct:source narr:Sample_FirstVersion ;
-      skos:note "Document uses YAML front-matter delimited by '---' to carry metadata (reviewer field), a structured-document convention." ;
+      dct:source narr:Sample_SecondVersion ;
       rdf:value true ;
+      skos:note "Document uses YAML front-matter delimited by '---' to carry metadata (reviewer field), a structured-document convention." ;
       oa:hasTarget [
         a oa:SpecificResource ;
-        oa:hasSource narr:Sample_FirstVersion ;
+        oa:hasSource narr:Sample_SecondVersion ;
         oa:hasSelector [
           a oa:TextPositionSelector ;
           oa:start 0 ; oa:end 3
@@ -75,19 +53,40 @@ INSERT DATA {
         ]
       ] .
 
-    # ── Style Observation 3: Reviewer field (PII redacted) ───────
-    narr:StyleObs_BodyStub a narr:StyleObservation ;
-      skos:broader narr:EditorialRules ;
-      dct:source narr:Sample_FirstVersion ;
-      skos:note "Front-matter includes a 'reviewers' key with a single email value (redacted per PII policy). Signals a review-workflow editorial convention." ;
-      rdf:value true ;
+    # Style Observation 2: Minimal/stub register — body is "Second version"
+    narr:StyleObs_RegisterMinimal_V2 a narr:StyleObservation ;
+      skos:broader narr:RegisterFormality ;
+      dct:source narr:Sample_SecondVersion ;
+      rdf:value false ;
+      skos:note "Body text is a bare placeholder phrase ('Second version') with no elaboration, indicating a stub or draft-zero register." ;
       oa:hasTarget [
         a oa:SpecificResource ;
-        oa:hasSource narr:Sample_FirstVersion ;
+        oa:hasSource narr:Sample_SecondVersion ;
         oa:hasSelector [
           a oa:TextPositionSelector ;
-          oa:start 5 ;
-          oa:end 47
+          oa:start 50 ; oa:end 64
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "Second version" ;
+          oa:prefix " xena+staging@aswritten.ai\n---\n\n" ;
+          oa:suffix ""
+        ]
+      ] .
+
+    # Style Observation 3: Reviewer key in front-matter (PII redacted)
+    narr:StyleObs_BodyStub_V2 a narr:StyleObservation ;
+      skos:broader narr:EditorialRules ;
+      dct:source narr:Sample_SecondVersion ;
+      rdf:value true ;
+      skos:note "Front-matter includes a 'reviewers' key with a single email value (redacted per PII policy). Signals a review-workflow editorial convention." ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_SecondVersion ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start 4 ;
+          oa:end 44
         ] ;
         oa:hasSelector [
           a oa:TextQuoteSelector ;
@@ -97,14 +96,13 @@ INSERT DATA {
         ]
       ] .
 
-    # ── Style Metrics ────────────────────────────────────────────
-    narr:StyleMetrics_FirstVersion a narr:StyleMetrics ;
+    # Style Metrics for Second Version
+    narr:StyleMetrics_SecondVersion a narr:StyleMetrics ;
       skos:broader narr:StyleMetrics ;
-      dct:source narr:Sample_FirstVersion ;
+      dct:source narr:Sample_SecondVersion ;
       narr:AverageSentenceLength 2 ;
       narr:ActiveVoiceRatio "1.0"^^xsd:decimal ;
       narr:JargonDensity "0.0"^^xsd:decimal ;
-      skos:note "Computed over a two-word body ('First version'). Metrics are nominal given the stub nature of the document." .
-
+      skos:note "Computed over a two-word body ('Second version'). Metrics are nominal given the stub nature of the document."
   }
 }
