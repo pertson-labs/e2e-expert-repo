@@ -6,62 +6,88 @@ PREFIX dct:  <http://purl.org/dc/terms/>
 PREFIX xsd:  <http://www.w3.org/2001/XMLSchema#>
 PREFIX oa:   <http://www.w3.org/ns/oa#>
 
+# Transaction provenance (default graph)
 INSERT DATA {
-  narr:Tx_20260704T095807Z a prov:Activity ;
-    prov:generatedAtTime "2026-07-04T09:58:07Z"^^xsd:dateTime ;
+  narr:Tx_20260704T100023Z a prov:Activity ;
+    prov:generatedAtTime "2026-07-04T10:00:23Z"^^xsd:dateTime ;
     prov:wasAssociatedWith "aswritten.ai" ;
     prov:wasAttributedTo "n8n.aswritten.ai" ;
     narr:originPath ".aswritten/memories/2026-07-04-1-e2e-overwrite-1783158958903.md" ;
     narr:originRef "e2e-overwrite-1783158958903" ;
-    dct:title "First version stub document" ;
+    dct:title "Second version stub document" ;
     prov:generated
-      narr:Sample_FirstVersion_Stub,
-      narr:StyleObs_MinimalBody,
-      narr:StyleObs_FrontmatterReviewer,
-      narr:StyleObs_NominalRegister,
-      narr:StyleMetrics_FirstVersion_Stub .
+      narr:Sample_SecondVersion_Stub,
+      narr:StyleObs_MinimalBody_V2,
+      narr:StyleObs_NominalRegister_V2,
+      narr:StyleObs_FrontmatterReviewer_V2,
+      narr:StyleMetrics_SecondVersion_Stub .
 } ;
 
+# Extracted entities (named graph)
 INSERT DATA {
-  GRAPH narr:Tx_20260704T095807Z {
+  GRAPH narr:Tx_20260704T100023Z {
 
     # ── Sample ──────────────────────────────────────────────────
-    narr:Sample_FirstVersion_Stub a narr:Sample ;
-      dct:title "First version" ;
-      narr:inputLength 63 ;
-      dct:description "Minimal stub document with YAML frontmatter listing a reviewer and a two-word body." ;
-      dct:source narr:Actor_XenaGithubber .
+    narr:Sample_SecondVersion_Stub a narr:Sample ;
+      dct:title "Second version stub" ;
+      narr:inputLength 64 ;
+      dct:description "Minimal stub document with YAML frontmatter listing a reviewer and a two-word body 'Second version'." ;
+      dct:source narr:Actor_XenaGithubber ;
+      dct:replaces narr:Sample_FirstVersion_Stub .
 
-    # ── Style Observation 1: Minimal body / placeholder cadence ──
-    narr:StyleObs_MinimalBody a narr:StyleObservation ;
+    # ── Style Observations ──────────────────────────────────────
+
+    # 1. Minimal body — ShortPunchyCadence
+    narr:StyleObs_MinimalBody_V2 a narr:StyleObservation ;
       skos:broader narr:ShortPunchyCadence ;
-      dct:source narr:Sample_FirstVersion_Stub ;
+      dct:source narr:Sample_SecondVersion_Stub ;
       rdf:value true ;
-      skos:note "Body consists of a single two-word phrase 'First version', signalling a placeholder or stub register with no elaboration." ;
+      skos:note "Body consists of a single two-word phrase 'Second version', signalling a placeholder or stub register with no elaboration. Temporal successor to the 'First version' stub." ;
       oa:hasTarget [
         a oa:SpecificResource ;
-        oa:hasSource narr:Sample_FirstVersion_Stub ;
+        oa:hasSource narr:Sample_SecondVersion_Stub ;
         oa:hasSelector [
           a oa:TextPositionSelector ;
-          oa:start 50 ; oa:end 63
+          oa:start 50 ; oa:end 64
         ] ;
         oa:hasSelector [
           a oa:TextQuoteSelector ;
-          oa:exact "First version" ;
+          oa:exact "Second version" ;
           oa:prefix " xena+staging@aswritten.ai\n---\n\n" ;
           oa:suffix ""
         ]
       ] .
 
-    # ── Style Observation 2: YAML frontmatter reviewer convention ─
-    narr:StyleObs_FrontmatterReviewer a narr:StyleObservation ;
-      skos:broader narr:EditorialRules ;
-      dct:source narr:Sample_FirstVersion_Stub ;
-      rdf:value true ;
-      skos:note "Document uses YAML frontmatter with a 'reviewers' key to assign a reviewer, following a structured editorial workflow convention." ;
+    # 2. Nominal register — RegisterFormality
+    narr:StyleObs_NominalRegister_V2 a narr:StyleObservation ;
+      skos:broader narr:RegisterFormality ;
+      dct:source narr:Sample_SecondVersion_Stub ;
+      rdf:value false ;
+      skos:note "The body 'Second version' is a nominal label phrase with no verb, article, or sentence structure — consistent with a draft placeholder rather than a composed document. Same register as first version." ;
       oa:hasTarget [
         a oa:SpecificResource ;
-        oa:hasSource narr:Sample_FirstVersion_Stub ;
+        oa:hasSource narr:Sample_SecondVersion_Stub ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start 50 ; oa:end 64
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "Second version" ;
+          oa:prefix " xena+staging@aswritten.ai\n---\n\n" ;
+          oa:suffix ""
+        ]
+      ] .
+
+    # 3. Frontmatter reviewer — EditorialRules
+    narr:StyleObs_FrontmatterReviewer_V2 a narr:StyleObservation ;
+      skos:broader narr:EditorialRules ;
+      dct:source narr:Sample_SecondVersion_Stub ;
+      rdf:value true ;
+      skos:note "Document uses YAML frontmatter with a 'reviewers' key to assign a reviewer (xena+staging@aswritten.ai), following a structured editorial workflow convention. Pattern persists from first version." ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_SecondVersion_Stub ;
         oa:hasSelector [
           a oa:TextPositionSelector ;
           oa:start 4 ; oa:end 14
@@ -74,35 +100,14 @@ INSERT DATA {
         ]
       ] .
 
-    # ── Style Observation 3: Nominal / label register ─────────────
-    narr:StyleObs_NominalRegister a narr:StyleObservation ;
-      skos:broader narr:RegisterFormality ;
-      dct:source narr:Sample_FirstVersion_Stub ;
-      rdf:value false ;
-      skos:note "The body 'First version' is a nominal label phrase with no verb, article, or sentence structure — consistent with a draft placeholder rather than a composed document." ;
-      oa:hasTarget [
-        a oa:SpecificResource ;
-        oa:hasSource narr:Sample_FirstVersion_Stub ;
-        oa:hasSelector [
-          a oa:TextPositionSelector ;
-          oa:start 50 ; oa:end 63
-        ] ;
-        oa:hasSelector [
-          a oa:TextQuoteSelector ;
-          oa:exact "First version" ;
-          oa:prefix " xena+staging@aswritten.ai\n---\n\n" ;
-          oa:suffix ""
-        ]
-      ] .
-
-    # ── Style Metrics ─────────────────────────────────────────────
-    narr:StyleMetrics_FirstVersion_Stub a narr:StyleMetrics ;
+    # ── Style Metrics ────────────────────────────────────────────
+    narr:StyleMetrics_SecondVersion_Stub a narr:StyleMetrics ;
       skos:broader narr:StyleMetrics ;
-      dct:source narr:Sample_FirstVersion_Stub ;
+      dct:source narr:Sample_SecondVersion_Stub ;
       narr:AverageSentenceLength 2 ;
       narr:ActiveVoiceRatio "0.0"^^xsd:decimal ;
       narr:JargonDensity "0.0"^^xsd:decimal ;
-      skos:note "Stub document: single nominal phrase body, no verbs, no jargon. Average sentence length 2 words; active voice ratio and jargon density both 0 due to absence of predicate structure."
-      .
+      skos:note "Stub document: single nominal phrase body, no verbs, no jargon. Average sentence length 2 words; active voice ratio and jargon density both 0 due to absence of predicate structure. Identical metrics profile to first version stub."
+
   }
 }
