@@ -8,108 +8,103 @@ PREFIX oa:   <http://www.w3.org/ns/oa#>
 
 # Transaction provenance (default graph)
 INSERT DATA {
-  narr:Tx_20260704T213854Z a prov:Activity ;
-    prov:generatedAtTime "2026-07-04T21:38:54Z"^^xsd:dateTime ;
+  narr:Tx_20260704T214132Z a prov:Activity ;
+    prov:generatedAtTime "2026-07-04T21:41:32Z"^^xsd:dateTime ;
     prov:wasAssociatedWith "aswritten.ai" ;
     prov:wasAttributedTo "n8n.aswritten.ai" ;
     narr:originPath ".aswritten/memories/2026-07-04-1-e2e-overwrite-1783200979539.md" ;
     narr:originRef "e2e-overwrite-1783200979539" ;
-    dct:title "First version — minimal stub document" ;
+    dct:title "Second version — minimal stub document" ;
     prov:generated
-      narr:Sample_FirstVersion,
-      narr:Actor_XenaStaging,
-      narr:StyleObs_RegisterInformal,
-      narr:StyleObs_BrevityMarker,
-      narr:StyleObs_YAMLFrontmatter,
-      narr:StyleMetrics_FirstVersion .
+      narr:Sample_SecondVersion,
+      narr:StyleObs_YAMLFrontmatter_V2,
+      narr:StyleObs_BrevityMarker_V2,
+      narr:StyleObs_RegisterInformal_V2,
+      narr:StyleMetrics_SecondVersion .
 } ;
 
 # Extracted entities (named graph)
 INSERT DATA {
-  GRAPH narr:Tx_20260704T213854Z {
+  GRAPH narr:Tx_20260704T214132Z {
 
     # ── Sample ──────────────────────────────────────────────────
-    narr:Sample_FirstVersion a narr:Sample ;
-      dct:title "First version" ;
-      narr:inputLength 63 ;
-      dct:description "Minimal stub document with YAML front-matter declaring a reviewer and a two-word body." .
+    narr:Sample_SecondVersion a narr:Sample ;
+      dct:title "Second version" ;
+      narr:inputLength 64 ;
+      dct:description "Minimal stub document with YAML front-matter declaring a reviewer and a two-word body ('Second version')." .
 
-    # ── Actor (PII redacted) ─────────────────────────────────────
-    narr:Actor_XenaStaging a narr:Actor ;
-      skos:prefLabel "xena (staging reviewer)" ;
-      skos:note "Reviewer listed in YAML front-matter. Email address redacted per PII policy (xena+staging@aswritten.ai)." .
-
-    # ── Style Observations ───────────────────────────────────────
-
-    # 1. Informal / placeholder register — "First version"
-    narr:StyleObs_RegisterInformal a narr:StyleObservation ;
-      skos:broader narr:RegisterFormality ;
-      dct:source narr:Sample_FirstVersion ;
-      skos:note "Body text is a bare placeholder phrase indicating an early draft state, signalling informal/internal register." ;
-      oa:hasTarget [
-        a oa:SpecificResource ;
-        oa:hasSource narr:Sample_FirstVersion ;
-        oa:hasSelector [
-          a oa:TextPositionSelector ;
-          oa:start 50 ; oa:end 63
-        ] ;
-        oa:hasSelector [
-          a oa:TextQuoteSelector ;
-          oa:exact "First version" ;
-          oa:prefix " xena+staging@aswritten.ai\n---\n\n" ;
-          oa:suffix ""
-        ]
-      ] .
-
-    # 2. Brevity / short punchy cadence — two-word body
-    narr:StyleObs_BrevityMarker a narr:StyleObservation ;
-      skos:broader narr:ShortPunchyCadence ;
-      dct:source narr:Sample_FirstVersion ;
-      skos:note "Entire document body is two words, exemplifying extreme brevity and minimal cadence." ;
-      oa:hasTarget [
-        a oa:SpecificResource ;
-        oa:hasSource narr:Sample_FirstVersion ;
-        oa:hasSelector [
-          a oa:TextPositionSelector ;
-          oa:start 50 ; oa:end 63
-        ] ;
-        oa:hasSelector [
-          a oa:TextQuoteSelector ;
-          oa:exact "First version" ;
-          oa:prefix " xena+staging@aswritten.ai\n---\n\n" ;
-          oa:suffix ""
-        ]
-      ] .
-
-    # 3. YAML front-matter formatting convention
-    narr:StyleObs_YAMLFrontmatter a narr:StyleObservation ;
+    # ── Style Observation 1: YAML front-matter convention ───────
+    narr:StyleObs_YAMLFrontmatter_V2 a narr:StyleObservation ;
       skos:broader narr:PunctuationTypography ;
-      dct:source narr:Sample_FirstVersion ;
-      skos:note "Document uses YAML front-matter delimited by triple-dash fences to declare metadata (reviewers), a structural/typographic convention." ;
+      dct:source narr:Sample_SecondVersion ;
+      skos:note "Document uses YAML front-matter delimited by triple-dash fences to declare metadata (reviewers), a structural/typographic convention — consistent with first version." ;
+      rdf:value true ;
       oa:hasTarget [
         a oa:SpecificResource ;
-        oa:hasSource narr:Sample_FirstVersion ;
+        oa:hasSource narr:Sample_SecondVersion ;
         oa:hasSelector [
           a oa:TextPositionSelector ;
           oa:start 0 ;
-          oa:end 44
+          oa:end 48
         ] ;
         oa:hasSelector [
           a oa:TextQuoteSelector ;
-          oa:exact "---\nreviewers:\n  - [REDACTED]\n---" ;
+          oa:exact "---\nreviewers:\n  - xena+staging@aswritten.ai\n---" ;
           oa:prefix "" ;
-          oa:suffix "\n\nFirst version"
+          oa:suffix "\n\nSecond version"
+        ]
+      ] .
+
+    # ── Style Observation 2: Extreme brevity / short punchy cadence
+    narr:StyleObs_BrevityMarker_V2 a narr:StyleObservation ;
+      skos:broader narr:ShortPunchyCadence ;
+      dct:source narr:Sample_SecondVersion ;
+      skos:note "Entire document body is two words, exemplifying extreme brevity and minimal cadence — same pattern as first version." ;
+      rdf:value true ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_SecondVersion ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start 50 ; oa:end 64
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "Second version" ;
+          oa:prefix " xena+staging@aswritten.ai\n---\n\n" ;
+          oa:suffix ""
+        ]
+      ] .
+
+    # ── Style Observation 3: Informal / internal register ───────
+    narr:StyleObs_RegisterInformal_V2 a narr:StyleObservation ;
+      skos:broader narr:RegisterFormality ;
+      dct:source narr:Sample_SecondVersion ;
+      skos:note "Body text is a bare placeholder phrase indicating an early draft state, signalling informal/internal register — same pattern as first version." ;
+      rdf:value false ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_SecondVersion ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start 50 ; oa:end 64
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "Second version" ;
+          oa:prefix " xena+staging@aswritten.ai\n---\n\n" ;
+          oa:suffix ""
         ]
       ] .
 
     # ── Style Metrics ────────────────────────────────────────────
-    narr:StyleMetrics_FirstVersion a narr:StyleMetrics ;
+    narr:StyleMetrics_SecondVersion a narr:StyleMetrics ;
       skos:broader narr:StyleMetrics ;
-      dct:source narr:Sample_FirstVersion ;
+      dct:source narr:Sample_SecondVersion ;
       narr:AverageSentenceLength 2 ;
       narr:ActiveVoiceRatio "1.0"^^xsd:decimal ;
       narr:JargonDensity "0.0"^^xsd:decimal ;
-      skos:note "Single two-word sentence body; no passive constructions; no jargon. Metrics reflect a placeholder stub document." .
+      skos:note "Single two-word sentence body; no passive constructions; no jargon. Metrics reflect a placeholder stub document (second version)." .
 
   }
 }
