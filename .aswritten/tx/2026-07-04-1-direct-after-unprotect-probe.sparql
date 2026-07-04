@@ -1,0 +1,158 @@
+PREFIX narr: <https://aswritten.ai/narrative#>
+PREFIX rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX prov: <http://www.w3.org/ns/prov#>
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+PREFIX dct:  <http://purl.org/dc/terms/>
+PREFIX xsd:  <http://www.w3.org/2001/XMLSchema#>
+PREFIX oa:   <http://www.w3.org/ns/oa#>
+
+# Transaction provenance (default graph)
+INSERT DATA {
+  narr:Tx_20260704T103551Z a prov:Activity ;
+    prov:generatedAtTime "2026-07-04T10:35:51Z"^^xsd:dateTime ;
+    prov:wasAssociatedWith "aswritten.ai" ;
+    prov:wasAttributedTo "n8n.aswritten.ai" ;
+    narr:originPath ".aswritten/memories/2026-07-04-1-direct-after-unprotect-probe.md" ;
+    narr:originRef "e2e-protected" ;
+    dct:title "Rollback Drill Decision: Atlas Rehearsals" ;
+    prov:generated
+      narr:Sample_RollbackDrillAtlas_20260702,
+      narr:Actor_QuintonFairweather_CTO,
+      narr:Narrative_RehearsedRollbackIsRealRollback,
+      narr:Claim_MonthlyAtlasRollbackCadence,
+      narr:Observation_RollbackQuote_Quinton,
+      narr:StyleObs_Antithesis_RollbackQuote,
+      narr:StyleObs_ToneAuthoritative_Quinton,
+      narr:StyleObs_ShortPunchyCadence_Drill,
+      narr:StyleMetrics_RollbackDrillAtlas .
+} ;
+
+# Extracted entities (named graph)
+INSERT DATA {
+  GRAPH narr:Tx_20260704T103551Z {
+
+    # ── Sample ──────────────────────────────────────────────────
+    narr:Sample_RollbackDrillAtlas_20260702 a narr:Sample ;
+      dct:title "Rollback Drill Decision: Atlas Rehearsals" ;
+      dct:created "2026-07-02"^^xsd:date ;
+      narr:inputLength 392 .
+
+    # ── Actor ───────────────────────────────────────────────────
+    narr:Actor_QuintonFairweather_CTO a narr:Actor ;
+      skos:prefLabel "Quinton Fairweather" ;
+      skos:note "CTO; decision-maker for Atlas rollback rehearsal cadence as of 2026-07-02." .
+
+    # ── Narrative ───────────────────────────────────────────────
+    narr:Narrative_RehearsedRollbackIsRealRollback a narr:Narrative ;
+      dct:source narr:Sample_RollbackDrillAtlas_20260702 ;
+      narr:theme "A rollback that has not been rehearsed is not a real rollback; operational readiness requires regular drill cadence." ;
+      skos:broader narr:ReliabilityResilience ;
+      skos:note "Quinton Fairweather frames rehearsal as the criterion of possession: an unrehearsed rollback is one the team does not actually have. This positions monthly Atlas rollback drills as a reliability prerequisite, not an optional exercise." .
+
+    # ── Claim ───────────────────────────────────────────────────
+    narr:Claim_MonthlyAtlasRollbackCadence a narr:Claim ;
+      narr:aboutNode narr:Narrative_RehearsedRollbackIsRealRollback ;
+      narr:hasConvictionLevel narr:Conviction_Boulder ;
+      narr:supports narr:ReliabilityResilience ;
+      dct:source narr:Sample_RollbackDrillAtlas_20260702 ;
+      skos:note "Decision: Atlas rollback rehearsals run monthly. Owner: Quinton Fairweather (CTO). Date: 2026-07-02." .
+
+    # ── Observation (key quote) ──────────────────────────────────
+    narr:Observation_RollbackQuote_Quinton a narr:Observation ;
+      skos:broader narr:IncidentResponse ;
+      dct:source narr:Sample_RollbackDrillAtlas_20260702 ;
+      skos:note "Quinton Fairweather's framing of rehearsal as the criterion for possessing a rollback capability." ;
+      oa:hasSelector [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_RollbackDrillAtlas_20260702 ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start 222 ;
+          oa:end 293
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "A rollback\nwe have not rehearsed is a rollback we do not actually have." ;
+          oa:prefix "arsals run monthly from now on. " ;
+          oa:suffix "\"\n\nKey decisions:\n- **Cadence**:"
+        ]
+      ] .
+
+    # ── Style Observations ───────────────────────────────────────
+
+    # 1. Antithesis: "rehearsed" vs "do not actually have"
+    narr:StyleObs_Antithesis_RollbackQuote a narr:StyleObservation ;
+      skos:broader narr:Antithesis ;
+      dct:source narr:Sample_RollbackDrillAtlas_20260702 ;
+      skos:note "Antithesis: possession of a rollback is defined by its negation — what you have not rehearsed, you do not have. The rhetorical structure equates rehearsal with ownership." ;
+      rdf:value true ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_RollbackDrillAtlas_20260702 ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start 222 ;
+          oa:end 293
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "A rollback\nwe have not rehearsed is a rollback we do not actually have." ;
+          oa:prefix "arsals run monthly from now on. " ;
+          oa:suffix "\"\n\nKey decisions:\n- **Cadence**:"
+        ]
+      ] .
+
+    # 2. Authoritative tone — declarative mandate with no hedging
+    narr:StyleObs_ToneAuthoritative_Quinton a narr:StyleObservation ;
+      skos:broader narr:ToneAuthoritative ;
+      dct:source narr:Sample_RollbackDrillAtlas_20260702 ;
+      skos:note "Declarative, unhedged mandate: 'run monthly from now on' — no conditional language, no consultation framing. Tone is executive directive." ;
+      rdf:value true ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_RollbackDrillAtlas_20260702 ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start 171 ; oa:end 221
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "Atlas rollback rehearsals run monthly from now on." ;
+          oa:prefix "on Fairweather (CTO)\n\nQuinton: \"" ;
+          oa:suffix " A rollback\nwe have not rehearse"
+        ]
+      ] .
+
+    # 3. Short punchy cadence — two short declarative sentences
+    narr:StyleObs_ShortPunchyCadence_Drill a narr:StyleObservation ;
+      skos:broader narr:ShortPunchyCadence ;
+      dct:source narr:Sample_RollbackDrillAtlas_20260702 ;
+      skos:note "Two short declarative sentences form the entire directive. No subordinate clauses. Cadence is clipped and aphoristic, maximising memorability." ;
+      rdf:value true ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_RollbackDrillAtlas_20260702 ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start 171 ;
+          oa:end 293
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "Atlas rollback rehearsals run monthly from now on. A rollback\nwe have not rehearsed is a rollback we do not actually have." ;
+          oa:prefix "on Fairweather (CTO)\n\nQuinton: \"" ;
+          oa:suffix "\"\n\nKey decisions:\n- **Cadence**:"
+        ]
+      ] .
+
+    # ── Style Metrics ────────────────────────────────────────────
+    narr:StyleMetrics_RollbackDrillAtlas a narr:StyleMetrics ;
+      skos:broader narr:StyleMetrics ;
+      dct:source narr:Sample_RollbackDrillAtlas_20260702 ;
+      narr:AverageSentenceLength "14"^^xsd:integer ;
+      narr:ActiveVoiceRatio "0.90"^^xsd:decimal ;
+      narr:JargonDensity "0.10"^^xsd:decimal ;
+      skos:note "Short document (347 chars). Two-sentence directive core. High active voice. Low jargon — 'Atlas' and 'rollback' are the only domain terms. Register: executive directive, aphoristic." .
+
+  }
+}
