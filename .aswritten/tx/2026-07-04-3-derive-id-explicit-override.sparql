@@ -1,0 +1,120 @@
+PREFIX narr: <https://aswritten.ai/narrative#>
+PREFIX rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX prov: <http://www.w3.org/ns/prov#>
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+PREFIX dct:  <http://purl.org/dc/terms/>
+PREFIX xsd:  <http://www.w3.org/2001/XMLSchema#>
+PREFIX oa:   <http://www.w3.org/ns/oa#>
+
+# Transaction provenance (default graph)
+INSERT DATA {
+  narr:Tx_20260704T104557Z a prov:Activity ;
+    prov:generatedAtTime "2026-07-04T10:45:57Z"^^xsd:dateTime ;
+    prov:wasAssociatedWith "aswritten.ai" ;
+    prov:wasAttributedTo "n8n.aswritten.ai" ;
+    narr:originPath ".aswritten/memories/2026-07-04-3-derive-id-explicit-override.md" ;
+    narr:originRef "e2e-derive-id-1783161385522" ;
+    dct:title "Extraction: Some Other Title That Should Not Win" ;
+    prov:generated
+      narr:Sample_SomeOtherTitleStagingDoc,
+      narr:Narrative_SelfReferentialTitleAssertion,
+      narr:StyleObs_MetaCommentaryHeading,
+      narr:StyleObs_PlaceholderBodyTerse,
+      narr:StyleObs_YAMLFrontmatterStructure,
+      narr:StyleMetrics_SomeOtherTitleStagingDoc .
+} ;
+
+# Extracted entities (named graph)
+INSERT DATA {
+  GRAPH narr:Tx_20260704T104557Z {
+
+    # ── Sample ──────────────────────────────────────────────────
+    narr:Sample_SomeOtherTitleStagingDoc a narr:Sample ;
+      dct:title "Some Other Title That Should Not Win" ;
+      narr:inputLength 95 ;
+      dct:description "Minimal stub document with YAML frontmatter (reviewer email redacted) and a one-word body. No id field present in source input." .
+
+    # ── Narrative ───────────────────────────────────────────────
+    narr:Narrative_SelfReferentialTitleAssertion a narr:Narrative ;
+      dct:source narr:Sample_SomeOtherTitleStagingDoc ;
+      narr:theme "Self-referential heading that explicitly disclaims its own authority as a title" ;
+      skos:broader narr:NarrativeAnchor ;
+      skos:note "The heading 'Some Other Title That Should Not Win' is meta-commentary: it names itself as a candidate title while asserting it should not prevail. This is consistent with a test fixture designed to verify that the pipeline does not use the H1 heading as the canonical document id when a proper id is absent." .
+
+    # ── Style Observations ──────────────────────────────────────
+
+    # 1. Meta-commentary heading
+    narr:StyleObs_MetaCommentaryHeading a narr:StyleObservation ;
+      skos:broader narr:ToneAuthoritative ;
+      dct:source narr:Sample_SomeOtherTitleStagingDoc ;
+      rdf:value false ;
+      skos:note "Heading is self-negating meta-commentary ('Should Not Win'), signalling a test fixture rather than an authoritative document title." ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_SomeOtherTitleStagingDoc ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start 52 ; oa:end 88
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "Some Other Title That Should Not Win" ;
+          oa:prefix "ena+staging@aswritten.ai\n---\n\n# " ;
+          oa:suffix "\n\nBody."
+        ]
+      ] .
+
+    # 2. Placeholder body — extreme terseness
+    narr:StyleObs_PlaceholderBodyTerse a narr:StyleObservation ;
+      skos:broader narr:Conciseness ;
+      dct:source narr:Sample_SomeOtherTitleStagingDoc ;
+      rdf:value false ;
+      skos:note "Body consists of a single word 'Body.' — a placeholder token, not substantive prose. Signals a test fixture or stub document." ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_SomeOtherTitleStagingDoc ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start 90 ; oa:end 95
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "Body." ;
+          oa:prefix "ther Title That Should Not Win\n\n" ;
+          oa:suffix ""
+        ]
+      ] .
+
+    # 3. YAML frontmatter structured metadata
+    narr:StyleObs_YAMLFrontmatterStructure a narr:StyleObservation ;
+      skos:broader narr:RegisterFormality ;
+      dct:source narr:Sample_SomeOtherTitleStagingDoc ;
+      rdf:value true ;
+      skos:note "Document opens with YAML frontmatter block (--- delimiters) declaring a 'reviewers' list. Structured metadata convention consistent with static-site generators and CI pipeline tooling." ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_SomeOtherTitleStagingDoc ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start 0 ;
+          oa:end 48
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "---\nreviewers:\n  - [REDACTED]\n---" ;
+          oa:prefix "" ;
+          oa:suffix "\n"
+        ]
+      ] .
+
+    # ── Style Metrics ────────────────────────────────────────────
+    narr:StyleMetrics_SomeOtherTitleStagingDoc a narr:StyleMetrics ;
+      skos:broader narr:StyleMetrics ;
+      dct:source narr:Sample_SomeOtherTitleStagingDoc ;
+      narr:AverageSentenceLength 1 ;
+      narr:ActiveVoiceRatio "1.0"^^xsd:decimal ;
+      narr:JargonDensity "0.0"^^xsd:decimal ;
+      skos:note "Extremely short document (1 body sentence of 1 word). No jargon. Active voice by default. Stub/fixture register." .
+
+  }
+}
