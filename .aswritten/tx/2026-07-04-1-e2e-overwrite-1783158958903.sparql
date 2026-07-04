@@ -1,0 +1,108 @@
+PREFIX narr: <https://aswritten.ai/narrative#>
+PREFIX rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX prov: <http://www.w3.org/ns/prov#>
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+PREFIX dct:  <http://purl.org/dc/terms/>
+PREFIX xsd:  <http://www.w3.org/2001/XMLSchema#>
+PREFIX oa:   <http://www.w3.org/ns/oa#>
+
+INSERT DATA {
+  narr:Tx_20260704T095807Z a prov:Activity ;
+    prov:generatedAtTime "2026-07-04T09:58:07Z"^^xsd:dateTime ;
+    prov:wasAssociatedWith "aswritten.ai" ;
+    prov:wasAttributedTo "n8n.aswritten.ai" ;
+    narr:originPath ".aswritten/memories/2026-07-04-1-e2e-overwrite-1783158958903.md" ;
+    narr:originRef "e2e-overwrite-1783158958903" ;
+    dct:title "First version stub document" ;
+    prov:generated
+      narr:Sample_FirstVersion_Stub,
+      narr:StyleObs_MinimalBody,
+      narr:StyleObs_FrontmatterReviewer,
+      narr:StyleObs_NominalRegister,
+      narr:StyleMetrics_FirstVersion_Stub .
+} ;
+
+INSERT DATA {
+  GRAPH narr:Tx_20260704T095807Z {
+
+    # ── Sample ──────────────────────────────────────────────────
+    narr:Sample_FirstVersion_Stub a narr:Sample ;
+      dct:title "First version" ;
+      narr:inputLength 63 ;
+      dct:description "Minimal stub document with YAML frontmatter listing a reviewer and a two-word body." ;
+      dct:source narr:Actor_XenaGithubber .
+
+    # ── Style Observation 1: Minimal body / placeholder cadence ──
+    narr:StyleObs_MinimalBody a narr:StyleObservation ;
+      skos:broader narr:ShortPunchyCadence ;
+      dct:source narr:Sample_FirstVersion_Stub ;
+      rdf:value true ;
+      skos:note "Body consists of a single two-word phrase 'First version', signalling a placeholder or stub register with no elaboration." ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_FirstVersion_Stub ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start 50 ; oa:end 63
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "First version" ;
+          oa:prefix " xena+staging@aswritten.ai\n---\n\n" ;
+          oa:suffix ""
+        ]
+      ] .
+
+    # ── Style Observation 2: YAML frontmatter reviewer convention ─
+    narr:StyleObs_FrontmatterReviewer a narr:StyleObservation ;
+      skos:broader narr:EditorialRules ;
+      dct:source narr:Sample_FirstVersion_Stub ;
+      rdf:value true ;
+      skos:note "Document uses YAML frontmatter with a 'reviewers' key to assign a reviewer, following a structured editorial workflow convention." ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_FirstVersion_Stub ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start 4 ; oa:end 14
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "reviewers:" ;
+          oa:prefix "---\n" ;
+          oa:suffix "\n  - xena+staging@aswritten.ai\n-"
+        ]
+      ] .
+
+    # ── Style Observation 3: Nominal / label register ─────────────
+    narr:StyleObs_NominalRegister a narr:StyleObservation ;
+      skos:broader narr:RegisterFormality ;
+      dct:source narr:Sample_FirstVersion_Stub ;
+      rdf:value false ;
+      skos:note "The body 'First version' is a nominal label phrase with no verb, article, or sentence structure — consistent with a draft placeholder rather than a composed document." ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_FirstVersion_Stub ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start 50 ; oa:end 63
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "First version" ;
+          oa:prefix " xena+staging@aswritten.ai\n---\n\n" ;
+          oa:suffix ""
+        ]
+      ] .
+
+    # ── Style Metrics ─────────────────────────────────────────────
+    narr:StyleMetrics_FirstVersion_Stub a narr:StyleMetrics ;
+      skos:broader narr:StyleMetrics ;
+      dct:source narr:Sample_FirstVersion_Stub ;
+      narr:AverageSentenceLength 2 ;
+      narr:ActiveVoiceRatio "0.0"^^xsd:decimal ;
+      narr:JargonDensity "0.0"^^xsd:decimal ;
+      skos:note "Stub document: single nominal phrase body, no verbs, no jargon. Average sentence length 2 words; active voice ratio and jargon density both 0 due to absence of predicate structure."
+      .
+  }
+}
