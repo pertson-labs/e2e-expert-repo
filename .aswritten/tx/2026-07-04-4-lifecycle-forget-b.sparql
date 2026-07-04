@@ -1,0 +1,187 @@
+PREFIX narr: <https://aswritten.ai/narrative#>
+PREFIX rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX prov: <http://www.w3.org/ns/prov#>
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+PREFIX dct:  <http://purl.org/dc/terms/>
+PREFIX xsd:  <http://www.w3.org/2001/XMLSchema#>
+PREFIX oa:   <http://www.w3.org/ns/oa#>
+
+# ── Retraction transaction (default graph) ──────────────────────────────────
+INSERT DATA {
+  narr:Tx_20260704T102418Z a prov:Activity ;
+    prov:generatedAtTime "2026-07-04T10:24:18Z"^^xsd:dateTime ;
+    prov:wasAssociatedWith "aswritten.ai" ;
+    prov:wasAttributedTo "n8n.aswritten.ai" ;
+    narr:originPath ".aswritten/memories/2026-07-04-4-lifecycle-forget-b.md" ;
+    narr:originRef "e2e-lifecycle-1783159844455" ;
+    dct:title "Retraction: Zypherion, Meridian, Quinton Fairweather, analytics pipeline migration" ;
+    prov:generated narr:Tx_20260704T102418Z .
+} ;
+
+# ── DELETE all triples in the Zypherion transaction graph ───────────────────
+DELETE WHERE {
+  GRAPH narr:Tx_20260704T102418Z {
+    ?s ?p ?o .
+  }
+} ;
+
+# ── DELETE all triples in the Meridian transaction graph ────────────────────
+DELETE WHERE {
+  GRAPH narr:Tx_20260704T102418Z {
+    ?s ?p ?o .
+  }
+} ;
+
+# ── DELETE the Zypherion transaction node itself (default graph) ─────────────
+DELETE WHERE {
+  narr:Tx_20260704T102418Z ?p ?o .
+} ;
+
+# ── DELETE the Meridian transaction node itself (default graph) ──────────────
+DELETE WHERE {
+  narr:Tx_20260704T102418Z ?p ?o .
+} ;
+
+# ── DELETE Actor_QuintonFairweather from any named graph ─────────────────────
+DELETE WHERE {
+  GRAPH ?g {
+    narr:Actor_QuintonFairweather ?p ?o .
+  }
+} ;
+DELETE WHERE {
+  GRAPH ?g {
+    ?s ?p narr:Actor_QuintonFairweather .
+  }
+} ;
+
+# ── DELETE Sample_ZypherionDecision_20260406 from any named graph ─────────────
+DELETE WHERE {
+  GRAPH ?g {
+    narr:Sample_ZypherionDecision_20260406 ?p ?o .
+  }
+} ;
+DELETE WHERE {
+  GRAPH ?g {
+    ?s ?p narr:Sample_ZypherionDecision_20260406 .
+  }
+} ;
+
+# ── DELETE Sample_MeridianDecision_20260406 from any named graph ──────────────
+DELETE WHERE {
+  GRAPH ?g {
+    narr:Sample_MeridianDecision_20260406 ?p ?o .
+  }
+} ;
+DELETE WHERE {
+  GRAPH ?g {
+    ?s ?p narr:Sample_MeridianDecision_20260406 .
+  }
+} ;
+
+# ── DELETE Narrative_ZypherionAdoption from any named graph ───────────────────
+DELETE WHERE {
+  GRAPH ?g {
+    narr:Narrative_ZypherionAdoption ?p ?o .
+  }
+} ;
+DELETE WHERE {
+  GRAPH ?g {
+    ?s ?p narr:Narrative_ZypherionAdoption .
+  }
+} ;
+
+# ── DELETE Narrative_MeridianAdoption from any named graph ────────────────────
+DELETE WHERE {
+  GRAPH ?g {
+    narr:Narrative_MeridianAdoption ?p ?o .
+  }
+} ;
+DELETE WHERE {
+  GRAPH ?g {
+    ?s ?p narr:Narrative_MeridianAdoption .
+  }
+} ;
+
+# ── DELETE Claim_ZypherionStreamingGap from any named graph ───────────────────
+DELETE WHERE {
+  GRAPH ?g {
+    narr:Claim_ZypherionStreamingGap ?p ?o .
+  }
+} ;
+
+# ── DELETE Claim_ZypherionMigrationTimeline from any named graph ──────────────
+DELETE WHERE {
+  GRAPH ?g {
+    narr:Claim_ZypherionMigrationTimeline ?p ?o .
+  }
+} ;
+
+# ── DELETE Claim_MeridianBatchStreamingCapability from any named graph ────────
+DELETE WHERE {
+  GRAPH ?g {
+    narr:Claim_MeridianBatchStreamingCapability ?p ?o .
+  }
+} ;
+
+# ── DELETE Claim_MeridianMigrationTimeline from any named graph ───────────────
+DELETE WHERE {
+  GRAPH ?g {
+    narr:Claim_MeridianMigrationTimeline ?p ?o .
+  }
+} ;
+
+# ── DELETE Observation_ZypherionDecisionQuote from any named graph ────────────
+DELETE WHERE {
+  GRAPH ?g {
+    narr:Observation_ZypherionDecisionQuote ?p ?o .
+  }
+} ;
+
+# ── DELETE Observation_MeridianDecisionQuote from any named graph ─────────────
+DELETE WHERE {
+  GRAPH ?g {
+    narr:Observation_MeridianDecisionQuote ?p ?o .
+  }
+} ;
+
+# ── DELETE StyleObservation_BulletedDecisionFormat from any named graph ───────
+DELETE WHERE {
+  GRAPH ?g {
+    narr:StyleObservation_BulletedDecisionFormat ?p ?o .
+  }
+} ;
+
+# ── DELETE StyleObservation_SupersessionDeclaration from any named graph ──────
+DELETE WHERE {
+  GRAPH ?g {
+    narr:StyleObservation_SupersessionDeclaration ?p ?o .
+  }
+} ;
+
+# ── DELETE StyleObservation_DirectDeclarativeVoice from any named graph ───────
+DELETE WHERE {
+  GRAPH ?g {
+    narr:StyleObservation_DirectDeclarativeVoice ?p ?o .
+  }
+} ;
+
+# ── DELETE StyleObservation_DirectDeclarativeVoiceRevised from any named graph 
+DELETE WHERE {
+  GRAPH ?g {
+    narr:StyleObservation_DirectDeclarativeVoiceRevised ?p ?o .
+  }
+} ;
+
+# ── DELETE StyleObservation_QuantifiedPerformanceClaim from any named graph ───
+DELETE WHERE {
+  GRAPH ?g {
+    narr:StyleObservation_QuantifiedPerformanceClaim ?p ?o .
+  }
+} ;
+
+# ── DELETE StyleMetrics_MeridianDecision from any named graph ─────────────────
+DELETE WHERE {
+  GRAPH ?g {
+    narr:StyleMetrics_MeridianDecision ?p ?o .
+  }
+}
