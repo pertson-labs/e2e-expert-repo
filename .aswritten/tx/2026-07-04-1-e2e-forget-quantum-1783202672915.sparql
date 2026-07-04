@@ -1,0 +1,80 @@
+PREFIX narr: <https://aswritten.ai/narrative#>
+PREFIX rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX prov: <http://www.w3.org/ns/prov#>
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+PREFIX dct:  <http://purl.org/dc/terms/>
+PREFIX xsd:  <http://www.w3.org/2001/XMLSchema#>
+PREFIX oa:   <http://www.w3.org/ns/oa#>
+
+# Transaction provenance (default graph) — retraction event
+INSERT DATA {
+  narr:Tx_20260704T220640Z a prov:Activity ;
+    prov:generatedAtTime "2026-07-04T22:06:40Z"^^xsd:dateTime ;
+    prov:wasAssociatedWith "aswritten.ai" ;
+    prov:wasAttributedTo "xena+staging@aswritten.ai" ;
+    narr:originPath ".aswritten/memories/2026-07-04-1-e2e-forget-quantum-1783202672915.md" ;
+    narr:originRef "e2e-forget-1783202238874" ;
+    dct:title "Retraction: Quantum Widget Decision and PostgreSQL-to-QuantumDB migration" ;
+    prov:generated narr:Tx_20260704T220640Z .
+} ;
+
+# Attempt broad DELETE for any entity whose label references Quantum Widget or QuantumDB
+DELETE {
+  GRAPH ?g {
+    ?entity skos:prefLabel ?label .
+  }
+}
+WHERE {
+  GRAPH ?g {
+    ?entity skos:prefLabel ?label .
+    FILTER (CONTAINS(LCASE(STR(?label)), "quantum widget") || CONTAINS(LCASE(STR(?label)), "quantumdb"))
+  }
+} ;
+
+DELETE {
+  GRAPH ?g {
+    ?entity narr:theme ?theme .
+  }
+}
+WHERE {
+  GRAPH ?g {
+    ?entity narr:theme ?theme .
+    FILTER (CONTAINS(LCASE(STR(?theme)), "quantum widget") || CONTAINS(LCASE(STR(?theme)), "quantumdb") || CONTAINS(LCASE(STR(?theme)), "postgresql"))
+  }
+} ;
+
+DELETE {
+  GRAPH ?g {
+    ?entity skos:note ?note .
+  }
+}
+WHERE {
+  GRAPH ?g {
+    ?entity skos:note ?note .
+    FILTER (CONTAINS(LCASE(STR(?note)), "quantum widget") || CONTAINS(LCASE(STR(?note)), "quantumdb") || CONTAINS(LCASE(STR(?note)), "postgresql to quantumdb"))
+  }
+} ;
+
+DELETE {
+  GRAPH ?g {
+    ?entity dct:description ?desc .
+  }
+}
+WHERE {
+  GRAPH ?g {
+    ?entity dct:description ?desc .
+    FILTER (CONTAINS(LCASE(STR(?desc)), "quantum widget") || CONTAINS(LCASE(STR(?desc)), "quantumdb") || CONTAINS(LCASE(STR(?desc)), "postgresql to quantumdb"))
+  }
+} ;
+
+DELETE {
+  GRAPH ?g {
+    ?entity narr:aboutNode ?node .
+  }
+}
+WHERE {
+  GRAPH ?g {
+    ?entity narr:aboutNode ?node .
+    FILTER (CONTAINS(LCASE(STR(?node)), "quantum") || CONTAINS(LCASE(STR(?node)), "quantumdb"))
+  }
+}
