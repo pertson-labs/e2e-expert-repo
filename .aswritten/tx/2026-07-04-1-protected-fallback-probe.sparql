@@ -1,0 +1,176 @@
+PREFIX narr: <https://aswritten.ai/narrative#>
+PREFIX rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX prov: <http://www.w3.org/ns/prov#>
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+PREFIX dct:  <http://purl.org/dc/terms/>
+PREFIX xsd:  <http://www.w3.org/2001/XMLSchema#>
+PREFIX oa:   <http://www.w3.org/ns/oa#>
+
+# ── Transaction provenance (default graph) ──────────────────────
+INSERT DATA {
+  narr:Tx_20260704T103137Z a prov:Activity ;
+    prov:generatedAtTime "2026-07-04T10:31:37Z"^^xsd:dateTime ;
+    prov:wasAssociatedWith "aswritten.ai" ;
+    prov:wasAttributedTo "n8n.aswritten.ai" ;
+    narr:originPath ".aswritten/memories/2026-07-04-1-protected-fallback-probe.md" ;
+    narr:originRef "e2e-protected" ;
+    dct:title "Meridian Deployment Gate Decision — 2026-07-02" ;
+    prov:generated
+      narr:Sample_MeridianDeploymentGate_20260702,
+      narr:Actor_QuintonFairweather_CTO,
+      narr:Narrative_MeridianSignedManifestGate,
+      narr:Claim_SignedManifestRequired,
+      narr:Claim_GateScopesStagingAndProd,
+      narr:Claim_GateOwnerQuinton,
+      narr:Obs_UnsignedArtifactsReachedStaging,
+      narr:StyleObs_DirectQuoteRationale,
+      narr:StyleObs_BulletDecisionFormat,
+      narr:StyleObs_BoldKeyTerms,
+      narr:StyleMetrics_MeridianGate .
+} ;
+
+# ── Extracted entities (named graph) ────────────────────────────
+INSERT DATA {
+  GRAPH narr:Tx_20260704T103137Z {
+
+    # ── Sample ──────────────────────────────────────────────────
+    narr:Sample_MeridianDeploymentGate_20260702 a narr:Sample ;
+      dct:title "Deployment Gate Decision: Meridian Release Train" ;
+      dct:created "2026-07-02"^^xsd:date ;
+      narr:inputLength "522"^^xsd:integer ;
+      skos:note "Decision memo from Quinton Fairweather (CTO) mandating signed release manifests for all Meridian deployments to staging and production, motivated by two unsigned artifacts reaching staging last quarter." .
+
+    # ── Actor ───────────────────────────────────────────────────
+    narr:Actor_QuintonFairweather_CTO a narr:Actor ;
+      skos:prefLabel "Quinton Fairweather" ;
+      skos:note "CTO. Owner of the Meridian deployment gate decision. Sole participant in this decision memo dated 2026-07-02." .
+
+    # ── Narrative ───────────────────────────────────────────────
+    narr:Narrative_MeridianSignedManifestGate a narr:Narrative ;
+      dct:source narr:Sample_MeridianDeploymentGate_20260702 ;
+      narr:theme "Deployment gates enforced through signed release manifests prevent unsigned artifacts from reaching production" ;
+      skos:broader narr:QualityReviewGates ;
+      skos:note "Quinton Fairweather mandated that every Meridian deployment must carry a signed release manifest before shipping. The gate was introduced after two unsigned artifacts reached staging in the prior quarter. Scope covers both staging and production environments." .
+
+    # ── Claims ──────────────────────────────────────────────────
+    narr:Claim_SignedManifestRequired a narr:Claim ;
+      narr:aboutNode narr:Narrative_MeridianSignedManifestGate ;
+      narr:hasConvictionLevel narr:Conviction_Boulder ;
+      narr:supports narr:QualityReviewGates ;
+      dct:source narr:Sample_MeridianDeploymentGate_20260702 ;
+      skos:note "Every Meridian deployment now requires a signed release manifest before it ships — stated as a decided policy by the CTO." .
+
+    narr:Claim_GateScopesStagingAndProd a narr:Claim ;
+      narr:aboutNode narr:Narrative_MeridianSignedManifestGate ;
+      narr:hasConvictionLevel narr:Conviction_Boulder ;
+      narr:supports narr:Claim_SignedManifestRequired ;
+      dct:source narr:Sample_MeridianDeploymentGate_20260702 ;
+      skos:note "The signed-manifest gate applies to both staging and production environments." .
+
+    narr:Claim_GateOwnerQuinton a narr:Claim ;
+      narr:aboutNode narr:Actor_QuintonFairweather_CTO ;
+      narr:hasConvictionLevel narr:Conviction_Boulder ;
+      narr:supports narr:Narrative_MeridianSignedManifestGate ;
+      dct:source narr:Sample_MeridianDeploymentGate_20260702 ;
+      skos:note "Quinton Fairweather (CTO) is the named owner of the Meridian deployment gate." .
+
+    # ── Observation (verbatim rationale quote) ──────────────────
+    narr:Obs_UnsignedArtifactsReachedStaging a narr:Observation ;
+      skos:broader narr:RiskGuardrails ;
+      dct:source narr:Sample_MeridianDeploymentGate_20260702 ;
+      skos:note "CTO cites two unsigned artifacts reaching staging last quarter as the direct cause for the gate." ;
+      oa:hasSelector [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_MeridianDeploymentGate_20260702 ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start "260"^^xsd:integer ;
+          oa:end "359"^^xsd:integer
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "We saw two unsigned artifacts reach staging\nlast quarter and that is the whole reason for the gate." ;
+          oa:prefix "lease\nmanifest before it ships. " ;
+          oa:suffix "\"\n\nKey decisions:\n- **Gate**: si"
+        ]
+      ] .
+
+    # ── Style Observations ──────────────────────────────────────
+
+    # SO-1: Direct first-person authoritative declaration
+    narr:StyleObs_DirectQuoteRationale a narr:StyleObservation ;
+      skos:broader narr:ToneAuthoritative ;
+      dct:source narr:Sample_MeridianDeploymentGate_20260702 ;
+      skos:note "Speaker uses first-person plural ('We saw') to ground a policy mandate in observed incident evidence, projecting institutional authority." ;
+      rdf:value true ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_MeridianDeploymentGate_20260702 ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start "178"^^xsd:integer ;
+          oa:end "259"^^xsd:integer
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "Every Meridian deployment now requires a signed release\nmanifest before it ships." ;
+          oa:prefix "on Fairweather (CTO)\n\nQuinton: \"" ;
+          oa:suffix " We saw two unsigned artifacts r"
+        ]
+      ] .
+
+    # SO-2: Structured bullet list for decisions
+    narr:StyleObs_BulletDecisionFormat a narr:StyleObservation ;
+      skos:broader narr:GrammarSyntax ;
+      dct:source narr:Sample_MeridianDeploymentGate_20260702 ;
+      skos:note "Decisions are enumerated as a tight bullet list with bold labels (Gate, Scope, Owner), a concise institutional documentation pattern." ;
+      rdf:value true ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_MeridianDeploymentGate_20260702 ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start "362"^^xsd:integer ;
+          oa:end "442"^^xsd:integer
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "Key decisions:\n- **Gate**: signed release manifest required for Meridian deploys" ;
+          oa:prefix "he whole reason for the gate.\"\n\n" ;
+          oa:suffix "\n- **Scope**: applies to staging"
+        ]
+      ] .
+
+    # SO-3: Bold key-term labeling pattern
+    narr:StyleObs_BoldKeyTerms a narr:StyleObservation ;
+      skos:broader narr:CapitalizationCase ;
+      dct:source narr:Sample_MeridianDeploymentGate_20260702 ;
+      skos:note "Decision attributes (Gate, Scope, Owner) are bolded as category labels, a structured-document convention that aids scanability." ;
+      rdf:value true ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_MeridianDeploymentGate_20260702 ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start "379"^^xsd:integer ;
+          oa:end "522"^^xsd:integer
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "**Gate**: signed release manifest required for Meridian deploys\n- **Scope**: applies to staging and production\n- **Owner**: Quinton Fairweather" ;
+          oa:prefix "or the gate.\"\n\nKey decisions:\n- " ;
+          oa:suffix ""
+        ]
+      ] .
+
+    # ── Style Metrics ────────────────────────────────────────────
+    narr:StyleMetrics_MeridianGate a narr:StyleMetrics ;
+      skos:broader narr:StyleMetrics ;
+      dct:source narr:Sample_MeridianDeploymentGate_20260702 ;
+      narr:AverageSentenceLength "14"^^xsd:integer ;
+      narr:ActiveVoiceRatio "0.85"^^xsd:decimal ;
+      narr:JargonDensity "0.12"^^xsd:decimal ;
+      skos:note "Short memo register. High active-voice ratio (CTO speaks in direct declaratives). Low-to-moderate jargon density (domain terms: signed release manifest, staging, production, artifacts)." .
+
+  }
+}
