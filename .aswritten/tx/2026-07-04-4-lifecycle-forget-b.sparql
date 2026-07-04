@@ -1,0 +1,209 @@
+PREFIX narr: <https://aswritten.ai/narrative#>
+PREFIX rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX prov: <http://www.w3.org/ns/prov#>
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+PREFIX dct:  <http://purl.org/dc/terms/>
+PREFIX xsd:  <http://www.w3.org/2001/XMLSchema#>
+PREFIX oa:   <http://www.w3.org/ns/oa#>
+
+# ── Retraction transaction (default graph) ──────────────────────────────────
+INSERT DATA {
+  narr:Tx_20260704T232629Z a prov:Activity ;
+    prov:generatedAtTime "2026-07-04T23:26:29Z"^^xsd:dateTime ;
+    prov:wasAssociatedWith "aswritten.ai" ;
+    prov:wasAttributedTo "n8n.aswritten.ai" ;
+    narr:originPath ".aswritten/memories/2026-07-04-4-lifecycle-forget-b.md" ;
+    narr:originRef "e2e-lifecycle-1783206813164" ;
+    dct:title "RETRACTION: Forget all knowledge about Zypherion, Meridian, Quinton Fairweather, and analytics pipeline migration" ;
+    prov:generated narr:Tx_20260704T232629Z .
+} ;
+
+# ── Remove all triples about Narrative_ZypherionAdoption from any named graph ─
+DELETE WHERE {
+  GRAPH ?g {
+    narr:Narrative_ZypherionAdoption ?p ?o .
+  }
+} ;
+DELETE WHERE {
+  GRAPH ?g {
+    ?s ?p narr:Narrative_ZypherionAdoption .
+  }
+} ;
+
+# ── Remove all triples about Narrative_MeridianAdoption from any named graph ──
+DELETE WHERE {
+  GRAPH ?g {
+    narr:Narrative_MeridianAdoption ?p ?o .
+  }
+} ;
+DELETE WHERE {
+  GRAPH ?g {
+    ?s ?p narr:Narrative_MeridianAdoption .
+  }
+} ;
+
+# ── Remove all triples about Actor_QuintonFairweather_CTO from any named graph ─
+DELETE WHERE {
+  GRAPH ?g {
+    narr:Actor_QuintonFairweather_CTO ?p ?o .
+  }
+} ;
+DELETE WHERE {
+  GRAPH ?g {
+    ?s ?p narr:Actor_QuintonFairweather_CTO .
+  }
+} ;
+
+# ── Remove all triples about Claim_ZypherionColumnarPerformance ───────────────
+DELETE WHERE {
+  GRAPH ?g {
+    narr:Claim_ZypherionColumnarPerformance ?p ?o .
+  }
+} ;
+DELETE WHERE {
+  GRAPH ?g {
+    ?s ?p narr:Claim_ZypherionColumnarPerformance .
+  }
+} ;
+
+# ── Remove all triples about Claim_ZypherionMigrationTimeline ────────────────
+DELETE WHERE {
+  GRAPH ?g {
+    narr:Claim_ZypherionMigrationTimeline ?p ?o .
+  }
+} ;
+DELETE WHERE {
+  GRAPH ?g {
+    ?s ?p narr:Claim_ZypherionMigrationTimeline .
+  }
+} ;
+
+# ── Remove all triples about Claim_MeridianMigrationTimeline ─────────────────
+DELETE WHERE {
+  GRAPH ?g {
+    narr:Claim_MeridianMigrationTimeline ?p ?o .
+  }
+} ;
+DELETE WHERE {
+  GRAPH ?g {
+    ?s ?p narr:Claim_MeridianMigrationTimeline .
+  }
+} ;
+
+# ── Remove all triples about Claim_MeridianReplacesZypherion ─────────────────
+DELETE WHERE {
+  GRAPH ?g {
+    narr:Claim_MeridianReplacesZypherion ?p ?o .
+  }
+} ;
+DELETE WHERE {
+  GRAPH ?g {
+    ?s ?p narr:Claim_MeridianReplacesZypherion .
+  }
+} ;
+
+# ── Remove all triples about Claim_ZypherionStreamingGap ─────────────────────
+DELETE WHERE {
+  GRAPH ?g {
+    narr:Claim_ZypherionStreamingGap ?p ?o .
+  }
+} ;
+DELETE WHERE {
+  GRAPH ?g {
+    ?s ?p narr:Claim_ZypherionStreamingGap .
+  }
+} ;
+
+# ── Remove all triples about Sample_ZypherionDecision_20260406 ────────────────
+DELETE WHERE {
+  GRAPH ?g {
+    narr:Sample_ZypherionDecision_20260406 ?p ?o .
+  }
+} ;
+DELETE WHERE {
+  GRAPH ?g {
+    ?s ?p narr:Sample_ZypherionDecision_20260406 .
+  }
+} ;
+
+# ── Remove all triples about Sample_MeridianDecision_20260406 ────────────────
+DELETE WHERE {
+  GRAPH ?g {
+    narr:Sample_MeridianDecision_20260406 ?p ?o .
+  }
+} ;
+DELETE WHERE {
+  GRAPH ?g {
+    ?s ?p narr:Sample_MeridianDecision_20260406 .
+  }
+} ;
+
+# ── Remove all triples about StyleMetrics_ZypherionDecision ──────────────────
+DELETE WHERE {
+  GRAPH ?g {
+    narr:StyleMetrics_ZypherionDecision ?p ?o .
+  }
+} ;
+DELETE WHERE {
+  GRAPH ?g {
+    ?s ?p narr:StyleMetrics_ZypherionDecision .
+  }
+} ;
+
+# ── Remove all triples about StyleMetrics_MeridianDecision ───────────────────
+DELETE WHERE {
+  GRAPH ?g {
+    narr:StyleMetrics_MeridianDecision ?p ?o .
+  }
+} ;
+DELETE WHERE {
+  GRAPH ?g {
+    ?s ?p narr:StyleMetrics_MeridianDecision .
+  }
+} ;
+
+# ── Remove all triples about StyleObservation_BoldKeyDecisionFormat ──────────
+DELETE WHERE {
+  GRAPH ?g {
+    narr:StyleObservation_BoldKeyDecisionFormat ?p ?o .
+  }
+} ;
+DELETE WHERE {
+  GRAPH ?g {
+    ?s ?p narr:StyleObservation_BoldKeyDecisionFormat .
+  }
+} ;
+
+# ── Remove all triples about StyleObservation_BoldKeyDecisionFormatRevised ────
+DELETE WHERE {
+  GRAPH ?g {
+    narr:StyleObservation_BoldKeyDecisionFormatRevised ?p ?o .
+  }
+} ;
+DELETE WHERE {
+  GRAPH ?g {
+    ?s ?p narr:StyleObservation_BoldKeyDecisionFormatRevised .
+  }
+} ;
+
+# ── Remove all triples about StyleObservation_SupersessionLanguage ────────────
+DELETE WHERE {
+  GRAPH ?g {
+    narr:StyleObservation_SupersessionLanguage ?p ?o .
+  }
+} ;
+DELETE WHERE {
+  GRAPH ?g {
+    ?s ?p narr:StyleObservation_SupersessionLanguage .
+  }
+} ;
+
+# ── Remove the original Zypherion transaction node (default graph) ────────────
+DELETE WHERE {
+  narr:Tx_20260704T232629Z ?p ?o .
+} ;
+
+# ── Remove the Meridian revision transaction node (default graph) ─────────────
+DELETE WHERE {
+  narr:Tx_20260704T232629Z ?p ?o .
+}
