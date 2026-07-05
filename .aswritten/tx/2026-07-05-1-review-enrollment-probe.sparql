@@ -1,0 +1,129 @@
+PREFIX narr: <https://aswritten.ai/narrative#>
+PREFIX rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX prov: <http://www.w3.org/ns/prov#>
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+PREFIX dct:  <http://purl.org/dc/terms/>
+PREFIX xsd:  <http://www.w3.org/2001/XMLSchema#>
+PREFIX oa:   <http://www.w3.org/ns/oa#>
+
+# Transaction provenance (default graph)
+INSERT DATA {
+  narr:Tx_20260705T105155Z a prov:Activity ;
+    prov:generatedAtTime "2026-07-05T10:51:55Z"^^xsd:dateTime ;
+    prov:wasAssociatedWith "aswritten.ai" ;
+    prov:wasAttributedTo "n8n.aswritten.ai" ;
+    narr:originPath ".aswritten/memories/2026-07-05-1-review-enrollment-probe.md" ;
+    narr:originRef "e2e-review-enrollment-1783248562964" ;
+    dct:title "Review enrollment probe extraction" ;
+    prov:generated
+      narr:Sample_ReviewEnrollmentProbe,
+      narr:Claim_MemorySaveEnrollsCreatorAsReviewer,
+      narr:Narrative_ReviewEnrollmentBehavior,
+      narr:StyleObs_TerseDeclarativeTone,
+      narr:StyleObs_MetaDocumentPurposeStatement,
+      narr:StyleObs_FrontMatterReviewerAnnotation,
+      narr:StyleMetrics_ReviewEnrollmentProbe .
+} ;
+
+# Extracted entities (named graph)
+INSERT DATA {
+  GRAPH narr:Tx_20260705T105155Z {
+
+    # ── Sample ──────────────────────────────────────────────────
+    narr:Sample_ReviewEnrollmentProbe a narr:Sample ;
+      dct:title "Review enrollment probe" ;
+      narr:inputLength 219 ;
+      dct:description "E2E test probe memory asserting that saving a memory enrolls its creator as a reviewer." .
+
+    # ── Narrative ───────────────────────────────────────────────
+    narr:Narrative_ReviewEnrollmentBehavior a narr:Narrative ;
+      dct:source narr:Sample_ReviewEnrollmentProbe ;
+      narr:theme "Saving a memory automatically enrolls its creator as a reviewer" ;
+      skos:broader narr:QualityReviewGates ;
+      skos:note "The e2e suite asserts that the act of saving a memory triggers automatic reviewer enrollment for the memory's creator. This probe memory exists solely to carry and validate that assertion." .
+
+    # ── Claim ───────────────────────────────────────────────────
+    narr:Claim_MemorySaveEnrollsCreatorAsReviewer a narr:Claim ;
+      narr:aboutNode narr:Narrative_ReviewEnrollmentBehavior ;
+      narr:hasConvictionLevel narr:Conviction_Stake ;
+      narr:supports narr:QualityReviewGates ;
+      dct:source narr:Sample_ReviewEnrollmentProbe ;
+      skos:note "Decision asserted by the e2e suite: saving a memory enrolls its creator as a reviewer. Conviction level Stake — asserted by automated test, not yet corroborated by independent evidence." .
+
+    # ── Style Observations ──────────────────────────────────────
+
+    # 1. Terse declarative tone
+    narr:StyleObs_TerseDeclarativeTone a narr:StyleObservation ;
+      skos:broader narr:ToneAuthoritative ;
+      dct:source narr:Sample_ReviewEnrollmentProbe ;
+      skos:note "Single declarative sentence states the decision without hedging or elaboration." ;
+      rdf:value true ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_ReviewEnrollmentProbe ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start 87 ; oa:end 163
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "the e2e suite asserts that saving a memory enrolls its creator as a reviewer" ;
+          oa:prefix "iew enrollment probe\n\nDecision: " ;
+          oa:suffix ". This probe memory exists only "
+        ]
+      ] .
+
+    # 2. Meta-document purpose statement
+    narr:StyleObs_MetaDocumentPurposeStatement a narr:StyleObservation ;
+      skos:broader narr:PlainLanguage ;
+      dct:source narr:Sample_ReviewEnrollmentProbe ;
+      skos:note "Document explicitly declares its own purpose ('exists only to carry that assertion'), a self-referential meta-framing pattern common in test fixtures." ;
+      rdf:value true ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_ReviewEnrollmentProbe ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start 165 ; oa:end 219
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "This probe memory exists only to carry that assertion." ;
+          oa:prefix "olls its creator as a reviewer. " ;
+          oa:suffix ""
+        ]
+      ] .
+
+    # 3. Front-matter reviewer annotation (YAML)
+    narr:StyleObs_FrontMatterReviewerAnnotation a narr:StyleObservation ;
+      skos:broader narr:EditorialRules ;
+      dct:source narr:Sample_ReviewEnrollmentProbe ;
+      skos:note "YAML front matter uses a 'reviewers' key with a list value, establishing a structured metadata convention for reviewer enrollment. Email value redacted per PII policy." ;
+      rdf:value true ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_ReviewEnrollmentProbe ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start 0 ;
+          oa:end 45
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "reviewers:\n  - [REDACTED]" ;
+          oa:prefix "---\n" ;
+          oa:suffix "\n---"
+        ]
+      ] .
+
+    # ── Style Metrics ───────────────────────────────────────────
+    narr:StyleMetrics_ReviewEnrollmentProbe a narr:StyleMetrics ;
+      skos:broader narr:StyleMetrics ;
+      dct:source narr:Sample_ReviewEnrollmentProbe ;
+      narr:AverageSentenceLength 18 ;
+      narr:ActiveVoiceRatio "0.90"^^xsd:decimal ;
+      narr:JargonDensity "0.10"^^xsd:decimal ;
+      skos:note "Extremely short document (2 prose sentences). High active voice ratio. Low jargon density — plain declarative register with one technical term ('e2e suite')." .
+
+  }
+}
