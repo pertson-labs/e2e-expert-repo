@@ -1,0 +1,216 @@
+PREFIX narr: <https://aswritten.ai/narrative#>
+PREFIX rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX prov: <http://www.w3.org/ns/prov#>
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+PREFIX dct:  <http://purl.org/dc/terms/>
+PREFIX xsd:  <http://www.w3.org/2001/XMLSchema#>
+PREFIX oa:   <http://www.w3.org/ns/oa#>
+
+# ── Retraction transaction (default graph) ──────────────────────────────────
+INSERT DATA {
+  narr:Tx_20260705T000220Z a prov:Activity ;
+    prov:generatedAtTime "2026-07-05T00:02:20Z"^^xsd:dateTime ;
+    prov:wasAssociatedWith "aswritten.ai" ;
+    prov:wasAttributedTo "n8n.aswritten.ai" ;
+    narr:originPath ".aswritten/memories/2026-07-04-4-lifecycle-forget-b.md" ;
+    narr:originRef "e2e-lifecycle-1783208975050" ;
+    dct:title "Retraction: forget all database decision knowledge (Zypherion, Meridian, Quinton Fairweather, analytics pipeline migration)" ;
+    prov:generated narr:Tx_20260705T000220Z .
+} ;
+
+# ── Remove all triples in Tx_20260704T235157Z named graph (Zypherion decision) ──
+DELETE WHERE {
+  GRAPH narr:Tx_20260705T000220Z {
+    ?s ?p ?o .
+  }
+} ;
+
+# ── Remove all triples in Tx_20260704T235633Z named graph (Meridian decision) ──
+DELETE WHERE {
+  GRAPH narr:Tx_20260705T000220Z {
+    ?s ?p ?o .
+  }
+} ;
+
+# ── Remove the Tx_20260704T235157Z transaction node from default graph ──
+DELETE WHERE {
+  narr:Tx_20260705T000220Z ?p ?o .
+} ;
+
+# ── Remove the Tx_20260704T235633Z transaction node from default graph ──
+DELETE WHERE {
+  narr:Tx_20260705T000220Z ?p ?o .
+} ;
+
+# ── Remove any residual triples about retracted entities in any graph ──
+# (catches cross-graph references, skos:broader back-links, etc.)
+DELETE WHERE {
+  GRAPH ?g {
+    narr:Narrative_ZypherionAdoption ?p ?o .
+  }
+} ;
+DELETE WHERE {
+  GRAPH ?g {
+    ?s ?p narr:Narrative_ZypherionAdoption .
+  }
+} ;
+DELETE WHERE {
+  GRAPH ?g {
+    narr:Narrative_MeridianAdoption ?p ?o .
+  }
+} ;
+DELETE WHERE {
+  GRAPH ?g {
+    ?s ?p narr:Narrative_MeridianAdoption .
+  }
+} ;
+DELETE WHERE {
+  GRAPH ?g {
+    narr:Claim_ZypherionDBChoice ?p ?o .
+  }
+} ;
+DELETE WHERE {
+  GRAPH ?g {
+    ?s ?p narr:Claim_ZypherionDBChoice .
+  }
+} ;
+DELETE WHERE {
+  GRAPH ?g {
+    narr:Claim_MeridianDBChoice ?p ?o .
+  }
+} ;
+DELETE WHERE {
+  GRAPH ?g {
+    ?s ?p narr:Claim_MeridianDBChoice .
+  }
+} ;
+DELETE WHERE {
+  GRAPH ?g {
+    narr:Claim_ZypherionStreamingGap ?p ?o .
+  }
+} ;
+DELETE WHERE {
+  GRAPH ?g {
+    ?s ?p narr:Claim_ZypherionStreamingGap .
+  }
+} ;
+DELETE WHERE {
+  GRAPH ?g {
+    narr:Claim_ZypherionPerformance15x ?p ?o .
+  }
+} ;
+DELETE WHERE {
+  GRAPH ?g {
+    ?s ?p narr:Claim_ZypherionPerformance15x .
+  }
+} ;
+DELETE WHERE {
+  GRAPH ?g {
+    narr:Claim_ZypherionMigrationQ3 ?p ?o .
+  }
+} ;
+DELETE WHERE {
+  GRAPH ?g {
+    ?s ?p narr:Claim_ZypherionMigrationQ3 .
+  }
+} ;
+DELETE WHERE {
+  GRAPH ?g {
+    narr:Claim_MeridianMigrationQ3 ?p ?o .
+  }
+} ;
+DELETE WHERE {
+  GRAPH ?g {
+    ?s ?p narr:Claim_MeridianMigrationQ3 .
+  }
+} ;
+DELETE WHERE {
+  GRAPH ?g {
+    narr:Obs_QuintonStatement ?p ?o .
+  }
+} ;
+DELETE WHERE {
+  GRAPH ?g {
+    ?s ?p narr:Obs_QuintonStatement .
+  }
+} ;
+DELETE WHERE {
+  GRAPH ?g {
+    narr:Obs_QuintonMeridianStatement ?p ?o .
+  }
+} ;
+DELETE WHERE {
+  GRAPH ?g {
+    ?s ?p narr:Obs_QuintonMeridianStatement .
+  }
+} ;
+DELETE WHERE {
+  GRAPH ?g {
+    narr:Actor_QuintonFairweather_CTO ?p ?o .
+  }
+} ;
+DELETE WHERE {
+  GRAPH ?g {
+    ?s ?p narr:Actor_QuintonFairweather_CTO .
+  }
+} ;
+DELETE WHERE {
+  GRAPH ?g {
+    narr:Sample_ZypherionDecision_20260406 ?p ?o .
+  }
+} ;
+DELETE WHERE {
+  GRAPH ?g {
+    ?s ?p narr:Sample_ZypherionDecision_20260406 .
+  }
+} ;
+DELETE WHERE {
+  GRAPH ?g {
+    narr:Sample_MeridianDecision_20260406 ?p ?o .
+  }
+} ;
+DELETE WHERE {
+  GRAPH ?g {
+    ?s ?p narr:Sample_MeridianDecision_20260406 .
+  }
+} ;
+DELETE WHERE {
+  GRAPH ?g {
+    narr:StyleObs_SupersessionDeclaration ?p ?o .
+  }
+} ;
+DELETE WHERE {
+  GRAPH ?g {
+    ?s ?p narr:StyleObs_SupersessionDeclaration .
+  }
+} ;
+DELETE WHERE {
+  GRAPH ?g {
+    narr:StyleObs_QuantifiedPerformanceClaim ?p ?o .
+  }
+} ;
+DELETE WHERE {
+  GRAPH ?g {
+    ?s ?p narr:StyleObs_QuantifiedPerformanceClaim .
+  }
+} ;
+DELETE WHERE {
+  GRAPH ?g {
+    narr:StyleObs_MeridianBulletKeyDecisions ?p ?o .
+  }
+} ;
+DELETE WHERE {
+  GRAPH ?g {
+    ?s ?p narr:StyleObs_MeridianBulletKeyDecisions .
+  }
+} ;
+DELETE WHERE {
+  GRAPH ?g {
+    narr:StyleMetrics_MeridianDecision ?p ?o .
+  }
+} ;
+DELETE WHERE {
+  GRAPH ?g {
+    ?s ?p narr:StyleMetrics_MeridianDecision .
+  }
+}
