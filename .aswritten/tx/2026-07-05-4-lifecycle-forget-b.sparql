@@ -1,0 +1,93 @@
+PREFIX narr: <https://aswritten.ai/narrative#>
+PREFIX rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX prov: <http://www.w3.org/ns/prov#>
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+PREFIX dct:  <http://purl.org/dc/terms/>
+PREFIX xsd:  <http://www.w3.org/2001/XMLSchema#>
+PREFIX oa:   <http://www.w3.org/ns/oa#>
+
+# ── Retraction transaction (default graph) ──────────────────────────────────
+INSERT DATA {
+  narr:Tx_20260705T102926Z a prov:Activity ;
+    prov:generatedAtTime "2026-07-05T10:29:26Z"^^xsd:dateTime ;
+    prov:wasAssociatedWith "aswritten.ai" ;
+    prov:wasAttributedTo "n8n.aswritten.ai" ;
+    narr:originPath ".aswritten/memories/2026-07-05-4-lifecycle-forget-b.md" ;
+    narr:originRef "e2e-lifecycle-1783246443108" ;
+    dct:title "RETRACTION: Forget database decision — Zypherion, Meridian, Quinton Fairweather, analytics pipeline migration" ;
+    prov:generated narr:Tx_20260705T102926Z .
+} ;
+
+# ── DELETE all entities from Tx_20260705T101653Z (Zypherion decision) ────────
+DELETE WHERE {
+  GRAPH narr:Tx_20260705T102926Z {
+    ?s ?p ?o .
+  }
+} ;
+
+# ── DELETE all entities from Tx_20260705T102337Z (Meridian revised decision) ─
+DELETE WHERE {
+  GRAPH narr:Tx_20260705T102926Z {
+    ?s ?p ?o .
+  }
+} ;
+
+# ── DELETE transaction node Tx_20260705T101653Z from default graph ────────────
+DELETE WHERE {
+  narr:Tx_20260705T102926Z ?p ?o .
+} ;
+
+# ── DELETE transaction node Tx_20260705T102337Z from default graph ────────────
+DELETE WHERE {
+  narr:Tx_20260705T102926Z ?p ?o .
+} ;
+
+# ── DELETE Actor_QuintonFairweather from any graph ────────────────────────────
+DELETE WHERE {
+  GRAPH ?g {
+    narr:Actor_QuintonFairweather ?p ?o .
+  }
+} ;
+
+DELETE WHERE {
+  GRAPH ?g {
+    ?s ?p narr:Actor_QuintonFairweather .
+  }
+} ;
+
+# ── DELETE any remaining stray triples about retracted entities ───────────────
+DELETE WHERE {
+  GRAPH ?g {
+    narr:Narrative_ZypherionAdoption ?p ?o .
+  }
+} ;
+
+DELETE WHERE {
+  GRAPH ?g {
+    ?s ?p narr:Narrative_ZypherionAdoption .
+  }
+} ;
+
+DELETE WHERE {
+  GRAPH ?g {
+    narr:Sample_ZypherionDatabaseDecision_20260406 ?p ?o .
+  }
+} ;
+
+DELETE WHERE {
+  GRAPH ?g {
+    ?s ?p narr:Sample_ZypherionDatabaseDecision_20260406 .
+  }
+} ;
+
+DELETE WHERE {
+  GRAPH ?g {
+    narr:Sample_MeridianDatabaseDecision_20260406 ?p ?o .
+  }
+} ;
+
+DELETE WHERE {
+  GRAPH ?g {
+    ?s ?p narr:Sample_MeridianDatabaseDecision_20260406 .
+  }
+}
