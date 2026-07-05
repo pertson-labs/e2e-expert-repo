@@ -1,0 +1,142 @@
+PREFIX narr: <https://aswritten.ai/narrative#>
+PREFIX rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX prov: <http://www.w3.org/ns/prov#>
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+PREFIX dct:  <http://purl.org/dc/terms/>
+PREFIX xsd:  <http://www.w3.org/2001/XMLSchema#>
+PREFIX oa:   <http://www.w3.org/ns/oa#>
+
+# Transaction provenance (default graph)
+INSERT DATA {
+  narr:Tx_20260705T104852Z a prov:Activity ;
+    prov:generatedAtTime "2026-07-05T10:48:52Z"^^xsd:dateTime ;
+    prov:wasAssociatedWith "aswritten.ai" ;
+    prov:wasAttributedTo "n8n.aswritten.ai" ;
+    narr:originPath ".aswritten/memories/2026-07-05-3-derive-id-explicit-override.md" ;
+    narr:originRef "e2e-derive-id-1783247978539" ;
+    dct:title "E2E Derive-Id: Title-Should-Not-Win test memory" ;
+    prov:generated
+      narr:Sample_TitleShouldNotWin,
+      narr:Claim_TitleHeadingNotUsedAsSlug,
+      narr:StyleObs_TitleShouldNotWin_ImperativeNegation,
+      narr:StyleObs_TitleShouldNotWin_MinimalistBody,
+      narr:StyleObs_TitleShouldNotWin_FrontmatterReviewer,
+      narr:StyleMetrics_TitleShouldNotWin .
+} ;
+
+# Extracted entities (named graph)
+INSERT DATA {
+  GRAPH narr:Tx_20260705T104852Z {
+
+    # ── Sample ──────────────────────────────────────────────────
+    narr:Sample_TitleShouldNotWin a narr:Sample ;
+      dct:title "Some Other Title That Should Not Win" ;
+      dct:description "E2E test memory: document with YAML frontmatter reviewer and H1 heading whose title must NOT be used as the pipeline slug. Exercises the derive-id path where the heading title should be ignored in favour of LLM id-gen or deterministic slugify fallback." ;
+      narr:inputLength "95"^^xsd:integer ;
+      dct:created "2025-07-05"^^xsd:string .
+
+    # ── Claim: H1 title must not be used as slug ─────────────────
+    narr:Claim_TitleHeadingNotUsedAsSlug a narr:Claim ;
+      narr:aboutNode narr:Narrative_PipelineSlugGeneration ;
+      narr:hasConvictionLevel narr:Conviction_Boulder ;
+      narr:supports narr:Claim_SlugFallbackBehavior ;
+      dct:source narr:Sample_TitleShouldNotWin ;
+      skos:broader narr:CoreWorkflows ;
+      skos:note "The H1 heading title ('Some Other Title That Should Not Win') must NOT be used as the slug source. The pipeline must derive the slug via LLM id-gen or deterministic slugify fallback, not from the document heading." .
+
+    # ── Style Observations ───────────────────────────────────────
+
+    # 1. Imperative negation in heading as test assertion
+    narr:StyleObs_TitleShouldNotWin_ImperativeNegation a narr:StyleObservation ;
+      skos:broader narr:SentenceMood ;
+      dct:source narr:Sample_TitleShouldNotWin ;
+      rdf:value true ;
+      skos:note "H1 heading encodes a test assertion via imperative negation ('Should Not Win'), signalling that the title is a deliberate negative constraint, not a descriptive label." ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_TitleShouldNotWin ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start "52"^^xsd:integer ;
+          oa:end "88"^^xsd:integer
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "Some Other Title That Should Not Win" ;
+          oa:prefix "ena+staging@aswritten.ai\n---\n\n# " ;
+          oa:suffix "\n\nBody."
+        ]
+      ] .
+
+    # 2. Minimalist body — single-word sentence
+    narr:StyleObs_TitleShouldNotWin_MinimalistBody a narr:StyleObservation ;
+      skos:broader narr:ShortPunchyCadence ;
+      dct:source narr:Sample_TitleShouldNotWin ;
+      rdf:value true ;
+      skos:note "Body consists of a single word sentence ('Body.') — a placeholder stub typical of E2E fixture documents where content is irrelevant and only structure matters." ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_TitleShouldNotWin ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start "90"^^xsd:integer ;
+          oa:end "95"^^xsd:integer
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "Body." ;
+          oa:prefix "ther Title That Should Not Win\n\n" ;
+          oa:suffix ""
+        ]
+      ] .
+
+    # 3. YAML frontmatter reviewer declaration
+    narr:StyleObs_TitleShouldNotWin_FrontmatterReviewer a narr:StyleObservation ;
+      skos:broader narr:RegisterFormality ;
+      dct:source narr:Sample_TitleShouldNotWin ;
+      rdf:value true ;
+      skos:note "YAML frontmatter declares a reviewer via tagged email address (xena+staging@aswritten.ai), a structured metadata convention consistent with staging-environment pipeline review workflows." ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_TitleShouldNotWin ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start "4"^^xsd:integer ;
+          oa:end "44"^^xsd:integer
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "reviewers:\n  - xena+staging@aswritten.ai" ;
+          oa:prefix "---\n" ;
+          oa:suffix "\n---\n\n# Some Other Title That Sh"
+        ]
+      ] .
+
+    # ── Style Metrics ────────────────────────────────────────────
+    narr:StyleMetrics_TitleShouldNotWin a narr:StyleMetrics ;
+      skos:broader narr:StyleMetrics ;
+      dct:source narr:Sample_TitleShouldNotWin ;
+      narr:AverageSentenceLength "1"^^xsd:integer ;
+      narr:ActiveVoiceRatio "1.0"^^xsd:decimal ;
+      narr:JargonDensity "0.1"^^xsd:decimal ;
+      skos:note "Extremely short document: one-word body sentence. Active voice only. Low jargon density in body; technical signal is in the heading negation pattern and YAML frontmatter structure." .
+
+  }
+} ;
+
+# ── Update Narrative_PipelineSlugGeneration to include title-not-used constraint ──
+DELETE {
+  GRAPH ?g {
+    narr:Narrative_PipelineSlugGeneration skos:note ?oldNote .
+  }
+}
+INSERT {
+  GRAPH narr:Tx_20260705T104852Z {
+    narr:Narrative_PipelineSlugGeneration skos:note "When a memory is submitted without an explicit id field, the pipeline must produce a slug from the memory content — either via the LLM id-gen call or the deterministic slugify fallback — and commit the file successfully. Phase 2 (## heading, no id field): must not crash; must produce a valid slug. Reproduces missing-id failure pattern from prod. Phase 3 (H1 heading present, no id field): the H1 title must NOT be used as the slug source; LLM id-gen or slugify fallback must be used regardless of heading content." .
+  }
+}
+WHERE {
+  GRAPH ?g {
+    narr:Narrative_PipelineSlugGeneration skos:note ?oldNote .
+  }
+}
