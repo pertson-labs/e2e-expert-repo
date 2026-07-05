@@ -1,0 +1,140 @@
+PREFIX narr: <https://aswritten.ai/narrative#>
+PREFIX rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX prov: <http://www.w3.org/ns/prov#>
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+PREFIX dct:  <http://purl.org/dc/terms/>
+PREFIX xsd:  <http://www.w3.org/2001/XMLSchema#>
+PREFIX oa:   <http://www.w3.org/ns/oa#>
+
+# Transaction provenance (default graph)
+INSERT DATA {
+  narr:Tx_20260705T002200Z a prov:Activity ;
+    prov:generatedAtTime "2026-07-05T00:22:00Z"^^xsd:dateTime ;
+    prov:wasAssociatedWith "aswritten.ai" ;
+    prov:wasAttributedTo "n8n.aswritten.ai" ;
+    narr:originPath ".aswritten/memories/2026-07-05-1-review-enrollment-probe.md" ;
+    narr:originRef "e2e-review-enrollment-1783210790288" ;
+    dct:title "Review enrollment probe extraction" ;
+    prov:generated
+      narr:Sample_ReviewEnrollmentProbe,
+      narr:Claim_E2ESuiteReviewerEnrollment,
+      narr:Actor_XenaStaging,
+      narr:StyleObs_DeclarativeDecisionOpener,
+      narr:StyleObs_PlainLanguageAssertion,
+      narr:StyleObs_SelfReferentialMetaVoice,
+      narr:StyleMetrics_ReviewEnrollmentProbe .
+} ;
+
+# Extracted entities (named graph)
+INSERT DATA {
+  GRAPH narr:Tx_20260705T002200Z {
+
+    # ── Sample ──────────────────────────────────────────────────
+    narr:Sample_ReviewEnrollmentProbe a narr:Sample ;
+      dct:title "Review enrollment probe" ;
+      narr:inputLength 219 .
+
+    # ── Actor ───────────────────────────────────────────────────
+    # PII redacted: email address suppressed per verbatim policy
+    narr:Actor_XenaStaging a narr:Actor ;
+      skos:prefLabel "xena (staging reviewer)" ;
+      skos:note "Staging reviewer enrolled via YAML frontmatter in the probe memory. Email redacted per PII policy." .
+
+    # ── Claim ───────────────────────────────────────────────────
+    narr:Claim_E2ESuiteReviewerEnrollment a narr:Claim ;
+      narr:aboutNode narr:QualityReviewGates ;
+      narr:hasConvictionLevel narr:Conviction_Stake ;
+      narr:supports narr:QualityReviewGates ;
+      dct:source narr:Sample_ReviewEnrollmentProbe ;
+      skos:note "The e2e suite asserts that saving a memory automatically enrolls its creator as a reviewer. This probe memory exists solely to carry that assertion for test verification." ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_ReviewEnrollmentProbe ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start 87 ; oa:end 163
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "the e2e suite asserts that saving a memory enrolls its creator as a reviewer" ;
+          oa:prefix "iew enrollment probe\n\nDecision: " ;
+          oa:suffix ". This probe memory exists only "
+        ]
+      ] .
+
+    # ── Style Observations ──────────────────────────────────────
+
+    # 1. Declarative "Decision:" opener — authoritative label framing
+    narr:StyleObs_DeclarativeDecisionOpener a narr:StyleObservation ;
+      skos:broader narr:ToneAuthoritative ;
+      dct:source narr:Sample_ReviewEnrollmentProbe ;
+      skos:note "Opens the body with a bare noun label 'Decision:' — a terse, authoritative framing device that signals a resolved assertion rather than a discussion." ;
+      rdf:value true ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_ReviewEnrollmentProbe ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start 77 ; oa:end 86
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "Decision:" ;
+          oa:prefix "---\n\n# Review enrollment probe\n\n" ;
+          oa:suffix " the e2e suite asserts that savi"
+        ]
+      ] .
+
+    # 2. Plain-language active-voice assertion
+    narr:StyleObs_PlainLanguageAssertion a narr:StyleObservation ;
+      skos:broader narr:PlainLanguage ;
+      dct:source narr:Sample_ReviewEnrollmentProbe ;
+      skos:note "Both sentences use plain, active-voice constructions with no hedging. Technical terms ('e2e suite', 'enrolls') are used without definition, assuming reader familiarity." ;
+      rdf:value true ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_ReviewEnrollmentProbe ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start 87 ; oa:end 164
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "the e2e suite asserts that saving a memory enrolls its creator as a reviewer." ;
+          oa:prefix "iew enrollment probe\n\nDecision: " ;
+          oa:suffix " This probe memory exists only t"
+        ]
+      ] .
+
+    # 3. Self-referential meta-voice (probe declares its own purpose)
+    narr:StyleObs_SelfReferentialMetaVoice a narr:StyleObservation ;
+      skos:broader narr:ToneDirectPersonal ;
+      dct:source narr:Sample_ReviewEnrollmentProbe ;
+      skos:note "The second sentence is explicitly self-referential: the document describes its own existence and purpose ('This probe memory exists only to carry that assertion'), a meta-voice pattern uncommon in operational documents." ;
+      rdf:value true ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_ReviewEnrollmentProbe ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start 165 ; oa:end 219
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "This probe memory exists only to carry that assertion." ;
+          oa:prefix "olls its creator as a reviewer. " ;
+          oa:suffix ""
+        ]
+      ] .
+
+    # ── Style Metrics ───────────────────────────────────────────
+    narr:StyleMetrics_ReviewEnrollmentProbe a narr:StyleMetrics ;
+      skos:broader narr:StyleMetrics ;
+      dct:source narr:Sample_ReviewEnrollmentProbe ;
+      narr:AverageSentenceLength 14 ;
+      narr:ActiveVoiceRatio "1.0"^^xsd:decimal ;
+      narr:JargonDensity "0.07"^^xsd:decimal ;
+      skos:note "Two-sentence body. Both sentences active voice. Minimal jargon: 'e2e suite' is the only domain-specific term. Register is terse and functional." .
+
+  }
+}
