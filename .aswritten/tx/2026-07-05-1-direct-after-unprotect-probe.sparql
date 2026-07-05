@@ -1,0 +1,165 @@
+PREFIX narr: <https://aswritten.ai/narrative#>
+PREFIX rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX prov: <http://www.w3.org/ns/prov#>
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+PREFIX dct:  <http://purl.org/dc/terms/>
+PREFIX xsd:  <http://www.w3.org/2001/XMLSchema#>
+PREFIX oa:   <http://www.w3.org/ns/oa#>
+
+# Transaction provenance (default graph)
+INSERT DATA {
+  narr:Tx_20260705T103918Z a prov:Activity ;
+    prov:generatedAtTime "2026-07-05T10:39:18Z"^^xsd:dateTime ;
+    prov:wasAssociatedWith "aswritten.ai" ;
+    prov:wasAttributedTo "n8n.aswritten.ai" ;
+    narr:originPath ".aswritten/memories/2026-07-05-1-direct-after-unprotect-probe.md" ;
+    narr:originRef "e2e-protected" ;
+    dct:title "Rollback Drill Decision: Atlas Rehearsals" ;
+    prov:generated
+      narr:Sample_AtlasRollbackDrill_20260702,
+      narr:Actor_QuintonFairweather_CTO,
+      narr:Narrative_AtlasRollbackRehearsalCadence,
+      narr:Claim_MonthlyRollbackCadence,
+      narr:Claim_RollbackOwnershipQuinton,
+      narr:Obs_RollbackAphorism,
+      narr:StyleObs_AphoristicAssertion,
+      narr:StyleObs_BoldDecisionFormatting,
+      narr:StyleObs_FirstPersonDirectQuote,
+      narr:StyleMetrics_AtlasRollbackDrill .
+} ;
+
+# Extracted entities (named graph)
+INSERT DATA {
+  GRAPH narr:Tx_20260705T103918Z {
+
+    # ── Sample ──────────────────────────────────────────────────
+    narr:Sample_AtlasRollbackDrill_20260702 a narr:Sample ;
+      dct:title "Rollback Drill Decision: Atlas Rehearsals" ;
+      dct:created "2026-07-02"^^xsd:date ;
+      narr:inputLength 392 .
+
+    # ── Actor ───────────────────────────────────────────────────
+    narr:Actor_QuintonFairweather_CTO a narr:Actor ;
+      skos:prefLabel "Quinton Fairweather" ;
+      skos:note "CTO; decision-maker for Atlas rollback rehearsal cadence policy (2026-07-02)." .
+
+    # ── Narrative ───────────────────────────────────────────────
+    narr:Narrative_AtlasRollbackRehearsalCadence a narr:Narrative ;
+      narr:theme "Unrehearsed rollbacks are not real rollbacks — rehearsal is a prerequisite for operational readiness" ;
+      skos:broader narr:IncidentResponse ;
+      skos:note "Quinton Fairweather mandates monthly Atlas rollback rehearsals on the grounds that a rollback capability that has not been drilled does not actually exist as a reliable recovery option." ;
+      dct:source narr:Sample_AtlasRollbackDrill_20260702 .
+
+    # ── Claims ──────────────────────────────────────────────────
+    narr:Claim_MonthlyRollbackCadence a narr:Claim ;
+      narr:aboutNode narr:OperatingCadence ;
+      narr:hasConvictionLevel narr:Conviction_Boulder ;
+      narr:supports narr:Narrative_AtlasRollbackRehearsalCadence ;
+      dct:source narr:Sample_AtlasRollbackDrill_20260702 ;
+      skos:note "Atlas rollback rehearsals are to run monthly, as decided by Quinton Fairweather on 2026-07-02." .
+
+    narr:Claim_RollbackOwnershipQuinton a narr:Claim ;
+      narr:aboutNode narr:Actor_QuintonFairweather_CTO ;
+      narr:hasConvictionLevel narr:Conviction_Boulder ;
+      narr:supports narr:Narrative_AtlasRollbackRehearsalCadence ;
+      dct:source narr:Sample_AtlasRollbackDrill_20260702 ;
+      skos:note "Quinton Fairweather (CTO) is the named owner of the Atlas rollback rehearsal programme." .
+
+    # ── Observation (key quote) ──────────────────────────────────
+    narr:Obs_RollbackAphorism a narr:Observation ;
+      skos:broader narr:IncidentResponse ;
+      dct:source narr:Sample_AtlasRollbackDrill_20260702 ;
+      skos:note "Quinton's aphoristic framing of rehearsal as a prerequisite for rollback validity." ;
+      oa:hasSelector [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_AtlasRollbackDrill_20260702 ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start 222 ;
+          oa:end 293
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "A rollback\nwe have not rehearsed is a rollback we do not actually have." ;
+          oa:prefix "arsals run monthly from now on. " ;
+          oa:suffix "\"\n\nKey decisions:\n- **Cadence**:"
+        ]
+      ] .
+
+    # ── Style Observations ───────────────────────────────────────
+
+    # 1. Aphoristic / antithesis construction
+    narr:StyleObs_AphoristicAssertion a narr:StyleObservation ;
+      skos:broader narr:Antithesis ;
+      dct:source narr:Sample_AtlasRollbackDrill_20260702 ;
+      skos:note "Quinton uses a chiastic antithesis — 'a rollback we have not rehearsed is a rollback we do not actually have' — to make the policy feel logically self-evident." ;
+      rdf:value true ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_AtlasRollbackDrill_20260702 ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start 222 ;
+          oa:end 293
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "A rollback\nwe have not rehearsed is a rollback we do not actually have." ;
+          oa:prefix "arsals run monthly from now on. " ;
+          oa:suffix "\"\n\nKey decisions:\n- **Cadence**:"
+        ]
+      ] .
+
+    # 2. Bold markdown for decision labels
+    narr:StyleObs_BoldDecisionFormatting a narr:StyleObservation ;
+      skos:broader narr:PunctuationTypography ;
+      dct:source narr:Sample_AtlasRollbackDrill_20260702 ;
+      skos:note "Decision items use bold markdown labels (**Cadence**, **Owner**) to signal structured, scannable decision records — an institutional documentation convention." ;
+      rdf:value true ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_AtlasRollbackDrill_20260702 ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start 313 ; oa:end 359
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "**Cadence**: monthly Atlas rollback rehearsals" ;
+          oa:prefix "tually have.\"\n\nKey decisions:\n- " ;
+          oa:suffix "\n- **Owner**: Quinton Fairweathe"
+        ]
+      ] .
+
+    # 3. Direct first-person quote attribution
+    narr:StyleObs_FirstPersonDirectQuote a narr:StyleObservation ;
+      skos:broader narr:ToneDirectPersonal ;
+      dct:source narr:Sample_AtlasRollbackDrill_20260702 ;
+      skos:note "The document embeds a direct first-person quote attributed to Quinton, lending authority and immediacy to the policy decision rather than paraphrasing it in third person." ;
+      rdf:value true ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_AtlasRollbackDrill_20260702 ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start 171 ; oa:end 221
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "Atlas rollback rehearsals run monthly from now on." ;
+          oa:prefix "on Fairweather (CTO)\n\nQuinton: \"" ;
+          oa:suffix " A rollback\nwe have not rehearse"
+        ]
+      ] .
+
+    # ── Style Metrics ────────────────────────────────────────────
+    narr:StyleMetrics_AtlasRollbackDrill a narr:StyleMetrics ;
+      skos:broader narr:StyleMetrics ;
+      dct:source narr:Sample_AtlasRollbackDrill_20260702 ;
+      narr:AverageSentenceLength 12 ;
+      narr:ActiveVoiceRatio "0.85"^^xsd:decimal ;
+      narr:JargonDensity "0.10"^^xsd:decimal ;
+      skos:note "Short, declarative register. High active voice. Low jargon — 'Atlas' and 'rollback' are the only domain-specific terms. Structured decision record format with embedded direct quote." .
+
+  }
+}
