@@ -1,0 +1,237 @@
+PREFIX narr: <https://aswritten.ai/narrative#>
+PREFIX rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX prov: <http://www.w3.org/ns/prov#>
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+PREFIX dct:  <http://purl.org/dc/terms/>
+PREFIX xsd:  <http://www.w3.org/2001/XMLSchema#>
+PREFIX oa:   <http://www.w3.org/ns/oa#>
+
+# Transaction provenance (default graph)
+INSERT DATA {
+  narr:Tx_20260705T144005Z a prov:Activity ;
+    prov:generatedAtTime "2026-07-05T14:40:05Z"^^xsd:dateTime ;
+    prov:wasAssociatedWith "aswritten.ai" ;
+    prov:wasAttributedTo "n8n.aswritten.ai" ;
+    narr:originPath ".aswritten/memories/2026-07-05-1-trunk-based-under-ten.md" ;
+    narr:originRef "react-demo-20260705" ;
+    dct:title "Trunk-based development supersedes PR-per-feature for teams under ten" ;
+    prov:generated
+      narr:Sample_XenaTrunkBasedDev_20260705,
+      narr:Actor_Xena,
+      narr:Narrative_TrunkBasedDevSmallTeams,
+      narr:Claim_TrunkBasedOverPRFlow_SmallTeams,
+      narr:Claim_PRFlowReviewBottleneck,
+      narr:Claim_CompensatingControls_PairingPostMerge,
+      narr:Claim_FeatureFlagsReplacesBranches,
+      narr:Claim_RegulatedClientsKeepPRFlow,
+      narr:Obs_XenaQuote_DefaultRecommendation,
+      narr:Obs_ReviewBottleneckCost,
+      narr:Obs_RegulatedCarveout,
+      narr:StyleObs_DirectFirstPersonVoice,
+      narr:StyleObs_CostBenefitJargon,
+      narr:StyleObs_ExplicitCarveoutRhetoric,
+      narr:StyleMetrics_XenaTrunkBasedDev_20260705 .
+} ;
+
+# Extracted entities (named graph)
+INSERT DATA {
+  GRAPH narr:Tx_20260705T144005Z {
+
+    # ── Sample ──────────────────────────────────────────────────
+    narr:Sample_XenaTrunkBasedDev_20260705 a narr:Sample ;
+      dct:title "Trunk-based development supersedes PR-per-feature for teams under ten" ;
+      dct:created "2026-07-05"^^xsd:date ;
+      narr:inputLength 1434 .
+
+    # ── Actor ───────────────────────────────────────────────────
+    narr:Actor_Xena a narr:Actor ;
+      skos:prefLabel "Xena" ;
+      skos:note "Engineering advisor; source of branching strategy recommendation captured in this working session (2026-07-05). Contact: xena+staging@aswritten.ai." .
+
+    # ── Primary Narrative ────────────────────────────────────────
+    narr:Narrative_TrunkBasedDevSmallTeams a narr:Narrative ;
+      narr:theme "Trunk-based development with feature flags is the preferred branching model for teams under ten engineers" ;
+      skos:broader narr:ProcessPolicyUpdates ;
+      skos:note "Xena changed her default branching recommendation on 2026-07-05: trunk-based development with feature flags supersedes PR-per-feature flow for sub-ten-engineer teams. The PR-per-feature flow is retained only for regulated clients where audit trails are non-negotiable." ;
+      dct:source narr:Sample_XenaTrunkBasedDev_20260705 .
+
+    # ── Claims ──────────────────────────────────────────────────
+
+    # Claim 1: Trunk-based over PR-flow for small teams (the changed recommendation)
+    narr:Claim_TrunkBasedOverPRFlow_SmallTeams a narr:Claim ;
+      narr:aboutNode narr:Narrative_TrunkBasedDevSmallTeams ;
+      narr:hasConvictionLevel narr:Conviction_Boulder ;
+      narr:supports narr:ProcessPolicyUpdates ;
+      skos:note "For teams under ten engineers, trunk-based development with feature flags is now Xena's default recommendation, superseding the PR-per-feature branch flow she previously taught." ;
+      dct:source narr:Sample_XenaTrunkBasedDev_20260705 .
+
+    # Claim 2: PR-flow review gate is the constraint at under-ten scale
+    narr:Claim_PRFlowReviewBottleneck a narr:Claim ;
+      narr:aboutNode narr:CoreWorkflows ;
+      narr:hasConvictionLevel narr:Conviction_Stake ;
+      narr:supports narr:Claim_TrunkBasedOverPRFlow_SmallTeams ;
+      skos:note "At under-ten scale, the PR-per-feature review gate becomes the constraint: work queues on reviewer availability, and context-switching between open branches costs more than the defects the gate catches." ;
+      dct:source narr:Sample_XenaTrunkBasedDev_20260705 .
+
+    # Claim 3: Pairing + post-merge review are compensating controls
+    narr:Claim_CompensatingControls_PairingPostMerge a narr:Claim ;
+      narr:aboutNode narr:QualityReviewGates ;
+      narr:hasConvictionLevel narr:Conviction_Stake ;
+      narr:supports narr:Claim_TrunkBasedOverPRFlow_SmallTeams ;
+      skos:note "Pairing (review at write time) plus post-merge review are the compensating controls in the trunk-based model — defects still get caught without blocking flow." ;
+      dct:source narr:Sample_XenaTrunkBasedDev_20260705 .
+
+    # Claim 4: Feature flags carry incomplete-work isolation
+    narr:Claim_FeatureFlagsReplacesBranches a narr:Claim ;
+      narr:aboutNode narr:CoreWorkflows ;
+      narr:hasConvictionLevel narr:Conviction_Stake ;
+      narr:supports narr:Claim_TrunkBasedOverPRFlow_SmallTeams ;
+      skos:note "Feature flags carry the incomplete-work isolation that branches used to provide in the PR-per-feature model." ;
+      dct:source narr:Sample_XenaTrunkBasedDev_20260705 .
+
+    # Claim 5: Regulated clients keep PR flow regardless of team size
+    narr:Claim_RegulatedClientsKeepPRFlow a narr:Claim ;
+      narr:aboutNode narr:RegulatoryContext ;
+      narr:hasConvictionLevel narr:Conviction_Foundation ;
+      narr:challenges narr:Claim_TrunkBasedOverPRFlow_SmallTeams ;
+      skos:note "Regulated clients keep the PR-per-feature flow regardless of team size. The audit trail a PR provides is non-negotiable in those engagements; no throughput argument overrides it." ;
+      dct:source narr:Sample_XenaTrunkBasedDev_20260705 .
+
+    # ── Observations ────────────────────────────────────────────
+
+    # Observation 1: Xena's verbatim quote — the recommendation change
+    narr:Obs_XenaQuote_DefaultRecommendation a narr:Observation ;
+      skos:broader narr:FrictionFailure ;
+      skos:note "Xena's direct statement of her changed default recommendation, including the explicit supersession of PR-per-feature and the regulated-client carve-out." ;
+      dct:source narr:Sample_XenaTrunkBasedDev_20260705 ;
+      oa:hasSelector [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_XenaTrunkBasedDev_20260705 ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start 249 ; oa:end 431
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "I'm changing my default recommendation. For teams under ten engineers, I now recommend trunk-based development with feature flags over the PR-per-feature branch flow I used to teach." ;
+          oa:prefix "ndation today. In her words:\n\n> " ;
+          oa:suffix " The review bottleneck costs mor"
+        ]
+      ] .
+
+    # Observation 2: Review bottleneck cost reasoning
+    narr:Obs_ReviewBottleneckCost a narr:Observation ;
+      skos:broader narr:DesignTradeoffs ;
+      skos:note "Xena's cost-side reasoning: the PR review gate becomes the constraint at under-ten scale due to reviewer availability queuing and context-switching costs." ;
+      dct:source narr:Sample_XenaTrunkBasedDev_20260705 ;
+      oa:hasSelector [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_XenaTrunkBasedDev_20260705 ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start 689 ; oa:end 878
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "the PR-per-feature flow's review gate becomes the constraint — work queues on reviewer availability, and context-switching between open branches costs more than the defects the gate catches" ;
+          oa:prefix " cost side: at under-ten scale, " ;
+          oa:suffix ". The compensating controls in t"
+        ]
+      ] .
+
+    # Observation 3: Regulated-client carve-out
+    narr:Obs_RegulatedCarveout a narr:Observation ;
+      skos:broader narr:RegulatoryContext ;
+      skos:note "Explicit scope boundary: regulated clients retain PR-per-feature flow regardless of team size; audit trail is non-negotiable." ;
+      dct:source narr:Sample_XenaTrunkBasedDev_20260705 ;
+      oa:hasSelector [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_XenaTrunkBasedDev_20260705 ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start 1262 ; oa:end 1432
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "regulated clients keep the PR flow regardless of team size — the audit trail a PR provides is non-negotiable in those engagements, and no throughput argument overrides it" ;
+          oa:prefix "It is explicitly NOT universal: " ;
+          oa:suffix ".\n"
+        ]
+      ] .
+
+    # ── Style Observations ───────────────────────────────────────
+
+    # Style Obs 1: Direct first-person voice (Xena's blockquote)
+    narr:StyleObs_DirectFirstPersonVoice a narr:StyleObservation ;
+      skos:broader narr:ToneDirectPersonal ;
+      dct:source narr:Sample_XenaTrunkBasedDev_20260705 ;
+      rdf:value true ;
+      skos:note "First-person direct declaration used to signal a deliberate position change; 'I'm changing my default recommendation' opens the blockquote with maximum agency." ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_XenaTrunkBasedDev_20260705 ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start 249 ; oa:end 288
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "I'm changing my default recommendation." ;
+          oa:prefix "ndation today. In her words:\n\n> " ;
+          oa:suffix " For teams under ten engineers, "
+        ]
+      ] .
+
+    # Style Obs 2: Cost-benefit jargon density (engineering register)
+    narr:StyleObs_CostBenefitJargon a narr:StyleObservation ;
+      skos:broader narr:JargonPolicy ;
+      dct:source narr:Sample_XenaTrunkBasedDev_20260705 ;
+      rdf:value true ;
+      skos:note "High engineering-process jargon density: 'review gate', 'constraint', 'context-switching', 'compensating controls', 'feature flags', 'post-merge review'. Register is practitioner-to-practitioner." ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_XenaTrunkBasedDev_20260705 ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start 715 ; oa:end 833
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "review gate becomes the constraint — work queues on reviewer availability, and context-switching between open branches" ;
+          oa:prefix "cale, the PR-per-feature flow's " ;
+          oa:suffix " costs more than the defects the"
+        ]
+      ] .
+
+    # Style Obs 3: Explicit carve-out rhetoric ("explicitly NOT universal")
+    narr:StyleObs_ExplicitCarveoutRhetoric a narr:StyleObservation ;
+      skos:broader narr:ToneAuthoritative ;
+      dct:source narr:Sample_XenaTrunkBasedDev_20260705 ;
+      rdf:value true ;
+      skos:note "Authoritative scoping rhetoric: 'explicitly NOT universal' and 'non-negotiable' used to pre-empt over-application of the recommendation. Capitalization of NOT signals deliberate emphasis." ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_XenaTrunkBasedDev_20260705 ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start 1230 ; oa:end 1260
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "It is explicitly NOT universal" ;
+          oa:prefix "e branching for all team sizes. " ;
+          oa:suffix ": regulated clients keep the PR "
+        ]
+      ] .
+
+    # ── Style Metrics ────────────────────────────────────────────
+    narr:StyleMetrics_XenaTrunkBasedDev_20260705 a narr:StyleMetrics ;
+      skos:broader narr:StyleMetrics ;
+      dct:source narr:Sample_XenaTrunkBasedDev_20260705 ;
+      narr:AverageSentenceLength 22 ;
+      narr:ActiveVoiceRatio "0.82"^^xsd:decimal ;
+      narr:JargonDensity "0.18"^^xsd:decimal ;
+      skos:note "Practitioner register; moderately long sentences in the reasoning section; high active voice ratio driven by Xena's direct first-person blockquote; elevated jargon density reflecting engineering-process vocabulary (feature flags, review gate, compensating controls, post-merge review)." .
+
+  }
+}
