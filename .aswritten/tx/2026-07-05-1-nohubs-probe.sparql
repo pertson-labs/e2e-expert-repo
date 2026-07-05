@@ -1,0 +1,116 @@
+PREFIX narr: <https://aswritten.ai/narrative#>
+PREFIX rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX prov: <http://www.w3.org/ns/prov#>
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+PREFIX dct:  <http://purl.org/dc/terms/>
+PREFIX xsd:  <http://www.w3.org/2001/XMLSchema#>
+PREFIX oa:   <http://www.w3.org/ns/oa#>
+
+# Transaction provenance (default graph)
+INSERT DATA {
+  narr:Tx_20260705T013207Z a prov:Activity ;
+    prov:generatedAtTime "2026-07-05T01:32:07Z"^^xsd:dateTime ;
+    prov:wasAssociatedWith "aswritten.ai" ;
+    prov:wasAttributedTo "n8n.aswritten.ai" ;
+    narr:originPath ".aswritten/memories/2026-07-05-1-nohubs-probe.md" ;
+    narr:originRef "t275-nohubs-1783214989" ;
+    dct:title "No-hubs probe extraction" ;
+    prov:generated
+      narr:Sample_NoHubsProbe,
+      narr:Narrative_NoHubsProbeNoOp,
+      narr:StyleObs_TechnicalRegister,
+      narr:StyleObs_DeclarativeTone,
+      narr:StyleObs_JargonNoOp,
+      narr:StyleMetrics_NoHubsProbe .
+} ;
+
+# Extracted entities (named graph)
+INSERT DATA {
+  GRAPH narr:Tx_20260705T013207Z {
+
+    # ── Sample ──────────────────────────────────────────────────
+    narr:Sample_NoHubsProbe a narr:Sample ;
+      dct:title "No-hubs probe" ;
+      narr:inputLength 200 ;
+      dct:description "Minimal note verifying the regen no-op path (#397)." .
+
+    # ── Narrative ───────────────────────────────────────────────
+    narr:Narrative_NoHubsProbeNoOp a narr:Narrative ;
+      dct:source narr:Sample_NoHubsProbe ;
+      narr:theme "Regen no-op path verification" ;
+      skos:broader narr:Process ;
+      skos:note "This memory is an intentional minimal probe asserting that a document touching zero narrative hubs causes the regen pipeline to skip cleanly (issue #397)." .
+
+    # ── Style Observations ──────────────────────────────────────
+
+    # 1. Technical register / jargon: "regen no-op path"
+    narr:StyleObs_TechnicalRegister a narr:StyleObservation ;
+      skos:broader narr:JargonPolicy ;
+      dct:source narr:Sample_NoHubsProbe ;
+      skos:note "Uses pipeline-internal jargon ('regen', 'no-op path') without definition, signalling an internal/engineering audience." ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_NoHubsProbe ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start 82 ; oa:end 119
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "verifying the regen no-op path (#397)" ;
+          oa:prefix "# No-hubs probe\n\nA minimal note " ;
+          oa:suffix ": this memory should touch zero "
+        ]
+      ] .
+
+    # 2. Declarative / imperative tone: "should touch zero hubs … should skip cleanly"
+    narr:StyleObs_DeclarativeTone a narr:StyleObservation ;
+      skos:broader narr:ToneAuthoritative ;
+      dct:source narr:Sample_NoHubsProbe ;
+      skos:note "Prescriptive modal constructions ('should touch', 'should skip') assert expected system behaviour as specification rather than observation." ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_NoHubsProbe ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start 121 ; oa:end 199
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "this memory should touch zero hubs and the regen execution should skip cleanly" ;
+          oa:prefix "ng the regen no-op path (#397): " ;
+          oa:suffix "."
+        ]
+      ] .
+
+    # 3. Short punchy cadence / minimal prose
+    narr:StyleObs_JargonNoOp a narr:StyleObservation ;
+      skos:broader narr:ShortPunchyCadence ;
+      dct:source narr:Sample_NoHubsProbe ;
+      skos:note "Single-sentence body with no elaboration; maximally terse, consistent with a test fixture or stub document rather than narrative prose." ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_NoHubsProbe ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start 67 ; oa:end 119
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "A minimal note verifying the regen no-op path (#397)" ;
+          oa:prefix "ritten.ai\n---\n\n# No-hubs probe\n\n" ;
+          oa:suffix ": this memory should touch zero "
+        ]
+      ] .
+
+    # ── Style Metrics ───────────────────────────────────────────
+    narr:StyleMetrics_NoHubsProbe a narr:StyleMetrics ;
+      skos:broader narr:StyleMetrics ;
+      dct:source narr:Sample_NoHubsProbe ;
+      narr:AverageSentenceLength 25 ;
+      narr:ActiveVoiceRatio "1.0"^^xsd:decimal ;
+      narr:JargonDensity "0.12"^^xsd:decimal ;
+      skos:note "Single-sentence body; fully active voice; moderate jargon density driven by 'regen', 'no-op', and '#397' in a 25-word sentence." .
+
+  }
+}
