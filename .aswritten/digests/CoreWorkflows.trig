@@ -1,0 +1,22 @@
+@prefix narr: <https://aswritten.ai/narrative#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+GRAPH <https://aswritten.ai/narrative#Digest_CoreWorkflows> {
+  <https://aswritten.ai/narrative#Digest_CoreWorkflows> a narr:Digest ;
+    narr:digestOf <https://aswritten.ai/narrative#CoreWorkflows> ;
+    narr:childCount "4"^^xsd:integer ;
+    narr:generatedFrom "b8c8a45c8243d05d5696dadcbef606ea4fcb0e73" ;
+    narr:narration """This hub covers the pipeline's slug-generation workflow when a submitted memory carries no explicit `id` field, traced across two test phases dated 20260705. The overarching requirement — stated in [the pipeline slug-generation narrative](narr:https://aswritten.ai/narrative#Narrative_PipelineSlugGeneration) — is that the pipeline must always produce a valid slug from memory content, using either an LLM id-gen call or a deterministic slugify fallback, and commit the file successfully. Phase 2 sharpens this into two concrete constraints: [the pipeline must not crash on a missing id](narr:https://aswritten.ai/narrative#Claim_NoCrashOnMissingId) (a `##` heading, no id field), and [a valid slug must still be produced via the fallback chain](narr:https://aswritten.ai/narrative#Claim_SlugFallbackBehavior), reproducing the prod failure pattern. Phase 3 adds a distinct exclusion rule: [the H1 heading title must not be used as the slug source](narr:https://aswritten.ai/narrative#Claim_TitleHeadingNotUsedAsSlug) — LLM id-gen or slugify fallback must be used regardless of heading content. The children are all dated to the same day; no later revision or supersession is recorded.""" ;
+    narr:covers <https://aswritten.ai/narrative#Claim_NoCrashOnMissingId> ;
+    narr:covers <https://aswritten.ai/narrative#Claim_SlugFallbackBehavior> ;
+    narr:covers <https://aswritten.ai/narrative#Claim_TitleHeadingNotUsedAsSlug> ;
+    narr:covers <https://aswritten.ai/narrative#Narrative_PipelineSlugGeneration> ;
+    narr:keyPhrase [ narr:text "Pipeline must not crash when submitted memory has no id field" ; narr:phraseSource <https://aswritten.ai/narrative#Claim_NoCrashOnMissingId> ] ;
+    narr:keyPhrase [ narr:text "either via the LLM id-gen call or the deterministic slugify fallback" ; narr:phraseSource <https://aswritten.ai/narrative#Claim_SlugFallbackBehavior> ] ;
+    narr:keyPhrase [ narr:text "Reproduces missing-id failure pattern from prod" ; narr:phraseSource <https://aswritten.ai/narrative#Narrative_PipelineSlugGeneration> ] ;
+    narr:keyPhrase [ narr:text "the H1 title must NOT be used as the slug source" ; narr:phraseSource <https://aswritten.ai/narrative#Narrative_PipelineSlugGeneration> ] ;
+    narr:keyPhrase [ narr:text "Pipeline must derive a memory slug when no explicit id field is provided" ; narr:phraseSource <https://aswritten.ai/narrative#Narrative_PipelineSlugGeneration> ] ;
+    narr:variation [ narr:text "Two slug-derivation strategies (LLM id-gen vs. deterministic slugify fallback) are both sanctioned, but the children do not specify priority or ordering between them — which fires first, or under what condition one supersedes the other, is unresolved here." ; narr:over <https://aswritten.ai/narrative#Claim_SlugFallbackBehavior> ; narr:over <https://aswritten.ai/narrative#Narrative_PipelineSlugGeneration> ] ;
+    narr:variation [ narr:text "The heading-exclusion rule (Phase 3) is a structurally distinct constraint from crash-safety and fallback production (Phase 2) — it rules out a specific wrong input rather than specifying a recovery path, and could be read as a separate pipeline guard rather than part of the fallback chain." ; narr:over <https://aswritten.ai/narrative#Claim_TitleHeadingNotUsedAsSlug> ; narr:over <https://aswritten.ai/narrative#Narrative_PipelineSlugGeneration> ] ;
+    narr:writer "anthropic/claude-sonnet-4.6" .
+}
