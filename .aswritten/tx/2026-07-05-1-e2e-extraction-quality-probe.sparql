@@ -1,0 +1,172 @@
+PREFIX narr: <https://aswritten.ai/narrative#>
+PREFIX rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX prov: <http://www.w3.org/ns/prov#>
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+PREFIX dct:  <http://purl.org/dc/terms/>
+PREFIX xsd:  <http://www.w3.org/2001/XMLSchema#>
+PREFIX oa:   <http://www.w3.org/ns/oa#>
+
+INSERT DATA {
+  narr:Tx_20260705T103242Z a prov:Activity ;
+    prov:generatedAtTime "2026-07-05T10:32:42Z"^^xsd:dateTime ;
+    prov:wasAssociatedWith "aswritten.ai" ;
+    prov:wasAttributedTo "n8n.aswritten.ai" ;
+    narr:originPath ".aswritten/memories/2026-07-05-1-e2e-extraction-quality-probe.md" ;
+    narr:originRef "e2e-extract-quality-1783247395740" ;
+    dct:title "E2E extraction-quality probe: owned-intelligence positioning" ;
+    prov:generated
+      narr:Sample_E2EPositioningProbe_20260625,
+      narr:Narrative_OwnedVsRentedIntelligence,
+      narr:Claim_SubstrateIsCommodity,
+      narr:Claim_PerspectiveIsAsset,
+      narr:Obs_OwnedNotRented,
+      narr:Obs_SubstrateAsset,
+      narr:StyleObs_Antithesis_OwnedRented,
+      narr:StyleObs_Antithesis_SubstrateAsset,
+      narr:StyleObs_ShortPunchyCadence,
+      narr:StyleMetrics_E2EPositioningProbe .
+} ;
+
+INSERT DATA {
+  GRAPH narr:Tx_20260705T103242Z {
+
+    # ── Sample ──────────────────────────────────────────────────
+    narr:Sample_E2EPositioningProbe_20260625 a narr:Sample ;
+      dct:title "Extraction-quality probe (e2e) — 2026-06-25" ;
+      dct:created "2026-06-25"^^xsd:date ;
+      narr:inputLength 466 ;
+      skos:note "E2E positioning note used by the navigation/provenance regression guard. Restates the individually-owned-intelligence thesis." .
+
+    # ── Narrative ────────────────────────────────────────────────
+    narr:Narrative_OwnedVsRentedIntelligence a narr:Narrative ;
+      dct:source narr:Sample_E2EPositioningProbe_20260625 ;
+      narr:theme "Owned intelligence vs. rented intelligence" ;
+      skos:broader narr:PositioningThesis ;
+      skos:note "The individually-owned-intelligence thesis: owning your perspective (the asset) is categorically different from renting access to a substrate (a commodity). The perspective is what you keep; the substrate is interchangeable." .
+
+    # ── Claims ───────────────────────────────────────────────────
+    narr:Claim_SubstrateIsCommodity a narr:Claim ;
+      narr:aboutNode narr:PositioningThesis ;
+      narr:hasConvictionLevel narr:Conviction_Boulder ;
+      narr:supports narr:Narrative_OwnedVsRentedIntelligence ;
+      dct:source narr:Sample_E2EPositioningProbe_20260625 ;
+      skos:note "The substrate (AI model, platform, infrastructure) is a commodity — interchangeable and not a durable competitive asset." .
+
+    narr:Claim_PerspectiveIsAsset a narr:Claim ;
+      narr:aboutNode narr:PositioningThesis ;
+      narr:hasConvictionLevel narr:Conviction_Boulder ;
+      narr:supports narr:Narrative_OwnedVsRentedIntelligence ;
+      dct:source narr:Sample_E2EPositioningProbe_20260625 ;
+      skos:note "The perspective — individually owned intelligence, the accumulated point of view — is the durable asset that persists across substrate changes." .
+
+    # ── Observations ─────────────────────────────────────────────
+    narr:Obs_OwnedNotRented a narr:Observation ;
+      skos:broader narr:PositioningThesis ;
+      dct:source narr:Sample_E2EPositioningProbe_20260625 ;
+      skos:note "Core aphorism distinguishing owned from rented intelligence." ;
+      oa:hasSelector [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_E2EPositioningProbe_20260625 ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start 212 ; oa:end 270
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "Owned intelligence is not the same as rented intelligence." ;
+          oa:prefix "provenance regression guard.\n\n> " ;
+          oa:suffix "\n\n> The substrate is a commodity"
+        ]
+      ] .
+
+    narr:Obs_SubstrateAsset a narr:Observation ;
+      skos:broader narr:PositioningThesis ;
+      dct:source narr:Sample_E2EPositioningProbe_20260625 ;
+      skos:note "Aphorism distinguishing the commodity substrate from the durable perspective asset." ;
+      oa:hasSelector [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_E2EPositioningProbe_20260625 ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start 274 ; oa:end 342
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "The substrate is a commodity; the perspective is the asset you keep." ;
+          oa:prefix "same as rented intelligence.\n\n> " ;
+          oa:suffix "\n\nThis restates the individually"
+        ]
+      ] .
+
+    # ── Style Observations ───────────────────────────────────────
+    narr:StyleObs_Antithesis_OwnedRented a narr:StyleObservation ;
+      skos:broader narr:Antithesis ;
+      dct:source narr:Sample_E2EPositioningProbe_20260625 ;
+      rdf:value true ;
+      skos:note "Antithesis: 'owned intelligence' vs. 'rented intelligence' — two parallel noun phrases set in direct opposition to sharpen the positioning claim." ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_E2EPositioningProbe_20260625 ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start 212 ; oa:end 270
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "Owned intelligence is not the same as rented intelligence." ;
+          oa:prefix "provenance regression guard.\n\n> " ;
+          oa:suffix "\n\n> The substrate is a commodity"
+        ]
+      ] .
+
+    narr:StyleObs_Antithesis_SubstrateAsset a narr:StyleObservation ;
+      skos:broader narr:Antithesis ;
+      dct:source narr:Sample_E2EPositioningProbe_20260625 ;
+      rdf:value true ;
+      skos:note "Antithesis with semicolon pivot: 'substrate is a commodity' vs. 'perspective is the asset you keep' — the semicolon performs the rhetorical turn." ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_E2EPositioningProbe_20260625 ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start 274 ; oa:end 342
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "The substrate is a commodity; the perspective is the asset you keep." ;
+          oa:prefix "same as rented intelligence.\n\n> " ;
+          oa:suffix "\n\nThis restates the individually"
+        ]
+      ] .
+
+    narr:StyleObs_ShortPunchyCadence a narr:StyleObservation ;
+      skos:broader narr:ShortPunchyCadence ;
+      dct:source narr:Sample_E2EPositioningProbe_20260625 ;
+      rdf:value true ;
+      skos:note "Both aphorisms are single-sentence, sub-15-word declarations delivered as blockquotes — short punchy cadence reinforcing the authoritative register." ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_E2EPositioningProbe_20260625 ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start 212 ; oa:end 270
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "Owned intelligence is not the same as rented intelligence." ;
+          oa:prefix "provenance regression guard.\n\n> " ;
+          oa:suffix "\n\n> The substrate is a commodity"
+        ]
+      ] .
+
+    # ── Style Metrics ────────────────────────────────────────────
+    narr:StyleMetrics_E2EPositioningProbe a narr:StyleMetrics ;
+      skos:broader narr:StyleMetrics ;
+      dct:source narr:Sample_E2EPositioningProbe_20260625 ;
+      narr:AverageSentenceLength 12 ;
+      narr:ActiveVoiceRatio "0.85"^^xsd:decimal ;
+      narr:JargonDensity "0.10"^^xsd:decimal ;
+      skos:note "Short aphoristic register; high active-voice ratio; low jargon density. Two blockquote sentences dominate the rhetorical weight of the document." .
+
+  }
+}
