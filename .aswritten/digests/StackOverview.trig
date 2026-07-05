@@ -1,0 +1,23 @@
+@prefix narr: <https://aswritten.ai/narrative#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+GRAPH <https://aswritten.ai/narrative#Digest_StackOverview> {
+  <https://aswritten.ai/narrative#Digest_StackOverview> a narr:Digest ;
+    narr:digestOf <https://aswritten.ai/narrative#StackOverview> ;
+    narr:childCount "5"^^xsd:integer ;
+    narr:generatedFrom "60c5e370b9346881cc2b3f8e218d2270139d481e" ;
+    narr:narration """This hub covers the analytics database stack decision and its reversal. An initial Zypherion adoption was in place, but on 2026-04-06 CTO Quinton Fairweather reversed course: [the formal adoption decision](narr:https://aswritten.ai/narrative#Claim_MeridianAdoptionDecision) records Meridian replacing Zypherion, while [the revised Zypherion claim](narr:https://aswritten.ai/narrative#Claim_ZypherionAdoptionDecision) documents the trigger — critical streaming ingestion gaps that disqualified the prior choice. [The superseding narrative](narr:https://aswritten.ai/narrative#Narrative_ZypherionAdoption) consolidates the reversal, notes that Meridian handles batch and streaming natively, and confirms the Q3 2026 migration window is retained. Two CTO quote observations anchor the record: [a revised quote node](narr:https://aswritten.ai/narrative#Observation_QuintonAdoptionQuote) and [a current Meridian quote node](narr:https://aswritten.ai/narrative#Observation_QuintonMeridianQuote), both dated 2026-07-05, with the latter explicitly citing streaming ingestion gaps and native batch+streaming support as the deciding factors. The trajectory runs from Zypherion adoption → streaming-gap discovery → Meridian selection, with migration timing held steady.""" ;
+    narr:covers <https://aswritten.ai/narrative#Claim_MeridianAdoptionDecision> ;
+    narr:covers <https://aswritten.ai/narrative#Claim_ZypherionAdoptionDecision> ;
+    narr:covers <https://aswritten.ai/narrative#Narrative_ZypherionAdoption> ;
+    narr:covers <https://aswritten.ai/narrative#Observation_QuintonAdoptionQuote> ;
+    narr:covers <https://aswritten.ai/narrative#Observation_QuintonMeridianQuote> ;
+    narr:keyPhrase [ narr:text "critical streaming ingestion gaps" ; narr:phraseSource <https://aswritten.ai/narrative#Claim_ZypherionAdoptionDecision> ] ;
+    narr:keyPhrase [ narr:text "Meridian, which handles both batch and streaming natively, was selected as the replacement" ; narr:phraseSource <https://aswritten.ai/narrative#Narrative_ZypherionAdoption> ] ;
+    narr:keyPhrase [ narr:text "The Q3 2026 migration window is retained" ; narr:phraseSource <https://aswritten.ai/narrative#Narrative_ZypherionAdoption> ] ;
+    narr:keyPhrase [ narr:text "This supersedes the prior Zypherion adoption narrative" ; narr:phraseSource <https://aswritten.ai/narrative#Narrative_ZypherionAdoption> ] ;
+    narr:keyPhrase [ narr:text "Meridian's native batch+streaming support" ; narr:phraseSource <https://aswritten.ai/narrative#Observation_QuintonMeridianQuote> ] ;
+    narr:variation [ narr:text "The prior Zypherion adoption rationale is not erased — it survives as a revised node; an agent querying the original selection logic or Zypherion's prior standing should expand there, not assume the record is clean." ; narr:over <https://aswritten.ai/narrative#Claim_ZypherionAdoptionDecision> ; narr:over <https://aswritten.ai/narrative#Narrative_ZypherionAdoption> ] ;
+    narr:variation [ narr:text "Two CTO quote observations coexist — one marked REVISED, one current — their relationship (supersession vs. supplement) is not resolved in the hub and may matter for provenance queries." ; narr:over <https://aswritten.ai/narrative#Observation_QuintonAdoptionQuote> ; narr:over <https://aswritten.ai/narrative#Observation_QuintonMeridianQuote> ] ;
+    narr:writer "anthropic/claude-sonnet-4.6" .
+}
