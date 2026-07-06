@@ -1,0 +1,135 @@
+PREFIX narr: <https://aswritten.ai/narrative#>
+PREFIX rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX prov: <http://www.w3.org/ns/prov#>
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+PREFIX dct:  <http://purl.org/dc/terms/>
+PREFIX xsd:  <http://www.w3.org/2001/XMLSchema#>
+PREFIX oa:   <http://www.w3.org/ns/oa#>
+
+INSERT DATA {
+  narr:Tx_20260706T113428Z a prov:Activity ;
+    prov:generatedAtTime "2026-07-06T11:34:28Z"^^xsd:dateTime ;
+    prov:wasAssociatedWith "aswritten.ai" ;
+    prov:wasAttributedTo "n8n.aswritten.ai" ;
+    narr:originPath ".aswritten/memories/2026-07-06-1-review-enrollment-probe.md" ;
+    narr:originRef "e2e-review-enrollment-1783337544297" ;
+    dct:title "Review enrollment probe extraction" ;
+    prov:generated
+      narr:Sample_ReviewEnrollmentProbe,
+      narr:Claim_ReviewEnrollmentBehavior,
+      narr:Actor_Xena_Staging,
+      narr:StyleObs_TechnicalRegister,
+      narr:StyleObs_DeclarativeOpening,
+      narr:StyleObs_MetaDocumentSelfReference,
+      narr:StyleMetrics_ReviewEnrollmentProbe .
+} ;
+
+INSERT DATA {
+  GRAPH narr:Tx_20260706T113428Z {
+
+    # ── Sample ──────────────────────────────────────────────────
+    narr:Sample_ReviewEnrollmentProbe a narr:Sample ;
+      dct:title "Review enrollment probe" ;
+      narr:inputLength 219 ;
+      dct:description "Short e2e probe memory asserting that saving a memory enrolls its creator as a reviewer." .
+
+    # ── Actor ───────────────────────────────────────────────────
+    narr:Actor_Xena_Staging a narr:Actor ;
+      skos:prefLabel "xena+staging" ;
+      skos:note "Reviewer listed in YAML frontmatter of the probe memory (xena+staging@aswritten.ai). Staging environment actor used by the e2e review enrollment suite." .
+
+    # ── Claim ───────────────────────────────────────────────────
+    narr:Claim_ReviewEnrollmentBehavior a narr:Claim ;
+      narr:aboutNode narr:Process ;
+      narr:hasConvictionLevel narr:Conviction_Stake ;
+      narr:supports narr:QualityReviewGates ;
+      dct:source narr:Sample_ReviewEnrollmentProbe ;
+      skos:note "The e2e suite asserts that saving a memory automatically enrolls its creator as a reviewer. This probe memory exists solely to carry that assertion for test verification." ;
+      oa:hasSelector [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_ReviewEnrollmentProbe ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start 87 ; oa:end 163
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "the e2e suite asserts that saving a memory enrolls its creator as a reviewer" ;
+          oa:prefix "iew enrollment probe\n\nDecision: " ;
+          oa:suffix ". This probe memory exists only "
+        ]
+      ] .
+
+    # ── Style Observations ──────────────────────────────────────
+
+    narr:StyleObs_TechnicalRegister a narr:StyleObservation ;
+      skos:broader narr:RegisterFormality ;
+      dct:source narr:Sample_ReviewEnrollmentProbe ;
+      skos:note "Terse technical register: uses 'e2e suite', 'probe memory', 'assertion' — vocabulary drawn from software QA and test engineering without definition or softening." ;
+      rdf:value true ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_ReviewEnrollmentProbe ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start 87 ; oa:end 163
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "the e2e suite asserts that saving a memory enrolls its creator as a reviewer" ;
+          oa:prefix "iew enrollment probe\n\nDecision: " ;
+          oa:suffix ". This probe memory exists only "
+        ]
+      ] .
+
+    narr:StyleObs_DeclarativeOpening a narr:StyleObservation ;
+      skos:broader narr:ToneAuthoritative ;
+      dct:source narr:Sample_ReviewEnrollmentProbe ;
+      skos:note "Opens with a bare label 'Decision:' — a declarative, label-first structure that signals institutional authority and finality without hedging." ;
+      rdf:value true ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_ReviewEnrollmentProbe ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start 77 ; oa:end 86
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "Decision:" ;
+          oa:prefix "---\n\n# Review enrollment probe\n\n" ;
+          oa:suffix " the e2e suite asserts that savi"
+        ]
+      ] .
+
+    narr:StyleObs_MetaDocumentSelfReference a narr:StyleObservation ;
+      skos:broader narr:ToneDirectPersonal ;
+      dct:source narr:Sample_ReviewEnrollmentProbe ;
+      skos:note "The document explicitly names its own purpose ('This probe memory exists only to carry that assertion'), a self-referential meta-commentary style common in test fixtures and scaffolding documents." ;
+      rdf:value true ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_ReviewEnrollmentProbe ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start 165 ; oa:end 218
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "This probe memory exists only to carry that assertion" ;
+          oa:prefix "olls its creator as a reviewer. " ;
+          oa:suffix "."
+        ]
+      ] .
+
+    # ── Style Metrics ───────────────────────────────────────────
+    narr:StyleMetrics_ReviewEnrollmentProbe a narr:StyleMetrics ;
+      skos:broader narr:StyleMetrics ;
+      dct:source narr:Sample_ReviewEnrollmentProbe ;
+      narr:AverageSentenceLength 15 ;
+      narr:ActiveVoiceRatio "0.90"^^xsd:decimal ;
+      narr:JargonDensity "0.15"^^xsd:decimal ;
+      skos:note "Very short document (2 sentences + title). Predominantly active voice. Moderate jargon density from QA/test engineering vocabulary (e2e, probe, assertion, reviewer)." .
+
+  }
+}
