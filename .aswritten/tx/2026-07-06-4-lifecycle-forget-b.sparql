@@ -1,0 +1,43 @@
+PREFIX narr: <https://aswritten.ai/narrative#>
+PREFIX rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX prov: <http://www.w3.org/ns/prov#>
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+PREFIX dct:  <http://purl.org/dc/terms/>
+PREFIX xsd:  <http://www.w3.org/2001/XMLSchema#>
+PREFIX oa:   <http://www.w3.org/ns/oa#>
+
+# ── Retraction transaction (default graph) ──────────────────────────────────
+INSERT DATA {
+  narr:Tx_20260706T111443Z a prov:Activity ;
+    prov:generatedAtTime "2026-07-06T11:14:43Z"^^xsd:dateTime ;
+    prov:wasAssociatedWith "aswritten.ai" ;
+    prov:wasAttributedTo "n8n.aswritten.ai" ;
+    narr:originPath ".aswritten/memories/2026-07-06-4-lifecycle-forget-b.md" ;
+    narr:originRef "e2e-lifecycle-1783335786281" ;
+    dct:title "RETRACTION: Forget database decision — Zypherion, Meridian, Quinton Fairweather, analytics pipeline migration" ;
+    prov:generated narr:Tx_20260706T111443Z .
+} ;
+
+# ── Remove all entities from the original Zypherion decision transaction ────
+DELETE WHERE {
+  GRAPH narr:Tx_20260706T111443Z {
+    ?s ?p ?o .
+  }
+} ;
+
+# ── Remove all entities from the revised Meridian decision transaction ───────
+DELETE WHERE {
+  GRAPH narr:Tx_20260706T111443Z {
+    ?s ?p ?o .
+  }
+} ;
+
+# ── Remove the original transaction node from the default graph ─────────────
+DELETE WHERE {
+  narr:Tx_20260706T111443Z ?p ?o .
+} ;
+
+# ── Remove the revised transaction node from the default graph ───────────────
+DELETE WHERE {
+  narr:Tx_20260706T111443Z ?p ?o .
+}
