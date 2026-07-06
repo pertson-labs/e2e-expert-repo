@@ -1,0 +1,158 @@
+PREFIX narr: <https://aswritten.ai/narrative#>
+PREFIX rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX prov: <http://www.w3.org/ns/prov#>
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+PREFIX dct:  <http://purl.org/dc/terms/>
+PREFIX xsd:  <http://www.w3.org/2001/XMLSchema#>
+PREFIX oa:   <http://www.w3.org/ns/oa#>
+
+# Transaction provenance (default graph)
+INSERT DATA {
+  narr:Tx_20260706T223530Z a prov:Activity ;
+    prov:generatedAtTime "2026-07-06T22:35:30Z"^^xsd:dateTime ;
+    prov:wasAssociatedWith "aswritten.ai" ;
+    prov:wasAttributedTo "n8n.aswritten.ai" ;
+    narr:originPath ".aswritten/memories/2026-07-06-2-forget-lifecycle-bystander.md" ;
+    narr:originRef "e2e-forget-1783376964962" ;
+    dct:title "Onboarding Process: Pallasine Checklist" ;
+    prov:generated
+      narr:Sample_PallasineOnboarding_20260706,
+      narr:Actor_WrenDuskfield,
+      narr:Narrative_PallasineOnboardingChecklist,
+      narr:Claim_PallasineChecklistReplacedWiki,
+      narr:Observation_PallasineChecklistQuote,
+      narr:StyleObs_DirectQuoteSpeakerAttribution,
+      narr:StyleObs_PallasineProperNoun,
+      narr:StyleObs_PastTenseReplacement,
+      narr:StyleMetrics_PallasineOnboarding .
+} ;
+
+# Extracted entities (named graph)
+INSERT DATA {
+  GRAPH narr:Tx_20260706T223530Z {
+
+    # ── Sample ──────────────────────────────────────────────────
+    narr:Sample_PallasineOnboarding_20260706 a narr:Sample ;
+      dct:title "Onboarding Process: Pallasine Checklist" ;
+      dct:created "2026-07-06"^^xsd:date ;
+      narr:inputLength "328"^^xsd:integer ;
+      dct:description "Discussion note capturing Wren Duskfield's description of the Pallasine onboarding checklist, covering first-week steps and its replacement of the old wiki page." .
+
+    # ── Actor ───────────────────────────────────────────────────
+    narr:Actor_WrenDuskfield a narr:Actor ;
+      skos:prefLabel "Wren Duskfield" ;
+      skos:note "Ops Lead; participant in the Pallasine onboarding checklist discussion on 2026-07-06." .
+
+    # ── Narrative ───────────────────────────────────────────────
+    narr:Narrative_PallasineOnboardingChecklist a narr:Narrative ;
+      narr:theme "Standardised new-hire onboarding via the Pallasine checklist" ;
+      skos:broader narr:CoreWorkflows ;
+      skos:note "Every new hire completes the Pallasine checklist in their first week (accounts, pairing rotation, shadow shift). The checklist replaced the old wiki page last quarter, marking a shift from informal documentation to a structured onboarding artefact." ;
+      dct:source narr:Sample_PallasineOnboarding_20260706 .
+
+    # ── Claim ───────────────────────────────────────────────────
+    narr:Claim_PallasineChecklistReplacedWiki a narr:Claim ;
+      narr:aboutNode narr:Narrative_PallasineOnboardingChecklist ;
+      narr:hasConvictionLevel narr:Conviction_Stake ;
+      narr:supports narr:CoreWorkflows ;
+      skos:note "The Pallasine checklist replaced the old wiki page last quarter as the canonical onboarding reference." ;
+      dct:source narr:Sample_PallasineOnboarding_20260706 .
+
+    # ── Observation (verbatim quote) ────────────────────────────
+    narr:Observation_PallasineChecklistQuote a narr:Observation ;
+      skos:broader narr:CoreWorkflows ;
+      dct:source narr:Sample_PallasineOnboarding_20260706 ;
+      skos:note "Wren Duskfield's direct statement describing the Pallasine checklist scope and its replacement of the old wiki page." ;
+      oa:hasSelector [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_PallasineOnboarding_20260706 ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start "166"^^xsd:integer ;
+          oa:end "327"^^xsd:integer
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "Every new hire completes the Pallasine checklist in their first\nweek: accounts, pairing rotation, and a shadow shift. It replaced the\nold wiki page last quarter." ;
+          oa:prefix "en Duskfield (Ops Lead)\n\nWren: \"" ;
+          oa:suffix "\""
+        ]
+      ] .
+
+    # ── Style Observation 1: Direct-quote speaker attribution ───
+    narr:StyleObs_DirectQuoteSpeakerAttribution a narr:StyleObservation ;
+      skos:broader narr:ToneDirectPersonal ;
+      dct:source narr:Sample_PallasineOnboarding_20260706 ;
+      rdf:value true ;
+      skos:note "Named speaker (Wren:) introduces a direct first-person quote, grounding the claim in individual authority rather than institutional voice." ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_PallasineOnboarding_20260706 ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start "159"^^xsd:integer ;
+          oa:end "180"^^xsd:integer
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "Wren: \"Every new hire" ;
+          oa:prefix "s:** Wren Duskfield (Ops Lead)\n\n" ;
+          oa:suffix " completes the Pallasine checkli"
+        ]
+      ] .
+
+    # ── Style Observation 2: Proper-noun brand name (Pallasine) ─
+    narr:StyleObs_PallasineProperNoun a narr:StyleObservation ;
+      skos:broader narr:BrandNameStylization ;
+      dct:source narr:Sample_PallasineOnboarding_20260706 ;
+      rdf:value true ;
+      skos:note "'Pallasine' is used as a proper-noun artefact name (capitalised, no article), functioning as an internal brand name for the checklist." ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_PallasineOnboarding_20260706 ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start "50"^^xsd:integer ;
+          oa:end "91"^^xsd:integer
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "# Onboarding Process: Pallasine Checklist" ;
+          oa:prefix " xena+staging@aswritten.ai\n---\n\n" ;
+          oa:suffix "\n\n**Date:** 2026-07-06\n**Partici"
+        ]
+      ] .
+
+    # ── Style Observation 3: Past-tense replacement signal ──────
+    narr:StyleObs_PastTenseReplacement a narr:StyleObservation ;
+      skos:broader narr:TenseAspect ;
+      dct:source narr:Sample_PallasineOnboarding_20260706 ;
+      rdf:value true ;
+      skos:note "Simple past tense ('It replaced') signals a completed organisational transition, framing the checklist as the settled successor to the wiki page." ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_PallasineOnboarding_20260706 ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start "284"^^xsd:integer ;
+          oa:end "327"^^xsd:integer
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "It replaced the\nold wiki page last quarter." ;
+          oa:prefix "g rotation, and a shadow shift. " ;
+          oa:suffix "\""
+        ]
+      ] .
+
+    # ── Style Metrics ────────────────────────────────────────────
+    narr:StyleMetrics_PallasineOnboarding a narr:StyleMetrics ;
+      skos:broader narr:StyleMetrics ;
+      dct:source narr:Sample_PallasineOnboarding_20260706 ;
+      narr:AverageSentenceLength "18"^^xsd:integer ;
+      narr:ActiveVoiceRatio "0.90"^^xsd:decimal ;
+      narr:JargonDensity "0.08"^^xsd:decimal ;
+      skos:note "Conversational register with short declarative sentences. Predominantly active voice. Low jargon density — domain-specific terms limited to 'Pallasine checklist', 'pairing rotation', 'shadow shift'." .
+
+  }
+}
