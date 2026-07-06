@@ -1,0 +1,146 @@
+PREFIX narr: <https://aswritten.ai/narrative#>
+PREFIX rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX prov: <http://www.w3.org/ns/prov#>
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+PREFIX dct:  <http://purl.org/dc/terms/>
+PREFIX xsd:  <http://www.w3.org/2001/XMLSchema#>
+PREFIX oa:   <http://www.w3.org/ns/oa#>
+
+# ── Retraction transaction (default graph) ──────────────────────────────────
+INSERT DATA {
+  narr:Tx_20260706T223802Z a prov:Activity ;
+    prov:generatedAtTime "2026-07-06T22:38:02Z"^^xsd:dateTime ;
+    prov:wasAssociatedWith "aswritten.ai" ;
+    prov:wasAttributedTo "xena+staging@aswritten.ai" ;
+    narr:originPath ".aswritten/memories/2026-07-06-3-forget-lifecycle-retract-target.md" ;
+    narr:originRef "e2e-forget-1783376964962" ;
+    dct:title "Retraction: Kestrelwood spectrograph calibration" ;
+    prov:generated narr:Tx_20260706T223802Z .
+} ;
+
+# ── Remove all triples in the original transaction named graph ───────────────
+DELETE WHERE {
+  GRAPH narr:Tx_20260706T223802Z {
+    ?s ?p ?o .
+  }
+} ;
+
+# ── Remove the original transaction node from the default graph ──────────────
+DELETE WHERE {
+  narr:Tx_20260706T223802Z ?p ?o .
+} ;
+
+# ── Remove Actor_QuillAshgrove from any graph it appears in ──────────────────
+DELETE WHERE {
+  GRAPH ?g {
+    narr:Actor_QuillAshgrove ?p ?o .
+  }
+} ;
+
+DELETE WHERE {
+  GRAPH ?g {
+    ?s ?p narr:Actor_QuillAshgrove .
+  }
+} ;
+
+# ── Remove Sample from any graph ─────────────────────────────────────────────
+DELETE WHERE {
+  GRAPH ?g {
+    narr:Sample_KestrelwoodCalibration_20260706 ?p ?o .
+  }
+} ;
+
+DELETE WHERE {
+  GRAPH ?g {
+    ?s ?p narr:Sample_KestrelwoodCalibration_20260706 .
+  }
+} ;
+
+# ── Remove Narrative from any graph ──────────────────────────────────────────
+DELETE WHERE {
+  GRAPH ?g {
+    narr:Narrative_KestrelwoodSpectrographCalibration ?p ?o .
+  }
+} ;
+
+DELETE WHERE {
+  GRAPH ?g {
+    ?s ?p narr:Narrative_KestrelwoodSpectrographCalibration .
+  }
+} ;
+
+# ── Remove Claim from any graph ───────────────────────────────────────────────
+DELETE WHERE {
+  GRAPH ?g {
+    narr:Claim_KestrelwoodCalibration88MHz ?p ?o .
+  }
+} ;
+
+DELETE WHERE {
+  GRAPH ?g {
+    ?s ?p narr:Claim_KestrelwoodCalibration88MHz .
+  }
+} ;
+
+# ── Remove Observation from any graph ────────────────────────────────────────
+DELETE WHERE {
+  GRAPH ?g {
+    narr:Observation_CalibrationQuote ?p ?o .
+  }
+} ;
+
+DELETE WHERE {
+  GRAPH ?g {
+    ?s ?p narr:Observation_CalibrationQuote .
+  }
+} ;
+
+# ── Remove StyleMetrics from any graph ───────────────────────────────────────
+DELETE WHERE {
+  GRAPH ?g {
+    narr:StyleMetrics_KestrelwoodCalibration ?p ?o .
+  }
+} ;
+
+DELETE WHERE {
+  GRAPH ?g {
+    ?s ?p narr:StyleMetrics_KestrelwoodCalibration .
+  }
+} ;
+
+# ── Remove StyleObservations from any graph ───────────────────────────────────
+DELETE WHERE {
+  GRAPH ?g {
+    narr:StyleObs_FirstPersonSpeaker ?p ?o .
+  }
+} ;
+
+DELETE WHERE {
+  GRAPH ?g {
+    ?s ?p narr:StyleObs_FirstPersonSpeaker .
+  }
+} ;
+
+DELETE WHERE {
+  GRAPH ?g {
+    narr:StyleObs_TechnicalRegister ?p ?o .
+  }
+} ;
+
+DELETE WHERE {
+  GRAPH ?g {
+    ?s ?p narr:StyleObs_TechnicalRegister .
+  }
+} ;
+
+DELETE WHERE {
+  GRAPH ?g {
+    narr:StyleObs_BulletKeyDecisions ?p ?o .
+  }
+} ;
+
+DELETE WHERE {
+  GRAPH ?g {
+    ?s ?p narr:StyleObs_BulletKeyDecisions .
+  }
+}
