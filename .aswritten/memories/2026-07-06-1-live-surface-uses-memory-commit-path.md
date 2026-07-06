@@ -1,0 +1,1 @@
+Live-surface verification note, 2026-07-06. The team decided that the live extraction surface submits runs through the v1 memory-commit path as an interim consumer, and swaps to the multipass ingest spine when task-337 lands. The checkpoint contract from task-146.08 is the interface; placement and model choice stay invisible to the frontend.
