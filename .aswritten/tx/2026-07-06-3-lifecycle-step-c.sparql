@@ -1,0 +1,202 @@
+PREFIX narr: <https://aswritten.ai/narrative#>
+PREFIX rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX prov: <http://www.w3.org/ns/prov#>
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+PREFIX dct:  <http://purl.org/dc/terms/>
+PREFIX xsd:  <http://www.w3.org/2001/XMLSchema#>
+PREFIX oa:   <http://www.w3.org/ns/oa#>
+
+# Transaction provenance (default graph)
+INSERT DATA {
+  narr:Tx_20260706T225710Z a prov:Activity ;
+    prov:generatedAtTime "2026-07-06T22:57:10Z"^^xsd:dateTime ;
+    prov:wasAssociatedWith "aswritten.ai" ;
+    prov:wasAttributedTo "n8n.aswritten.ai" ;
+    narr:originPath ".aswritten/memories/2026-07-06-3-lifecycle-step-c.md" ;
+    narr:originRef "e2e-lifecycle-1783377907512" ;
+    dct:title "Team Process: Velociraptor Retro Format" ;
+    prov:generated
+      narr:Sample_VelociraptorRetro_20260406,
+      narr:Actor_SageBrightwell,
+      narr:Narrative_VelociraptorRetroAdoption,
+      narr:Claim_VelociraptorRetroFormatAdopted,
+      narr:Claim_VelociraptorRetroThreeSections,
+      narr:Claim_VelociraptorReplacedStartStopContinue,
+      narr:Obs_VelociraptorAdoptionQuote,
+      narr:Obs_ThreeSectionsQuote,
+      narr:Obs_ReplacedFormatQuote,
+      narr:StyleObs_DirectSpeechAttribution,
+      narr:StyleObs_RuleOfThreeStructure,
+      narr:StyleObs_ImperativeProcedural,
+      narr:StyleMetrics_VelociraptorRetro .
+} ;
+
+# Extracted entities (named graph)
+INSERT DATA {
+  GRAPH narr:Tx_20260706T225710Z {
+
+    # ── Sample ──────────────────────────────────────────────────
+    narr:Sample_VelociraptorRetro_20260406 a narr:Sample ;
+      dct:title "Team Process: Velociraptor Retro Format" ;
+      dct:created "2026-04-06"^^xsd:date ;
+      narr:inputLength "347"^^xsd:integer ;
+      dct:description "Discussion note from Sage Brightwell (Engineering Manager) announcing adoption of the Velociraptor retro format, replacing start-stop-continue." .
+
+    # ── Actor ───────────────────────────────────────────────────
+    narr:Actor_SageBrightwell a narr:Actor ;
+      skos:prefLabel "Sage Brightwell" ;
+      skos:note "Engineering Manager; announced adoption of Velociraptor retro format on 2026-04-06." .
+
+    # ── Narrative ───────────────────────────────────────────────
+    narr:Narrative_VelociraptorRetroAdoption a narr:Narrative ;
+      skos:broader narr:ProcessPolicyUpdates ;
+      narr:theme "Adopting the Velociraptor retro format (Sailed / Stalled / Capsized) to replace the start-stop-continue format" ;
+      skos:note "The team shifted its retrospective practice from the start-stop-continue format to the Velociraptor format, structured around three nautical-metaphor sections: Sailed, Stalled, and Capsized. The change was announced by Engineering Manager Sage Brightwell and took effect last sprint." ;
+      dct:source narr:Sample_VelociraptorRetro_20260406 .
+
+    # ── Claims ──────────────────────────────────────────────────
+    narr:Claim_VelociraptorRetroFormatAdopted a narr:Claim ;
+      narr:aboutNode narr:ProcessPolicyUpdates ;
+      narr:hasConvictionLevel narr:Conviction_Boulder ;
+      narr:supports narr:Narrative_VelociraptorRetroAdoption ;
+      dct:source narr:Sample_VelociraptorRetro_20260406 ;
+      skos:note "Sage Brightwell states the team is adopting the Velociraptor retro format." .
+
+    narr:Claim_VelociraptorRetroThreeSections a narr:Claim ;
+      narr:aboutNode narr:Narrative_VelociraptorRetroAdoption ;
+      narr:hasConvictionLevel narr:Conviction_Foundation ;
+      narr:supports narr:Narrative_VelociraptorRetroAdoption ;
+      dct:source narr:Sample_VelociraptorRetro_20260406 ;
+      skos:note "The Velociraptor retro format has exactly three sections: Sailed, Stalled, and Capsized." .
+
+    narr:Claim_VelociraptorReplacedStartStopContinue a narr:Claim ;
+      narr:aboutNode narr:Narrative_VelociraptorRetroAdoption ;
+      narr:hasConvictionLevel narr:Conviction_Boulder ;
+      narr:supports narr:Narrative_VelociraptorRetroAdoption ;
+      dct:source narr:Sample_VelociraptorRetro_20260406 ;
+      skos:note "The Velociraptor format replaced the old start-stop-continue format as of last sprint." .
+
+    # ── Observations ────────────────────────────────────────────
+    narr:Obs_VelociraptorAdoptionQuote a narr:Observation ;
+      skos:broader narr:ProcessPolicyUpdates ;
+      dct:source narr:Sample_VelociraptorRetro_20260406 ;
+      skos:note "Direct statement of format adoption by Sage Brightwell." ;
+      oa:hasSelector [
+        a oa:TextPositionSelector ;
+        oa:start "178"^^xsd:integer ;
+        oa:end "224"^^xsd:integer
+      ] ;
+      oa:hasSelector [
+        a oa:TextQuoteSelector ;
+        oa:exact "We are adopting the Velociraptor retro format." ;
+        oa:prefix "l (Engineering Manager)\n\nSage: \"" ;
+        oa:suffix "\nEach retro has three sections: "
+      ] .
+
+    narr:Obs_ThreeSectionsQuote a narr:Observation ;
+      skos:broader narr:ProcessPolicyUpdates ;
+      dct:source narr:Sample_VelociraptorRetro_20260406 ;
+      skos:note "Defines the three-section structure of the Velociraptor retro format." ;
+      oa:hasSelector [
+        a oa:TextPositionSelector ;
+        oa:start "225"^^xsd:integer ;
+        oa:end "286"^^xsd:integer
+      ] ;
+      oa:hasSelector [
+        a oa:TextQuoteSelector ;
+        oa:exact "Each retro has three sections: Sailed, Stalled, and Capsized." ;
+        oa:prefix " the Velociraptor retro format.\n" ;
+        oa:suffix "\nIt replaced our old start-stop-"
+      ] .
+
+    narr:Obs_ReplacedFormatQuote a narr:Observation ;
+      skos:broader narr:ProcessPolicyUpdates ;
+      dct:source narr:Sample_VelociraptorRetro_20260406 ;
+      skos:note "Confirms the Velociraptor format superseded start-stop-continue last sprint." ;
+      oa:hasSelector [
+        a oa:TextPositionSelector ;
+        oa:start "287"^^xsd:integer ;
+        oa:end "346"^^xsd:integer
+      ] ;
+      oa:hasSelector [
+        a oa:TextQuoteSelector ;
+        oa:exact "It replaced our old start-stop-continue format last sprint." ;
+        oa:prefix " Sailed, Stalled, and Capsized.\n" ;
+        oa:suffix "\""
+      ] .
+
+    # ── Style Observations ──────────────────────────────────────
+    narr:StyleObs_DirectSpeechAttribution a narr:StyleObservation ;
+      skos:broader narr:SpeakerIdiolects ;
+      dct:source narr:Sample_VelociraptorRetro_20260406 ;
+      rdf:value true ;
+      skos:note "First-person direct speech attributed to named speaker (Sage:) — idiolect attribution pattern used for process announcements." ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_VelociraptorRetro_20260406 ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start "171"^^xsd:integer ;
+          oa:end "224"^^xsd:integer
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "Sage: \"We are adopting the Velociraptor retro format." ;
+          oa:prefix "ightwell (Engineering Manager)\n\n" ;
+          oa:suffix "\nEach retro has three sections: "
+        ]
+      ] .
+
+    narr:StyleObs_RuleOfThreeStructure a narr:StyleObservation ;
+      skos:broader narr:RuleOfThree ;
+      dct:source narr:Sample_VelociraptorRetro_20260406 ;
+      rdf:value true ;
+      skos:note "Three-part enumeration (Sailed, Stalled, Capsized) follows the rule-of-three cadence pattern, reinforcing memorability of the format structure." ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_VelociraptorRetro_20260406 ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start "256"^^xsd:integer ;
+          oa:end "285"^^xsd:integer
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "Sailed, Stalled, and Capsized" ;
+          oa:prefix "\nEach retro has three sections: " ;
+          oa:suffix ".\nIt replaced our old start-stop"
+        ]
+      ] .
+
+    narr:StyleObs_ImperativeProcedural a narr:StyleObservation ;
+      skos:broader narr:ToneAuthoritative ;
+      dct:source narr:Sample_VelociraptorRetro_20260406 ;
+      rdf:value true ;
+      skos:note "Declarative present-tense framing ('We are adopting', 'It replaced') signals authoritative procedural announcement rather than proposal or discussion." ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_VelociraptorRetro_20260406 ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start "178"^^xsd:integer ;
+          oa:end "224"^^xsd:integer
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "We are adopting the Velociraptor retro format." ;
+          oa:prefix "l (Engineering Manager)\n\nSage: \"" ;
+          oa:suffix "\nEach retro has three sections: "
+        ]
+      ] .
+
+    # ── Style Metrics ───────────────────────────────────────────
+    narr:StyleMetrics_VelociraptorRetro a narr:StyleMetrics ;
+      skos:broader narr:StyleMetrics ;
+      dct:source narr:Sample_VelociraptorRetro_20260406 ;
+      narr:AverageSentenceLength "12"^^xsd:integer ;
+      narr:ActiveVoiceRatio "0.95"^^xsd:decimal ;
+      narr:JargonDensity "0.10"^^xsd:decimal ;
+      skos:note "Very short declarative sentences; near-total active voice; low jargon density (only 'retro', 'sprint', and format names as domain terms). Informal spoken register from direct-speech attribution." .
+
+  }
+}
