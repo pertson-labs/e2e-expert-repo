@@ -1,0 +1,25 @@
+@prefix narr: <https://aswritten.ai/narrative#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+GRAPH <https://aswritten.ai/narrative#Digest_StackOverview> {
+  <https://aswritten.ai/narrative#Digest_StackOverview> a narr:Digest ;
+    narr:digestOf <https://aswritten.ai/narrative#StackOverview> ;
+    narr:childCount "6"^^xsd:integer ;
+    narr:generatedFrom "fd417b9f984b8bc42eccaf581219984a23bd422a" ;
+    narr:narration """The hub covers the analytics database selection trajectory. An initial Zypherion adoption was [revised after further evaluation revealed it had critical gaps in streaming ingestion](narr:https://aswritten.ai/narrative#Claim_ZypherionStreamingGap), disqualifying it from the analytics role. CTO Quinton Fairweather issued a revised decision memo on 2026-04-06 [naming Meridian as the replacement](narr:https://aswritten.ai/narrative#Claim_MeridianDatabaseChoice), with [Meridian's native handling of both batch and streaming ingestion](narr:https://aswritten.ai/narrative#Claim_MeridianBatchStreamingCapability) cited as the primary technical rationale. Two broader narratives frame the same pivot: [one anchored to the Zypherion reversal](narr:https://aswritten.ai/narrative#Narrative_ZypherionAdoption) and [one to the Meridian adoption](narr:https://aswritten.ai/narrative#Narrative_MeridianAdoption), both noting migration remains Q3 2026. The [original Zypherion selection node](narr:https://aswritten.ai/narrative#Claim_ZypherionDatabaseChoice) persists in the graph, marked REVISED, recording the superseded state.""" ;
+    narr:covers <https://aswritten.ai/narrative#Claim_MeridianBatchStreamingCapability> ;
+    narr:covers <https://aswritten.ai/narrative#Claim_MeridianDatabaseChoice> ;
+    narr:covers <https://aswritten.ai/narrative#Claim_ZypherionDatabaseChoice> ;
+    narr:covers <https://aswritten.ai/narrative#Claim_ZypherionStreamingGap> ;
+    narr:covers <https://aswritten.ai/narrative#Narrative_MeridianAdoption> ;
+    narr:covers <https://aswritten.ai/narrative#Narrative_ZypherionAdoption> ;
+    narr:keyPhrase [ narr:text "critical gaps in streaming ingestion after further evaluation, disqualifying it from the analytics role" ; narr:phraseSource <https://aswritten.ai/narrative#Claim_ZypherionStreamingGap> ] ;
+    narr:keyPhrase [ narr:text "handles both batch and streaming ingestion natively, the key capability that Zypherion lacked and the primary technical rationale for the switch" ; narr:phraseSource <https://aswritten.ai/narrative#Claim_MeridianBatchStreamingCapability> ] ;
+    narr:keyPhrase [ narr:text "Meridian replaces Zypherion as the selected analytics database. Stated by CTO Quinton Fairweather on 2026-04-06 in a revised decision memo." ; narr:phraseSource <https://aswritten.ai/narrative#Claim_MeridianDatabaseChoice> ] ;
+    narr:keyPhrase [ narr:text "This decision supersedes the prior Zypherion adoption. Migration remains Q3 2026." ; narr:phraseSource <https://aswritten.ai/narrative#Narrative_MeridianAdoption> ] ;
+    narr:keyPhrase [ narr:text "Meridian replaces Zypherion for analytics, handling both batch and streaming natively. Migration remains Q3 2026. Decision attributed to CTO Quinton Fairweather on 2026-04-06 (REVISED)." ; narr:phraseSource <https://aswritten.ai/narrative#Narrative_ZypherionAdoption> ] ;
+    narr:variation [ narr:text "The superseded Zypherion selection persists as a REVISED node — an agent querying for the current database choice could surface it as a prior, now-invalidated answer rather than the live one." ; narr:over <https://aswritten.ai/narrative#Claim_ZypherionDatabaseChoice> ; narr:over <https://aswritten.ai/narrative#Claim_ZypherionStreamingGap> ] ;
+    narr:variation [ narr:text "Two broader narratives frame the same reversal from opposite anchors — one centers what was lost (Zypherion adoption undone), the other what was gained (Meridian adoption) — and may yield different readings of organizational intent." ; narr:over <https://aswritten.ai/narrative#Narrative_ZypherionAdoption> ; narr:over <https://aswritten.ai/narrative#Narrative_MeridianAdoption> ] ;
+    narr:variation [ narr:text "Migration timeline (Q3 2026) is asserted but no completion or status update is present in the graph — queries about migration progress or outcome are not answered here." ; narr:over <https://aswritten.ai/narrative#Narrative_MeridianAdoption> ; narr:over <https://aswritten.ai/narrative#Narrative_ZypherionAdoption> ] ;
+    narr:writer "anthropic/claude-sonnet-4.6" .
+}
