@@ -1,0 +1,28 @@
+@prefix narr: <https://aswritten.ai/narrative#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+GRAPH <https://aswritten.ai/narrative#Digest_DataModelLifecycle> {
+  <https://aswritten.ai/narrative#Digest_DataModelLifecycle> a narr:Digest ;
+    narr:digestOf <https://aswritten.ai/narrative#DataModelLifecycle> ;
+    narr:childCount "7"^^xsd:integer ;
+    narr:generatedFrom "6c41ee437cbfe5f5602a3179d5081e461e91b6e9" ;
+    narr:narration """This hub covers the write-time rules governing how conclusions are formed, frozen, and attributed in the data model, all dated 20260707. The ratified core is [append-only freeze semantics](narr:https://aswritten.ai/narrative#Narrative_FrozenReferentSets): when a conclusion targets cross-cutting content, the resolution pass collapses intensional references into a concrete, frozen extensional IRI set at write time — later-arriving nodes are not retroactively covered and require a new conclusion. The [rationale for this freeze rule](narr:https://aswritten.ai/narrative#Claim_FreezeRuleRationale) names two pillars: append-only coverage integrity, and a guardrail against stored queries being re-evaluated by the read path, which would be the retired demotion engine returning through the referent side. Structurally adjacent is [target-vs-referent separation](narr:https://aswritten.ai/narrative#Claim_TargetVsReferentSeparation): a conclusion's graph-grain address is kept distinct from its typed referent bindings (extends / supersedes / contradicts), with folding identified as the source of read-time bleed warned about in the June 24 session. A separate thread concerns attribution: the [footing primitive](narr:https://aswritten.ai/narrative#Narrative_FootingPrimitive) (animator / author / principal) distinguishes model speech from human endorsement — flagged as needed cleanly in v2, with [the provenance gap](narr:https://aswritten.ai/narrative#Observation_FootingProvenanceGap) named by Scarlet. Finally, [in-message commentary](narr:https://aswritten.ai/narrative#Narrative_InMessageCommentaryFree) is carved out: structurally bound for free, resolution only required for graph-reaching references.""" ;
+    narr:covers <https://aswritten.ai/narrative#Claim_FreezeRuleRationale> ;
+    narr:covers <https://aswritten.ai/narrative#Claim_TargetVsReferentSeparation> ;
+    narr:covers <https://aswritten.ai/narrative#Narrative_FootingPrimitive> ;
+    narr:covers <https://aswritten.ai/narrative#Narrative_FrozenReferentSets> ;
+    narr:covers <https://aswritten.ai/narrative#Narrative_InMessageCommentaryFree> ;
+    narr:covers <https://aswritten.ai/narrative#Observation_FootingProvenanceGap> ;
+    narr:covers <https://aswritten.ai/narrative#Observation_FreezeVerbatim> ;
+    narr:keyPhrase [ narr:text "Resolution collapses intensional references into frozen extensional IRI sets at write time" ; narr:phraseSource <https://aswritten.ai/narrative#Narrative_FrozenReferentSets> ] ;
+    narr:keyPhrase [ narr:text "a conclusion covers exactly what it saw; later-arriving nodes require a new conclusion" ; narr:phraseSource <https://aswritten.ai/narrative#Narrative_FrozenReferentSets> ] ;
+    narr:keyPhrase [ narr:text "a stored query re-evaluated by the read path is machinery deciding what a conclusion covers as the graph moves; this is the retired demotion engine returning through the referent side" ; narr:phraseSource <https://aswritten.ai/narrative#Claim_FreezeRuleRationale> ] ;
+    narr:keyPhrase [ narr:text "the read-time bleed the June 24 session warned about, now designed out" ; narr:phraseSource <https://aswritten.ai/narrative#Claim_TargetVsReferentSeparation> ] ;
+    narr:keyPhrase [ narr:text "Footing primitive (animator / author / principal) distinguishes model speech from human endorsement" ; narr:phraseSource <https://aswritten.ai/narrative#Narrative_FootingPrimitive> ] ;
+    narr:keyPhrase [ narr:text "In-message commentary binds structurally for free — resolution is only needed for graph-reaching references" ; narr:phraseSource <https://aswritten.ai/narrative#Narrative_InMessageCommentaryFree> ] ;
+    narr:variation [ narr:text "The demotion-engine-returning danger is named twice via different routes — once as a rationale pillar for the freeze rule, once as the explicit prohibition on stored-query re-evaluation — suggesting the guardrail is load-bearing enough to warrant independent anchoring in both." ; narr:over <https://aswritten.ai/narrative#Claim_FreezeRuleRationale> ; narr:over <https://aswritten.ai/narrative#Narrative_FrozenReferentSets> ] ;
+    narr:variation [ narr:text "Footing is ratified in principle but explicitly flagged as 'needed cleanly in v2' — an open gap, not a closed design, meaning attribution provenance is not yet fully implemented in the model." ; narr:over <https://aswritten.ai/narrative#Narrative_FootingPrimitive> ; narr:over <https://aswritten.ai/narrative#Observation_FootingProvenanceGap> ] ;
+    narr:variation [ narr:text "In-message commentary is carved out as structurally free and never ambiguous — a deliberate asymmetry with graph-reaching references that could be missed by a reader treating all commentary resolution as uniform." ; narr:over <https://aswritten.ai/narrative#Narrative_InMessageCommentaryFree> ] ;
+    narr:variation [ narr:text "Scarlet's verbatim freeze-rule formulation is held as a distinct observation node rather than folded into the rationale claim — preserving the principal's own words separately from the Claude-proposed / Scarlet-ratified synthesis." ; narr:over <https://aswritten.ai/narrative#Observation_FreezeVerbatim> ; narr:over <https://aswritten.ai/narrative#Claim_FreezeRuleRationale> ] ;
+    narr:writer "anthropic/claude-sonnet-4.6" .
+}
