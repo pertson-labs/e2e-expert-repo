@@ -1,0 +1,182 @@
+PREFIX narr: <https://aswritten.ai/narrative#>
+PREFIX rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX prov: <http://www.w3.org/ns/prov#>
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+PREFIX dct:  <http://purl.org/dc/terms/>
+PREFIX xsd:  <http://www.w3.org/2001/XMLSchema#>
+PREFIX oa:   <http://www.w3.org/ns/oa#>
+
+# ── Transaction provenance (default graph) ───────────────────────────────────
+INSERT DATA {
+  narr:Tx_20260707T140555Z a prov:Activity ;
+    prov:generatedAtTime "2026-07-07T14:05:55Z"^^xsd:dateTime ;
+    prov:wasAssociatedWith "aswritten.ai" ;
+    prov:wasAttributedTo "n8n.aswritten.ai" ;
+    narr:originPath ".aswritten/memories/2026-07-07-2-sample-memory-phase2-derive-id-e2e.md" ;
+    narr:originRef "e2e-derive-id-1783432778927" ;
+    dct:title "Sample Memory Phase 2 — Derive Id E2E" ;
+    prov:generated
+      narr:Sample_SampleMemoryPhase2DeriveIdE2E,
+      narr:Claim_PipelineMustNotCrash,
+      narr:Claim_Phase2ReproducesProdFailure,
+      narr:StyleObs_Phase2ImperativeMustNotCrash,
+      narr:StyleObs_Phase2EmDashHeadingCadence,
+      narr:StyleObs_Phase2TechnicalJargonFailurePattern,
+      narr:StyleMetrics_SampleMemoryPhase2DeriveIdE2E .
+} ;
+
+# ── New Sample (Phase 2 test fixture) ────────────────────────────────────────
+INSERT DATA {
+  GRAPH narr:Tx_20260707T140555Z {
+    narr:Sample_SampleMemoryPhase2DeriveIdE2E a narr:Sample ;
+      dct:title "Sample Memory Phase 2 — Derive Id E2E" ;
+      narr:inputLength 219 ;
+      dct:description "Phase 2 E2E test fixture. Reproduces the missing-id failure pattern from prod: ## level heading, no id field. Validates that the pipeline must not crash and must produce a valid slug." .
+  }
+} ;
+
+# ── New Claim: pipeline must not crash ───────────────────────────────────────
+INSERT DATA {
+  GRAPH narr:Tx_20260707T140555Z {
+    narr:Claim_PipelineMustNotCrash a narr:Claim ;
+      narr:aboutNode narr:Narrative_PipelineSlugGeneration ;
+      narr:hasConvictionLevel narr:Conviction_Notion ;
+      narr:supports narr:Claim_PipelineMustProduceSlug ;
+      dct:source narr:Sample_SampleMemoryPhase2DeriveIdE2E ;
+      skos:note "When the id field is absent and the heading is ## level, the pipeline must not crash — it must produce a valid slug via LLM id-gen or deterministic slugify fallback." .
+  }
+} ;
+
+# ── New Claim: Phase 2 reproduces prod failure pattern ───────────────────────
+INSERT DATA {
+  GRAPH narr:Tx_20260707T140555Z {
+    narr:Claim_Phase2ReproducesProdFailure a narr:Claim ;
+      narr:aboutNode narr:Narrative_PipelineSlugGeneration ;
+      narr:hasConvictionLevel narr:Conviction_Notion ;
+      dct:source narr:Sample_SampleMemoryPhase2DeriveIdE2E ;
+      skos:note "This test fixture explicitly reproduces the missing-id failure pattern observed in production (## level heading, no id field), distinguishing it from earlier slug-generation tests that did not reference a known prod failure mode." .
+  }
+} ;
+
+# ── UPDATE Narrative_PipelineSlugGeneration: add prod-failure framing ─────────
+DELETE {
+  GRAPH ?g {
+    narr:Narrative_PipelineSlugGeneration skos:note ?oldNote .
+  }
+}
+INSERT {
+  GRAPH narr:Tx_20260707T140555Z {
+    narr:Narrative_PipelineSlugGeneration skos:note "When a memory is submitted without an explicit id field, the pipeline must derive a slug — either via an LLM id-gen call or a deterministic slugify fallback — and commit the file successfully. This narrative captures the expected pipeline behaviour as a test fixture. Phase 2 extends this by reproducing the missing-id failure pattern from production (## level heading, no id field) and asserting the pipeline must not crash." .
+  }
+}
+WHERE {
+  GRAPH ?g {
+    narr:Narrative_PipelineSlugGeneration skos:note ?oldNote .
+  }
+} ;
+
+# ── UPDATE Claim_PipelineMustProduceSlug: add must-not-crash constraint ───────
+DELETE {
+  GRAPH ?g {
+    narr:Claim_PipelineMustProduceSlug skos:note ?oldNote .
+  }
+}
+INSERT {
+  GRAPH narr:Tx_20260707T140555Z {
+    narr:Claim_PipelineMustProduceSlug skos:note "The pipeline must produce a slug from the memory content — either via the LLM id-gen call or the deterministic slugify fallback — and commit the file successfully. Must not crash on ## level heading with no id field (prod failure pattern, Phase 2)." .
+  }
+}
+WHERE {
+  GRAPH ?g {
+    narr:Claim_PipelineMustProduceSlug skos:note ?oldNote .
+  }
+} ;
+
+# ── Style Observation 1: imperative 'must not crash' register ─────────────────
+INSERT DATA {
+  GRAPH narr:Tx_20260707T140555Z {
+    narr:StyleObs_Phase2ImperativeMustNotCrash a narr:StyleObservation ;
+      skos:broader narr:ToneAuthoritative ;
+      dct:source narr:Sample_SampleMemoryPhase2DeriveIdE2E ;
+      rdf:value true ;
+      skos:note "Dual imperative constraints ('Must not crash; must produce a valid slug') — no hedging, no conditionals. Authoritative test-spec register." ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_SampleMemoryPhase2DeriveIdE2E ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start 177 ; oa:end 219
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "Must not crash; must produce a valid slug." ;
+          oa:prefix "## level heading,\nno id field). " ;
+          oa:suffix ""
+        ]
+      ] .
+  }
+} ;
+
+# ── Style Observation 2: em-dash cadence in heading ───────────────────────────
+INSERT DATA {
+  GRAPH narr:Tx_20260707T140555Z {
+    narr:StyleObs_Phase2EmDashHeadingCadence a narr:StyleObservation ;
+      skos:broader narr:CadenceRhythm ;
+      dct:source narr:Sample_SampleMemoryPhase2DeriveIdE2E ;
+      rdf:value true ;
+      skos:note "Em-dash in the ## heading ('Sample Memory Phase 2 — Derive Id E2E') separates the phase label from the test descriptor, a consistent cadence pattern also seen in the prior Phase 1 sample heading." ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_SampleMemoryPhase2DeriveIdE2E ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start 53 ; oa:end 90
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "Sample Memory Phase 2 — Derive Id E2E" ;
+          oa:prefix "na+staging@aswritten.ai\n---\n\n## " ;
+          oa:suffix "\n\nReproduces the missing-id fail"
+        ]
+      ] .
+  }
+} ;
+
+# ── Style Observation 3: technical jargon — failure pattern terminology ────────
+INSERT DATA {
+  GRAPH narr:Tx_20260707T140555Z {
+    narr:StyleObs_Phase2TechnicalJargonFailurePattern a narr:StyleObservation ;
+      skos:broader narr:JargonPolicy ;
+      dct:source narr:Sample_SampleMemoryPhase2DeriveIdE2E ;
+      rdf:value true ;
+      skos:note "Concentrated technical vocabulary: 'missing-id failure pattern', 'prod', '## level heading', 'id field', 'slug' — assumes reader fluency with the pipeline's internal terminology." ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_SampleMemoryPhase2DeriveIdE2E ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start 92 ;
+          oa:end 176
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "Reproduces the missing-id failure pattern from prod (## level heading,\nno id field)." ;
+          oa:prefix "Memory Phase 2 — Derive Id E2E\n\n" ;
+          oa:suffix " Must not crash; must produce a "
+        ]
+      ] .
+  }
+} ;
+
+# ── Style Metrics for Phase 2 sample ─────────────────────────────────────────
+INSERT DATA {
+  GRAPH narr:Tx_20260707T140555Z {
+    narr:StyleMetrics_SampleMemoryPhase2DeriveIdE2E a narr:StyleMetrics ;
+      skos:broader narr:StyleMetrics ;
+      dct:source narr:Sample_SampleMemoryPhase2DeriveIdE2E ;
+      narr:AverageSentenceLength 14 ;
+      narr:ActiveVoiceRatio "0.90"^^xsd:decimal ;
+      narr:JargonDensity "0.35"^^xsd:decimal ;
+      skos:note "Very short document (2 body sentences). Active voice dominant ('Reproduces', 'Must not crash', 'must produce'). High jargon density relative to word count: 'missing-id failure pattern', 'prod', '## level heading', 'id field', 'slug'." .
+  }
+}
