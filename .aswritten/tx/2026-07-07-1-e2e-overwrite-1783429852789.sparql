@@ -1,0 +1,120 @@
+PREFIX narr: <https://aswritten.ai/narrative#>
+PREFIX rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX prov: <http://www.w3.org/ns/prov#>
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+PREFIX dct:  <http://purl.org/dc/terms/>
+PREFIX xsd:  <http://www.w3.org/2001/XMLSchema#>
+PREFIX oa:   <http://www.w3.org/ns/oa#>
+
+# Transaction provenance (default graph)
+INSERT DATA {
+  narr:Tx_20260707T131324Z a prov:Activity ;
+    prov:generatedAtTime "2026-07-07T13:13:24Z"^^xsd:dateTime ;
+    prov:wasAssociatedWith "aswritten.ai" ;
+    prov:wasAttributedTo "n8n.aswritten.ai" ;
+    narr:originPath ".aswritten/memories/2026-07-07-1-e2e-overwrite-1783429852789.md" ;
+    narr:originRef "e2e-overwrite-1783429852789" ;
+    dct:title "First version — e2e-expert-repo stub" ;
+    prov:generated
+      narr:Sample_FirstVersion_E2E,
+      narr:Narrative_FirstVersionStub,
+      narr:StyleObs_FrontmatterReviewerField,
+      narr:StyleObs_MinimalBodyText,
+      narr:StyleObs_YAMLFrontmatterConvention,
+      narr:StyleMetrics_FirstVersion_E2E .
+} ;
+
+# Extracted entities (named graph)
+INSERT DATA {
+  GRAPH narr:Tx_20260707T131324Z {
+
+    # ── Sample ──────────────────────────────────────────────────
+    narr:Sample_FirstVersion_E2E a narr:Sample ;
+      dct:title "First version" ;
+      narr:inputLength "63"^^xsd:integer ;
+      dct:description "Minimal stub document with YAML frontmatter (reviewer field) and a single body phrase." .
+
+    # ── Narrative ───────────────────────────────────────────────
+    narr:Narrative_FirstVersionStub a narr:Narrative ;
+      dct:source narr:Sample_FirstVersion_E2E ;
+      narr:theme "Initial stub document marking first version of a review-gated artifact" ;
+      skos:broader narr:Process ;
+      skos:note "The document declares itself a first version and lists a reviewer in YAML frontmatter, indicating a review workflow is in place. No substantive content beyond the version marker is present." .
+
+    # ── Style Observation 1: YAML frontmatter reviewer field ────
+    narr:StyleObs_FrontmatterReviewerField a narr:StyleObservation ;
+      skos:broader narr:EditorialRules ;
+      dct:source narr:Sample_FirstVersion_E2E ;
+      skos:note "YAML frontmatter used to declare a reviewer, indicating a structured editorial/review convention." ;
+      rdf:value true ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_FirstVersion_E2E ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start "4"^^xsd:integer ;
+          oa:end "14"^^xsd:integer
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "reviewers:" ;
+          oa:prefix "---\n" ;
+          oa:suffix "\n  - xena+staging@aswritten.ai\n-"
+        ]
+      ] .
+
+    # ── Style Observation 2: Minimal body text ──────────────────
+    narr:StyleObs_MinimalBodyText a narr:StyleObservation ;
+      skos:broader narr:Conciseness ;
+      dct:source narr:Sample_FirstVersion_E2E ;
+      skos:note "Body text is a two-word phrase 'First version', representing extreme brevity — a placeholder or stub register." ;
+      rdf:value true ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_FirstVersion_E2E ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start "50"^^xsd:integer ;
+          oa:end "63"^^xsd:integer
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "First version" ;
+          oa:prefix " xena+staging@aswritten.ai\n---\n\n" ;
+          oa:suffix ""
+        ]
+      ] .
+
+    # ── Style Observation 3: YAML frontmatter convention ────────
+    narr:StyleObs_YAMLFrontmatterConvention a narr:StyleObservation ;
+      skos:broader narr:EditorialRules ;
+      dct:source narr:Sample_FirstVersion_E2E ;
+      skos:note "Document opens with YAML frontmatter delimited by triple-dashes, a Markdown/static-site convention for structured metadata." ;
+      rdf:value true ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_FirstVersion_E2E ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start "0"^^xsd:integer ;
+          oa:end "3"^^xsd:integer
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "---" ;
+          oa:prefix "" ;
+          oa:suffix "\nreviewers:\n  - xena+staging@asw"
+        ]
+      ] .
+
+    # ── Style Metrics ────────────────────────────────────────────
+    narr:StyleMetrics_FirstVersion_E2E a narr:StyleMetrics ;
+      skos:broader narr:StyleMetrics ;
+      dct:source narr:Sample_FirstVersion_E2E ;
+      narr:AverageSentenceLength "2"^^xsd:integer ;
+      narr:ActiveVoiceRatio "1.0"^^xsd:decimal ;
+      narr:JargonDensity "0.0"^^xsd:decimal ;
+      skos:note "Extremely short document (2-word body). No sentences with verbs; active voice ratio set to 1.0 by default. Zero jargon density. Stub/placeholder register." .
+
+  }
+}
