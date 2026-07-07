@@ -1,0 +1,222 @@
+PREFIX narr: <https://aswritten.ai/narrative#>
+PREFIX rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX prov: <http://www.w3.org/ns/prov#>
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+PREFIX dct:  <http://purl.org/dc/terms/>
+PREFIX xsd:  <http://www.w3.org/2001/XMLSchema#>
+PREFIX oa:   <http://www.w3.org/ns/oa#>
+
+# ── Retraction transaction (default graph) ──────────────────────────────────
+INSERT DATA {
+  narr:Tx_20260707T134404Z a prov:Activity ;
+    prov:generatedAtTime "2026-07-07T13:44:04Z"^^xsd:dateTime ;
+    prov:wasAssociatedWith "aswritten.ai" ;
+    prov:wasAttributedTo "n8n.aswritten.ai" ;
+    narr:originPath ".aswritten/memories/2026-07-07-3-forget-lifecycle-retract-target.md" ;
+    narr:originRef "e2e-forget-1783431304198" ;
+    prov:generated narr:Tx_20260707T134404Z ;
+    dct:title "Retraction: Kestrelwood spectrograph calibration" .
+} ;
+
+# ── Remove Narrative_KestrelwoodSpectrographCalibration and all its triples ──
+DELETE WHERE {
+  GRAPH ?g {
+    narr:Narrative_KestrelwoodSpectrographCalibration ?p ?o .
+  }
+} ;
+
+# ── Remove Claim_CalibrationAt884MHz and all its triples ────────────────────
+DELETE WHERE {
+  GRAPH ?g {
+    narr:Claim_CalibrationAt884MHz ?p ?o .
+  }
+} ;
+
+# ── Remove any triples pointing TO Claim_CalibrationAt884MHz ────────────────
+DELETE WHERE {
+  GRAPH ?g {
+    ?s ?p narr:Claim_CalibrationAt884MHz .
+  }
+} ;
+
+# ── Remove any triples pointing TO Narrative_KestrelwoodSpectrographCalibration
+DELETE WHERE {
+  GRAPH ?g {
+    ?s ?p narr:Narrative_KestrelwoodSpectrographCalibration .
+  }
+} ;
+
+# ── Remove Actor_QuillAshgrove and all its triples ──────────────────────────
+DELETE WHERE {
+  GRAPH ?g {
+    narr:Actor_QuillAshgrove ?p ?o .
+  }
+} ;
+
+# ── Remove any triples pointing TO Actor_QuillAshgrove ──────────────────────
+DELETE WHERE {
+  GRAPH ?g {
+    ?s ?p narr:Actor_QuillAshgrove .
+  }
+} ;
+
+# ── Remove Observation_CalibrationStatement and all its triples ─────────────
+DELETE WHERE {
+  GRAPH ?g {
+    narr:Observation_CalibrationStatement ?p ?o .
+  }
+} ;
+
+# ── Remove any triples pointing TO Observation_CalibrationStatement ─────────
+DELETE WHERE {
+  GRAPH ?g {
+    ?s ?p narr:Observation_CalibrationStatement .
+  }
+} ;
+
+# ── Remove Observation_JuneReferencePlates and all its triples ──────────────
+DELETE WHERE {
+  GRAPH ?g {
+    narr:Observation_JuneReferencePlates ?p ?o .
+  }
+} ;
+
+# ── Remove any triples pointing TO Observation_JuneReferencePlates ──────────
+DELETE WHERE {
+  GRAPH ?g {
+    ?s ?p narr:Observation_JuneReferencePlates .
+  }
+} ;
+
+# ── Remove Sample_KestrelwoodCalibration_20260706 and all its triples ────────
+DELETE WHERE {
+  GRAPH ?g {
+    narr:Sample_KestrelwoodCalibration_20260706 ?p ?o .
+  }
+} ;
+
+# ── Remove any triples pointing TO Sample_KestrelwoodCalibration_20260706 ────
+DELETE WHERE {
+  GRAPH ?g {
+    ?s ?p narr:Sample_KestrelwoodCalibration_20260706 .
+  }
+} ;
+
+# ── Remove StyleObservation_TechnicalJargonDensity and all its triples ───────
+DELETE WHERE {
+  GRAPH ?g {
+    narr:StyleObservation_TechnicalJargonDensity ?p ?o .
+  }
+} ;
+
+# ── Remove any triples pointing TO StyleObservation_TechnicalJargonDensity ───
+DELETE WHERE {
+  GRAPH ?g {
+    ?s ?p narr:StyleObservation_TechnicalJargonDensity .
+  }
+} ;
+
+# ── Remove StyleObservation_BulletDecisionFormat and all its triples ─────────
+DELETE WHERE {
+  GRAPH ?g {
+    narr:StyleObservation_BulletDecisionFormat ?p ?o .
+  }
+} ;
+
+# ── Remove any triples pointing TO StyleObservation_BulletDecisionFormat ─────
+DELETE WHERE {
+  GRAPH ?g {
+    ?s ?p narr:StyleObservation_BulletDecisionFormat .
+  }
+} ;
+
+# ── Remove StyleObservation_DirectQuoteRegister and all its triples ──────────
+DELETE WHERE {
+  GRAPH ?g {
+    narr:StyleObservation_DirectQuoteRegister ?p ?o .
+  }
+} ;
+
+# ── Remove any triples pointing TO StyleObservation_DirectQuoteRegister ──────
+DELETE WHERE {
+  GRAPH ?g {
+    ?s ?p narr:StyleObservation_DirectQuoteRegister .
+  }
+} ;
+
+# ── Remove prov:generated links from originating Tx node for these entities ──
+DELETE WHERE {
+  GRAPH ?g {
+    ?tx prov:generated narr:Narrative_KestrelwoodSpectrographCalibration .
+  }
+} ;
+DELETE WHERE {
+  GRAPH ?g {
+    ?tx prov:generated narr:Claim_CalibrationAt884MHz .
+  }
+} ;
+DELETE WHERE {
+  GRAPH ?g {
+    ?tx prov:generated narr:Actor_QuillAshgrove .
+  }
+} ;
+DELETE WHERE {
+  GRAPH ?g {
+    ?tx prov:generated narr:Observation_CalibrationStatement .
+  }
+} ;
+DELETE WHERE {
+  GRAPH ?g {
+    ?tx prov:generated narr:Observation_JuneReferencePlates .
+  }
+} ;
+DELETE WHERE {
+  GRAPH ?g {
+    ?tx prov:generated narr:Sample_KestrelwoodCalibration_20260706 .
+  }
+} ;
+DELETE WHERE {
+  GRAPH ?g {
+    ?tx prov:generated narr:StyleObservation_TechnicalJargonDensity .
+  }
+} ;
+DELETE WHERE {
+  GRAPH ?g {
+    ?tx prov:generated narr:StyleObservation_BulletDecisionFormat .
+  }
+} ;
+DELETE WHERE {
+  GRAPH ?g {
+    ?tx prov:generated narr:StyleObservation_DirectQuoteRegister .
+  }
+} ;
+
+# ── Remove default-graph triples for originating Tx node if it only covered Kestrelwood ──
+# (Pattern-match: remove prov:generated links from default graph too)
+DELETE WHERE {
+  ?tx prov:generated narr:Narrative_KestrelwoodSpectrographCalibration .
+} ;
+DELETE WHERE {
+  ?tx prov:generated narr:Claim_CalibrationAt884MHz .
+} ;
+DELETE WHERE {
+  ?tx prov:generated narr:Actor_QuillAshgrove .
+} ;
+DELETE WHERE {
+  ?tx prov:generated narr:Observation_CalibrationStatement .
+} ;
+DELETE WHERE {
+  ?tx prov:generated narr:Observation_JuneReferencePlates .
+} ;
+DELETE WHERE {
+  ?tx prov:generated narr:Sample_KestrelwoodCalibration_20260706 .
+} ;
+DELETE WHERE {
+  ?tx prov:generated narr:StyleObservation_TechnicalJargonDensity .
+} ;
+DELETE WHERE {
+  ?tx prov:generated narr:StyleObservation_BulletDecisionFormat .
+} ;
+DELETE WHERE {
+  ?tx prov:generated narr:StyleObservation_DirectQuoteRegister .
+}
