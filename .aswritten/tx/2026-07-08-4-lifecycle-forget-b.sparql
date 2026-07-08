@@ -1,0 +1,253 @@
+PREFIX narr: <https://aswritten.ai/narrative#>
+PREFIX rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX prov: <http://www.w3.org/ns/prov#>
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+PREFIX dct:  <http://purl.org/dc/terms/>
+PREFIX xsd:  <http://www.w3.org/2001/XMLSchema#>
+PREFIX oa:   <http://www.w3.org/ns/oa#>
+
+# Transaction provenance (default graph) — documents the retraction event
+INSERT DATA {
+  narr:Tx_20260708T102953Z a prov:Activity ;
+    prov:generatedAtTime "2026-07-08T10:29:53Z"^^xsd:dateTime ;
+    prov:wasAssociatedWith "aswritten.ai" ;
+    prov:wasAttributedTo "n8n.aswritten.ai" ;
+    narr:originPath ".aswritten/memories/2026-07-08-4-lifecycle-forget-b.md" ;
+    narr:originRef "e2e-lifecycle-1783505787588" ;
+    dct:title "RETRACTION: Remove all knowledge about Zypherion, Meridian, Quinton Fairweather, and analytics pipeline migration" ;
+    prov:generated narr:Tx_20260708T102953Z .
+} ;
+
+# Remove Narrative_ZypherionAnalyticsPipelineAdoption from all named graphs
+DELETE WHERE {
+  GRAPH ?g {
+    narr:Narrative_ZypherionAnalyticsPipelineAdoption ?p ?o .
+  }
+} ;
+
+DELETE WHERE {
+  GRAPH ?g {
+    ?s ?p narr:Narrative_ZypherionAnalyticsPipelineAdoption .
+  }
+} ;
+
+# Remove Claim_ZypherionDatabaseChoice from all named graphs
+DELETE WHERE {
+  GRAPH ?g {
+    narr:Claim_ZypherionDatabaseChoice ?p ?o .
+  }
+} ;
+
+DELETE WHERE {
+  GRAPH ?g {
+    ?s ?p narr:Claim_ZypherionDatabaseChoice .
+  }
+} ;
+
+# Remove Claim_ZypherionStreamingGap from all named graphs
+DELETE WHERE {
+  GRAPH ?g {
+    narr:Claim_ZypherionStreamingGap ?p ?o .
+  }
+} ;
+
+DELETE WHERE {
+  GRAPH ?g {
+    ?s ?p narr:Claim_ZypherionStreamingGap .
+  }
+} ;
+
+# Remove Claim_ZypherionColumnarPerformance from all named graphs
+DELETE WHERE {
+  GRAPH ?g {
+    narr:Claim_ZypherionColumnarPerformance ?p ?o .
+  }
+} ;
+
+DELETE WHERE {
+  GRAPH ?g {
+    ?s ?p narr:Claim_ZypherionColumnarPerformance .
+  }
+} ;
+
+# Remove Claim_ZypherionMigrationTimeline from all named graphs
+DELETE WHERE {
+  GRAPH ?g {
+    narr:Claim_ZypherionMigrationTimeline ?p ?o .
+  }
+} ;
+
+DELETE WHERE {
+  GRAPH ?g {
+    ?s ?p narr:Claim_ZypherionMigrationTimeline .
+  }
+} ;
+
+# Remove Claim_MeridianDatabaseChoice from all named graphs
+DELETE WHERE {
+  GRAPH ?g {
+    narr:Claim_MeridianDatabaseChoice ?p ?o .
+  }
+} ;
+
+DELETE WHERE {
+  GRAPH ?g {
+    ?s ?p narr:Claim_MeridianDatabaseChoice .
+  }
+} ;
+
+# Remove Claim_MeridianBatchStreamingCapability from all named graphs
+DELETE WHERE {
+  GRAPH ?g {
+    narr:Claim_MeridianBatchStreamingCapability ?p ?o .
+  }
+} ;
+
+DELETE WHERE {
+  GRAPH ?g {
+    ?s ?p narr:Claim_MeridianBatchStreamingCapability .
+  }
+} ;
+
+# Remove Obs_ZypherionAdoptionStatement from all named graphs
+DELETE WHERE {
+  GRAPH ?g {
+    narr:Obs_ZypherionAdoptionStatement ?p ?o .
+  }
+} ;
+
+DELETE WHERE {
+  GRAPH ?g {
+    ?s ?p narr:Obs_ZypherionAdoptionStatement .
+  }
+} ;
+
+# Remove Obs_ZypherionStreamingGapStatement from all named graphs
+DELETE WHERE {
+  GRAPH ?g {
+    narr:Obs_ZypherionStreamingGapStatement ?p ?o .
+  }
+} ;
+
+DELETE WHERE {
+  GRAPH ?g {
+    ?s ?p narr:Obs_ZypherionStreamingGapStatement .
+  }
+} ;
+
+# Remove Obs_MeridianAdoptionStatement from all named graphs
+DELETE WHERE {
+  GRAPH ?g {
+    narr:Obs_MeridianAdoptionStatement ?p ?o .
+  }
+} ;
+
+DELETE WHERE {
+  GRAPH ?g {
+    ?s ?p narr:Obs_MeridianAdoptionStatement .
+  }
+} ;
+
+# Remove Obs_SupersedesStatement from all named graphs
+DELETE WHERE {
+  GRAPH ?g {
+    narr:Obs_SupersedesStatement ?p ?o .
+  }
+} ;
+
+DELETE WHERE {
+  GRAPH ?g {
+    ?s ?p narr:Obs_SupersedesStatement .
+  }
+} ;
+
+# Remove Obs_MigrationStartNextQuarter from all named graphs
+DELETE WHERE {
+  GRAPH ?g {
+    narr:Obs_MigrationStartNextQuarter ?p ?o .
+  }
+} ;
+
+DELETE WHERE {
+  GRAPH ?g {
+    ?s ?p narr:Obs_MigrationStartNextQuarter .
+  }
+} ;
+
+# Remove Actor_QuintonFairweather_CTO from all named graphs
+DELETE WHERE {
+  GRAPH ?g {
+    narr:Actor_QuintonFairweather_CTO ?p ?o .
+  }
+} ;
+
+DELETE WHERE {
+  GRAPH ?g {
+    ?s ?p narr:Actor_QuintonFairweather_CTO .
+  }
+} ;
+
+# Remove Sample_ZypherionDatabaseDecision_20260406 from all named graphs
+DELETE WHERE {
+  GRAPH ?g {
+    narr:Sample_ZypherionDatabaseDecision_20260406 ?p ?o .
+  }
+} ;
+
+DELETE WHERE {
+  GRAPH ?g {
+    ?s ?p narr:Sample_ZypherionDatabaseDecision_20260406 .
+  }
+} ;
+
+# Remove Sample_MeridianDatabaseDecision_20260406 from all named graphs
+DELETE WHERE {
+  GRAPH ?g {
+    narr:Sample_MeridianDatabaseDecision_20260406 ?p ?o .
+  }
+} ;
+
+DELETE WHERE {
+  GRAPH ?g {
+    ?s ?p narr:Sample_MeridianDatabaseDecision_20260406 .
+  }
+} ;
+
+# Remove StyleObs_BoldKeyDecisionLabels from all named graphs
+DELETE WHERE {
+  GRAPH ?g {
+    narr:StyleObs_BoldKeyDecisionLabels ?p ?o .
+  }
+} ;
+
+DELETE WHERE {
+  GRAPH ?g {
+    ?s ?p narr:StyleObs_BoldKeyDecisionLabels .
+  }
+} ;
+
+# Remove StyleObs_BoldKeyDecisionLabels_Meridian from all named graphs
+DELETE WHERE {
+  GRAPH ?g {
+    narr:StyleObs_BoldKeyDecisionLabels_Meridian ?p ?o .
+  }
+} ;
+
+DELETE WHERE {
+  GRAPH ?g {
+    ?s ?p narr:StyleObs_BoldKeyDecisionLabels_Meridian .
+  }
+} ;
+
+# Remove StyleMetrics_ZypherionDecision from all named graphs
+DELETE WHERE {
+  GRAPH ?g {
+    narr:StyleMetrics_ZypherionDecision ?p ?o .
+  }
+} ;
+
+DELETE WHERE {
+  GRAPH ?g {
+    ?s ?p narr:StyleMetrics_ZypherionDecision .
+  }
+}
