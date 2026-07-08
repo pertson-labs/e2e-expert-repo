@@ -1,0 +1,159 @@
+PREFIX narr: <https://aswritten.ai/narrative#>
+PREFIX rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX prov: <http://www.w3.org/ns/prov#>
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+PREFIX dct:  <http://purl.org/dc/terms/>
+PREFIX xsd:  <http://www.w3.org/2001/XMLSchema#>
+PREFIX oa:   <http://www.w3.org/ns/oa#>
+
+# Transaction provenance for this retraction event (default graph)
+INSERT DATA {
+  narr:Tx_20260708T103900Z a prov:Activity ;
+    prov:generatedAtTime "2026-07-08T10:39:00Z"^^xsd:dateTime ;
+    prov:wasAssociatedWith "aswritten.ai" ;
+    prov:wasAttributedTo "xena+staging@aswritten.ai" ;
+    narr:originPath ".aswritten/memories/2026-07-08-3-forget-lifecycle-retract-target.md" ;
+    narr:originRef "e2e-forget-1783506637806" ;
+    dct:title "Retraction: Kestrelwood spectrograph calibration knowledge" ;
+    prov:generated narr:Tx_20260708T103900Z .
+} ;
+
+# Remove all triples where Narrative_KestrelwoodSpectrographCalibration is subject
+DELETE WHERE {
+  GRAPH ?g {
+    narr:Narrative_KestrelwoodSpectrographCalibration ?p ?o .
+  }
+} ;
+
+# Remove all triples where Narrative_KestrelwoodSpectrographCalibration is object
+DELETE WHERE {
+  GRAPH ?g {
+    ?s ?p narr:Narrative_KestrelwoodSpectrographCalibration .
+  }
+} ;
+
+# Remove all triples where Claim_CalibrationAt88MHz is subject
+DELETE WHERE {
+  GRAPH ?g {
+    narr:Claim_CalibrationAt88MHz ?p ?o .
+  }
+} ;
+
+# Remove all triples where Claim_CalibrationAt88MHz is object
+DELETE WHERE {
+  GRAPH ?g {
+    ?s ?p narr:Claim_CalibrationAt88MHz .
+  }
+} ;
+
+# Remove all triples where Claim_VerifiedAgainstJunePlates is subject
+DELETE WHERE {
+  GRAPH ?g {
+    narr:Claim_VerifiedAgainstJunePlates ?p ?o .
+  }
+} ;
+
+# Remove all triples where Claim_VerifiedAgainstJunePlates is object
+DELETE WHERE {
+  GRAPH ?g {
+    ?s ?p narr:Claim_VerifiedAgainstJunePlates .
+  }
+} ;
+
+# Remove all triples where Actor_QuillAshgrove is subject
+DELETE WHERE {
+  GRAPH ?g {
+    narr:Actor_QuillAshgrove ?p ?o .
+  }
+} ;
+
+# Remove all triples where Actor_QuillAshgrove is object
+DELETE WHERE {
+  GRAPH ?g {
+    ?s ?p narr:Actor_QuillAshgrove .
+  }
+} ;
+
+# Remove all triples where Sample_KestrelwoodCalibration_20260706 is subject
+DELETE WHERE {
+  GRAPH ?g {
+    narr:Sample_KestrelwoodCalibration_20260706 ?p ?o .
+  }
+} ;
+
+# Remove all triples where Sample_KestrelwoodCalibration_20260706 is object
+DELETE WHERE {
+  GRAPH ?g {
+    ?s ?p narr:Sample_KestrelwoodCalibration_20260706 .
+  }
+} ;
+
+# Remove all triples where Observation_CalibrationStatement is subject
+DELETE WHERE {
+  GRAPH ?g {
+    narr:Observation_CalibrationStatement ?p ?o .
+  }
+} ;
+
+# Remove all triples where Observation_CalibrationStatement is object
+DELETE WHERE {
+  GRAPH ?g {
+    ?s ?p narr:Observation_CalibrationStatement .
+  }
+} ;
+
+# Remove all triples where Observation_VerificationStatement is subject
+DELETE WHERE {
+  GRAPH ?g {
+    narr:Observation_VerificationStatement ?p ?o .
+  }
+} ;
+
+# Remove all triples where Observation_VerificationStatement is object
+DELETE WHERE {
+  GRAPH ?g {
+    ?s ?p narr:Observation_VerificationStatement .
+  }
+} ;
+
+# Remove all triples where StyleObs_BulletKeyDecisions is subject
+DELETE WHERE {
+  GRAPH ?g {
+    narr:StyleObs_BulletKeyDecisions ?p ?o .
+  }
+} ;
+
+# Remove all triples where StyleObs_BulletKeyDecisions is object
+DELETE WHERE {
+  GRAPH ?g {
+    ?s ?p narr:StyleObs_BulletKeyDecisions .
+  }
+} ;
+
+# Remove all triples where StyleObs_TechnicalPrecisionRegister is subject
+DELETE WHERE {
+  GRAPH ?g {
+    narr:StyleObs_TechnicalPrecisionRegister ?p ?o .
+  }
+} ;
+
+# Remove all triples where StyleObs_TechnicalPrecisionRegister is object
+DELETE WHERE {
+  GRAPH ?g {
+    ?s ?p narr:StyleObs_TechnicalPrecisionRegister .
+  }
+} ;
+
+# Remove all triples where StyleMetrics_KestrelwoodCalibration is subject
+DELETE WHERE {
+  GRAPH ?g {
+    narr:StyleMetrics_KestrelwoodCalibration ?p ?o .
+  }
+} ;
+
+# Remove all triples where StyleMetrics_KestrelwoodCalibration is object
+DELETE WHERE {
+  GRAPH ?g {
+    ?s ?p narr:StyleMetrics_KestrelwoodCalibration .
+  }
+}
