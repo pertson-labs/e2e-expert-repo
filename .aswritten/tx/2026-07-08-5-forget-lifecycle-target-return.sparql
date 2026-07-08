@@ -1,0 +1,169 @@
+PREFIX narr: <https://aswritten.ai/narrative#>
+PREFIX rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX prov: <http://www.w3.org/ns/prov#>
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+PREFIX dct:  <http://purl.org/dc/terms/>
+PREFIX xsd:  <http://www.w3.org/2001/XMLSchema#>
+PREFIX oa:   <http://www.w3.org/ns/oa#>
+
+# Transaction provenance (default graph)
+INSERT DATA {
+  narr:Tx_20260708T104454Z a prov:Activity ;
+    prov:generatedAtTime "2026-07-08T10:44:54Z"^^xsd:dateTime ;
+    prov:wasAssociatedWith "aswritten.ai" ;
+    prov:wasAttributedTo "n8n.aswritten.ai" ;
+    narr:originPath ".aswritten/memories/2026-07-08-5-forget-lifecycle-target-return.md" ;
+    narr:originRef "e2e-forget-1783506637806" ;
+    dct:title "Observatory Calibration: Kestrelwood Spectrograph" ;
+    prov:generated
+      narr:Sample_KestrelwoodCalibration_20260706,
+      narr:Actor_QuillAshgrove,
+      narr:Narrative_KestrelwoodSpectrographCalibration,
+      narr:Claim_KestrelwoodCalibrated884MHz,
+      narr:Claim_KestrelwoodCalibrationVerifiedJune,
+      narr:Observation_KestrelwoodCalibrationQuote,
+      narr:StyleObs_BoldKeyTermLabels,
+      narr:StyleObs_PreciseNumericMeasurement,
+      narr:StyleObs_MeetingNotesAttributionPattern,
+      narr:StyleMetrics_KestrelwoodCalibration .
+} ;
+
+# Extracted entities (named graph)
+INSERT DATA {
+  GRAPH narr:Tx_20260708T104454Z {
+
+    # ── Sample ──────────────────────────────────────────────────
+    narr:Sample_KestrelwoodCalibration_20260706 a narr:Sample ;
+      dct:title "Observatory Calibration: Kestrelwood Spectrograph" ;
+      dct:created "2026-07-06"^^xsd:date ;
+      narr:inputLength "478"^^xsd:integer ;
+      dct:description "Session notes from 2026-07-06 with Quill Ashgrove (Lead Astronomer) confirming calibration of the Kestrelwood spectrograph at 88.4 MHz, verified against June reference plates." .
+
+    # ── Actor ───────────────────────────────────────────────────
+    narr:Actor_QuillAshgrove a narr:Actor ;
+      skos:prefLabel "Quill Ashgrove" ;
+      skos:note "Lead Astronomer; primary speaker confirming Kestrelwood spectrograph calibration." .
+
+    # ── Narrative ───────────────────────────────────────────────
+    narr:Narrative_KestrelwoodSpectrographCalibration a narr:Narrative ;
+      dct:source narr:Sample_KestrelwoodCalibration_20260706 ;
+      narr:theme "Instrument calibration confirmed and verified" ;
+      skos:broader narr:Process ;
+      skos:note "The Kestrelwood spectrograph has been calibrated at 88.4 MHz and verified against June reference plates across the full observing band, marking a completed calibration milestone." .
+
+    # ── Claims ──────────────────────────────────────────────────
+    narr:Claim_KestrelwoodCalibrated884MHz a narr:Claim ;
+      narr:aboutNode narr:Narrative_KestrelwoodSpectrographCalibration ;
+      narr:hasConvictionLevel narr:Conviction_Stake ;
+      dct:source narr:Sample_KestrelwoodCalibration_20260706 ;
+      narr:supports narr:Narrative_KestrelwoodSpectrographCalibration ;
+      skos:note "The Kestrelwood spectrograph is calibrated at 88.4 MHz." .
+
+    narr:Claim_KestrelwoodCalibrationVerifiedJune a narr:Claim ;
+      narr:aboutNode narr:Narrative_KestrelwoodSpectrographCalibration ;
+      narr:hasConvictionLevel narr:Conviction_Stake ;
+      dct:source narr:Sample_KestrelwoodCalibration_20260706 ;
+      narr:supports narr:Claim_KestrelwoodCalibrated884MHz ;
+      skos:note "Calibration verified against June reference plates and holds across the full observing band." .
+
+    # ── Observation ─────────────────────────────────────────────
+    narr:Observation_KestrelwoodCalibrationQuote a narr:Observation ;
+      skos:broader narr:Proof ;
+      dct:source narr:Sample_KestrelwoodCalibration_20260706 ;
+      skos:note "Quill Ashgrove's direct statement confirming calibration value and verification method." ;
+      oa:hasSelector [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_KestrelwoodCalibration_20260706 ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start "184"^^xsd:integer ;
+          oa:end "243"^^xsd:integer
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "The Kestrelwood spectrograph is now calibrated at 88.4 MHz." ;
+          oa:prefix "rove (Lead Astronomer)\n\nQuill: \"" ;
+          oa:suffix "\nWe verified the calibration aga"
+        ]
+      ] .
+
+    # ── Style Observations ──────────────────────────────────────
+
+    # 1. Bold key-term labels in decision list
+    narr:StyleObs_BoldKeyTermLabels a narr:StyleObservation ;
+      skos:broader narr:CapitalizationCase ;
+      dct:source narr:Sample_KestrelwoodCalibration_20260706 ;
+      rdf:value true ;
+      skos:note "Key decision labels use bold markdown (**Instrument**, **Calibration**) to visually anchor structured data in meeting notes." ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_KestrelwoodCalibration_20260706 ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start "368"^^xsd:integer ;
+          oa:end "410"^^xsd:integer
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "- **Instrument**: Kestrelwood spectrograph" ;
+          oa:prefix "bserving band.\"\n\nKey decisions:\n" ;
+          oa:suffix "\n- **Calibration**: 88.4 MHz, ve"
+        ]
+      ] .
+
+    # 2. Precise numeric measurement with unit
+    narr:StyleObs_PreciseNumericMeasurement a narr:StyleObservation ;
+      skos:broader narr:JargonPolicy ;
+      dct:source narr:Sample_KestrelwoodCalibration_20260706 ;
+      rdf:value true ;
+      skos:note "Technical precision: calibration value stated as exact decimal with unit (88.4 MHz), repeated in both the direct quote and the key decisions list, reinforcing specificity." ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_KestrelwoodCalibration_20260706 ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start "234"^^xsd:integer ;
+          oa:end "242"^^xsd:integer
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "88.4 MHz" ;
+          oa:prefix "ectrograph is now calibrated at " ;
+          oa:suffix ".\nWe verified the calibration ag"
+        ]
+      ] .
+
+    # 3. Speaker attribution pattern (meeting-notes style)
+    narr:StyleObs_MeetingNotesAttributionPattern a narr:StyleObservation ;
+      skos:broader narr:SpeakerIdiolects ;
+      dct:source narr:Sample_KestrelwoodCalibration_20260706 ;
+      rdf:value true ;
+      skos:note "Speaker attribution uses first-name-colon-quote pattern (\"Quill: ...\"), consistent with the idiomatic meeting-notes style observed across sessions in this repository." ;
+      skos:related narr:StyleObs_DirectQuoteAttribution ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_KestrelwoodCalibration_20260706 ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start "176"^^xsd:integer ;
+          oa:end "184"^^xsd:integer
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "Quill: \"" ;
+          oa:prefix "ill Ashgrove (Lead Astronomer)\n\n" ;
+          oa:suffix "The Kestrelwood spectrograph is "
+        ]
+      ] .
+
+    # ── Style Metrics ───────────────────────────────────────────
+    narr:StyleMetrics_KestrelwoodCalibration a narr:StyleMetrics ;
+      skos:broader narr:StyleMetrics ;
+      dct:source narr:Sample_KestrelwoodCalibration_20260706 ;
+      narr:AverageSentenceLength "18"^^xsd:integer ;
+      narr:ActiveVoiceRatio "0.85"^^xsd:decimal ;
+      narr:JargonDensity "0.12"^^xsd:decimal ;
+      skos:note "Short document with high active voice. Technical terms (MHz, spectrograph, observing band, reference plates) are domain-specific but used precisely. Register is formal-technical meeting notes." .
+
+  }
+}
