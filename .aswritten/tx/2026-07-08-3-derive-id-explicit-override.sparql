@@ -1,0 +1,124 @@
+PREFIX narr: <https://aswritten.ai/narrative#>
+PREFIX rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX prov: <http://www.w3.org/ns/prov#>
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+PREFIX dct:  <http://purl.org/dc/terms/>
+PREFIX xsd:  <http://www.w3.org/2001/XMLSchema#>
+PREFIX oa:   <http://www.w3.org/ns/oa#>
+
+# Transaction provenance (default graph)
+INSERT DATA {
+  narr:Tx_20260708T110614Z a prov:Activity ;
+    prov:generatedAtTime "2026-07-08T11:06:14Z"^^xsd:dateTime ;
+    prov:wasAssociatedWith "aswritten.ai" ;
+    prov:wasAttributedTo "n8n.aswritten.ai" ;
+    narr:originPath ".aswritten/memories/2026-07-08-3-derive-id-explicit-override.md" ;
+    narr:originRef "e2e-derive-id-1783508210501" ;
+    dct:title "E2E id-derivation test: Some Other Title That Should Not Win" ;
+    prov:generated
+      narr:Sample_SomeOtherTitle_DeriveIdE2E,
+      narr:Claim_TitleShouldNotWinSlug,
+      narr:StyleObs_TitleShouldNotWin_NamingConvention,
+      narr:StyleObs_SparseBody_RegisterMinimal,
+      narr:StyleObs_FrontmatterReviewer_StructuralConvention,
+      narr:StyleMetrics_SomeOtherTitle_DeriveIdE2E .
+} ;
+
+# Extracted entities (named graph)
+INSERT DATA {
+  GRAPH narr:Tx_20260708T110614Z {
+
+    # ── Sample ──────────────────────────────────────────────────────
+    narr:Sample_SomeOtherTitle_DeriveIdE2E a narr:Sample ;
+      dct:title "Some Other Title That Should Not Win" ;
+      narr:inputLength 95 ;
+      dct:description "Minimal E2E test memory: YAML frontmatter with reviewer, H1 title, one-word body. No id field present. Tests pipeline slug-derivation from title content." .
+
+    # ── Claim ───────────────────────────────────────────────────────
+    # New test variant: a title phrased as 'Should Not Win' is a deliberate
+    # signal that the slug must NOT be derived from the H1 title when a
+    # better source (e.g., frontmatter id or LLM-generated slug) is available.
+    narr:Claim_TitleShouldNotWinSlug a narr:Claim ;
+      narr:aboutNode narr:Narrative_PipelineSlugGeneration ;
+      narr:hasConvictionLevel narr:Conviction_Notion ;
+      narr:supports narr:Claim_PipelineMustProduceSlug ;
+      dct:source narr:Sample_SomeOtherTitle_DeriveIdE2E ;
+      skos:note "The H1 title 'Some Other Title That Should Not Win' is a deliberate test signal: the pipeline's slug-derivation logic should prefer a higher-priority source (LLM id-gen or frontmatter) over the raw H1 title when available. This is a new variant of the missing-id E2E test pattern." .
+
+    # ── Style Observations ──────────────────────────────────────────
+
+    # 1. Naming convention: deliberate 'Should Not Win' phrasing as test signal
+    narr:StyleObs_TitleShouldNotWin_NamingConvention a narr:StyleObservation ;
+      skos:broader narr:NamingConventions ;
+      dct:source narr:Sample_SomeOtherTitle_DeriveIdE2E ;
+      skos:note "Title uses an imperative-negative phrase ('Should Not Win') as a deliberate test-signal naming convention, distinguishing this sample from production content." ;
+      rdf:value false ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_SomeOtherTitle_DeriveIdE2E ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start 52 ; oa:end 88
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "Some Other Title That Should Not Win" ;
+          oa:prefix "ena+staging@aswritten.ai\n---\n\n# " ;
+          oa:suffix "\n\nBody."
+        ]
+      ] .
+
+    # 2. Register: minimal/sparse body — single word
+    narr:StyleObs_SparseBody_RegisterMinimal a narr:StyleObservation ;
+      skos:broader narr:RegisterFormality ;
+      dct:source narr:Sample_SomeOtherTitle_DeriveIdE2E ;
+      skos:note "Body consists of a single word ('Body.'), representing the minimal possible content register. This is a structural placeholder, not substantive prose." ;
+      rdf:value false ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_SomeOtherTitle_DeriveIdE2E ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start 90 ; oa:end 95
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "Body." ;
+          oa:prefix "ther Title That Should Not Win\n\n" ;
+          oa:suffix ""
+        ]
+      ] .
+
+    # 3. Structural convention: YAML frontmatter with reviewer field
+    narr:StyleObs_FrontmatterReviewer_StructuralConvention a narr:StyleObservation ;
+      skos:broader narr:EditorialRules ;
+      dct:source narr:Sample_SomeOtherTitle_DeriveIdE2E ;
+      skos:note "Document uses YAML frontmatter with a 'reviewers' list field. Reviewer email redacted per PII policy. This structural convention is consistent with the aswritten.ai memory format." ;
+      rdf:value true ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_SomeOtherTitle_DeriveIdE2E ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start 0 ;
+          oa:end 44
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "---\nreviewers:\n  - [REDACTED]\n---" ;
+          oa:prefix "" ;
+          oa:suffix "\n\n# Some Other Title"
+        ]
+      ] .
+
+    # ── Style Metrics ───────────────────────────────────────────────
+    narr:StyleMetrics_SomeOtherTitle_DeriveIdE2E a narr:StyleMetrics ;
+      skos:broader narr:StyleMetrics ;
+      dct:source narr:Sample_SomeOtherTitle_DeriveIdE2E ;
+      narr:AverageSentenceLength 1 ;
+      narr:ActiveVoiceRatio "1.0"^^xsd:decimal ;
+      narr:JargonDensity "0.0"^^xsd:decimal ;
+      skos:note "Extremely sparse document: one H1 heading (6 words) and one body sentence (1 word). Average sentence length computed over body only. No jargon present. Active voice ratio is 1.0 by default for single-word body." .
+
+  }
+}
