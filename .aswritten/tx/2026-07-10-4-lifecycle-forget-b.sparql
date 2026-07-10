@@ -1,0 +1,235 @@
+PREFIX narr: <https://aswritten.ai/narrative#>
+PREFIX rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX prov: <http://www.w3.org/ns/prov#>
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+PREFIX dct:  <http://purl.org/dc/terms/>
+PREFIX xsd:  <http://www.w3.org/2001/XMLSchema#>
+PREFIX oa:   <http://www.w3.org/ns/oa#>
+
+# Transaction provenance (default graph) — documents the retraction event
+INSERT DATA {
+  narr:Tx_20260710T105119Z a prov:Activity ;
+    prov:generatedAtTime "2026-07-10T10:51:19Z"^^xsd:dateTime ;
+    prov:wasAssociatedWith "aswritten.ai" ;
+    prov:wasAttributedTo "n8n.aswritten.ai" ;
+    narr:originPath ".aswritten/memories/2026-07-10-4-lifecycle-forget-b.md" ;
+    narr:originRef "e2e-lifecycle-1783679377433" ;
+    dct:title "Retraction: database decision, Zypherion, Meridian, Quinton Fairweather, analytics pipeline migration" ;
+    prov:generated narr:Tx_20260710T105119Z .
+} ;
+
+# Remove Narrative_ZypherionAnalyticsAdoption and all its triples
+DELETE WHERE {
+  GRAPH ?g {
+    narr:Narrative_ZypherionAnalyticsAdoption ?p ?o .
+  }
+} ;
+DELETE WHERE {
+  GRAPH ?g {
+    ?s ?p narr:Narrative_ZypherionAnalyticsAdoption .
+  }
+} ;
+
+# Remove Position_MeridianDBChoice and all its triples
+DELETE WHERE {
+  GRAPH ?g {
+    narr:Position_MeridianDBChoice ?p ?o .
+  }
+} ;
+DELETE WHERE {
+  GRAPH ?g {
+    ?s ?p narr:Position_MeridianDBChoice .
+  }
+} ;
+
+# Remove Position_ZypherionDBChoice and all its triples
+DELETE WHERE {
+  GRAPH ?g {
+    narr:Position_ZypherionDBChoice ?p ?o .
+  }
+} ;
+DELETE WHERE {
+  GRAPH ?g {
+    ?s ?p narr:Position_ZypherionDBChoice .
+  }
+} ;
+
+# Remove Position_ZypherionMigrationTimeline and all its triples
+DELETE WHERE {
+  GRAPH ?g {
+    narr:Position_ZypherionMigrationTimeline ?p ?o .
+  }
+} ;
+DELETE WHERE {
+  GRAPH ?g {
+    ?s ?p narr:Position_ZypherionMigrationTimeline .
+  }
+} ;
+
+# Remove Position_ZypherionPerformanceClaim and all its triples
+DELETE WHERE {
+  GRAPH ?g {
+    narr:Position_ZypherionPerformanceClaim ?p ?o .
+  }
+} ;
+DELETE WHERE {
+  GRAPH ?g {
+    ?s ?p narr:Position_ZypherionPerformanceClaim .
+  }
+} ;
+
+# Remove Position_ZypherionStreamingGap and all its triples
+DELETE WHERE {
+  GRAPH ?g {
+    narr:Position_ZypherionStreamingGap ?p ?o .
+  }
+} ;
+DELETE WHERE {
+  GRAPH ?g {
+    ?s ?p narr:Position_ZypherionStreamingGap .
+  }
+} ;
+
+# Remove Actor_QuintonFairweather_CTO and all its triples
+DELETE WHERE {
+  GRAPH ?g {
+    narr:Actor_QuintonFairweather_CTO ?p ?o .
+  }
+} ;
+DELETE WHERE {
+  GRAPH ?g {
+    ?s ?p narr:Actor_QuintonFairweather_CTO .
+  }
+} ;
+
+# Remove Obs_QuintonAdoptionStatement and all its triples
+DELETE WHERE {
+  GRAPH ?g {
+    narr:Obs_QuintonAdoptionStatement ?p ?o .
+  }
+} ;
+DELETE WHERE {
+  GRAPH ?g {
+    ?s ?p narr:Obs_QuintonAdoptionStatement .
+  }
+} ;
+
+# Remove Obs_QuintonMeridianStatement and all its triples
+DELETE WHERE {
+  GRAPH ?g {
+    narr:Obs_QuintonMeridianStatement ?p ?o .
+  }
+} ;
+DELETE WHERE {
+  GRAPH ?g {
+    ?s ?p narr:Obs_QuintonMeridianStatement .
+  }
+} ;
+
+# Remove Obs_MeridianBatchStreamingCapability and all its triples
+DELETE WHERE {
+  GRAPH ?g {
+    narr:Obs_MeridianBatchStreamingCapability ?p ?o .
+  }
+} ;
+DELETE WHERE {
+  GRAPH ?g {
+    ?s ?p narr:Obs_MeridianBatchStreamingCapability .
+  }
+} ;
+
+# Remove Sample_ZypherionDBDecision_20260406 and all its triples
+DELETE WHERE {
+  GRAPH ?g {
+    narr:Sample_ZypherionDBDecision_20260406 ?p ?o .
+  }
+} ;
+DELETE WHERE {
+  GRAPH ?g {
+    ?s ?p narr:Sample_ZypherionDBDecision_20260406 .
+  }
+} ;
+
+# Remove Sample_MeridianDBDecision_20260406 and all its triples
+DELETE WHERE {
+  GRAPH ?g {
+    narr:Sample_MeridianDBDecision_20260406 ?p ?o .
+  }
+} ;
+DELETE WHERE {
+  GRAPH ?g {
+    ?s ?p narr:Sample_MeridianDBDecision_20260406 .
+  }
+} ;
+
+# Remove StyleObs_BoldKeyDecisionFormat and all its triples
+DELETE WHERE {
+  GRAPH ?g {
+    narr:StyleObs_BoldKeyDecisionFormat ?p ?o .
+  }
+} ;
+DELETE WHERE {
+  GRAPH ?g {
+    ?s ?p narr:StyleObs_BoldKeyDecisionFormat .
+  }
+} ;
+
+# Remove StyleObs_MeridianBoldDecisionFormat and all its triples
+DELETE WHERE {
+  GRAPH ?g {
+    narr:StyleObs_MeridianBoldDecisionFormat ?p ?o .
+  }
+} ;
+DELETE WHERE {
+  GRAPH ?g {
+    ?s ?p narr:StyleObs_MeridianBoldDecisionFormat .
+  }
+} ;
+
+# Remove StyleObs_BulletDecisionSummary and all its triples
+DELETE WHERE {
+  GRAPH ?g {
+    narr:StyleObs_BulletDecisionSummary ?p ?o .
+  }
+} ;
+DELETE WHERE {
+  GRAPH ?g {
+    ?s ?p narr:StyleObs_BulletDecisionSummary .
+  }
+} ;
+
+# Remove StyleObs_DirectQuoteAttribution and all its triples
+DELETE WHERE {
+  GRAPH ?g {
+    narr:StyleObs_DirectQuoteAttribution ?p ?o .
+  }
+} ;
+DELETE WHERE {
+  GRAPH ?g {
+    ?s ?p narr:StyleObs_DirectQuoteAttribution .
+  }
+} ;
+
+# Remove StyleObs_SupersessionStatement and all its triples
+DELETE WHERE {
+  GRAPH ?g {
+    narr:StyleObs_SupersessionStatement ?p ?o .
+  }
+} ;
+DELETE WHERE {
+  GRAPH ?g {
+    ?s ?p narr:StyleObs_SupersessionStatement .
+  }
+} ;
+
+# Remove StyleMetrics_ZypherionDBDecision and all its triples
+DELETE WHERE {
+  GRAPH ?g {
+    narr:StyleMetrics_ZypherionDBDecision ?p ?o .
+  }
+} ;
+DELETE WHERE {
+  GRAPH ?g {
+    ?s ?p narr:StyleMetrics_ZypherionDBDecision .
+  }
+}
