@@ -1,0 +1,156 @@
+PREFIX narr: <https://aswritten.ai/narrative#>
+PREFIX rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX prov: <http://www.w3.org/ns/prov#>
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+PREFIX dct:  <http://purl.org/dc/terms/>
+PREFIX xsd:  <http://www.w3.org/2001/XMLSchema#>
+PREFIX oa:   <http://www.w3.org/ns/oa#>
+
+# Transaction provenance (default graph)
+INSERT DATA {
+  narr:Tx_20260710T105604Z a prov:Activity ;
+    prov:generatedAtTime "2026-07-10T10:56:04Z"^^xsd:dateTime ;
+    prov:wasAssociatedWith "aswritten.ai" ;
+    prov:wasAttributedTo "n8n.aswritten.ai" ;
+    narr:originPath ".aswritten/memories/2026-07-10-2-forget-lifecycle-bystander.md" ;
+    narr:originRef "e2e-forget-1783680595615" ;
+    dct:title "Onboarding Process: Pallasine Checklist" ;
+    prov:generated
+      narr:Sample_PallasineOnboarding_20260706,
+      narr:Actor_WrenDuskfield,
+      narr:Narrative_PallasineOnboardingChecklist,
+      narr:Observation_ChecklistComponents,
+      narr:Observation_WikiReplacement,
+      narr:StyleObservation_DirectQuoteRegister,
+      narr:StyleObservation_EnumerationPattern,
+      narr:StyleObservation_TemporalMarkerLastQuarter,
+      narr:StyleMetrics_PallasineOnboarding .
+} ;
+
+# Extracted entities (named graph)
+INSERT DATA {
+  GRAPH narr:Tx_20260710T105604Z {
+
+    # ── Sample ──────────────────────────────────────────────────
+    narr:Sample_PallasineOnboarding_20260706 a narr:Sample ;
+      dct:title "Onboarding Process: Pallasine Checklist" ;
+      dct:created "2026-07-06"^^xsd:date ;
+      narr:inputLength 328 ;
+      dct:description "Session notes from the Pallasine onboarding checklist review on 2026-07-06, led by Wren Duskfield (Ops Lead). Records the three-step first-week checklist and its replacement of the old wiki page." .
+
+    # ── Actor ───────────────────────────────────────────────────
+    narr:Actor_WrenDuskfield a narr:Actor ;
+      skos:prefLabel "Wren Duskfield" ;
+      skos:note "Ops Lead; described the Pallasine onboarding checklist and its adoption in place of the old wiki page." .
+
+    # ── Narrative ───────────────────────────────────────────────
+    narr:Narrative_PallasineOnboardingChecklist a narr:Narrative ;
+      narr:theme "Standardised first-week onboarding via the Pallasine checklist (accounts, pairing rotation, shadow shift), replacing the old wiki page" ;
+      skos:broader narr:ProcessPolicyUpdates ;
+      skos:note "Every new hire completes the Pallasine checklist in their first week. The checklist covers three steps: accounts, pairing rotation, and a shadow shift. It superseded the previous wiki-based onboarding resource last quarter." ;
+      dct:source narr:Sample_PallasineOnboarding_20260706 .
+
+    # ── Observations ────────────────────────────────────────────
+    narr:Observation_ChecklistComponents a narr:Observation ;
+      skos:broader narr:CoreWorkflows ;
+      skos:note "Three components of the Pallasine first-week checklist: accounts, pairing rotation, and a shadow shift." ;
+      dct:source narr:Sample_PallasineOnboarding_20260706 ;
+      oa:hasSelector [
+        a oa:TextPositionSelector ;
+        oa:start 236 ; oa:end 282
+      ] ;
+      oa:hasSelector [
+        a oa:TextQuoteSelector ;
+        oa:exact "accounts, pairing rotation, and a shadow shift" ;
+        oa:prefix " checklist in their first\nweek: " ;
+        oa:suffix ". It replaced the\nold wiki page "
+      ] .
+
+    narr:Observation_WikiReplacement a narr:Observation ;
+      skos:broader narr:ChangeManagement ;
+      skos:note "The Pallasine checklist replaced the old wiki page last quarter — marks a process policy update with a clear temporal anchor." ;
+      dct:source narr:Sample_PallasineOnboarding_20260706 ;
+      oa:hasSelector [
+        a oa:TextPositionSelector ;
+        oa:start 284 ;
+        oa:end 327
+      ] ;
+      oa:hasSelector [
+        a oa:TextQuoteSelector ;
+        oa:exact "It replaced the\nold wiki page last quarter." ;
+        oa:prefix "g rotation, and a shadow shift. " ;
+        oa:suffix "\""
+      ] .
+
+    # ── Style Observations ──────────────────────────────────────
+    narr:StyleObservation_DirectQuoteRegister a narr:StyleObservation ;
+      skos:broader narr:ToneDirectPersonal ;
+      dct:source narr:Sample_PallasineOnboarding_20260706 ;
+      skos:note "Speaker attribution with direct quote (\"Wren: ...\") gives the document a first-person, conversational register grounded in a named authority." ;
+      rdf:value true ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_PallasineOnboarding_20260706 ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start 159 ; oa:end 175
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "Wren: \"Every new" ;
+          oa:prefix "s:** Wren Duskfield (Ops Lead)\n\n" ;
+          oa:suffix " hire completes the Pallasine ch"
+        ]
+      ] .
+
+    narr:StyleObservation_EnumerationPattern a narr:StyleObservation ;
+      skos:broader narr:RuleOfThree ;
+      dct:source narr:Sample_PallasineOnboarding_20260706 ;
+      skos:note "Three-item inline enumeration (accounts, pairing rotation, shadow shift) uses the rule-of-three cadence to make the checklist feel complete and memorable." ;
+      rdf:value true ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_PallasineOnboarding_20260706 ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start 236 ; oa:end 282
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "accounts, pairing rotation, and a shadow shift" ;
+          oa:prefix " checklist in their first\nweek: " ;
+          oa:suffix ". It replaced the\nold wiki page "
+        ]
+      ] .
+
+    narr:StyleObservation_TemporalMarkerLastQuarter a narr:StyleObservation ;
+      skos:broader narr:TenseAspect ;
+      dct:source narr:Sample_PallasineOnboarding_20260706 ;
+      skos:note "Vague temporal marker \"last quarter\" anchors the policy change without a precise date — typical of informal ops notes where relative time is sufficient." ;
+      rdf:value false ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_PallasineOnboarding_20260706 ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start 300 ; oa:end 327
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "old wiki page last quarter." ;
+          oa:prefix "a shadow shift. It replaced the\n" ;
+          oa:suffix "\""
+        ]
+      ] .
+
+    # ── Style Metrics ───────────────────────────────────────────
+    narr:StyleMetrics_PallasineOnboarding a narr:StyleMetrics ;
+      skos:broader narr:StyleMetrics ;
+      dct:source narr:Sample_PallasineOnboarding_20260706 ;
+      narr:AverageSentenceLength 18 ;
+      narr:ActiveVoiceRatio "0.90"^^xsd:decimal ;
+      narr:JargonDensity "0.05"^^xsd:decimal ;
+      skos:note "Very short document (one attributed quote, ~3 sentences). High active voice. Low jargon — domain-specific term is only 'Pallasine checklist'. Register: informal/operational, first-person attributed." .
+
+  }
+}
