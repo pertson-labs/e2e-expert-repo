@@ -1,0 +1,193 @@
+PREFIX narr: <https://aswritten.ai/narrative#>
+PREFIX rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX prov: <http://www.w3.org/ns/prov#>
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+PREFIX dct:  <http://purl.org/dc/terms/>
+PREFIX xsd:  <http://www.w3.org/2001/XMLSchema#>
+PREFIX oa:   <http://www.w3.org/ns/oa#>
+
+# Transaction provenance (default graph)
+INSERT DATA {
+  narr:Tx_20260710T111002Z a prov:Activity ;
+    prov:generatedAtTime "2026-07-10T11:10:02Z"^^xsd:dateTime ;
+    prov:wasAssociatedWith "aswritten.ai" ;
+    prov:wasAttributedTo "n8n.aswritten.ai" ;
+    narr:originPath ".aswritten/memories/2026-07-10-1-protected-fallback-probe.md" ;
+    narr:originRef "e2e-protected" ;
+    dct:title "Deployment Gate Decision: Meridian Release Train" ;
+    prov:generated
+      narr:Sample_MeridianDeploymentGate_20260702,
+      narr:Actor_QuintonFairweather,
+      narr:Narrative_MeridianSignedManifestGate,
+      narr:Position_SignedManifestRequired,
+      narr:Position_GateScopesStagingAndProduction,
+      narr:Position_QuintonOwnsGate,
+      narr:Observation_UnsignedArtifactsIncident,
+      narr:Observation_GateDecisionStatement,
+      narr:StyleObs_DirectQuoteAttribution,
+      narr:StyleObs_BoldKeyDecisionLabels,
+      narr:StyleObs_ImperativeDecisionLanguage,
+      narr:StyleMetrics_MeridianDeploymentGate .
+} ;
+
+# Extracted entities (named graph)
+INSERT DATA {
+  GRAPH narr:Tx_20260710T111002Z {
+
+    # ── Sample ──────────────────────────────────────────────────────
+    narr:Sample_MeridianDeploymentGate_20260702 a narr:Sample ;
+      dct:title "Deployment Gate Decision: Meridian Release Train" ;
+      dct:created "2026-07-02"^^xsd:date ;
+      narr:inputLength "522"^^xsd:integer ;
+      dct:description "Decision record establishing a signed release manifest gate for all Meridian deployments, owned by Quinton Fairweather (CTO), applying to staging and production environments." .
+
+    # ── Actor ───────────────────────────────────────────────────────
+    narr:Actor_QuintonFairweather a narr:Actor ;
+      skos:prefLabel "Quinton Fairweather" ;
+      skos:note "CTO. Decision owner for the Meridian deployment gate policy requiring signed release manifests." .
+
+    # ── Narrative ───────────────────────────────────────────────────
+    narr:Narrative_MeridianSignedManifestGate a narr:Narrative ;
+      narr:theme "Deployment integrity enforced through mandatory signed release manifests" ;
+      skos:broader narr:QualityReviewGates ;
+      skos:note "The Meridian release train now requires a signed release manifest before any deployment ships. This gate was introduced after two unsigned artifacts reached staging in the prior quarter, establishing a formal control point across staging and production." ;
+      dct:source narr:Sample_MeridianDeploymentGate_20260702 .
+
+    # ── Positions (Claims) ──────────────────────────────────────────
+    narr:Position_SignedManifestRequired a narr:Position ;
+      narr:aboutNode narr:Narrative_MeridianSignedManifestGate ;
+      narr:hasConvictionLevel narr:Conviction_Decision ;
+      skos:note "Every Meridian deployment now requires a signed release manifest before it ships." ;
+      narr:supports narr:Narrative_MeridianSignedManifestGate ;
+      dct:source narr:Sample_MeridianDeploymentGate_20260702 .
+
+    narr:Position_GateScopesStagingAndProduction a narr:Position ;
+      narr:aboutNode narr:Narrative_MeridianSignedManifestGate ;
+      narr:hasConvictionLevel narr:Conviction_Decision ;
+      skos:note "The signed manifest gate applies to both staging and production environments." ;
+      narr:supports narr:Narrative_MeridianSignedManifestGate ;
+      dct:source narr:Sample_MeridianDeploymentGate_20260702 .
+
+    narr:Position_QuintonOwnsGate a narr:Position ;
+      narr:aboutNode narr:Actor_QuintonFairweather ;
+      narr:hasConvictionLevel narr:Conviction_Decision ;
+      skos:note "Quinton Fairweather is the named owner of the Meridian deployment gate policy." ;
+      narr:supports narr:Narrative_MeridianSignedManifestGate ;
+      dct:source narr:Sample_MeridianDeploymentGate_20260702 .
+
+    # ── Observations ────────────────────────────────────────────────
+    narr:Observation_GateDecisionStatement a narr:Observation ;
+      skos:broader narr:QualityReviewGates ;
+      dct:source narr:Sample_MeridianDeploymentGate_20260702 ;
+      skos:note "Quinton Fairweather's direct statement establishing the signed manifest gate requirement." ;
+      oa:hasSelector [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_MeridianDeploymentGate_20260702 ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start "178"^^xsd:integer ;
+          oa:end "259"^^xsd:integer
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "Every Meridian deployment now requires a signed release\nmanifest before it ships." ;
+          oa:prefix "on Fairweather (CTO)\n\nQuinton: \"" ;
+          oa:suffix " We saw two unsigned artifacts r"
+        ]
+      ] .
+
+    narr:Observation_UnsignedArtifactsIncident a narr:Observation ;
+      skos:broader narr:IncidentResponse ;
+      dct:source narr:Sample_MeridianDeploymentGate_20260702 ;
+      skos:note "The motivating incident: two unsigned artifacts reached staging last quarter, directly causing the gate to be introduced." ;
+      oa:hasSelector [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_MeridianDeploymentGate_20260702 ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start "260"^^xsd:integer ;
+          oa:end "359"^^xsd:integer
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "We saw two unsigned artifacts reach staging\nlast quarter and that is the whole reason for the gate." ;
+          oa:prefix "lease\nmanifest before it ships. " ;
+          oa:suffix "\"\n\nKey decisions:\n- **Gate**: si"
+        ]
+      ] .
+
+    # ── Style Observations ──────────────────────────────────────────
+    narr:StyleObs_DirectQuoteAttribution a narr:StyleObservation ;
+      skos:broader narr:ToneAuthoritative ;
+      dct:source narr:Sample_MeridianDeploymentGate_20260702 ;
+      skos:note "Speaker attribution pattern: name followed by colon and direct quote, lending authority and accountability to the decision." ;
+      rdf:value "true"^^xsd:boolean ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_MeridianDeploymentGate_20260702 ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start "168"^^xsd:integer ;
+          oa:end "178"^^xsd:integer
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "Quinton: \"" ;
+          oa:prefix "s:** Quinton Fairweather (CTO)\n\n" ;
+          oa:suffix "Every Meridian deployment now re"
+        ]
+      ] .
+
+    narr:StyleObs_BoldKeyDecisionLabels a narr:StyleObservation ;
+      skos:broader narr:CapitalizationCase ;
+      dct:source narr:Sample_MeridianDeploymentGate_20260702 ;
+      skos:note "Bold labels (**Gate**, **Scope**, **Owner**) used in the key decisions list to visually anchor each decision dimension — a structured, scannable formatting convention." ;
+      rdf:value "true"^^xsd:boolean ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_MeridianDeploymentGate_20260702 ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start "379"^^xsd:integer ;
+          oa:end "442"^^xsd:integer
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "**Gate**: signed release manifest required for Meridian deploys" ;
+          oa:prefix "or the gate.\"\n\nKey decisions:\n- " ;
+          oa:suffix "\n- **Scope**: applies to staging"
+        ]
+      ] .
+
+    narr:StyleObs_ImperativeDecisionLanguage a narr:StyleObservation ;
+      skos:broader narr:ToneDirectPersonal ;
+      dct:source narr:Sample_MeridianDeploymentGate_20260702 ;
+      skos:note "Present-tense declarative framing ('now requires', 'applies to') signals an enacted decision rather than a proposal — authoritative, non-negotiable register." ;
+      rdf:value "true"^^xsd:boolean ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_MeridianDeploymentGate_20260702 ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start "204"^^xsd:integer ;
+          oa:end "258"^^xsd:integer
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "now requires a signed release\nmanifest before it ships" ;
+          oa:prefix "ton: \"Every Meridian deployment " ;
+          oa:suffix ". We saw two unsigned artifacts "
+        ]
+      ] .
+
+    # ── Style Metrics ───────────────────────────────────────────────
+    narr:StyleMetrics_MeridianDeploymentGate a narr:StyleMetrics ;
+      skos:broader narr:StyleMetrics ;
+      dct:source narr:Sample_MeridianDeploymentGate_20260702 ;
+      narr:AverageSentenceLength "18"^^xsd:integer ;
+      narr:ActiveVoiceRatio "0.90"^^xsd:decimal ;
+      narr:JargonDensity "0.12"^^xsd:decimal ;
+      skos:note "Short document; predominantly active voice with direct declarative sentences. Moderate technical jargon (\"signed release manifest\", \"staging\", \"production\"). Formal decision-record register." .
+
+  }
+}
