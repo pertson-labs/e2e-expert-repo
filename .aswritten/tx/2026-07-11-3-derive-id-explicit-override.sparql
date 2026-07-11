@@ -1,0 +1,161 @@
+PREFIX narr: <https://aswritten.ai/narrative#>
+PREFIX rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX prov: <http://www.w3.org/ns/prov#>
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+PREFIX dct:  <http://purl.org/dc/terms/>
+PREFIX xsd:  <http://www.w3.org/2001/XMLSchema#>
+PREFIX oa:   <http://www.w3.org/ns/oa#>
+
+# Transaction provenance (default graph)
+INSERT DATA {
+  narr:Tx_20260711T105921Z a prov:Activity ;
+    prov:generatedAtTime "2026-07-11T10:59:21Z"^^xsd:dateTime ;
+    prov:wasAssociatedWith "aswritten.ai" ;
+    prov:wasAttributedTo "n8n.aswritten.ai" ;
+    narr:originPath ".aswritten/memories/2026-07-11-3-derive-id-explicit-override.md" ;
+    narr:originRef "e2e-derive-id-1783766908555" ;
+    dct:title "E2E derive-id: reviewer frontmatter + title-should-not-win pattern" ;
+    prov:generated
+      narr:Sample_SomeOtherTitleShouldNotWin,
+      narr:Observation_ReviewerFrontmatterField,
+      narr:Observation_TitleSelectionPriority,
+      narr:Observation_NoIdFieldReviewerVariant,
+      narr:StyleObs_MinimalBodyRegister,
+      narr:StyleObs_TestArtifactTitle,
+      narr:StyleObs_ReviewerFrontmatterJargon,
+      narr:StyleMetrics_SomeOtherTitleShouldNotWin .
+} ;
+
+# Extracted entities (named graph)
+INSERT DATA {
+  GRAPH narr:Tx_20260711T105921Z {
+
+    # ── Sample ──────────────────────────────────────────────────────
+    narr:Sample_SomeOtherTitleShouldNotWin a narr:Sample ;
+      dct:title "Some Other Title That Should Not Win" ;
+      narr:inputLength 95 ;
+      dct:description "E2E test memory with YAML frontmatter (reviewers field, no id), H1 heading asserting title-selection priority, and minimal single-word body. Submitted without an explicit id field." .
+
+    # ── Observation: reviewer frontmatter field ──────────────────────
+    narr:Observation_ReviewerFrontmatterField a narr:Observation ;
+      skos:broader narr:EdgeCaseHandling ;
+      dct:source narr:Sample_SomeOtherTitleShouldNotWin ;
+      skos:note "The frontmatter contains a 'reviewers' key with an email address (PII redacted). This is a new frontmatter field pattern not present in prior test samples — the pipeline must handle it without crashing and without leaking PII into derived slugs or titles." ;
+      oa:hasSelector [
+        a oa:TextPositionSelector ;
+        oa:start 4 ; oa:end 14
+      ] ;
+      oa:hasSelector [
+        a oa:TextQuoteSelector ;
+        oa:exact "reviewers:" ;
+        oa:prefix "---\n" ;
+        oa:suffix "\n  - xena+staging@aswritten.ai\n-"
+      ] .
+
+    # ── Observation: title selection priority ────────────────────────
+    narr:Observation_TitleSelectionPriority a narr:Observation ;
+      skos:broader narr:EdgeCaseHandling ;
+      dct:source narr:Sample_SomeOtherTitleShouldNotWin ;
+      skos:note "The H1 heading is explicitly named 'Some Other Title That Should Not Win', asserting a test expectation that the pipeline's title/slug selection logic must NOT use the H1 heading as the canonical title or slug source when other resolution paths are available. This extends the slug-derivation invariant with a title-priority dimension." ;
+      narr:supports narr:Narrative_PipelineSlugDerivation ;
+      oa:hasSelector [
+        a oa:TextPositionSelector ;
+        oa:start 50 ; oa:end 88
+      ] ;
+      oa:hasSelector [
+        a oa:TextQuoteSelector ;
+        oa:exact "# Some Other Title That Should Not Win" ;
+        oa:prefix " xena+staging@aswritten.ai\n---\n\n" ;
+        oa:suffix "\n\nBody."
+      ] .
+
+    # ── Observation: no id field (reviewer variant) ──────────────────
+    narr:Observation_NoIdFieldReviewerVariant a narr:Observation ;
+      skos:broader narr:FrictionFailure ;
+      dct:source narr:Sample_SomeOtherTitleShouldNotWin ;
+      skos:note "Third test instance of the no-id-field pattern. This variant adds a 'reviewers' frontmatter key alongside the missing id, confirming the pipeline must handle non-standard frontmatter fields gracefully during slug derivation." ;
+      narr:supports narr:Narrative_PipelineSlugDerivation ;
+      oa:hasSelector [
+        a oa:TextPositionSelector ;
+        oa:start 0 ;
+        oa:end 14
+      ] ;
+      oa:hasSelector [
+        a oa:TextQuoteSelector ;
+        oa:exact "---\nreviewers:" ;
+        oa:prefix "" ;
+        oa:suffix "\n  - xena+staging@aswritten.ai\n-"
+      ] .
+
+    # ── Style Observations ───────────────────────────────────────────
+
+    narr:StyleObs_MinimalBodyRegister a narr:StyleObservation ;
+      skos:broader narr:RegisterFormality ;
+      dct:source narr:Sample_SomeOtherTitleShouldNotWin ;
+      rdf:value true ;
+      skos:note "Extremely minimal body ('Body.') — a single word sentence. Signals this is a test scaffold, not a content document. Register is placeholder/stub." ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_SomeOtherTitleShouldNotWin ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start 90 ; oa:end 95
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "Body." ;
+          oa:prefix "ther Title That Should Not Win\n\n" ;
+          oa:suffix ""
+        ]
+      ] .
+
+    narr:StyleObs_TestArtifactTitle a narr:StyleObservation ;
+      skos:broader narr:NamingConventions ;
+      dct:source narr:Sample_SomeOtherTitleShouldNotWin ;
+      rdf:value true ;
+      skos:note "The heading 'Some Other Title That Should Not Win' is a self-referential test artifact title — it encodes the expected pipeline behaviour directly in the heading text. This is a deliberate naming convention for E2E test fixtures." ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_SomeOtherTitleShouldNotWin ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start 50 ; oa:end 88
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "# Some Other Title That Should Not Win" ;
+          oa:prefix " xena+staging@aswritten.ai\n---\n\n" ;
+          oa:suffix "\n\nBody."
+        ]
+      ] .
+
+    narr:StyleObs_ReviewerFrontmatterJargon a narr:StyleObservation ;
+      skos:broader narr:JargonPolicy ;
+      dct:source narr:Sample_SomeOtherTitleShouldNotWin ;
+      rdf:value true ;
+      skos:note "Use of 'reviewers' as a YAML frontmatter key is domain-specific pipeline jargon. Combined with the email value (PII), this field is a technical metadata pattern that the pipeline must parse without exposing PII downstream." ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_SomeOtherTitleShouldNotWin ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start 4 ; oa:end 14
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "reviewers:" ;
+          oa:prefix "---\n" ;
+          oa:suffix "\n  - xena+staging@aswritten.ai\n-"
+        ]
+      ] .
+
+    # ── Style Metrics ────────────────────────────────────────────────
+    narr:StyleMetrics_SomeOtherTitleShouldNotWin a narr:StyleMetrics ;
+      skos:broader narr:StyleMetrics ;
+      dct:source narr:Sample_SomeOtherTitleShouldNotWin ;
+      narr:AverageSentenceLength 1 ;
+      narr:ActiveVoiceRatio "1.0"^^xsd:decimal ;
+      narr:JargonDensity "0.14"^^xsd:decimal ;
+      skos:note "Body is a single word ('Body.'): AverageSentenceLength=1. Active voice ratio=1.0 (only sentence is declarative active). Jargon: 'reviewers' as frontmatter key is domain-specific (~1 of 7 total non-frontmatter words ≈ 0.14). Register: test-scaffold/placeholder."
+  }
+}
