@@ -1,0 +1,114 @@
+PREFIX narr: <https://aswritten.ai/narrative#>
+PREFIX rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX prov: <http://www.w3.org/ns/prov#>
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+PREFIX dct:  <http://purl.org/dc/terms/>
+PREFIX xsd:  <http://www.w3.org/2001/XMLSchema#>
+PREFIX oa:   <http://www.w3.org/ns/oa#>
+
+# ── Retraction transaction (default graph) ──────────────────────────────────
+INSERT DATA {
+  narr:Tx_20260711T103042Z a prov:Activity ;
+    prov:generatedAtTime "2026-07-11T10:30:42Z"^^xsd:dateTime ;
+    prov:wasAssociatedWith "aswritten.ai" ;
+    prov:wasAttributedTo "xena+staging@aswritten.ai" ;
+    narr:originPath ".aswritten/memories/2026-07-11-3-forget-lifecycle-retract-target.md" ;
+    narr:originRef "e2e-forget-1783765304221" ;
+    prov:generated narr:Tx_20260711T103042Z ;
+    dct:title "Retraction: Kestrelwood spectrograph calibration, 88.4 MHz, Quill Ashgrove" .
+} ;
+
+# ── Remove Narrative_KestrelwoodSpectrographCalibration from all graphs ──────
+DELETE WHERE {
+  GRAPH ?g {
+    narr:Narrative_KestrelwoodSpectrographCalibration ?p ?o .
+  }
+} ;
+
+# ── Remove Observation_CalibrationFrequencyVerified from all graphs ──────────
+DELETE WHERE {
+  GRAPH ?g {
+    narr:Observation_CalibrationFrequencyVerified ?p ?o .
+  }
+} ;
+
+# ── Remove Sample_KestrelwoodCalibration_20260706 from all graphs ────────────
+DELETE WHERE {
+  GRAPH ?g {
+    narr:Sample_KestrelwoodCalibration_20260706 ?p ?o .
+  }
+} ;
+
+# ── Remove Actor_QuillAshgrove from all graphs ───────────────────────────────
+DELETE WHERE {
+  GRAPH ?g {
+    narr:Actor_QuillAshgrove ?p ?o .
+  }
+} ;
+
+# ── Remove StyleObs_BoldKeyTermFormatting (sourced from Kestrelwood sample) ──
+DELETE WHERE {
+  GRAPH ?g {
+    narr:StyleObs_BoldKeyTermFormatting ?p ?o .
+  }
+} ;
+
+# ── Remove any triples that reference the Kestrelwood sample as object ────────
+DELETE WHERE {
+  GRAPH ?g {
+    ?s ?p narr:Sample_KestrelwoodCalibration_20260706 .
+  }
+} ;
+
+# ── Remove any triples that reference the Kestrelwood narrative as object ─────
+DELETE WHERE {
+  GRAPH ?g {
+    ?s ?p narr:Narrative_KestrelwoodSpectrographCalibration .
+  }
+} ;
+
+# ── Remove any triples that reference Actor_QuillAshgrove as object ───────────
+DELETE WHERE {
+  GRAPH ?g {
+    ?s ?p narr:Actor_QuillAshgrove .
+  }
+} ;
+
+# ── Remove any triples that reference Observation_CalibrationFrequencyVerified as object
+DELETE WHERE {
+  GRAPH ?g {
+    ?s ?p narr:Observation_CalibrationFrequencyVerified .
+  }
+} ;
+
+# ── Remove prov:generated references to Kestrelwood entities from Tx nodes ───
+DELETE WHERE {
+  narr:Sample_KestrelwoodCalibration_20260706 ?p ?o .
+} ;
+DELETE WHERE {
+  narr:Narrative_KestrelwoodSpectrographCalibration ?p ?o .
+} ;
+DELETE WHERE {
+  narr:Observation_CalibrationFrequencyVerified ?p ?o .
+} ;
+DELETE WHERE {
+  narr:Actor_QuillAshgrove ?p ?o .
+} ;
+DELETE WHERE {
+  narr:StyleObs_BoldKeyTermFormatting ?p ?o .
+} ;
+DELETE WHERE {
+  ?s prov:generated narr:Sample_KestrelwoodCalibration_20260706 .
+} ;
+DELETE WHERE {
+  ?s prov:generated narr:Narrative_KestrelwoodSpectrographCalibration .
+} ;
+DELETE WHERE {
+  ?s prov:generated narr:Observation_CalibrationFrequencyVerified .
+} ;
+DELETE WHERE {
+  ?s prov:generated narr:Actor_QuillAshgrove .
+} ;
+DELETE WHERE {
+  ?s prov:generated narr:StyleObs_BoldKeyTermFormatting .
+}
