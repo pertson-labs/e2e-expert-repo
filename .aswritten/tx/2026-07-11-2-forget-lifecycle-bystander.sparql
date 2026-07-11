@@ -1,0 +1,155 @@
+PREFIX narr: <https://aswritten.ai/narrative#>
+PREFIX rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX prov: <http://www.w3.org/ns/prov#>
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+PREFIX dct:  <http://purl.org/dc/terms/>
+PREFIX xsd:  <http://www.w3.org/2001/XMLSchema#>
+PREFIX oa:   <http://www.w3.org/ns/oa#>
+
+# Transaction provenance (default graph)
+INSERT DATA {
+  narr:Tx_20260711T102810Z a prov:Activity ;
+    prov:generatedAtTime "2026-07-11T10:28:10Z"^^xsd:dateTime ;
+    prov:wasAssociatedWith "aswritten.ai" ;
+    prov:wasAttributedTo "n8n.aswritten.ai" ;
+    narr:originPath ".aswritten/memories/2026-07-11-2-forget-lifecycle-bystander.md" ;
+    narr:originRef "e2e-forget-1783765304221" ;
+    dct:title "Onboarding Process: Pallasine Checklist" ;
+    prov:generated
+      narr:Sample_PallasineOnboarding_20260706,
+      narr:Actor_WrenDuskfield,
+      narr:Narrative_PallasineOnboardingChecklist,
+      narr:Observation_PallasineChecklistComponents,
+      narr:Observation_WikiPageSupersession,
+      narr:StyleObs_BoldFieldLabels_Pallasine,
+      narr:StyleObs_DirectSpeakerAttribution_Pallasine,
+      narr:StyleObs_InformalConversationalRegister_Pallasine,
+      narr:StyleMetrics_PallasineOnboarding .
+} ;
+
+# Extracted entities (named graph)
+INSERT DATA {
+  GRAPH narr:Tx_20260711T102810Z {
+
+    # ── Sample ──────────────────────────────────────────────────
+    narr:Sample_PallasineOnboarding_20260706 a narr:Sample ;
+      dct:title "Onboarding Process: Pallasine Checklist" ;
+      dct:created "2026-07-06"^^xsd:date ;
+      narr:inputLength 328 .
+
+    # ── Actor ───────────────────────────────────────────────────
+    narr:Actor_WrenDuskfield a narr:Actor ;
+      skos:prefLabel "Wren Duskfield" ;
+      skos:note "Ops Lead; described the Pallasine onboarding checklist process on 2026-07-06." .
+
+    # ── Narrative ───────────────────────────────────────────────
+    narr:Narrative_PallasineOnboardingChecklist a narr:Narrative ;
+      narr:theme "Standardised first-week onboarding via the Pallasine checklist" ;
+      skos:broader narr:ProcessPolicyUpdates ;
+      skos:note "Every new hire completes the Pallasine checklist in their first week, covering accounts, pairing rotation, and a shadow shift. The checklist replaced the old wiki page last quarter, marking a process formalisation shift." ;
+      dct:source narr:Sample_PallasineOnboarding_20260706 .
+
+    # ── Observations ────────────────────────────────────────────
+    narr:Observation_PallasineChecklistComponents a narr:Observation ;
+      skos:broader narr:CoreWorkflows ;
+      skos:note "Pallasine checklist covers three components: accounts, pairing rotation, and a shadow shift, completed in the first week." ;
+      dct:source narr:Sample_PallasineOnboarding_20260706 ;
+      oa:hasSelector [
+        a oa:TextPositionSelector ;
+        oa:start 166 ;
+        oa:end 283
+      ] ;
+      oa:hasSelector [
+        a oa:TextQuoteSelector ;
+        oa:exact "Every new hire completes the Pallasine checklist in their first\nweek: accounts, pairing rotation, and a shadow shift." ;
+        oa:prefix "en Duskfield (Ops Lead)\n\nWren: \"" ;
+        oa:suffix " It replaced the\nold wiki page l"
+      ] .
+
+    narr:Observation_WikiPageSupersession a narr:Observation ;
+      skos:broader narr:ChangeManagement ;
+      skos:note "The Pallasine checklist replaced the old wiki page last quarter, indicating a deliberate process formalisation." ;
+      dct:source narr:Sample_PallasineOnboarding_20260706 ;
+      oa:hasSelector [
+        a oa:TextPositionSelector ;
+        oa:start 284 ;
+        oa:end 327
+      ] ;
+      oa:hasSelector [
+        a oa:TextQuoteSelector ;
+        oa:exact "It replaced the\nold wiki page last quarter." ;
+        oa:prefix "g rotation, and a shadow shift. " ;
+        oa:suffix "\""
+      ] .
+
+    # ── Style Observations ──────────────────────────────────────
+    narr:StyleObs_BoldFieldLabels_Pallasine a narr:StyleObservation ;
+      skos:broader narr:CapitalizationCase ;
+      skos:note "Structured-note header uses bold Markdown field labels (**Date:**, **Participants:**) — consistent with observatory-style meeting notes." ;
+      dct:source narr:Sample_PallasineOnboarding_20260706 ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_PallasineOnboarding_20260706 ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start 93 ;
+          oa:end 157
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "**Date:** 2026-07-06\n**Participants:** Wren Duskfield (Ops Lead)" ;
+          oa:prefix "g Process: Pallasine Checklist\n\n" ;
+          oa:suffix "\n\nWren: \"Every new hire complete"
+        ]
+      ] .
+
+    narr:StyleObs_DirectSpeakerAttribution_Pallasine a narr:StyleObservation ;
+      skos:broader narr:ToneDirectPersonal ;
+      skos:note "Speaker attributed by first name followed by colon and direct quotation — informal but precise attribution matching the Kestrelwood calibration note pattern." ;
+      dct:source narr:Sample_PallasineOnboarding_20260706 ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_PallasineOnboarding_20260706 ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start 159 ; oa:end 166
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "Wren: \"" ;
+          oa:prefix "s:** Wren Duskfield (Ops Lead)\n\n" ;
+          oa:suffix "Every new hire completes the Pal"
+        ]
+      ] .
+
+    narr:StyleObs_InformalConversationalRegister_Pallasine a narr:StyleObservation ;
+      skos:broader narr:RegisterFormality ;
+      skos:note "First-person plural implied process description ('Every new hire completes') uses plain, direct language — low formality, operational register appropriate for internal ops documentation." ;
+      dct:source narr:Sample_PallasineOnboarding_20260706 ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_PallasineOnboarding_20260706 ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start 166 ;
+          oa:end 283
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "Every new hire completes the Pallasine checklist in their first\nweek: accounts, pairing rotation, and a shadow shift." ;
+          oa:prefix "en Duskfield (Ops Lead)\n\nWren: \"" ;
+          oa:suffix " It replaced the\nold wiki page l"
+        ]
+      ] .
+
+    # ── Style Metrics ───────────────────────────────────────────
+    narr:StyleMetrics_PallasineOnboarding a narr:StyleMetrics ;
+      skos:broader narr:StyleMetrics ;
+      dct:source narr:Sample_PallasineOnboarding_20260706 ;
+      narr:AverageSentenceLength 22 ;
+      narr:ActiveVoiceRatio "0.90"^^xsd:decimal ;
+      narr:JargonDensity "0.05"^^xsd:decimal ;
+      skos:note "Very short document; two sentences of substantive content. Predominantly active voice. Minimal jargon — 'Pallasine checklist', 'pairing rotation', 'shadow shift' are domain-specific but plain-language adjacent. Declarative, operational register." .
+
+  }
+}
