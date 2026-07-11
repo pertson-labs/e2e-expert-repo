@@ -7,84 +7,60 @@ PREFIX xsd:  <http://www.w3.org/2001/XMLSchema#>
 PREFIX oa:   <http://www.w3.org/ns/oa#>
 
 INSERT DATA {
-  narr:Tx_20260711T095032Z a prov:Activity ;
-    prov:generatedAtTime "2026-07-11T09:50:32Z"^^xsd:dateTime ;
+  narr:Tx_20260711T095320Z a prov:Activity ;
+    prov:generatedAtTime "2026-07-11T09:53:20Z"^^xsd:dateTime ;
     prov:wasAssociatedWith "aswritten.ai" ;
     prov:wasAttributedTo "n8n.aswritten.ai" ;
     narr:originPath ".aswritten/memories/2026-07-11-1-e2e-overwrite-1783763294715.md" ;
     narr:originRef "e2e-overwrite-1783763294715" ;
-    dct:title "First version stub — e2e-overwrite-1783763294715" ;
+    dct:title "Second version stub extraction" ;
     prov:generated
-      narr:Sample_FirstVersionStub,
-      narr:StyleObs_YAMLFrontmatter,
-      narr:StyleObs_MinimalBodyText,
-      narr:StyleObs_ReviewerFrontmatterConvention,
-      narr:StyleMetrics_FirstVersionStub .
+      narr:Sample_SecondVersionStub,
+      narr:StyleObs_MinimalBodyText_V2,
+      narr:StyleObs_ReviewerFrontmatter_V2,
+      narr:StyleObs_YAMLFrontmatter_V2,
+      narr:StyleMetrics_SecondVersionStub .
 } ;
 
 INSERT DATA {
-  GRAPH narr:Tx_20260711T095032Z {
+  GRAPH narr:Tx_20260711T095320Z {
 
-    # ── Sample ──────────────────────────────────────────────────
-    narr:Sample_FirstVersionStub a narr:Sample ;
-      dct:title "First version stub" ;
-      narr:inputLength 63 ;
-      dct:description "Minimal document stub with YAML front-matter reviewer field and a single 'First version' body line. No narrative content beyond document initialisation." .
+    narr:Sample_SecondVersionStub a narr:Sample ;
+      dct:title "Second version stub" ;
+      narr:inputLength 64 ;
+      dct:description "Minimal document stub with YAML front-matter reviewer field and a single 'Second version' body line. Structurally identical to the first version stub." .
 
-    # ── Style Observation 1: YAML front-matter convention ───────
-    narr:StyleObs_YAMLFrontmatter a narr:StyleObservation ;
-      skos:broader narr:EditorialRules ;
-      dct:source narr:Sample_FirstVersionStub ;
-      skos:note "Document uses YAML front-matter delimited by triple-dashes to declare structured metadata (reviewers list)." ;
-      oa:hasTarget [
-        a oa:SpecificResource ;
-        oa:hasSource narr:Sample_FirstVersionStub ;
-        oa:hasSelector [
-          a oa:TextPositionSelector ;
-          oa:start 0 ;
-          oa:end 46
-        ] ;
-        oa:hasSelector [
-          a oa:TextQuoteSelector ;
-          oa:exact "---\nreviewers:\n  - [REDACTED]\n---" ;
-          oa:prefix "" ;
-          oa:suffix "\n\nFirst version"
-        ]
-      ] .
-
-    # ── Style Observation 2: Minimal body text ──────────────────
-    narr:StyleObs_MinimalBodyText a narr:StyleObservation ;
+    narr:StyleObs_MinimalBodyText_V2 a narr:StyleObservation ;
       skos:broader narr:ShortPunchyCadence ;
-      dct:source narr:Sample_FirstVersionStub ;
+      dct:source narr:Sample_SecondVersionStub ;
       skos:note "Body text is a single two-word declarative phrase with no elaboration, signalling a document placeholder or initialisation stub." ;
       oa:hasTarget [
         a oa:SpecificResource ;
-        oa:hasSource narr:Sample_FirstVersionStub ;
+        oa:hasSource narr:Sample_SecondVersionStub ;
         oa:hasSelector [
           a oa:TextPositionSelector ;
-          oa:start 50 ; oa:end 63
+          oa:start 50 ; oa:end 64
         ] ;
         oa:hasSelector [
           a oa:TextQuoteSelector ;
-          oa:exact "First version" ;
+          oa:exact "Second version" ;
           oa:prefix " xena+staging@aswritten.ai\n---\n\n" ;
           oa:suffix ""
         ]
       ] .
 
-    # ── Style Observation 3: Reviewer attribution convention ────
-    narr:StyleObs_ReviewerFrontmatterConvention a narr:StyleObservation ;
+    narr:StyleObs_ReviewerFrontmatter_V2 a narr:StyleObservation ;
       skos:broader narr:CitationConventions ;
-      dct:source narr:Sample_FirstVersionStub ;
-      skos:note "Reviewer identity declared as a YAML list entry under 'reviewers:' key in front-matter — a structured attribution pattern rather than inline prose." ;
+      dct:source narr:Sample_SecondVersionStub ;
       rdf:value true ;
+      skos:note "Reviewer identity declared as a YAML list entry under 'reviewers:' key in front-matter — a structured attribution pattern rather than inline prose." ;
       oa:hasTarget [
         a oa:SpecificResource ;
-        oa:hasSource narr:Sample_FirstVersionStub ;
+        oa:hasSource narr:Sample_SecondVersionStub ;
         oa:hasSelector [
           a oa:TextPositionSelector ;
-          oa:start 5 ;
-          oa:end 45
+          oa:start 4 ;
+          oa:end 38
         ] ;
         oa:hasSelector [
           a oa:TextQuoteSelector ;
@@ -94,10 +70,29 @@ INSERT DATA {
         ]
       ] .
 
-    # ── Style Metrics ────────────────────────────────────────────
-    narr:StyleMetrics_FirstVersionStub a narr:StyleMetrics ;
+    narr:StyleObs_YAMLFrontmatter_V2 a narr:StyleObservation ;
+      skos:broader narr:EditorialRules ;
+      dct:source narr:Sample_SecondVersionStub ;
+      skos:note "Document uses YAML front-matter delimited by triple-dashes to declare structured metadata (reviewers list)." ;
+      oa:hasTarget [
+        a oa:SpecificResource ;
+        oa:hasSource narr:Sample_SecondVersionStub ;
+        oa:hasSelector [
+          a oa:TextPositionSelector ;
+          oa:start 0 ;
+          oa:end 44
+        ] ;
+        oa:hasSelector [
+          a oa:TextQuoteSelector ;
+          oa:exact "---\nreviewers:\n  - [REDACTED]\n---" ;
+          oa:prefix "" ;
+          oa:suffix "\n\nSecond version"
+        ]
+      ] .
+
+    narr:StyleMetrics_SecondVersionStub a narr:StyleMetrics ;
       skos:broader narr:StyleMetrics ;
-      dct:source narr:Sample_FirstVersionStub ;
+      dct:source narr:Sample_SecondVersionStub ;
       narr:AverageSentenceLength 2 ;
       narr:ActiveVoiceRatio "1.0"^^xsd:decimal ;
       narr:JargonDensity "0.0"^^xsd:decimal ;
