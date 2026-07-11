@@ -1,0 +1,217 @@
+PREFIX narr: <https://aswritten.ai/narrative#>
+PREFIX rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX prov: <http://www.w3.org/ns/prov#>
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+PREFIX dct:  <http://purl.org/dc/terms/>
+PREFIX xsd:  <http://www.w3.org/2001/XMLSchema#>
+PREFIX oa:   <http://www.w3.org/ns/oa#>
+
+# Transaction provenance (default graph) — documents the retraction event
+INSERT DATA {
+  narr:Tx_20260711T102055Z a prov:Activity ;
+    prov:generatedAtTime "2026-07-11T10:20:55Z"^^xsd:dateTime ;
+    prov:wasAssociatedWith "aswritten.ai" ;
+    prov:wasAttributedTo "n8n.aswritten.ai" ;
+    narr:originPath ".aswritten/memories/2026-07-11-4-lifecycle-forget-b.md" ;
+    narr:originRef "e2e-lifecycle-1783764169713" ;
+    dct:title "Retraction: Zypherion, Meridian, Quinton Fairweather, analytics pipeline migration" ;
+    prov:generated narr:Tx_20260711T102055Z .
+} ;
+
+# --- DELETE Actor_QuintonFairweather ---
+DELETE WHERE {
+  GRAPH ?g {
+    narr:Actor_QuintonFairweather ?p ?o .
+  }
+} ;
+
+# --- DELETE Narrative_ZypherionAdoption ---
+DELETE WHERE {
+  GRAPH ?g {
+    narr:Narrative_ZypherionAdoption ?p ?o .
+  }
+} ;
+
+# --- DELETE Position_ZypherionDatabaseChoice ---
+DELETE WHERE {
+  GRAPH ?g {
+    narr:Position_ZypherionDatabaseChoice ?p ?o .
+  }
+} ;
+
+# --- DELETE Position_StreamingIngestionCapability ---
+DELETE WHERE {
+  GRAPH ?g {
+    narr:Position_StreamingIngestionCapability ?p ?o .
+  }
+} ;
+
+# --- DELETE Position_ColumnarQueryPerformance ---
+DELETE WHERE {
+  GRAPH ?g {
+    narr:Position_ColumnarQueryPerformance ?p ?o .
+  }
+} ;
+
+# --- DELETE Position_MigrationTimeline ---
+DELETE WHERE {
+  GRAPH ?g {
+    narr:Position_MigrationTimeline ?p ?o .
+  }
+} ;
+
+# --- DELETE Obs_AdoptionStatement ---
+DELETE WHERE {
+  GRAPH ?g {
+    narr:Obs_AdoptionStatement ?p ?o .
+  }
+} ;
+
+# --- DELETE Obs_MeridianAdoptionStatement ---
+DELETE WHERE {
+  GRAPH ?g {
+    narr:Obs_MeridianAdoptionStatement ?p ?o .
+  }
+} ;
+
+# --- DELETE Obs_MigrationTimeline ---
+DELETE WHERE {
+  GRAPH ?g {
+    narr:Obs_MigrationTimeline ?p ?o .
+  }
+} ;
+
+# --- DELETE Obs_StreamingGapStatement ---
+DELETE WHERE {
+  GRAPH ?g {
+    narr:Obs_StreamingGapStatement ?p ?o .
+  }
+} ;
+
+# --- DELETE Obs_SupersessionStatement ---
+DELETE WHERE {
+  GRAPH ?g {
+    narr:Obs_SupersessionStatement ?p ?o .
+  }
+} ;
+
+# --- DELETE StyleObs_BoldKeyDecisionsRevised ---
+DELETE WHERE {
+  GRAPH ?g {
+    narr:StyleObs_BoldKeyDecisionsRevised ?p ?o .
+  }
+} ;
+
+# --- DELETE StyleMetrics_ZypherionDecision ---
+DELETE WHERE {
+  GRAPH ?g {
+    narr:StyleMetrics_ZypherionDecision ?p ?o .
+  }
+} ;
+
+# --- DELETE Sample_ZypherionDecision_20260406 ---
+DELETE WHERE {
+  GRAPH ?g {
+    narr:Sample_ZypherionDecision_20260406 ?p ?o .
+  }
+} ;
+
+# --- DELETE Sample_MeridianDecision_20260406 ---
+DELETE WHERE {
+  GRAPH ?g {
+    narr:Sample_MeridianDecision_20260406 ?p ?o .
+  }
+} ;
+
+# --- DELETE any blank-node children (selectors, targets) that were objects of the deleted entities ---
+# Obs_AdoptionStatement selector blank nodes
+DELETE WHERE {
+  GRAPH ?g {
+    narr:Obs_AdoptionStatement oa:hasSelector ?sel .
+    ?sel ?sp ?so .
+  }
+} ;
+DELETE WHERE {
+  GRAPH ?g {
+    narr:Obs_MeridianAdoptionStatement oa:hasSelector ?sel .
+    ?sel ?sp ?so .
+  }
+} ;
+DELETE WHERE {
+  GRAPH ?g {
+    narr:Obs_MigrationTimeline oa:hasSelector ?sel .
+    ?sel ?sp ?so .
+  }
+} ;
+DELETE WHERE {
+  GRAPH ?g {
+    narr:Obs_StreamingGapStatement oa:hasSelector ?sel .
+    ?sel ?sp ?so .
+  }
+} ;
+DELETE WHERE {
+  GRAPH ?g {
+    narr:Obs_SupersessionStatement oa:hasSelector ?sel .
+    ?sel ?sp ?so .
+  }
+} ;
+DELETE WHERE {
+  GRAPH ?g {
+    narr:StyleObs_BoldKeyDecisionsRevised oa:hasTarget ?tgt .
+    ?tgt ?tp ?to .
+  }
+} ;
+DELETE WHERE {
+  GRAPH ?g {
+    narr:StyleObs_BoldKeyDecisionsRevised oa:hasTarget ?tgt .
+    ?tgt oa:hasSelector ?sel .
+    ?sel ?sp ?so .
+  }
+} ;
+
+# --- DELETE any prov:generated references to retracted entities from prior Tx nodes ---
+DELETE WHERE {
+  ?tx prov:generated narr:Actor_QuintonFairweather .
+} ;
+DELETE WHERE {
+  ?tx prov:generated narr:Narrative_ZypherionAdoption .
+} ;
+DELETE WHERE {
+  ?tx prov:generated narr:Position_ZypherionDatabaseChoice .
+} ;
+DELETE WHERE {
+  ?tx prov:generated narr:Position_StreamingIngestionCapability .
+} ;
+DELETE WHERE {
+  ?tx prov:generated narr:Position_ColumnarQueryPerformance .
+} ;
+DELETE WHERE {
+  ?tx prov:generated narr:Position_MigrationTimeline .
+} ;
+DELETE WHERE {
+  ?tx prov:generated narr:Obs_AdoptionStatement .
+} ;
+DELETE WHERE {
+  ?tx prov:generated narr:Obs_MeridianAdoptionStatement .
+} ;
+DELETE WHERE {
+  ?tx prov:generated narr:Obs_MigrationTimeline .
+} ;
+DELETE WHERE {
+  ?tx prov:generated narr:Obs_StreamingGapStatement .
+} ;
+DELETE WHERE {
+  ?tx prov:generated narr:Obs_SupersessionStatement .
+} ;
+DELETE WHERE {
+  ?tx prov:generated narr:StyleObs_BoldKeyDecisionsRevised .
+} ;
+DELETE WHERE {
+  ?tx prov:generated narr:StyleMetrics_ZypherionDecision .
+} ;
+DELETE WHERE {
+  ?tx prov:generated narr:Sample_ZypherionDecision_20260406 .
+} ;
+DELETE WHERE {
+  ?tx prov:generated narr:Sample_MeridianDecision_20260406 .
+}
