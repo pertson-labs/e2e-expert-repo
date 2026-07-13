@@ -1,0 +1,78 @@
+PREFIX narr: <https://aswritten.ai/narrative#>
+PREFIX aswr: <https://aswritten.ai/aswr#>
+PREFIX rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX prov: <http://www.w3.org/ns/prov#>
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+PREFIX dct:  <http://purl.org/dc/terms/>
+PREFIX xsd:  <http://www.w3.org/2001/XMLSchema#>
+PREFIX oa:   <http://www.w3.org/ns/oa#>
+
+INSERT DATA {
+  aswr:Tx_20260713T104245Z a prov:Activity ;
+      prov:generatedAtTime "2026-07-13T10:42:45Z"^^xsd:dateTime ;
+      prov:wasAssociatedWith "aswritten.ai" ;
+      prov:wasAttributedTo "scarlet@aswritten.ai" ;
+      aswr:originPath ".aswritten/memories/2026-07-13-1-sample-memory-with-distinctive-heading.md" ;
+      dct:title "Multipass fragment: 1SampleMemoryWithDistinctiveHeading" ;
+      prov:generated narr:Conviction_1SampleMemoryWithDistinctiveHeading_1, narr:DirRegister_PipelineProceduralPrecision, narr:VecRegister_1SampleMemoryWithDistinctiveHeading_1, narr:VecTemporal_1SampleMemoryWithDistinctiveHeading_1, narr:Architecture, narr:Narrative_FallbackEnsuresCompletion .
+} ;
+INSERT DATA {
+  GRAPH aswr:Tx_20260713T104245Z {
+    narr:Conviction_1SampleMemoryWithDistinctiveHeading_1 a narr:ConvictionObservation ;
+        oa:hasTarget narr:Expr_1SampleMemoryWithDistinctiveHeading_1 ;
+        narr:conviction narr:Conviction_Claim ;
+        narr:evidence "plain-assertion: Submitted without an explicit id field. The pipeline must produce a slug from the memory content — either via the LLM id-gen call or the deterministic slugify fallback — and commit the file successfully." ;
+        narr:reported false ;
+        skos:note "The segment uses an unhedged assertion and states an operational requirement, but it describes a pipeline condition rather than performing or recording a settled decision." ;
+        prov:generatedAtTime "2026-07-13T10:42:45Z"^^xsd:dateTime .
+
+    narr:DirRegister_PipelineProceduralPrecision a narr:DirectionalNode ;
+        dct:source narr:Sample_1SampleMemoryWithDistinctiveHeading ;
+        narr:dimension narr:Dim_Register ;
+        narr:region narr:Register_Technical ;
+        narr:region narr:Register_MatterOfFact ;
+        narr:theme "Operational instructions are rendered through exact system terminology and explicit implementation paths rather than conversational explanation." ;
+        skos:note "procedural precision in native pipeline vocabulary" ;
+        prov:generatedAtTime "2026-07-13T10:42:45Z"^^xsd:dateTime .
+
+    narr:VecRegister_1SampleMemoryWithDistinctiveHeading_1 a narr:VectorObservation ;
+        oa:hasTarget narr:Expr_1SampleMemoryWithDistinctiveHeading_1 ;
+        narr:dimension narr:Dim_Register ;
+        narr:region narr:Register_Technical ;
+        narr:region narr:Register_MatterOfFact ;
+        narr:direction narr:DirRegister_PipelineProceduralPrecision ;
+        narr:evidence "lexical-marker: The pipeline must produce a slug from the memory content — either via the LLM id-gen call or the deterministic slugify fallback — and commit the file successfully." ;
+        narr:reported false ;
+        skos:note "Native pipeline terminology and procedural precision are delivered in a flat, instrumental register." ;
+        prov:generatedAtTime "2026-07-13T10:42:45Z"^^xsd:dateTime .
+
+    narr:VecTemporal_1SampleMemoryWithDistinctiveHeading_1 a narr:VectorObservation ;
+        oa:hasTarget narr:Expr_1SampleMemoryWithDistinctiveHeading_1 ;
+        narr:dimension narr:Dim_Temporal ;
+        narr:region narr:Temporal_Present ;
+        narr:region narr:Temporal_Realis ;
+        narr:region narr:Temporal_Concrete ;
+        narr:evidence "plain-signal: The pipeline must produce a slug from the memory content" ;
+        narr:evidence "plain-signal: and commit the file successfully" ;
+        narr:reported false ;
+        skos:note "The segment frames a concrete pipeline requirement as currently operative and settled, while describing the specific output and commit action." ;
+        prov:generatedAtTime "2026-07-13T10:42:45Z"^^xsd:dateTime .
+
+    narr:Architecture a narr:Strata ;
+        dct:source narr:Sample_1SampleMemoryWithDistinctiveHeading ;
+        narr:theme "The pipeline's architecture must guarantee a valid identifier for every submission, falling back to a deterministic method when the primary generation path is unavailable, so the commit always succeeds." ;
+        skos:note "System resilience through fallback design" ;
+        prov:generatedAtTime "2026-07-13T10:42:45Z"^^xsd:dateTime .
+
+    narr:Expr_1SampleMemoryWithDistinctiveHeading_1 narr:supports narr:Architecture .
+
+    narr:Narrative_FallbackEnsuresCompletion a narr:Narrative ;
+        dct:source narr:Sample_1SampleMemoryWithDistinctiveHeading ;
+        narr:theme "When the primary path for producing something required cannot run, a deterministic fallback still carries the process to successful completion." ;
+        skos:broader narr:Architecture ;
+        skos:note "Fallback paths preserve completion" ;
+        prov:generatedAtTime "2026-07-13T10:42:45Z"^^xsd:dateTime .
+
+    narr:Expr_1SampleMemoryWithDistinctiveHeading_1 narr:supports narr:Narrative_FallbackEnsuresCompletion .
+  }
+}
