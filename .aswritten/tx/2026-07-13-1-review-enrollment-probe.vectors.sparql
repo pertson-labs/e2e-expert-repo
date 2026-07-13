@@ -1,0 +1,90 @@
+PREFIX narr: <https://aswritten.ai/narrative#>
+PREFIX aswr: <https://aswritten.ai/aswr#>
+PREFIX rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX prov: <http://www.w3.org/ns/prov#>
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+PREFIX dct:  <http://purl.org/dc/terms/>
+PREFIX xsd:  <http://www.w3.org/2001/XMLSchema#>
+PREFIX oa:   <http://www.w3.org/ns/oa#>
+
+INSERT DATA {
+  aswr:Tx_20260713T104605Z a prov:Activity ;
+      prov:generatedAtTime "2026-07-13T10:46:05Z"^^xsd:dateTime ;
+      prov:wasAssociatedWith "aswritten.ai" ;
+      prov:wasAttributedTo "scarlet@aswritten.ai" ;
+      aswr:originPath ".aswritten/memories/2026-07-13-1-review-enrollment-probe.md" ;
+      dct:title "Multipass fragment: 1ReviewEnrollmentProbe" ;
+      prov:generated narr:Conviction_1ReviewEnrollmentProbe_1, narr:Conviction_1ReviewEnrollmentProbe_2, narr:VecTemporal_1ReviewEnrollmentProbe_1, narr:VecTemporal_1ReviewEnrollmentProbe_2, narr:Proof, narr:Narrative_CreatorReviewerEnrollmentGuarantee, narr:Position_ReviewerEnrollmentProbe .
+} ;
+INSERT DATA {
+  GRAPH aswr:Tx_20260713T104605Z {
+    narr:Conviction_1ReviewEnrollmentProbe_1 a narr:ConvictionObservation ;
+        oa:hasTarget narr:Expr_1ReviewEnrollmentProbe_1 ;
+        narr:conviction narr:Conviction_Claim ;
+        narr:evidence "plain-assertion: the e2e suite asserts that saving a memory enrolls its creator as a reviewer." ;
+        narr:reported false ;
+        skos:note "The statement is a plain assertion, but it does not perform a ratification or establish a settled operational rule." ;
+        prov:generatedAtTime "2026-07-13T10:46:05Z"^^xsd:dateTime .
+
+    narr:Conviction_1ReviewEnrollmentProbe_2 a narr:ConvictionObservation ;
+        oa:hasTarget narr:Expr_1ReviewEnrollmentProbe_2 ;
+        narr:conviction narr:Conviction_Claim ;
+        narr:evidence "plain-assertion: This probe memory exists only to carry that assertion." ;
+        narr:reported false ;
+        skos:note "The speaker states the probe's purpose directly, supporting a committed claim without evidence of decision-grade settling or bedrock conviction." ;
+        prov:generatedAtTime "2026-07-13T10:46:05Z"^^xsd:dateTime .
+
+    narr:VecTemporal_1ReviewEnrollmentProbe_1 a narr:VectorObservation ;
+        oa:hasTarget narr:Expr_1ReviewEnrollmentProbe_1 ;
+        narr:dimension narr:Dim_Temporal ;
+        narr:region narr:Temporal_Present ;
+        narr:region narr:Temporal_Realis ;
+        narr:region narr:Temporal_Concrete ;
+        narr:evidence "lexical-marker: the e2e suite asserts" ;
+        narr:evidence "plain-signal: saving a memory enrolls its creator as a reviewer" ;
+        narr:reported false ;
+        skos:note "The sentence presents a current test-suite assertion about a specific enrollment behavior as settled within the document." ;
+        prov:generatedAtTime "2026-07-13T10:46:05Z"^^xsd:dateTime .
+
+    narr:VecTemporal_1ReviewEnrollmentProbe_2 a narr:VectorObservation ;
+        oa:hasTarget narr:Expr_1ReviewEnrollmentProbe_2 ;
+        narr:dimension narr:Dim_Temporal ;
+        narr:region narr:Temporal_Present ;
+        narr:region narr:Temporal_Realis ;
+        narr:region narr:Temporal_Concrete ;
+        narr:evidence "plain-signal: This probe memory exists" ;
+        narr:evidence "framing-move: only to carry that assertion" ;
+        narr:reported false ;
+        skos:note "It states the present existence and specific function of this probe memory as an actual document artifact." ;
+        prov:generatedAtTime "2026-07-13T10:46:05Z"^^xsd:dateTime .
+
+    narr:Proof a narr:Strata ;
+        dct:source narr:Sample_1ReviewEnrollmentProbe ;
+        narr:theme "Behavioral guarantees of the system are continuously proven correct through automated test coverage rather than assumed." ;
+        skos:note "System guarantees are validated through automated verification." ;
+        prov:generatedAtTime "2026-07-13T10:46:05Z"^^xsd:dateTime .
+
+    narr:Expr_1ReviewEnrollmentProbe_1 narr:supports narr:Proof .
+
+    narr:Expr_1ReviewEnrollmentProbe_2 narr:supports narr:Proof .
+
+    narr:Narrative_CreatorReviewerEnrollmentGuarantee a narr:Narrative ;
+        dct:source narr:Sample_1ReviewEnrollmentProbe ;
+        narr:theme "Saving a memory automatically enrolls its creator as a reviewer, and this behavior is treated as a guarantee worth continuously proving via automated tests." ;
+        skos:broader narr:Proof ;
+        skos:note "Creator-as-reviewer enrollment is a verified system guarantee." ;
+        prov:generatedAtTime "2026-07-13T10:46:05Z"^^xsd:dateTime .
+
+    narr:Expr_1ReviewEnrollmentProbe_1 narr:supports narr:Narrative_CreatorReviewerEnrollmentGuarantee .
+
+    narr:Expr_1ReviewEnrollmentProbe_2 narr:supports narr:Narrative_CreatorReviewerEnrollmentGuarantee .
+
+    narr:Position_ReviewerEnrollmentProbe a narr:Position ;
+        narr:frame "what does this probe memory establish about automatic reviewer enrollment on save?" ;
+        prov:generatedAtTime "2026-07-13T10:46:05Z"^^xsd:dateTime .
+
+    narr:Expr_1ReviewEnrollmentProbe_1 narr:supports narr:Position_ReviewerEnrollmentProbe .
+
+    narr:Expr_1ReviewEnrollmentProbe_2 narr:supports narr:Position_ReviewerEnrollmentProbe .
+  }
+}
