@@ -1,0 +1,49 @@
+PREFIX narr: <https://aswritten.ai/narrative#>
+PREFIX aswr: <https://aswritten.ai/aswr#>
+PREFIX rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX prov: <http://www.w3.org/ns/prov#>
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+PREFIX dct:  <http://purl.org/dc/terms/>
+PREFIX xsd:  <http://www.w3.org/2001/XMLSchema#>
+PREFIX oa:   <http://www.w3.org/ns/oa#>
+
+INSERT DATA {
+  aswr:Tx_20260713T102001Z a prov:Activity ;
+      prov:generatedAtTime "2026-07-13T10:20:01Z"^^xsd:dateTime ;
+      prov:wasAssociatedWith "aswritten.ai" ;
+      prov:wasAttributedTo "scarlet@aswritten.ai" ;
+      aswr:originPath ".aswritten/memories/2026-07-13-1-e2e-overwrite-1783937985547.md" ;
+      dct:title "Multipass fragment: 1E2EOverwrite1783937985547" ;
+      prov:generated narr:Conviction_1E2EOverwrite1783937985547_1, narr:VecRegister_1E2EOverwrite1783937985547_1, narr:VecTemporal_1E2EOverwrite1783937985547_1 .
+} ;
+INSERT DATA {
+  GRAPH aswr:Tx_20260713T102001Z {
+    narr:Conviction_1E2EOverwrite1783937985547_1 a narr:ConvictionObservation ;
+        oa:hasTarget narr:Expr_1E2EOverwrite1783937985547_1 ;
+        narr:conviction narr:Conviction_Claim ;
+        narr:evidence "plain-assertion: First version" ;
+        narr:reported false ;
+        skos:note "A plain assertion identifies this as a version but does not perform settling, permanence, or exploratory hedging." ;
+        prov:generatedAtTime "2026-07-13T10:20:01Z"^^xsd:dateTime .
+
+    narr:VecRegister_1E2EOverwrite1783937985547_1 a narr:VectorObservation ;
+        oa:hasTarget narr:Expr_1E2EOverwrite1783937985547_1 ;
+        narr:dimension narr:Dim_Register ;
+        narr:region narr:Register_MatterOfFact ;
+        narr:evidence "plain-signal: First version" ;
+        narr:reported false ;
+        skos:note "A concise version label presents the statement instrumentally, without elaboration or overt audience-oriented performance." ;
+        prov:generatedAtTime "2026-07-13T10:20:01Z"^^xsd:dateTime .
+
+    narr:VecTemporal_1E2EOverwrite1783937985547_1 a narr:VectorObservation ;
+        oa:hasTarget narr:Expr_1E2EOverwrite1783937985547_1 ;
+        narr:dimension narr:Dim_Temporal ;
+        narr:region narr:Temporal_Present ;
+        narr:region narr:Temporal_Realis ;
+        narr:region narr:Temporal_Concrete ;
+        narr:evidence "plain-signal: First version" ;
+        narr:reported false ;
+        skos:note "The label presents this document as an actual current version, referring concretely to the artifact at hand." ;
+        prov:generatedAtTime "2026-07-13T10:20:01Z"^^xsd:dateTime .
+  }
+}
