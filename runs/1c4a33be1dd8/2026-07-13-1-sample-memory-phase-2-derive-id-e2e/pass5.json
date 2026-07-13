@@ -1,0 +1,23 @@
+{
+  "placements" : [ {
+    "supporting_segments" : [ "src-1", "src-2", "src-3" ],
+    "under" : null,
+    "why" : "The envelope's content is a technical reproduction-and-guarantee case (no id field, must not crash, must produce a valid slug) that belongs to an organizational category of architectural robustness. No strata exist yet, and nothing else in the (empty) structure could hold this — this is the foundational organizational category the derivation-resilience theme nests under.",
+    "verdict" : "mint",
+    "leaf" : "Architecture",
+    "kind" : "strata",
+    "title" : "System resilience is grounded in architecture-level safeguards",
+    "theme" : "Architecture decisions must guarantee system stability even when input data is malformed or incomplete.",
+    "consulted" : [ ]
+  }, {
+    "verdict" : "mint",
+    "leaf" : "Narrative_ResilientIdDerivation",
+    "title" : "Id derivation must survive missing metadata without failure",
+    "theme" : "Derivation logic should always yield a valid, stable identifier even when the source omits one, and must never crash in doing so.",
+    "under" : [ "Architecture" ],
+    "supporting_segments" : [ "src-1", "src-2", "src-3" ],
+    "why" : "src-1 reproduces the exact missing-id failure pattern seen in production; src-2 and src-3 assert the required behavior under that condition (no crash, valid slug). Together these are not a one-time fact but a recurring subject — derivation must be resilient to missing metadata — that future envelopes testing edge cases in id/slug generation will keep feeding. No existing leaf covers this (graph structure is empty), so it is minted fresh under the newly-minted Architecture strata.",
+    "consulted" : [ ]
+  } ],
+  "unplaced" : [ ]
+}
