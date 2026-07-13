@@ -1,0 +1,75 @@
+PREFIX narr: <https://aswritten.ai/narrative#>
+PREFIX aswr: <https://aswritten.ai/aswr#>
+PREFIX rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX prov: <http://www.w3.org/ns/prov#>
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+PREFIX dct:  <http://purl.org/dc/terms/>
+PREFIX xsd:  <http://www.w3.org/2001/XMLSchema#>
+PREFIX oa:   <http://www.w3.org/ns/oa#>
+
+INSERT DATA {
+  aswr:Tx_20260713T102936Z a prov:Activity ;
+      prov:generatedAtTime "2026-07-13T10:29:36Z"^^xsd:dateTime ;
+      prov:wasAssociatedWith "aswritten.ai" ;
+      prov:wasAttributedTo "scarlet@aswritten.ai" ;
+      aswr:originPath ".aswritten/memories/2026-07-13-1-forget-lifecycle-target.md" ;
+      dct:title "Multipass fragment: 1ForgetLifecycleTarget" ;
+      prov:generated narr:Conviction_1ForgetLifecycleTarget_1, narr:DirRegister_VerifiedInstrumentalReport, narr:VecRegister_1ForgetLifecycleTarget_1, narr:VecTemporal_1ForgetLifecycleTarget_1, narr:Narrative_CalibrationHoldsAcrossOperatingBand .
+} ;
+INSERT DATA {
+  GRAPH aswr:Tx_20260713T102936Z {
+    narr:Conviction_1ForgetLifecycleTarget_1 a narr:ConvictionObservation ;
+        oa:hasTarget narr:Expr_1ForgetLifecycleTarget_1 ;
+        narr:conviction narr:Conviction_Claim ;
+        narr:evidence "plain-assertion: The Kestrelwood spectrograph is now calibrated at 88.4 MHz." ;
+        narr:evidence "plain-assertion: We verified the calibration against the June reference plates and it holds across the full observing band." ;
+        narr:reported false ;
+        skos:note "The calibration is asserted with supporting verification, but the document does not perform a ratification or state an operational rule; this is a firm claim rather than a decision." ;
+        prov:generatedAtTime "2026-07-13T10:29:36Z"^^xsd:dateTime .
+
+    narr:DirRegister_VerifiedInstrumentalReport a narr:DirectionalNode ;
+        dct:source narr:Sample_1ForgetLifecycleTarget ;
+        narr:dimension narr:Dim_Register ;
+        narr:region narr:Register_Technical ;
+        narr:region narr:Register_MatterOfFact ;
+        narr:theme "Technical claims are presented through explicit checks and bounded measurements rather than audience-directed emphasis." ;
+        skos:note "precise verification delivered as a flat instrumental report" ;
+        prov:generatedAtTime "2026-07-13T10:29:36Z"^^xsd:dateTime .
+
+    narr:VecRegister_1ForgetLifecycleTarget_1 a narr:VectorObservation ;
+        oa:hasTarget narr:Expr_1ForgetLifecycleTarget_1 ;
+        narr:dimension narr:Dim_Register ;
+        narr:region narr:Register_Technical ;
+        narr:region narr:Register_MatterOfFact ;
+        narr:direction narr:DirRegister_VerifiedInstrumentalReport ;
+        narr:evidence "lexical-marker: spectrograph" ;
+        narr:evidence "lexical-marker: 88.4 MHz" ;
+        narr:evidence "framing-move: verified the calibration against the June reference plates" ;
+        narr:evidence "plain-signal: it holds across the full observing band" ;
+        narr:reported false ;
+        skos:note "Native calibration vocabulary and precise verification are delivered in a flat, instrumental report." ;
+        prov:generatedAtTime "2026-07-13T10:29:36Z"^^xsd:dateTime .
+
+    narr:VecTemporal_1ForgetLifecycleTarget_1 a narr:VectorObservation ;
+        oa:hasTarget narr:Expr_1ForgetLifecycleTarget_1 ;
+        narr:dimension narr:Dim_Temporal ;
+        narr:region narr:Temporal_Present ;
+        narr:region narr:Temporal_Realis ;
+        narr:region narr:Temporal_Concrete ;
+        narr:evidence "lexical-marker: is now calibrated at 88.4 MHz" ;
+        narr:evidence "performed-act: We verified the calibration against the June reference plates" ;
+        narr:evidence "plain-signal: it holds across the full observing band" ;
+        narr:reported false ;
+        skos:note "The segment presents a current, settled calibration state and concrete verification of a named instrument against specific reference plates." ;
+        prov:generatedAtTime "2026-07-13T10:29:36Z"^^xsd:dateTime .
+
+    narr:Narrative_CalibrationHoldsAcrossOperatingBand a narr:Narrative ;
+        dct:source narr:Sample_1ForgetLifecycleTarget ;
+        narr:theme "Once an instrument's calibration is checked against a trusted reference, it can be trusted to hold across its entire operating range." ;
+        skos:broader narr:Calibration ;
+        skos:note "Verified calibration holds across the full operating range" ;
+        prov:generatedAtTime "2026-07-13T10:29:36Z"^^xsd:dateTime .
+
+    narr:Expr_1ForgetLifecycleTarget_1 narr:supports narr:Narrative_CalibrationHoldsAcrossOperatingBand .
+  }
+}
