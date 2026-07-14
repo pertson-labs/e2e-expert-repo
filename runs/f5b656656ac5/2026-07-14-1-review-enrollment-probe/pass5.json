@@ -1,0 +1,23 @@
+{
+  "placements" : [ {
+    "supporting_segments" : [ "src-1", "src-2" ],
+    "under" : null,
+    "why" : "This envelope is itself a probe memory whose sole stated purpose (src-2) is to carry an e2e-suite assertion (src-1) about a specific system behavior. No strata category exists yet in this repo. The content names an organizational category — verification/proof-point testing — that nothing supplied covers, and it is foundational: it needs no parent minted first, matching the instructions' note that a strata mint is the normal case for omitting `under`.",
+    "verdict" : "mint",
+    "leaf" : "Proof",
+    "kind" : "strata",
+    "title" : "Verification that system behavior matches specification",
+    "theme" : "The organization proves system behavior through targeted e2e assertions, each probe carrying exactly one testable claim about how the system must behave.",
+    "consulted" : [ "existing strata: none supplied", "existing narrative leaves: none supplied" ]
+  }, {
+    "verdict" : "mint",
+    "leaf" : "Narrative_ReviewEnrollmentOnSave",
+    "title" : "Saving a memory automatically seats its creator as a reviewer",
+    "theme" : "Memory creation and review enrollment are fused by design: the act of saving a memory itself establishes its creator as a reviewer, a behavior the e2e suite locks in and regression-tests.",
+    "under" : [ "Proof" ],
+    "supporting_segments" : [ "src-1", "src-2" ],
+    "why" : "src-1 states the exact behavioral decision under test (saving a memory enrolls its creator as a reviewer) and src-2 states that this document exists solely to carry that assertion. This names a subject — the review-enrollment-on-save guarantee — that future probe memories and test envelopes will plausibly keep feeding (more assertions, edge cases, regressions of the same behavior), passing the narrative grain test rather than being a one-time fact. No existing leaf was supplied to reuse, so this is minted fresh and nested under the newly-minted Proof strata since this is a verification/testing artifact rather than a product-strategy or architecture statement.",
+    "consulted" : [ "existing narrative leaves: none supplied", "existing strata: none supplied", "Proof (minted this pass)", "position ReviewEnrollmentAssertionCarrier (consulted for framing; not an eligible under-target per instructions)" ]
+  } ],
+  "unplaced" : [ ]
+}
