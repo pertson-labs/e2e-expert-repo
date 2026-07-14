@@ -1,0 +1,44 @@
+{
+  "reconciliations" : [ {
+    "segment_ids" : [ "src-2" ],
+    "note" : "We saw two unsigned artifacts reach staging\nlast quarter and that is the whole reason for the gate.",
+    "targets" : [ "ProcessPolicyUpdates" ],
+    "referents" : [ {
+      "ref" : "src-1",
+      "relation" : "extends"
+    } ],
+    "principal" : "Quinton Fairweather"
+  }, {
+    "segment_ids" : [ "src-3" ],
+    "note" : "**Gate**: signed release manifest required for Meridian deploys",
+    "targets" : [ "ProcessPolicyUpdates" ],
+    "referents" : [ {
+      "ref" : "src-1",
+      "relation" : "extends"
+    } ],
+    "principal" : "Quinton Fairweather"
+  }, {
+    "segment_ids" : [ "src-4" ],
+    "note" : "**Scope**: applies to staging and production",
+    "targets" : [ "ProcessPolicyUpdates" ],
+    "referents" : [ {
+      "ref" : "src-3",
+      "relation" : "extends"
+    } ],
+    "principal" : "Quinton Fairweather"
+  }, {
+    "segment_ids" : [ "src-5" ],
+    "note" : "**Owner**: Quinton Fairweather",
+    "targets" : [ "ProcessPolicyUpdates" ],
+    "referents" : [ {
+      "ref" : "src-3",
+      "relation" : "extends"
+    } ],
+    "principal" : "Quinton Fairweather"
+  } ],
+  "standalone" : [ {
+    "segment_id" : "src-1",
+    "why" : "verdict new — establishes the gate requirement fresh, nothing prior in the envelope to reconcile against."
+  } ],
+  "held" : [ ]
+}
