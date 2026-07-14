@@ -1,0 +1,23 @@
+{
+  "placements" : [ {
+    "supporting_segments" : [ "src-1", "src-2" ],
+    "under" : null,
+    "why" : "src-1 names a structural gap in a submission (no explicit id) and src-2 prescribes the pipeline's required architectural response — a guaranteed derivation path (LLM id-gen or deterministic slugify) and successful commit. This is an organizational category about how the ingestion system is built to behave, not yet covered by any existing strata (there is none), so it is minted fresh as the architecture tier this content calls for.",
+    "verdict" : "mint",
+    "leaf" : "Architecture",
+    "kind" : "strata",
+    "title" : "System behavior guarantees for ingestion pipeline correctness",
+    "theme" : "The ingestion pipeline is engineered so that structural gaps in submitted content (like a missing id) are always resolved by a defined fallback path rather than causing failure.",
+    "consulted" : [ "(no existing strata supplied — none yet)" ]
+  }, {
+    "verdict" : "mint",
+    "leaf" : "Narrative_SlugFallbackGuarantee",
+    "title" : "No memory is lost to a missing id — the pipeline always derives and commits a slug",
+    "theme" : "When a memory arrives without an explicit id, the pipeline must still produce a usable slug — via LLM id-generation or, failing that, deterministic slugify — and commit the file, so ingestion never stalls on a missing identifier.",
+    "under" : [ "Architecture" ],
+    "supporting_segments" : [ "src-1", "src-2" ],
+    "why" : "src-1 establishes the recurring condition this leaf is about (submission without an explicit id) and src-2 states the durable requirement — a dual-path slug derivation (LLM id-gen or deterministic slugify fallback) that must always resolve to a successful commit. This is a directional statement about how the pipeline behaves whenever this condition recurs, not a one-time fact, so it earns its own leaf under the newly minted Architecture strata rather than being folded in as mere evidence.",
+    "consulted" : [ "(no existing narrative structure supplied — none yet)", "Architecture (minted this pass)" ]
+  } ],
+  "unplaced" : [ ]
+}
