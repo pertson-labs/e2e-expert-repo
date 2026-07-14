@@ -1,0 +1,23 @@
+{
+  "placements" : [ {
+    "supporting_segments" : [ "src-1", "src-2" ],
+    "under" : null,
+    "why" : "This envelope is a test-case artifact: it reproduces a specific prod failure (missing-id, ## heading, no id field) and states pass/fail expectations for the fix. That is proof-of-robustness work, not opportunity/strategy/architecture content, and no strata exists yet in this repo to hold it. 'Proof' is named among the org's standard top-level strata (ratified 2026-07-10) and nothing closer exists, so it is minted standalone as a foundational category with no required parent.",
+    "verdict" : "mint",
+    "leaf" : "Proof",
+    "kind" : "strata",
+    "title" : "Validation work substantiates reliability claims",
+    "theme" : "Reproducing known production failure patterns as executable tests proves that fixes hold, not just that they plausibly should.",
+    "consulted" : [ "(no existing strata — repo strata is empty)", "(no existing narrative leaves — repo graph structure is empty)" ]
+  }, {
+    "verdict" : "mint",
+    "leaf" : "Narrative_RobustIdDerivationUnderMalformedHeadings",
+    "title" : "Id derivation must degrade gracefully on malformed heading input, not crash",
+    "theme" : "Slug/id generation should always yield a valid, non-crashing identifier even when heading-level metadata (like an id field) is missing, matching the exact shape of real production failures.",
+    "under" : [ "Proof" ],
+    "supporting_segments" : [ "src-1", "src-2" ],
+    "why" : "src-1 names the specific failure this test reproduces (## heading, no id field) and src-2 states the durable requirement it must satisfy (no crash, valid slug produced). Together these describe a recurring subject — correctness of id/slug derivation under missing-metadata conditions — that future test envelopes will keep feeding, not a one-time fact. No existing leaf covers this (graph structure is empty), so it is minted fresh under the newly-minted Proof strata, since this is exactly the kind of validation-of-robustness work that strata holds.",
+    "consulted" : [ "Proof (minted in this same response)", "(no existing narrative leaves to reuse)" ]
+  } ],
+  "unplaced" : [ ]
+}
