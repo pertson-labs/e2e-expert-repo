@@ -1,0 +1,23 @@
+{
+  "placements" : [ {
+    "supporting_segments" : [ "src-1", "src-2" ],
+    "under" : null,
+    "why" : "Both expressions describe a ratified system design decision (async job dispatch/poll mechanics for remember) — this is an architecture-grain organizational category, not a leaf-grain theme itself. No strata exists yet in this repo, and nothing supplied covers this class of content, so Architecture is minted as the standing category the narrative leaf below nests under.",
+    "verdict" : "mint",
+    "leaf" : "Architecture",
+    "kind" : "strata",
+    "title" : "Architecture as the standing organizational category for system-level design contracts",
+    "theme" : "System-level design decisions — job dispatch, concurrency guarantees, execution contracts — are organized under an Architecture strata rather than treated as one-off proof points.",
+    "consulted" : [ ]
+  }, {
+    "verdict" : "mint",
+    "leaf" : "Narrative_AsyncJobDispatchPollContract",
+    "title" : "Remember's async job contract: dispatch immediately, track via polling, never block",
+    "theme" : "remember always dispatches and returns a receipt immediately; the actual extraction work is tracked asynchronously via polling (or piggybacked reaction), so the caller is never blocked and no work is lost if the receipt is dropped.",
+    "under" : [ "Architecture" ],
+    "supporting_segments" : [ "src-1", "src-2" ],
+    "why" : "src-1 states the ratified contract directly (receipt in seconds, polling a cursor, no blocking call, no lost work on dropped receipt) and src-2 restates the same decision in dispatch-then-poll/piggyback vocabulary — both are one directional read of the same standing mechanics, matching the AsyncJobDispatchPollContract position from pass-4. No existing narrative leaf or strata (graph is empty) covers this theme, so it is minted fresh under the newly-minted Architecture strata as the closest organizational home for a system design contract.",
+    "consulted" : [ "Architecture" ]
+  } ],
+  "unplaced" : [ ]
+}
