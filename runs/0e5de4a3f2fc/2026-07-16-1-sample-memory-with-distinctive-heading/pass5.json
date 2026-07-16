@@ -1,0 +1,23 @@
+{
+  "placements" : [ {
+    "supporting_segments" : [ "src-1", "src-2" ],
+    "under" : null,
+    "why" : "This envelope's content is a technical/architectural requirement about how the memory pipeline must behave (slug/id generation with a deterministic fallback, guaranteed commit). No strata category exists yet in this repo, and nothing in the empty supplied structure covers organizational/technical-design content, so the foundational category the content calls for must be minted fresh with no parent required.",
+    "verdict" : "mint",
+    "leaf" : "Architecture",
+    "kind" : "strata",
+    "title" : "System Design Foundation",
+    "theme" : "The organization's technical architecture — how systems are built, how components behave, and how reliability is engineered into pipelines — is a first-class organizational category.",
+    "consulted" : [ ]
+  }, {
+    "verdict" : "mint",
+    "leaf" : "Narrative_PipelineIdGenerationResilience",
+    "title" : "Fallback-Guaranteed Slug Generation",
+    "theme" : "Every memory commits successfully because the pipeline always resolves a slug — via LLM id-generation when available, and via deterministic slugify when not — so absence of an explicit id never blocks a commit.",
+    "under" : [ "Architecture" ],
+    "supporting_segments" : [ "src-1", "src-2" ],
+    "why" : "src-1 establishes the triggering condition (no explicit id supplied) and src-2 states the governing requirement (the pipeline must derive a slug from content via LLM id-gen or deterministic slugify fallback, and commit must succeed). Together these describe a durable architectural guarantee about the pipeline's id/slug-generation behavior, not a one-time fact or measurement — future envelopes about this pipeline's id-generation robustness would keep feeding this same theme. No existing narrative leaf or strata name (the supplied structure is empty) covers this, so it is minted under the newly-minted Architecture strata as its home category.",
+    "consulted" : [ "Architecture (strata, minted this pass)" ]
+  } ],
+  "unplaced" : [ ]
+}
