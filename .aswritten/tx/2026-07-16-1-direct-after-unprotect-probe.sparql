@@ -1,0 +1,103 @@
+PREFIX narr: <https://aswritten.ai/narrative#>
+PREFIX aswr: <https://aswritten.ai/aswr#>
+PREFIX rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX prov: <http://www.w3.org/ns/prov#>
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+PREFIX dct:  <http://purl.org/dc/terms/>
+PREFIX xsd:  <http://www.w3.org/2001/XMLSchema#>
+PREFIX oa:   <http://www.w3.org/ns/oa#>
+
+INSERT DATA {
+  aswr:Tx_20260716T234641Z a prov:Activity ;
+      prov:generatedAtTime "2026-07-16T23:46:41Z"^^xsd:dateTime ;
+      prov:wasAssociatedWith "aswritten.ai" ;
+      prov:wasAttributedTo "scarlet@aswritten.ai" ;
+      aswr:pipelinePin "5be42a63382a" ;
+      aswr:originPath ".aswritten/memories/2026-07-16-1-direct-after-unprotect-probe.md" ;
+      dct:title "Multipass source extraction: Rollback Drill Decision: Atlas Rehearsals" ;
+      prov:generated narr:Sample_1DirectAfterUnprotectProbe, narr:Expr_1DirectAfterUnprotectProbe_1, narr:Expr_1DirectAfterUnprotectProbe_2, narr:Expr_1DirectAfterUnprotectProbe_3, narr:Expr_1DirectAfterUnprotectProbe_4 .
+} ;
+INSERT DATA {
+  GRAPH aswr:Tx_20260716T234641Z {
+    narr:Sample_1DirectAfterUnprotectProbe a narr:Sample ;
+        dct:title "Rollback Drill Decision: Atlas Rehearsals" ;
+        dct:created "2026-07-02"^^xsd:date ;
+        aswr:originPath ".aswritten/memories/2026-07-16-1-direct-after-unprotect-probe.md" ;
+        aswr:submittedBy narr:Actor_XenaExpertgh ;
+        aswr:account narr:Actor_XenaStagingAswrittenAi .
+
+    narr:Expr_1DirectAfterUnprotectProbe_1 a narr:Expression ;
+        narr:actor narr:Actor_QuintonFairweather ;
+        narr:act "directive" ;
+        narr:circumstanceDate "2026-07-02"^^xsd:date ;
+        narr:context "Rollback Drill Decision meeting" ;
+        oa:hasTarget [ a oa:SpecificResource ;
+            oa:hasSource narr:Sample_1DirectAfterUnprotectProbe ;
+            oa:hasSelector [ a oa:TextQuoteSelector ;
+                oa:exact "Atlas rollback rehearsals run monthly from now on." ;
+                oa:prefix " Fairweather (CTO)\n\nQuinton: \"" ;
+                oa:suffix " A rollback\nwe have not rehear" ] ;
+            oa:hasSelector [ a oa:TextPositionSelector ;
+                oa:start "171"^^xsd:integer ;
+                oa:end "221"^^xsd:integer ] ] ;
+        prov:generatedAtTime "2026-07-16T23:46:41Z"^^xsd:dateTime .
+
+    narr:Expr_1DirectAfterUnprotectProbe_2 a narr:Expression ;
+        narr:actor narr:Actor_QuintonFairweather ;
+        narr:act "assertive" ;
+        narr:circumstanceDate "2026-07-02"^^xsd:date ;
+        narr:context "Rollback Drill Decision meeting" ;
+        oa:hasTarget [ a oa:SpecificResource ;
+            oa:hasSource narr:Sample_1DirectAfterUnprotectProbe ;
+            oa:hasSelector [ a oa:TextQuoteSelector ;
+                oa:exact "A rollback\nwe have not rehearsed is a rollback we do not actually have." ;
+                oa:prefix "sals run monthly from now on. " ;
+                oa:suffix "\"\n\nKey decisions:\n- **Cadence*" ] ;
+            oa:hasSelector [ a oa:TextPositionSelector ;
+                oa:start "222"^^xsd:integer ;
+                oa:end "293"^^xsd:integer ] ] ;
+        prov:generatedAtTime "2026-07-16T23:46:41Z"^^xsd:dateTime .
+
+    narr:Expr_1DirectAfterUnprotectProbe_3 a narr:Expression ;
+        narr:actor narr:Actor_QuintonFairweather ;
+        narr:act "declarative" ;
+        narr:circumstanceDate "2026-07-02"^^xsd:date ;
+        narr:context "Key decisions list" ;
+        skos:note "Restates src-1's decision as a recorded key decision." ;
+        oa:hasTarget [ a oa:SpecificResource ;
+            oa:hasSource narr:Sample_1DirectAfterUnprotectProbe ;
+            oa:hasSelector [ a oa:TextQuoteSelector ;
+                oa:exact "**Cadence**: monthly Atlas rollback rehearsals" ;
+                oa:prefix "ally have.\"\n\nKey decisions:\n- " ;
+                oa:suffix "\n- **Owner**: Quinton Fairweat" ] ;
+            oa:hasSelector [ a oa:TextPositionSelector ;
+                oa:start "313"^^xsd:integer ;
+                oa:end "359"^^xsd:integer ] ] ;
+        prov:generatedAtTime "2026-07-16T23:46:41Z"^^xsd:dateTime .
+
+    narr:Expr_1DirectAfterUnprotectProbe_4 a narr:Expression ;
+        narr:actor narr:Actor_QuintonFairweather ;
+        narr:act "commissive" ;
+        narr:circumstanceDate "2026-07-02"^^xsd:date ;
+        narr:context "Key decisions list" ;
+        skos:note "Recorded ownership assignment; act framed as commitment by the named owner." ;
+        oa:hasTarget [ a oa:SpecificResource ;
+            oa:hasSource narr:Sample_1DirectAfterUnprotectProbe ;
+            oa:hasSelector [ a oa:TextQuoteSelector ;
+                oa:exact "**Owner**: Quinton Fairweather" ;
+                oa:prefix "y Atlas rollback rehearsals\n- " ;
+                oa:suffix "" ] ;
+            oa:hasSelector [ a oa:TextPositionSelector ;
+                oa:start "362"^^xsd:integer ;
+                oa:end "392"^^xsd:integer ] ] ;
+        prov:generatedAtTime "2026-07-16T23:46:41Z"^^xsd:dateTime .
+
+    aswr:Run_20260716T234641Z_pass1 a prov:Activity ;
+        aswr:runPass "pass1" ;
+        aswr:draftedBy "subscription.anthropic/claude-sonnet-5" ;
+        aswr:artifact "aswritten/runs:runs/1c32efcc8ae6/2026-07-16-1-direct-after-unprotect-probe/pass1.json" ;
+        prov:generated narr:Sample_1DirectAfterUnprotectProbe, narr:Expr_1DirectAfterUnprotectProbe_1, narr:Expr_1DirectAfterUnprotectProbe_2, narr:Expr_1DirectAfterUnprotectProbe_3, narr:Expr_1DirectAfterUnprotectProbe_4 ;
+        dct:isPartOf aswr:Tx_20260716T234641Z ;
+        prov:generatedAtTime "2026-07-16T23:46:41Z"^^xsd:dateTime .
+  }
+}
