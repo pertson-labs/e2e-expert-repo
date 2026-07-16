@@ -1,0 +1,116 @@
+PREFIX narr: <https://aswritten.ai/narrative#>
+PREFIX aswr: <https://aswritten.ai/aswr#>
+PREFIX rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX prov: <http://www.w3.org/ns/prov#>
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+PREFIX dct:  <http://purl.org/dc/terms/>
+PREFIX xsd:  <http://www.w3.org/2001/XMLSchema#>
+PREFIX oa:   <http://www.w3.org/ns/oa#>
+
+INSERT DATA {
+  aswr:Tx_20260716T233401Z a prov:Activity ;
+      prov:generatedAtTime "2026-07-16T23:34:01Z"^^xsd:dateTime ;
+      prov:wasAssociatedWith "aswritten.ai" ;
+      prov:wasAttributedTo "scarlet@aswritten.ai" ;
+      aswr:pipelinePin "5be42a63382a" ;
+      aswr:originPath ".aswritten/memories/2026-07-16-1-lifecycle-step-a.md" ;
+      dct:title "Multipass source extraction: Database Decision: Zypherion Analytics" ;
+      prov:generated narr:Sample_1LifecycleStepA, narr:Expr_1LifecycleStepA_1, narr:Expr_1LifecycleStepA_2, narr:Expr_1LifecycleStepA_3, narr:Expr_1LifecycleStepA_4, narr:Actor_QuintonFairweather, narr:Actor_XenaExpertgh .
+} ;
+INSERT DATA {
+  GRAPH aswr:Tx_20260716T233401Z {
+    narr:Sample_1LifecycleStepA a narr:Sample ;
+        dct:title "Database Decision: Zypherion Analytics" ;
+        dct:created "2026-04-06"^^xsd:date ;
+        aswr:originPath ".aswritten/memories/2026-07-16-1-lifecycle-step-a.md" ;
+        aswr:submittedBy narr:Actor_XenaExpertgh ;
+        aswr:account narr:Actor_XenaExpertgh .
+
+    narr:Expr_1LifecycleStepA_1 a narr:Expression ;
+        narr:actor narr:Actor_QuintonFairweather ;
+        narr:act "declarative" ;
+        narr:circumstanceDate "2026-04-06"^^xsd:date ;
+        narr:context "Database decision discussion" ;
+        oa:hasTarget [ a oa:SpecificResource ;
+            oa:hasSource narr:Sample_1LifecycleStepA ;
+            oa:hasSelector [ a oa:TextQuoteSelector ;
+                oa:exact "We are adopting Zypherion for the analytics pipeline." ;
+                oa:prefix " Fairweather (CTO)\n\nQuinton: \"" ;
+                oa:suffix "\nIt handles columnar queries 1" ] ;
+            oa:hasSelector [ a oa:TextPositionSelector ;
+                oa:start "168"^^xsd:integer ;
+                oa:end "221"^^xsd:integer ] ] ;
+        prov:generatedAtTime "2026-07-16T23:34:01Z"^^xsd:dateTime .
+
+    narr:Expr_1LifecycleStepA_2 a narr:Expression ;
+        narr:actor narr:Actor_QuintonFairweather ;
+        narr:act "assertive" ;
+        narr:circumstanceDate "2026-04-06"^^xsd:date ;
+        narr:context "Database decision discussion" ;
+        oa:hasTarget [ a oa:SpecificResource ;
+            oa:hasSource narr:Sample_1LifecycleStepA ;
+            oa:hasSelector [ a oa:TextQuoteSelector ;
+                oa:exact "It handles columnar queries 15x faster than our current setup." ;
+                oa:prefix "n for the analytics pipeline.\n" ;
+                oa:suffix "\nThe migration starts next qua" ] ;
+            oa:hasSelector [ a oa:TextPositionSelector ;
+                oa:start "222"^^xsd:integer ;
+                oa:end "284"^^xsd:integer ] ] ;
+        prov:generatedAtTime "2026-07-16T23:34:01Z"^^xsd:dateTime .
+
+    narr:Expr_1LifecycleStepA_3 a narr:Expression ;
+        narr:actor narr:Actor_QuintonFairweather ;
+        narr:act "assertive" ;
+        narr:circumstanceDate "2026-04-06"^^xsd:date ;
+        narr:context "Database decision discussion" ;
+        oa:hasTarget [ a oa:SpecificResource ;
+            oa:hasSource narr:Sample_1LifecycleStepA ;
+            oa:hasSelector [ a oa:TextQuoteSelector ;
+                oa:exact "The migration starts next quarter." ;
+                oa:prefix "aster than our current setup.\n" ;
+                oa:suffix "\"\n\nKey decisions:\n- **Database" ] ;
+            oa:hasSelector [ a oa:TextPositionSelector ;
+                oa:start "285"^^xsd:integer ;
+                oa:end "319"^^xsd:integer ] ] ;
+        prov:generatedAtTime "2026-07-16T23:34:01Z"^^xsd:dateTime .
+
+    narr:Expr_1LifecycleStepA_4 a narr:Expression ;
+        narr:actor narr:Actor_QuintonFairweather ;
+        narr:act "declarative" ;
+        narr:circumstanceDate "2026-04-06"^^xsd:date ;
+        narr:context "Key decisions summary of the analytics database discussion" ;
+        skos:note "COMPOSITE: summary listing of the decisions made in the quoted discussion above, restating Quinton's stated positions as settled key decisions" ;
+        oa:hasTarget [ a oa:SpecificResource ;
+            oa:hasSource narr:Sample_1LifecycleStepA ;
+            oa:hasSelector [ a oa:TextQuoteSelector ;
+                oa:exact "- **Database**: Zypherion for analytics\n- **Performance**: 15x improvement on columnar queries\n- **Timeline**: Migration starts Q3 2026" ;
+                oa:prefix "ext quarter.\"\n\nKey decisions:\n" ;
+                oa:suffix "" ] ;
+            oa:hasSelector [ a oa:TextPositionSelector ;
+                oa:start "337"^^xsd:integer ;
+                oa:end "472"^^xsd:integer ] ] ;
+        prov:generatedAtTime "2026-07-16T23:34:01Z"^^xsd:dateTime .
+
+    narr:Actor_QuintonFairweather a narr:Actor ;
+        skos:prefLabel "Quinton Fairweather" .
+
+    narr:Actor_XenaExpertgh a narr:Actor ;
+        skos:prefLabel "Xena ExpertGH" .
+
+    aswr:Run_20260716T233401Z_actors a prov:Activity ;
+        aswr:runPass "actors" ;
+        aswr:draftedBy "z-ai/glm-5.2" ;
+        aswr:artifact "aswritten/runs:runs/13a15b447815/2026-07-16-1-lifecycle-step-a/actors.json" ;
+        prov:generated narr:Actor_QuintonFairweather, narr:Actor_XenaExpertgh ;
+        dct:isPartOf aswr:Tx_20260716T233401Z ;
+        prov:generatedAtTime "2026-07-16T23:34:01Z"^^xsd:dateTime .
+
+    aswr:Run_20260716T233401Z_pass1 a prov:Activity ;
+        aswr:runPass "pass1" ;
+        aswr:draftedBy "subscription.anthropic/claude-sonnet-5" ;
+        aswr:artifact "aswritten/runs:runs/13a15b447815/2026-07-16-1-lifecycle-step-a/pass1.json" ;
+        prov:generated narr:Sample_1LifecycleStepA, narr:Expr_1LifecycleStepA_1, narr:Expr_1LifecycleStepA_2, narr:Expr_1LifecycleStepA_3, narr:Expr_1LifecycleStepA_4 ;
+        dct:isPartOf aswr:Tx_20260716T233401Z ;
+        prov:generatedAtTime "2026-07-16T23:34:01Z"^^xsd:dateTime .
+  }
+}
