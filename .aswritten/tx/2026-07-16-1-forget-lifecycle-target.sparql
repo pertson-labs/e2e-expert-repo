@@ -1,0 +1,100 @@
+PREFIX narr: <https://aswritten.ai/narrative#>
+PREFIX aswr: <https://aswritten.ai/aswr#>
+PREFIX rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX prov: <http://www.w3.org/ns/prov#>
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+PREFIX dct:  <http://purl.org/dc/terms/>
+PREFIX xsd:  <http://www.w3.org/2001/XMLSchema#>
+PREFIX oa:   <http://www.w3.org/ns/oa#>
+
+INSERT DATA {
+  aswr:Tx_20260716T233658Z a prov:Activity ;
+      prov:generatedAtTime "2026-07-16T23:36:58Z"^^xsd:dateTime ;
+      prov:wasAssociatedWith "aswritten.ai" ;
+      prov:wasAttributedTo "scarlet@aswritten.ai" ;
+      aswr:pipelinePin "5be42a63382a" ;
+      aswr:originPath ".aswritten/memories/2026-07-16-1-forget-lifecycle-target.md" ;
+      dct:title "Multipass source extraction: Observatory Calibration: Kestrelwood Spectrograph" ;
+      prov:generated narr:Sample_1ForgetLifecycleTarget, narr:Expr_1ForgetLifecycleTarget_1, narr:Expr_1ForgetLifecycleTarget_2, narr:Expr_1ForgetLifecycleTarget_3, narr:Actor_QuillAshgrove, narr:Actor_XenaExpertgh .
+} ;
+INSERT DATA {
+  GRAPH aswr:Tx_20260716T233658Z {
+    narr:Sample_1ForgetLifecycleTarget a narr:Sample ;
+        dct:title "Observatory Calibration: Kestrelwood Spectrograph" ;
+        dct:created "2026-07-06"^^xsd:date ;
+        aswr:originPath ".aswritten/memories/2026-07-16-1-forget-lifecycle-target.md" ;
+        aswr:submittedBy narr:Actor_XenaExpertgh ;
+        aswr:account narr:Actor_XenaExpertgh .
+
+    narr:Expr_1ForgetLifecycleTarget_1 a narr:Expression ;
+        narr:actor narr:Actor_QuillAshgrove ;
+        narr:act "assertive" ;
+        narr:circumstanceDate "2026-07-06"^^xsd:date ;
+        narr:context "Observatory calibration report for the Kestrelwood spectrograph" ;
+        skos:note "COMPOSITE: single reported statement combining calibration result and verification claim as one asserted report" ;
+        oa:hasTarget [ a oa:SpecificResource ;
+            oa:hasSource narr:Sample_1ForgetLifecycleTarget ;
+            oa:hasSelector [ a oa:TextQuoteSelector ;
+                oa:exact "\"The Kestrelwood spectrograph is now calibrated at 88.4 MHz.\nWe verified the calibration against the June reference plates and it\nholds across the full observing band.\"" ;
+                oa:prefix "ove (Lead Astronomer)\n\nQuill: " ;
+                oa:suffix "\n\nKey decisions:\n- **Instrumen" ] ;
+            oa:hasSelector [ a oa:TextPositionSelector ;
+                oa:start "183"^^xsd:integer ;
+                oa:end "351"^^xsd:integer ] ] ;
+        prov:generatedAtTime "2026-07-16T23:36:58Z"^^xsd:dateTime .
+
+    narr:Expr_1ForgetLifecycleTarget_2 a narr:Expression ;
+        narr:actor narr:Actor_QuillAshgrove ;
+        narr:act "assertive" ;
+        narr:circumstanceDate "2026-07-06"^^xsd:date ;
+        narr:context "Key decisions list summarizing the calibration" ;
+        oa:hasTarget [ a oa:SpecificResource ;
+            oa:hasSource narr:Sample_1ForgetLifecycleTarget ;
+            oa:hasSelector [ a oa:TextQuoteSelector ;
+                oa:exact "**Instrument**: Kestrelwood spectrograph" ;
+                oa:prefix "ving band.\"\n\nKey decisions:\n- " ;
+                oa:suffix "\n- **Calibration**: 88.4 MHz, " ] ;
+            oa:hasSelector [ a oa:TextPositionSelector ;
+                oa:start "370"^^xsd:integer ;
+                oa:end "410"^^xsd:integer ] ] ;
+        prov:generatedAtTime "2026-07-16T23:36:58Z"^^xsd:dateTime .
+
+    narr:Expr_1ForgetLifecycleTarget_3 a narr:Expression ;
+        narr:actor narr:Actor_QuillAshgrove ;
+        narr:act "assertive" ;
+        narr:circumstanceDate "2026-07-06"^^xsd:date ;
+        narr:context "Key decisions list summarizing the calibration" ;
+        oa:hasTarget [ a oa:SpecificResource ;
+            oa:hasSource narr:Sample_1ForgetLifecycleTarget ;
+            oa:hasSelector [ a oa:TextQuoteSelector ;
+                oa:exact "**Calibration**: 88.4 MHz, verified against June reference plates" ;
+                oa:prefix "*: Kestrelwood spectrograph\n- " ;
+                oa:suffix "" ] ;
+            oa:hasSelector [ a oa:TextPositionSelector ;
+                oa:start "413"^^xsd:integer ;
+                oa:end "478"^^xsd:integer ] ] ;
+        prov:generatedAtTime "2026-07-16T23:36:58Z"^^xsd:dateTime .
+
+    narr:Actor_QuillAshgrove a narr:Actor ;
+        skos:prefLabel "Quill Ashgrove" .
+
+    narr:Actor_XenaExpertgh a narr:Actor ;
+        skos:prefLabel "Xena ExpertGH" .
+
+    aswr:Run_20260716T233658Z_actors a prov:Activity ;
+        aswr:runPass "actors" ;
+        aswr:draftedBy "z-ai/glm-5.2" ;
+        aswr:artifact "aswritten/runs:runs/9fbe3a41d227/2026-07-16-1-forget-lifecycle-target/actors.json" ;
+        prov:generated narr:Actor_QuillAshgrove, narr:Actor_XenaExpertgh ;
+        dct:isPartOf aswr:Tx_20260716T233658Z ;
+        prov:generatedAtTime "2026-07-16T23:36:58Z"^^xsd:dateTime .
+
+    aswr:Run_20260716T233658Z_pass1 a prov:Activity ;
+        aswr:runPass "pass1" ;
+        aswr:draftedBy "subscription.anthropic/claude-sonnet-5" ;
+        aswr:artifact "aswritten/runs:runs/9fbe3a41d227/2026-07-16-1-forget-lifecycle-target/pass1.json" ;
+        prov:generated narr:Sample_1ForgetLifecycleTarget, narr:Expr_1ForgetLifecycleTarget_1, narr:Expr_1ForgetLifecycleTarget_2, narr:Expr_1ForgetLifecycleTarget_3 ;
+        dct:isPartOf aswr:Tx_20260716T233658Z ;
+        prov:generatedAtTime "2026-07-16T23:36:58Z"^^xsd:dateTime .
+  }
+}
