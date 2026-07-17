@@ -1,0 +1,23 @@
+{
+  "placements" : [ {
+    "supporting_segments" : [ "src-1", "src-2" ],
+    "under" : null,
+    "why" : "Both segments ratify an architectural contract — the async job dispatch model for remember — placing them squarely in the Architecture strata, which does not yet exist in this repo.",
+    "verdict" : "mint",
+    "leaf" : "Architecture",
+    "kind" : "strata",
+    "title" : "System design contracts and structural decisions",
+    "theme" : "Architectural contracts define how system components interact and what operational properties they guarantee.",
+    "consulted" : [ ]
+  }, {
+    "verdict" : "mint",
+    "leaf" : "Narrative_AsyncRememberContract",
+    "title" : "Remember returns immediately, work completes asynchronously",
+    "theme" : "The remember call dispatches work and returns a receipt in seconds, letting the agent poll a cursor or receive piggybacked reactions without blocking or losing work.",
+    "under" : [ "Architecture" ],
+    "supporting_segments" : [ "src-1", "src-2" ],
+    "why" : "src-1 ratifies the receipt-in-seconds, cursor-polling, no-blocking, no-lost-work guarantees; src-2 specifies the dispatch-then-poll-or-piggyback mechanism. Together they form a single directional theme about non-blocking async completion of the remember call.",
+    "consulted" : [ ]
+  } ],
+  "unplaced" : [ ]
+}
