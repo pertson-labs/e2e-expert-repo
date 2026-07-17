@@ -1,0 +1,135 @@
+PREFIX narr: <https://aswritten.ai/narrative#>
+PREFIX aswr: <https://aswritten.ai/aswr#>
+PREFIX rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX prov: <http://www.w3.org/ns/prov#>
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+PREFIX dct:  <http://purl.org/dc/terms/>
+PREFIX xsd:  <http://www.w3.org/2001/XMLSchema#>
+PREFIX oa:   <http://www.w3.org/ns/oa#>
+
+INSERT DATA {
+  aswr:Tx_20260717T123701Z a prov:Activity ;
+      prov:generatedAtTime "2026-07-17T12:37:01Z"^^xsd:dateTime ;
+      prov:wasAssociatedWith "aswritten.ai" ;
+      prov:wasAttributedTo "scarlet@aswritten.ai" ;
+      aswr:pipelinePin "5be42a63382a" ;
+      aswr:originPath ".aswritten/memories/2026-07-17-1-protected-fallback-probe.md" ;
+      dct:title "Multipass source extraction: Deployment Gate Decision: Meridian Release Train" ;
+      prov:generated narr:Sample_1ProtectedFallbackProbe, narr:Expr_1ProtectedFallbackProbe_1, narr:Expr_1ProtectedFallbackProbe_2, narr:Expr_1ProtectedFallbackProbe_3, narr:Expr_1ProtectedFallbackProbe_4, narr:Expr_1ProtectedFallbackProbe_5, narr:Actor_QuintonFairweather, narr:Actor_XenaExpertgh .
+} ;
+INSERT DATA {
+  GRAPH aswr:Tx_20260717T123701Z {
+    narr:Sample_1ProtectedFallbackProbe a narr:Sample ;
+        dct:title "Deployment Gate Decision: Meridian Release Train" ;
+        dct:created "2026-07-02"^^xsd:date ;
+        aswr:originPath ".aswritten/memories/2026-07-17-1-protected-fallback-probe.md" ;
+        aswr:submittedBy narr:Actor_XenaExpertgh ;
+        aswr:account narr:Actor_XenaExpertgh .
+
+    narr:Expr_1ProtectedFallbackProbe_1 a narr:Expression ;
+        narr:actor narr:Actor_QuintonFairweather ;
+        narr:act "declarative" ;
+        narr:circumstanceDate "2026-07-02"^^xsd:date ;
+        narr:context "Meridian release train deployment gate discussion" ;
+        skos:note "Quinton declares the new gate policy." ;
+        oa:hasTarget [ a oa:SpecificResource ;
+            oa:hasSource narr:Sample_1ProtectedFallbackProbe ;
+            oa:hasSelector [ a oa:TextQuoteSelector ;
+                oa:exact "Every Meridian deployment now requires a signed release\nmanifest before it ships." ;
+                oa:prefix " Fairweather (CTO)\n\nQuinton: \"" ;
+                oa:suffix " We saw two unsigned artifacts" ] ;
+            oa:hasSelector [ a oa:TextPositionSelector ;
+                oa:start "178"^^xsd:integer ;
+                oa:end "259"^^xsd:integer ] ] ;
+        prov:generatedAtTime "2026-07-17T12:37:01Z"^^xsd:dateTime .
+
+    narr:Expr_1ProtectedFallbackProbe_2 a narr:Expression ;
+        narr:actor narr:Actor_QuintonFairweather ;
+        narr:act "assertive" ;
+        narr:circumstanceDate "2026-07-02"^^xsd:date ;
+        narr:context "Meridian release train deployment gate discussion" ;
+        skos:note "Quinton states the motivating incident for the gate." ;
+        oa:hasTarget [ a oa:SpecificResource ;
+            oa:hasSource narr:Sample_1ProtectedFallbackProbe ;
+            oa:hasSelector [ a oa:TextQuoteSelector ;
+                oa:exact "We saw two unsigned artifacts reach staging\nlast quarter and that is the whole reason for the gate." ;
+                oa:prefix "ase\nmanifest before it ships. " ;
+                oa:suffix "\"\n\nKey decisions:\n- **Gate**: " ] ;
+            oa:hasSelector [ a oa:TextPositionSelector ;
+                oa:start "260"^^xsd:integer ;
+                oa:end "359"^^xsd:integer ] ] ;
+        prov:generatedAtTime "2026-07-17T12:37:01Z"^^xsd:dateTime .
+
+    narr:Expr_1ProtectedFallbackProbe_3 a narr:Expression ;
+        narr:actor narr:Actor_QuintonFairweather ;
+        narr:act "declarative" ;
+        narr:circumstanceDate "2026-07-02"^^xsd:date ;
+        narr:context "Key decisions summary list" ;
+        skos:note "Restates the gate ratified above." ;
+        oa:hasTarget [ a oa:SpecificResource ;
+            oa:hasSource narr:Sample_1ProtectedFallbackProbe ;
+            oa:hasSelector [ a oa:TextQuoteSelector ;
+                oa:exact "**Gate**: signed release manifest required for Meridian deploys" ;
+                oa:prefix " the gate.\"\n\nKey decisions:\n- " ;
+                oa:suffix "\n- **Scope**: applies to stagi" ] ;
+            oa:hasSelector [ a oa:TextPositionSelector ;
+                oa:start "379"^^xsd:integer ;
+                oa:end "442"^^xsd:integer ] ] ;
+        prov:generatedAtTime "2026-07-17T12:37:01Z"^^xsd:dateTime .
+
+    narr:Expr_1ProtectedFallbackProbe_4 a narr:Expression ;
+        narr:actor narr:Actor_QuintonFairweather ;
+        narr:act "assertive" ;
+        narr:circumstanceDate "2026-07-02"^^xsd:date ;
+        narr:context "Key decisions summary list" ;
+        oa:hasTarget [ a oa:SpecificResource ;
+            oa:hasSource narr:Sample_1ProtectedFallbackProbe ;
+            oa:hasSelector [ a oa:TextQuoteSelector ;
+                oa:exact "**Scope**: applies to staging and production" ;
+                oa:prefix "quired for Meridian deploys\n- " ;
+                oa:suffix "\n- **Owner**: Quinton Fairweat" ] ;
+            oa:hasSelector [ a oa:TextPositionSelector ;
+                oa:start "445"^^xsd:integer ;
+                oa:end "489"^^xsd:integer ] ] ;
+        prov:generatedAtTime "2026-07-17T12:37:01Z"^^xsd:dateTime .
+
+    narr:Expr_1ProtectedFallbackProbe_5 a narr:Expression ;
+        narr:actor narr:Actor_QuintonFairweather ;
+        narr:act "commissive" ;
+        narr:circumstanceDate "2026-07-02"^^xsd:date ;
+        narr:context "Key decisions summary list" ;
+        skos:note "Ownership assignment functioning as a commitment; only speaker present is Quinton so this is self-assignment." ;
+        oa:hasTarget [ a oa:SpecificResource ;
+            oa:hasSource narr:Sample_1ProtectedFallbackProbe ;
+            oa:hasSelector [ a oa:TextQuoteSelector ;
+                oa:exact "**Owner**: Quinton Fairweather" ;
+                oa:prefix "s to staging and production\n- " ;
+                oa:suffix "" ] ;
+            oa:hasSelector [ a oa:TextPositionSelector ;
+                oa:start "492"^^xsd:integer ;
+                oa:end "522"^^xsd:integer ] ] ;
+        prov:generatedAtTime "2026-07-17T12:37:01Z"^^xsd:dateTime .
+
+    narr:Actor_QuintonFairweather a narr:Actor ;
+        skos:prefLabel "Quinton Fairweather" .
+
+    narr:Actor_XenaExpertgh a narr:Actor ;
+        skos:prefLabel "Xena ExpertGH" .
+
+    aswr:Run_20260717T123701Z_actors a prov:Activity ;
+        aswr:runPass "actors" ;
+        aswr:draftedBy "z-ai/glm-5.2" ;
+        aswr:artifact "aswritten/runs:runs/2af6f54534ed/2026-07-17-1-protected-fallback-probe/actors.json" ;
+        prov:generated narr:Actor_QuintonFairweather, narr:Actor_XenaExpertgh ;
+        dct:isPartOf aswr:Tx_20260717T123701Z ;
+        prov:generatedAtTime "2026-07-17T12:37:01Z"^^xsd:dateTime .
+
+    aswr:Run_20260717T123701Z_pass1 a prov:Activity ;
+        aswr:runPass "pass1" ;
+        aswr:draftedBy "subscription.anthropic/claude-sonnet-5" ;
+        aswr:artifact "aswritten/runs:runs/2af6f54534ed/2026-07-17-1-protected-fallback-probe/pass1.json" ;
+        prov:generated narr:Sample_1ProtectedFallbackProbe, narr:Expr_1ProtectedFallbackProbe_1, narr:Expr_1ProtectedFallbackProbe_2, narr:Expr_1ProtectedFallbackProbe_3, narr:Expr_1ProtectedFallbackProbe_4, narr:Expr_1ProtectedFallbackProbe_5 ;
+        dct:isPartOf aswr:Tx_20260717T123701Z ;
+        prov:generatedAtTime "2026-07-17T12:37:01Z"^^xsd:dateTime .
+  }
+}
