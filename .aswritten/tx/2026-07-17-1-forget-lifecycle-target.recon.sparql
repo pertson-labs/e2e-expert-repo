@@ -1,0 +1,53 @@
+PREFIX narr: <https://aswritten.ai/narrative#>
+PREFIX aswr: <https://aswritten.ai/aswr#>
+PREFIX rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX prov: <http://www.w3.org/ns/prov#>
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+PREFIX dct:  <http://purl.org/dc/terms/>
+PREFIX xsd:  <http://www.w3.org/2001/XMLSchema#>
+PREFIX oa:   <http://www.w3.org/ns/oa#>
+
+INSERT DATA {
+  aswr:Tx_20260717T114602Z a prov:Activity ;
+      prov:generatedAtTime "2026-07-17T11:46:02Z"^^xsd:dateTime ;
+      prov:wasAssociatedWith "aswritten.ai" ;
+      prov:wasAttributedTo "scarlet@aswritten.ai" ;
+      aswr:pipelinePin "5be42a63382a" ;
+      dct:title "Multipass reconciliations: 1ForgetLifecycleTarget" ;
+      prov:generated narr:Recon_1ForgetLifecycleTarget_1, narr:Recon_1ForgetLifecycleTarget_2 .
+} ;
+INSERT DATA {
+  GRAPH aswr:Tx_20260717T114602Z {
+    narr:Recon_1ForgetLifecycleTarget_1 a narr:Reconciliation ;
+        oa:hasTarget narr:KestrelwoodSpectrograph ;
+        narr:principal narr:Actor_Session ;
+        skos:note "**Instrument**: Kestrelwood spectrograph" ;
+        narr:extends narr:Expr_1ForgetLifecycleTarget_1 ;
+        dct:source narr:Expr_1ForgetLifecycleTarget_3 ;
+        prov:generatedAtTime "2026-07-17T11:46:02Z"^^xsd:dateTime .
+
+    narr:Recon_1ForgetLifecycleTarget_2 a narr:Reconciliation ;
+        oa:hasTarget narr:KestrelwoodSpectrograph ;
+        narr:principal narr:Actor_Session ;
+        skos:note "**Calibration**: 88.4 MHz, verified against June reference plates" ;
+        narr:extends narr:Expr_1ForgetLifecycleTarget_1 ;
+        narr:extends narr:Expr_1ForgetLifecycleTarget_2 ;
+        dct:source narr:Expr_1ForgetLifecycleTarget_4 ;
+        prov:generatedAtTime "2026-07-17T11:46:02Z"^^xsd:dateTime .
+
+    aswr:Run_20260717T114602Z_pass2 a prov:Activity ;
+        aswr:runPass "pass2" ;
+        aswr:draftedBy "z-ai/glm-5.2" ;
+        aswr:artifact "aswritten/runs:runs/32b794847fda/2026-07-17-1-forget-lifecycle-target/pass2.json" ;
+        dct:isPartOf aswr:Tx_20260717T114602Z ;
+        prov:generatedAtTime "2026-07-17T11:46:02Z"^^xsd:dateTime .
+
+    aswr:Run_20260717T114602Z_pass3 a prov:Activity ;
+        aswr:runPass "pass3" ;
+        aswr:draftedBy "z-ai/glm-5.2" ;
+        aswr:artifact "aswritten/runs:runs/32b794847fda/2026-07-17-1-forget-lifecycle-target/pass3.json" ;
+        prov:generated narr:Recon_1ForgetLifecycleTarget_1, narr:Recon_1ForgetLifecycleTarget_2 ;
+        dct:isPartOf aswr:Tx_20260717T114602Z ;
+        prov:generatedAtTime "2026-07-17T11:46:02Z"^^xsd:dateTime .
+  }
+}
