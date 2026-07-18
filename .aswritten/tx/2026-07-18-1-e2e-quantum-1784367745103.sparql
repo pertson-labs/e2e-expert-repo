@@ -1,0 +1,108 @@
+PREFIX narr: <https://aswritten.ai/narrative#>
+PREFIX aswr: <https://aswritten.ai/aswr#>
+PREFIX rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX prov: <http://www.w3.org/ns/prov#>
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+PREFIX dct:  <http://purl.org/dc/terms/>
+PREFIX xsd:  <http://www.w3.org/2001/XMLSchema#>
+PREFIX oa:   <http://www.w3.org/ns/oa#>
+
+INSERT DATA {
+  aswr:Tx_20260718T094229Z a prov:Activity ;
+      prov:generatedAtTime "2026-07-18T09:42:29Z"^^xsd:dateTime ;
+      prov:wasAssociatedWith "aswritten.ai" ;
+      prov:wasAttributedTo "scarlet@aswritten.ai" ;
+      aswr:pipelinePin "87f1666e855c" ;
+      aswr:originPath ".aswritten/memories/2026-07-18-1-e2e-quantum-1784367745103.md" ;
+      dct:title "Multipass source extraction: E2E Test: Quantum Widget Decision" ;
+      prov:generated narr:Sample_1E2EQuantum1784367745103, narr:Expr_1E2EQuantum1784367745103_1, narr:Expr_1E2EQuantum1784367745103_2, narr:Expr_1E2EQuantum1784367745103_3, narr:Actor_DaveQuantum, narr:Actor_Session, narr:Actor_XenaExpertgh, narr:Actor_XenaStagingAswrittenAi .
+} ;
+INSERT DATA {
+  GRAPH aswr:Tx_20260718T094229Z {
+    narr:Sample_1E2EQuantum1784367745103 a narr:Sample ;
+        dct:title "E2E Test: Quantum Widget Decision" ;
+        dct:created "2026-04-01"^^xsd:date ;
+        aswr:originPath ".aswritten/memories/2026-07-18-1-e2e-quantum-1784367745103.md" ;
+        aswr:submittedBy narr:Actor_XenaExpertgh ;
+        aswr:account narr:Actor_XenaStagingAswrittenAi .
+
+    narr:Expr_1E2EQuantum1784367745103_1 a narr:Expression ;
+        narr:actor narr:Actor_DaveQuantum ;
+        narr:act "commissive" ;
+        narr:context "Meeting with VP Engineering Dave Quantum on database migration" ;
+        oa:hasTarget [ a oa:SpecificResource ;
+            oa:hasSource narr:Sample_1E2EQuantum1784367745103 ;
+            oa:hasSelector [ a oa:TextQuoteSelector ;
+                oa:exact "We're switching from PostgreSQL to QuantumDB for the analytics pipeline." ;
+                oa:prefix "ntum (VP Engineering)\n\nDave: \"" ;
+                oa:suffix " 10x query performance, lower " ] ;
+            oa:hasSelector [ a oa:TextPositionSelector ;
+                oa:start "164"^^xsd:integer ;
+                oa:end "236"^^xsd:integer ] ] ;
+        prov:generatedAtTime "2026-07-18T09:42:29Z"^^xsd:dateTime .
+
+    narr:Expr_1E2EQuantum1784367745103_2 a narr:Expression ;
+        narr:actor narr:Actor_DaveQuantum ;
+        narr:act "assertive" ;
+        narr:context "Meeting with VP Engineering Dave Quantum on database migration" ;
+        skos:note "Continuation of Dave's quoted speech; asserts expected benefits of QuantumDB." ;
+        oa:hasTarget [ a oa:SpecificResource ;
+            oa:hasSource narr:Sample_1E2EQuantum1784367745103 ;
+            oa:hasSelector [ a oa:TextQuoteSelector ;
+                oa:exact "10x query performance, lower licensing cost." ;
+                oa:prefix "B for the analytics pipeline. " ;
+                oa:suffix "\"\n\nKey decisions:\n- **Database" ] ;
+            oa:hasSelector [ a oa:TextPositionSelector ;
+                oa:start "237"^^xsd:integer ;
+                oa:end "281"^^xsd:integer ] ] ;
+        prov:generatedAtTime "2026-07-18T09:42:29Z"^^xsd:dateTime .
+
+    narr:Expr_1E2EQuantum1784367745103_3 a narr:Expression ;
+        narr:actor narr:Actor_XenaExpertgh ;
+        narr:act "declarative" ;
+        narr:author narr:Actor_XenaExpertgh ;
+        narr:principal narr:Actor_Session ;
+        narr:context "Conversation-level summary of settled decisions from the meeting" ;
+        skos:note "Conversation-level conclusion: editorial narration stating what the meeting settled, with no single voice owning it. Principal is 'session' — the durable container the envelope instantiates." ;
+        oa:hasTarget [ a oa:SpecificResource ;
+            oa:hasSource narr:Sample_1E2EQuantum1784367745103 ;
+            oa:hasSelector [ a oa:TextQuoteSelector ;
+                oa:exact "Key decisions:\n- **Database migration**: PostgreSQL → QuantumDB\n- **Performance gain**: 10x analytical queries\n- **Timeline**: Q3 2026" ;
+                oa:prefix "ance, lower licensing cost.\"\n\n" ;
+                oa:suffix "\n" ] ;
+            oa:hasSelector [ a oa:TextPositionSelector ;
+                oa:start "284"^^xsd:integer ;
+                oa:end "418"^^xsd:integer ] ] ;
+        prov:generatedAtTime "2026-07-18T09:42:29Z"^^xsd:dateTime .
+
+    narr:Actor_DaveQuantum a narr:Actor ;
+        skos:prefLabel "Dave Quantum" .
+
+    narr:Actor_Session a narr:Actor ;
+        skos:prefLabel "session" .
+
+    narr:Actor_XenaExpertgh a narr:Actor ;
+        skos:prefLabel "Xena ExpertGH" .
+
+    narr:Actor_XenaStagingAswrittenAi a narr:Actor ;
+        skos:prefLabel "xena+staging@aswritten.ai" .
+
+    narr:Actor_Session a narr:AIActor .
+
+    aswr:Run_20260718T094229Z_actors a prov:Activity ;
+        aswr:runPass "actors" ;
+        aswr:draftedBy "z-ai/glm-5.2" ;
+        aswr:artifact "aswritten/runs:runs/cb8c251b8bc8/2026-07-18-1-e2e-quantum-1784367745103/actors.json" ;
+        prov:generated narr:Actor_DaveQuantum, narr:Actor_Session, narr:Actor_XenaExpertgh, narr:Actor_XenaStagingAswrittenAi ;
+        dct:isPartOf aswr:Tx_20260718T094229Z ;
+        prov:generatedAtTime "2026-07-18T09:42:29Z"^^xsd:dateTime .
+
+    aswr:Run_20260718T094229Z_pass1 a prov:Activity ;
+        aswr:runPass "pass1" ;
+        aswr:draftedBy "z-ai/glm-5.2" ;
+        aswr:artifact "aswritten/runs:runs/cb8c251b8bc8/2026-07-18-1-e2e-quantum-1784367745103/pass1.json" ;
+        prov:generated narr:Sample_1E2EQuantum1784367745103, narr:Expr_1E2EQuantum1784367745103_1, narr:Expr_1E2EQuantum1784367745103_2, narr:Expr_1E2EQuantum1784367745103_3 ;
+        dct:isPartOf aswr:Tx_20260718T094229Z ;
+        prov:generatedAtTime "2026-07-18T09:42:29Z"^^xsd:dateTime .
+  }
+}
