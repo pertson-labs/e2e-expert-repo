@@ -1,0 +1,11 @@
+{
+  "positions" : [ {
+    "name" : "RememberAsyncContract",
+    "frame" : "how does the remember operation's async job contract coordinate dispatch, receipt, polling, and lost-work prevention?",
+    "members" : [ "src-1", "src-2", "src-3" ],
+    "why" : "All three expressions cohere under one directional read of the async job contract for remember: src-1 ratifies the contract terms (immediate receipt, cursor-pollled extraction watching), src-2 asserts the no-blocking and no-lost-work guarantees, and src-3 records the key decision that dispatch is followed by either polling or piggybacked reaction on a later call. Together they span the full contract shape — dispatch, immediate return, polling cursor, piggybacked reaction, and lost-work prevention — with no internal tension; each fills in a different facet of the same contract."
+  } ],
+  "attaches" : [ ],
+  "position_revisions" : [ ],
+  "ungrouped" : [ ]
+}
