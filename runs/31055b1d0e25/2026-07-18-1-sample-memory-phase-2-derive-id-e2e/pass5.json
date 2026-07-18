@@ -1,0 +1,23 @@
+{
+  "placements" : [ {
+    "supporting_segments" : [ "src-1", "src-2" ],
+    "under" : null,
+    "why" : "The content concerns system robustness against a production failure pattern where a markdown heading with no id field causes a crash. This is an architectural concern about how the system should behave under edge cases, warranting a new strata category since none exists yet.",
+    "verdict" : "mint",
+    "leaf" : "Architecture",
+    "kind" : "strata",
+    "title" : "System design must account for malformed input",
+    "theme" : "Architecture must ensure the system degrades gracefully when encountering unexpected or malformed input in production.",
+    "consulted" : [ ]
+  }, {
+    "verdict" : "mint",
+    "leaf" : "Narrative_GracefulSlugGeneration",
+    "title" : "From crash to valid slug on missing-id input",
+    "theme" : "The derive-id pipeline must produce a valid slug rather than crash when a markdown heading carries no id field.",
+    "under" : [ "Architecture" ],
+    "supporting_segments" : [ "src-1", "src-2" ],
+    "why" : "src-1 reproduces the production failure pattern — a ## heading with no id field — and src-2 states the directive that the system must not crash and must produce a valid slug. Together they support a narrative about graceful degradation in the slug generation pipeline: the system should handle malformed input by generating valid output, not by crashing.",
+    "consulted" : [ ]
+  } ],
+  "unplaced" : [ ]
+}
