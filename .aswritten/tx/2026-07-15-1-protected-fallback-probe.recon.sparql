@@ -1,0 +1,46 @@
+PREFIX narr: <https://aswritten.ai/narrative#>
+PREFIX aswr: <https://aswritten.ai/aswr#>
+PREFIX rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX prov: <http://www.w3.org/ns/prov#>
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+PREFIX dct:  <http://purl.org/dc/terms/>
+PREFIX xsd:  <http://www.w3.org/2001/XMLSchema#>
+PREFIX oa:   <http://www.w3.org/ns/oa#>
+
+INSERT DATA {
+  aswr:Tx_20260718T225807Z a prov:Activity ;
+      prov:generatedAtTime "2026-07-18T22:58:07Z"^^xsd:dateTime ;
+      prov:wasAssociatedWith "aswritten.ai" ;
+      prov:wasAttributedTo "scarlet@aswritten.ai" ;
+      aswr:pipelinePin "87f1666e855c" ;
+      dct:title "Multipass reconciliations: 1ProtectedFallbackProbe" ;
+      prov:generated narr:Recon_1ProtectedFallbackProbe_1 .
+} ;
+INSERT DATA {
+  GRAPH aswr:Tx_20260718T225807Z {
+    narr:Recon_1ProtectedFallbackProbe_1 a narr:Reconciliation ;
+        oa:hasTarget narr:MeridianReleaseTrain ;
+        narr:principal narr:Actor_Session ;
+        skos:note "Gate**: signed release manifest required for Meridian deploys. Scope**: applies to staging and production. Owner**: Quinton Fairweather." ;
+        narr:extends narr:Expr_1ProtectedFallbackProbe_1 ;
+        dct:source narr:Expr_1ProtectedFallbackProbe_3 ;
+        dct:source narr:Expr_1ProtectedFallbackProbe_4 ;
+        dct:source narr:Expr_1ProtectedFallbackProbe_5 ;
+        prov:generatedAtTime "2026-07-18T22:58:07Z"^^xsd:dateTime .
+
+    aswr:Run_20260718T225807Z_pass2 a prov:Activity ;
+        aswr:runPass "pass2" ;
+        aswr:draftedBy "z-ai/glm-5.2" ;
+        aswr:artifact "aswritten/runs:runs/1eaaa083aea2/2026-07-15-1-protected-fallback-probe/pass2.json" ;
+        dct:isPartOf aswr:Tx_20260718T225807Z ;
+        prov:generatedAtTime "2026-07-18T22:58:07Z"^^xsd:dateTime .
+
+    aswr:Run_20260718T225807Z_pass3 a prov:Activity ;
+        aswr:runPass "pass3" ;
+        aswr:draftedBy "z-ai/glm-5.2" ;
+        aswr:artifact "aswritten/runs:runs/1eaaa083aea2/2026-07-15-1-protected-fallback-probe/pass3.json" ;
+        prov:generated narr:Recon_1ProtectedFallbackProbe_1 ;
+        dct:isPartOf aswr:Tx_20260718T225807Z ;
+        prov:generatedAtTime "2026-07-18T22:58:07Z"^^xsd:dateTime .
+  }
+}
