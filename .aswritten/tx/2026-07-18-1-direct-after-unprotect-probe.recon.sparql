@@ -1,0 +1,50 @@
+PREFIX narr: <https://aswritten.ai/narrative#>
+PREFIX aswr: <https://aswritten.ai/aswr#>
+PREFIX rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX prov: <http://www.w3.org/ns/prov#>
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+PREFIX dct:  <http://purl.org/dc/terms/>
+PREFIX xsd:  <http://www.w3.org/2001/XMLSchema#>
+PREFIX oa:   <http://www.w3.org/ns/oa#>
+
+INSERT DATA {
+  aswr:Tx_20260718T120148Z a prov:Activity ;
+      prov:generatedAtTime "2026-07-18T12:01:48Z"^^xsd:dateTime ;
+      prov:wasAssociatedWith "aswritten.ai" ;
+      prov:wasAttributedTo "scarlet@aswritten.ai" ;
+      aswr:pipelinePin "87f1666e855c" ;
+      dct:title "Multipass reconciliations: 1DirectAfterUnprotectProbe" ;
+      prov:generated narr:Demoted_1DirectAfterUnprotectProbe_1, narr:Demoted_1DirectAfterUnprotectProbe_2 .
+} ;
+INSERT DATA {
+  GRAPH aswr:Tx_20260718T120148Z {
+    narr:Demoted_1DirectAfterUnprotectProbe_1 a narr:DemotedReconciliation ;
+        oa:hasTarget narr:Expr_1DirectAfterUnprotectProbe_3 ;
+        oa:hasTarget narr:Expr_1DirectAfterUnprotectProbe_4 ;
+        skos:note "principal \"Quinton Fairweather\" is not the envelope's human (xena+staging@aswritten.ai) or 'session'" ;
+        dct:source narr:Sample_1DirectAfterUnprotectProbe ;
+        prov:generatedAtTime "2026-07-18T12:01:48Z"^^xsd:dateTime .
+
+    narr:Demoted_1DirectAfterUnprotectProbe_2 a narr:DemotedReconciliation ;
+        oa:hasTarget narr:Expr_1DirectAfterUnprotectProbe_5 ;
+        oa:hasTarget narr:Expr_1DirectAfterUnprotectProbe_6 ;
+        skos:note "principal \"Quinton Fairweather\" is not the envelope's human (xena+staging@aswritten.ai) or 'session'" ;
+        dct:source narr:Sample_1DirectAfterUnprotectProbe ;
+        prov:generatedAtTime "2026-07-18T12:01:48Z"^^xsd:dateTime .
+
+    aswr:Run_20260718T120148Z_pass2 a prov:Activity ;
+        aswr:runPass "pass2" ;
+        aswr:draftedBy "z-ai/glm-5.2" ;
+        aswr:artifact "aswritten/runs:runs/c9d85670978f/2026-07-18-1-direct-after-unprotect-probe/pass2.json" ;
+        dct:isPartOf aswr:Tx_20260718T120148Z ;
+        prov:generatedAtTime "2026-07-18T12:01:48Z"^^xsd:dateTime .
+
+    aswr:Run_20260718T120148Z_pass3 a prov:Activity ;
+        aswr:runPass "pass3" ;
+        aswr:draftedBy "z-ai/glm-5.2" ;
+        aswr:artifact "aswritten/runs:runs/c9d85670978f/2026-07-18-1-direct-after-unprotect-probe/pass3.json" ;
+        prov:generated narr:Demoted_1DirectAfterUnprotectProbe_1, narr:Demoted_1DirectAfterUnprotectProbe_2 ;
+        dct:isPartOf aswr:Tx_20260718T120148Z ;
+        prov:generatedAtTime "2026-07-18T12:01:48Z"^^xsd:dateTime .
+  }
+}
