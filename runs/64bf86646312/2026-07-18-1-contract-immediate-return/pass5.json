@@ -1,0 +1,23 @@
+{
+  "placements" : [ {
+    "supporting_segments" : [ "src-1", "src-2", "src-3" ],
+    "under" : null,
+    "why" : "The content describes a ratified architectural contract for async job dispatch — return semantics, polling model, and failure guarantees — which is architectural content requiring an Architecture strata category to organize it.",
+    "verdict" : "mint",
+    "leaf" : "Architecture",
+    "kind" : "strata",
+    "title" : "System architecture decisions and contracts",
+    "theme" : "Architectural contracts and design decisions govern how system components interact and what behavior they guarantee.",
+    "consulted" : [ ]
+  }, {
+    "verdict" : "mint",
+    "leaf" : "Narrative_AsyncJobContract",
+    "title" : "Immediate-return dispatch replaces blocking extraction",
+    "theme" : "The remember operation dispatches asynchronously, returning a receipt in seconds while extraction proceeds under a polling cursor, so no call blocks and no work is lost if the client drops the receipt.",
+    "under" : [ "Architecture" ],
+    "supporting_segments" : [ "src-1", "src-2", "src-3" ],
+    "why" : "All three expressions cohere under the async job contract theme: src-1 declares the ratified contract (receipt in seconds, polling cursor), src-2 asserts non-blocking and lost-work-prevention properties, and src-3 restates the key decision (dispatch then poll or piggyback). No existing leaf holds this theme.",
+    "consulted" : [ ]
+  } ],
+  "unplaced" : [ ]
+}
