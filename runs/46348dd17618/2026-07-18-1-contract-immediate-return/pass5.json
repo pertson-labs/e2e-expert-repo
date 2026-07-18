@@ -1,0 +1,23 @@
+{
+  "placements" : [ {
+    "supporting_segments" : [ "src-1", "src-2", "src-3" ],
+    "under" : null,
+    "why" : "The envelope's content is fundamentally architectural — it defines an async job contract governing dispatch, receipt, polling, and lost-work prevention. No existing strata category exists, so Architecture is minted as the organizational home for this and future architectural-contract content.",
+    "verdict" : "mint",
+    "leaf" : "Architecture",
+    "kind" : "strata",
+    "title" : "Contracts coordinate components without coupling",
+    "theme" : "Architectural decisions establish how system parts interact, coordinate, and remain resilient under partial failure.",
+    "consulted" : [ ]
+  }, {
+    "verdict" : "mint",
+    "leaf" : "Narrative_RememberAsyncContract",
+    "title" : "Remember returns immediately, completion arrives later",
+    "theme" : "The remember operation dispatches an async job and returns a receipt in seconds, with completion watched via cursor polling or piggybacked on a later call, ensuring no blocking and no lost work if the receipt is dropped.",
+    "under" : [ "Architecture" ],
+    "supporting_segments" : [ "src-1", "src-2", "src-3" ],
+    "why" : "All three segments cohere under one async job contract theme: src-1 ratifies the receipt-and-cursor-polling terms, src-2 asserts no-blocking and no-lost-work guarantees, and src-3 records the dispatch-then-poll-or-piggyback decision. No existing leaf holds this; it is a thematic subject future envelopes will keep feeding.",
+    "consulted" : [ ]
+  } ],
+  "unplaced" : [ ]
+}
