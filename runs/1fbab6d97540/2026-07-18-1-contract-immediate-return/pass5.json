@@ -1,0 +1,23 @@
+{
+  "placements" : [ {
+    "supporting_segments" : [ "src-1", "src-2" ],
+    "under" : null,
+    "why" : "The content describes a structural contract for how the remember operation works asynchronously — receipt, cursor polling, piggybacked reactions — which is an architectural decision about system design, not a fact or measurement. No existing strata or narrative leaf exists to hold it.",
+    "verdict" : "mint",
+    "leaf" : "Architecture",
+    "kind" : "strata",
+    "title" : "From blocking calls to async job contracts",
+    "theme" : "System operations that once blocked now return immediate receipts and defer completion to polled or piggybacked channels.",
+    "consulted" : [ ]
+  }, {
+    "verdict" : "mint",
+    "leaf" : "Narrative_AsyncRememberContract",
+    "title" : "Remember becomes a dispatch-and-poll job, not a blocking call",
+    "theme" : "The remember operation returns an immediate receipt and defers extraction to a polled cursor, with reactions piggybacked on later calls, so no client drop loses work.",
+    "under" : [ "Architecture" ],
+    "supporting_segments" : [ "src-1", "src-2" ],
+    "why" : "Both segments cohere under one thematic read of the async remember contract: src-1 ratifies the receipt-and-cursor-polling shape with no blocking call and no lost work on a dropped receipt, while src-2 asserts the dispatch-then-poll-or-piggyback decision. This is a directional statement about how the system's core operation is structured — a subject future envelopes will keep feeding — not a one-time fact.",
+    "consulted" : [ ]
+  } ],
+  "unplaced" : [ ]
+}
