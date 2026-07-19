@@ -1,0 +1,23 @@
+{
+  "placements" : [ {
+    "supporting_segments" : [ "src-1", "src-2", "src-3" ],
+    "under" : null,
+    "why" : "The content is about an architecture-level design decision — the async job contract for `remember`. No existing strata category covers system architecture; this mint provides the organizational home for architecture-level design decisions in this repo.",
+    "verdict" : "mint",
+    "leaf" : "Architecture",
+    "kind" : "strata",
+    "title" : "From synchronous calls to async job contracts",
+    "theme" : "System design decisions that shape how the agent runtime dispatches, tracks, and retrieves work.",
+    "consulted" : [ ]
+  }, {
+    "verdict" : "mint",
+    "leaf" : "Narrative_AsyncJobContract",
+    "title" : "Remember dispatches async, returns a receipt, and retrieves by poll or piggyback",
+    "theme" : "The async job contract makes `remember` non-blocking: dispatch returns a receipt in seconds, extraction is watched by polling a cursor, and the agent either polls the run or gets the reaction piggybacked on a later call — no blocking, no lost work if the receipt is dropped.",
+    "under" : [ "Architecture" ],
+    "supporting_segments" : [ "src-1", "src-2", "src-3" ],
+    "why" : "All three segments cohere around the ratified async job contract: src-1 states the contract (receipt in seconds, extraction watched by polling a cursor), src-2 asserts its operational guarantees (no blocking call, no lost work if the receipt is dropped), and src-3 records the dispatch-and-retrieval decision (remember dispatches, agent polls or gets the reaction piggybacked). No existing leaf holds this theme; the grain test admits it — future envelopes will keep feeding the async contract's design and guarantees.",
+    "consulted" : [ ]
+  } ],
+  "unplaced" : [ ]
+}
