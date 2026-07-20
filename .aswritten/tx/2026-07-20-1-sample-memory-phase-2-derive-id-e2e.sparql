@@ -1,0 +1,82 @@
+PREFIX narr: <https://aswritten.ai/narrative#>
+PREFIX aswr: <https://aswritten.ai/aswr#>
+PREFIX rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX prov: <http://www.w3.org/ns/prov#>
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+PREFIX dct:  <http://purl.org/dc/terms/>
+PREFIX xsd:  <http://www.w3.org/2001/XMLSchema#>
+PREFIX oa:   <http://www.w3.org/ns/oa#>
+
+INSERT DATA {
+  aswr:Tx_20260720T110016Z a prov:Activity ;
+      prov:generatedAtTime "2026-07-20T11:00:16Z"^^xsd:dateTime ;
+      prov:wasAssociatedWith "aswritten.ai" ;
+      prov:wasAttributedTo "scarlet@aswritten.ai" ;
+      aswr:pipelinePin "3fefcfcf0b83" ;
+      aswr:originPath ".aswritten/memories/2026-07-20-1-sample-memory-phase-2-derive-id-e2e.md" ;
+      dct:title "Multipass source extraction: Sample Memory Phase 2 — Derive Id E2E" ;
+      prov:generated narr:Sample_1SampleMemoryPhase2DeriveIdE2E, narr:Expr_1SampleMemoryPhase2DeriveIdE2E_1, narr:Expr_1SampleMemoryPhase2DeriveIdE2E_2, narr:Actor_XenaExpertgh .
+} ;
+INSERT DATA {
+  GRAPH aswr:Tx_20260720T110016Z {
+    narr:Sample_1SampleMemoryPhase2DeriveIdE2E a narr:Sample ;
+        dct:title "Sample Memory Phase 2 — Derive Id E2E" ;
+        aswr:originPath ".aswritten/memories/2026-07-20-1-sample-memory-phase-2-derive-id-e2e.md" ;
+        aswr:submittedBy narr:Actor_XenaExpertgh ;
+        aswr:account narr:Actor_XenaExpertgh .
+
+    narr:Expr_1SampleMemoryPhase2DeriveIdE2E_1 a narr:Expression ;
+        narr:actor narr:Actor_XenaExpertgh ;
+        narr:act "assertive" ;
+        narr:animator narr:Actor_XenaExpertgh ;
+        narr:author narr:Actor_XenaExpertgh ;
+        narr:context "Document description / purpose statement" ;
+        oa:hasTarget [ a oa:SpecificResource ;
+            oa:hasSource narr:Sample_1SampleMemoryPhase2DeriveIdE2E ;
+            oa:hasSelector [ a oa:TextQuoteSelector ;
+                oa:exact "Reproduces the missing-id failure pattern from prod (## level heading,\nno id field)." ;
+                oa:prefix "mory Phase 2 — Derive Id E2E\n\n" ;
+                oa:suffix " Must not crash; must produce " ] ;
+            oa:hasSelector [ a oa:TextPositionSelector ;
+                oa:start "92"^^xsd:integer ;
+                oa:end "176"^^xsd:integer ] ] ;
+        prov:generatedAtTime "2026-07-20T11:00:16Z"^^xsd:dateTime .
+
+    narr:Expr_1SampleMemoryPhase2DeriveIdE2E_2 a narr:Expression ;
+        narr:actor narr:Actor_XenaExpertgh ;
+        narr:act "directive" ;
+        narr:animator narr:Actor_XenaExpertgh ;
+        narr:author narr:Actor_XenaExpertgh ;
+        narr:context "Document description / purpose statement" ;
+        skos:note "Directive force: states a requirement the pipeline must satisfy." ;
+        oa:hasTarget [ a oa:SpecificResource ;
+            oa:hasSource narr:Sample_1SampleMemoryPhase2DeriveIdE2E ;
+            oa:hasSelector [ a oa:TextQuoteSelector ;
+                oa:exact "Must not crash; must produce a valid slug." ;
+                oa:prefix " level heading,\nno id field). " ;
+                oa:suffix "" ] ;
+            oa:hasSelector [ a oa:TextPositionSelector ;
+                oa:start "177"^^xsd:integer ;
+                oa:end "219"^^xsd:integer ] ] ;
+        prov:generatedAtTime "2026-07-20T11:00:16Z"^^xsd:dateTime .
+
+    narr:Actor_XenaExpertgh a narr:Actor ;
+        skos:prefLabel "Xena ExpertGH" .
+
+    aswr:Run_20260720T110016Z_actors a prov:Activity ;
+        aswr:runPass "actors" ;
+        aswr:draftedBy "z-ai/glm-5.2" ;
+        aswr:artifact "aswritten/runs:runs/7ddd0efb021b/2026-07-20-1-sample-memory-phase-2-derive-id-e2e/actors.json" ;
+        prov:generated narr:Actor_XenaExpertgh ;
+        dct:isPartOf aswr:Tx_20260720T110016Z ;
+        prov:generatedAtTime "2026-07-20T11:00:16Z"^^xsd:dateTime .
+
+    aswr:Run_20260720T110016Z_pass1 a prov:Activity ;
+        aswr:runPass "pass1" ;
+        aswr:draftedBy "z-ai/glm-5.2" ;
+        aswr:artifact "aswritten/runs:runs/7ddd0efb021b/2026-07-20-1-sample-memory-phase-2-derive-id-e2e/pass1.json" ;
+        prov:generated narr:Sample_1SampleMemoryPhase2DeriveIdE2E, narr:Expr_1SampleMemoryPhase2DeriveIdE2E_1, narr:Expr_1SampleMemoryPhase2DeriveIdE2E_2 ;
+        dct:isPartOf aswr:Tx_20260720T110016Z ;
+        prov:generatedAtTime "2026-07-20T11:00:16Z"^^xsd:dateTime .
+  }
+}
