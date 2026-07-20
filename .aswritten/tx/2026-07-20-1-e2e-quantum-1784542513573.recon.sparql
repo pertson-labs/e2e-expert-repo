@@ -1,0 +1,51 @@
+PREFIX narr: <https://aswritten.ai/narrative#>
+PREFIX aswr: <https://aswritten.ai/aswr#>
+PREFIX rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX prov: <http://www.w3.org/ns/prov#>
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+PREFIX dct:  <http://purl.org/dc/terms/>
+PREFIX xsd:  <http://www.w3.org/2001/XMLSchema#>
+PREFIX oa:   <http://www.w3.org/ns/oa#>
+
+INSERT DATA {
+  aswr:Tx_20260720T101520Z a prov:Activity ;
+      prov:generatedAtTime "2026-07-20T10:15:20Z"^^xsd:dateTime ;
+      prov:wasAssociatedWith "aswritten.ai" ;
+      prov:wasAttributedTo "scarlet@aswritten.ai" ;
+      aswr:pipelinePin "3fefcfcf0b83" ;
+      dct:title "Multipass reconciliations: 1E2EQuantum1784542513573" ;
+      prov:generated narr:Recon_1E2EQuantum1784542513573_2, narr:Demoted_1E2EQuantum1784542513573_1 .
+} ;
+INSERT DATA {
+  GRAPH aswr:Tx_20260720T101520Z {
+    narr:Recon_1E2EQuantum1784542513573_2 a narr:Reconciliation ;
+        oa:hasTarget narr:AnalyticsPipeline ;
+        narr:principal narr:Actor_Session ;
+        skos:note "Timeline**: Q3 2026" ;
+        narr:extends narr:Expr_1E2EQuantum1784542513573_1 ;
+        dct:source narr:Expr_1E2EQuantum1784542513573_4 ;
+        prov:generatedAtTime "2026-07-20T10:15:20Z"^^xsd:dateTime .
+
+    narr:Demoted_1E2EQuantum1784542513573_1 a narr:DemotedReconciliation ;
+        oa:hasTarget narr:Expr_1E2EQuantum1784542513573_2 ;
+        oa:hasTarget narr:Expr_1E2EQuantum1784542513573_3 ;
+        skos:note "principal \"Dave Quantum\" is not the envelope's human (xena+staging@aswritten.ai) or 'session'" ;
+        dct:source narr:Sample_1E2EQuantum1784542513573 ;
+        prov:generatedAtTime "2026-07-20T10:15:20Z"^^xsd:dateTime .
+
+    aswr:Run_20260720T101520Z_pass2 a prov:Activity ;
+        aswr:runPass "pass2" ;
+        aswr:draftedBy "z-ai/glm-5.2" ;
+        aswr:artifact "aswritten/runs:runs/4d42d0af0ee7/2026-07-20-1-e2e-quantum-1784542513573/pass2.json" ;
+        dct:isPartOf aswr:Tx_20260720T101520Z ;
+        prov:generatedAtTime "2026-07-20T10:15:20Z"^^xsd:dateTime .
+
+    aswr:Run_20260720T101520Z_pass3 a prov:Activity ;
+        aswr:runPass "pass3" ;
+        aswr:draftedBy "z-ai/glm-5.2" ;
+        aswr:artifact "aswritten/runs:runs/4d42d0af0ee7/2026-07-20-1-e2e-quantum-1784542513573/pass3.json" ;
+        prov:generated narr:Recon_1E2EQuantum1784542513573_2, narr:Demoted_1E2EQuantum1784542513573_1 ;
+        dct:isPartOf aswr:Tx_20260720T101520Z ;
+        prov:generatedAtTime "2026-07-20T10:15:20Z"^^xsd:dateTime .
+  }
+}
