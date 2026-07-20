@@ -1,0 +1,55 @@
+PREFIX narr: <https://aswritten.ai/narrative#>
+PREFIX aswr: <https://aswritten.ai/aswr#>
+PREFIX rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX prov: <http://www.w3.org/ns/prov#>
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+PREFIX dct:  <http://purl.org/dc/terms/>
+PREFIX xsd:  <http://www.w3.org/2001/XMLSchema#>
+PREFIX oa:   <http://www.w3.org/ns/oa#>
+
+INSERT DATA {
+  aswr:Tx_20260720T103809Z a prov:Activity ;
+      prov:generatedAtTime "2026-07-20T10:38:09Z"^^xsd:dateTime ;
+      prov:wasAssociatedWith "aswritten.ai" ;
+      prov:wasAttributedTo "scarlet@aswritten.ai" ;
+      aswr:pipelinePin "3fefcfcf0b83" ;
+      dct:title "Multipass reconciliations: 1LifecycleStepA" ;
+      prov:generated narr:Demoted_1LifecycleStepA_1, narr:Demoted_1LifecycleStepA_2, narr:Demoted_1LifecycleStepA_3 .
+} ;
+INSERT DATA {
+  GRAPH aswr:Tx_20260720T103809Z {
+    narr:Demoted_1LifecycleStepA_1 a narr:DemotedReconciliation ;
+        oa:hasTarget narr:Expr_1LifecycleStepA_4 ;
+        oa:hasTarget narr:Expr_1LifecycleStepA_5 ;
+        skos:note "principal \"Quinton Fairweather\" is not the envelope's human (xena+staging@aswritten.ai) or 'session'" ;
+        dct:source narr:Sample_1LifecycleStepA ;
+        prov:generatedAtTime "2026-07-20T10:38:09Z"^^xsd:dateTime .
+
+    narr:Demoted_1LifecycleStepA_2 a narr:DemotedReconciliation ;
+        oa:hasTarget narr:Expr_1LifecycleStepA_6 ;
+        skos:note "principal \"Quinton Fairweather\" is not the envelope's human (xena+staging@aswritten.ai) or 'session'" ;
+        dct:source narr:Sample_1LifecycleStepA ;
+        prov:generatedAtTime "2026-07-20T10:38:09Z"^^xsd:dateTime .
+
+    narr:Demoted_1LifecycleStepA_3 a narr:DemotedReconciliation ;
+        oa:hasTarget narr:Expr_1LifecycleStepA_7 ;
+        skos:note "principal \"Quinton Fairweather\" is not the envelope's human (xena+staging@aswritten.ai) or 'session'" ;
+        dct:source narr:Sample_1LifecycleStepA ;
+        prov:generatedAtTime "2026-07-20T10:38:09Z"^^xsd:dateTime .
+
+    aswr:Run_20260720T103809Z_pass2 a prov:Activity ;
+        aswr:runPass "pass2" ;
+        aswr:draftedBy "z-ai/glm-5.2" ;
+        aswr:artifact "aswritten/runs:runs/3c1904c93827/2026-07-20-1-lifecycle-step-a/pass2.json" ;
+        dct:isPartOf aswr:Tx_20260720T103809Z ;
+        prov:generatedAtTime "2026-07-20T10:38:09Z"^^xsd:dateTime .
+
+    aswr:Run_20260720T103809Z_pass3 a prov:Activity ;
+        aswr:runPass "pass3" ;
+        aswr:draftedBy "z-ai/glm-5.2" ;
+        aswr:artifact "aswritten/runs:runs/3c1904c93827/2026-07-20-1-lifecycle-step-a/pass3.json" ;
+        prov:generated narr:Demoted_1LifecycleStepA_1, narr:Demoted_1LifecycleStepA_2, narr:Demoted_1LifecycleStepA_3 ;
+        dct:isPartOf aswr:Tx_20260720T103809Z ;
+        prov:generatedAtTime "2026-07-20T10:38:09Z"^^xsd:dateTime .
+  }
+}
