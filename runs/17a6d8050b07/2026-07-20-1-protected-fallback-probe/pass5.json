@@ -1,0 +1,23 @@
+{
+  "placements" : [ {
+    "supporting_segments" : [ "src-1", "src-2" ],
+    "under" : null,
+    "why" : "The deployment gate decision — requiring signed release manifests for Meridian deploys across staging and production — is an architectural guardrail. No existing strata or narrative leaf covers this; the content names an organizational category for deployment infrastructure policy.",
+    "verdict" : "mint",
+    "leaf" : "Architecture",
+    "kind" : "strata",
+    "title" : "Deployment infrastructure as a safety surface",
+    "theme" : "Architecture decisions encode deployment guardrails that prevent unsafe releases from reaching production environments.",
+    "consulted" : [ ]
+  }, {
+    "verdict" : "mint",
+    "leaf" : "Narrative_SignedReleaseManifestGate",
+    "title" : "Signed manifests gate Meridian deployments",
+    "theme" : "Meridian deployments require signed release manifests across staging and production to prevent unsigned artifacts from shipping.",
+    "under" : [ "Architecture" ],
+    "supporting_segments" : [ "src-1", "src-2" ],
+    "why" : "Both segments express the same deployment gate decision: src-1 gives Quinton's first-person rationale (two unsigned artifacts reached staging) and the signed-manifest requirement; src-2 structures the decision into gate, scope (staging and production), and owner. This is a thematic subject future envelopes will keep feeding — a policy that all Meridian deploys require signed manifests — not a one-time fact.",
+    "consulted" : [ ]
+  } ],
+  "unplaced" : [ ]
+}
