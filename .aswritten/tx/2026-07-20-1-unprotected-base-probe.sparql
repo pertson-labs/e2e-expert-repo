@@ -1,0 +1,88 @@
+PREFIX narr: <https://aswritten.ai/narrative#>
+PREFIX aswr: <https://aswritten.ai/aswr#>
+PREFIX rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX prov: <http://www.w3.org/ns/prov#>
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+PREFIX dct:  <http://purl.org/dc/terms/>
+PREFIX xsd:  <http://www.w3.org/2001/XMLSchema#>
+PREFIX oa:   <http://www.w3.org/ns/oa#>
+
+INSERT DATA {
+  aswr:Tx_20260720T140737Z a prov:Activity ;
+      prov:generatedAtTime "2026-07-20T14:07:37Z"^^xsd:dateTime ;
+      prov:wasAssociatedWith "aswritten.ai" ;
+      prov:wasAttributedTo "scarlet@aswritten.ai" ;
+      aswr:pipelinePin "3fefcfcf0b83" ;
+      aswr:originPath ".aswritten/memories/2026-07-20-1-unprotected-base-probe.md" ;
+      dct:title "Multipass source extraction: Rollback Drill Decision: Atlas Rehearsals" ;
+      prov:generated narr:Sample_1UnprotectedBaseProbe, narr:Expr_1UnprotectedBaseProbe_1, narr:Expr_1UnprotectedBaseProbe_2, narr:Actor_QuintonFairweather, narr:Actor_XenaExpertgh .
+} ;
+INSERT DATA {
+  GRAPH aswr:Tx_20260720T140737Z {
+    narr:Sample_1UnprotectedBaseProbe a narr:Sample ;
+        dct:title "Rollback Drill Decision: Atlas Rehearsals" ;
+        dct:created "2026-07-02"^^xsd:date ;
+        aswr:originPath ".aswritten/memories/2026-07-20-1-unprotected-base-probe.md" ;
+        aswr:submittedBy narr:Actor_XenaExpertgh ;
+        aswr:account narr:Actor_XenaExpertgh .
+
+    narr:Expr_1UnprotectedBaseProbe_1 a narr:Expression ;
+        narr:actor narr:Actor_QuintonFairweather ;
+        narr:act "commissive" ;
+        narr:animator narr:Actor_XenaExpertgh ;
+        narr:author narr:Actor_XenaExpertgh ;
+        narr:principal narr:Actor_QuintonFairweather ;
+        narr:context "Rollback Drill Decision: Atlas Rehearsals, dated 2026-07-02. Quinton Fairweather is identified as CTO and participant." ;
+        skos:note "Quinton commits the organization to monthly rollback rehearsals and asserts the principle behind the commitment. The utterance performs both a commissive (establishing cadence) and an assertive (stating the rationale); the dominant move is the commitment to monthly rehearsals." ;
+        oa:hasTarget [ a oa:SpecificResource ;
+            oa:hasSource narr:Sample_1UnprotectedBaseProbe ;
+            oa:hasSelector [ a oa:TextQuoteSelector ;
+                oa:exact "Quinton: \"Atlas rollback rehearsals run monthly from now on. A rollback\nwe have not rehearsed is a rollback we do not actually have.\"" ;
+                oa:prefix "** Quinton Fairweather (CTO)\n\n" ;
+                oa:suffix "\n\nKey decisions:\n- **Cadence**" ] ;
+            oa:hasSelector [ a oa:TextPositionSelector ;
+                oa:start "161"^^xsd:integer ;
+                oa:end "294"^^xsd:integer ] ] ;
+        prov:generatedAtTime "2026-07-20T14:07:37Z"^^xsd:dateTime .
+
+    narr:Expr_1UnprotectedBaseProbe_2 a narr:Expression ;
+        narr:actor narr:Actor_XenaExpertgh ;
+        narr:act "assertive" ;
+        narr:animator narr:Actor_XenaExpertgh ;
+        narr:author narr:Actor_XenaExpertgh ;
+        narr:context "Key decisions section summarizing the rollback drill decision." ;
+        skos:note "Editorial summary of the decisions reached; restates Quinton's commitment as structured bullet points." ;
+        oa:hasTarget [ a oa:SpecificResource ;
+            oa:hasSource narr:Sample_1UnprotectedBaseProbe ;
+            oa:hasSelector [ a oa:TextQuoteSelector ;
+                oa:exact "Key decisions:\n- **Cadence**: monthly Atlas rollback rehearsals\n- **Owner**: Quinton Fairweather" ;
+                oa:prefix "ck we do not actually have.\"\n\n" ;
+                oa:suffix "" ] ;
+            oa:hasSelector [ a oa:TextPositionSelector ;
+                oa:start "296"^^xsd:integer ;
+                oa:end "392"^^xsd:integer ] ] ;
+        prov:generatedAtTime "2026-07-20T14:07:37Z"^^xsd:dateTime .
+
+    narr:Actor_QuintonFairweather a narr:Actor ;
+        skos:prefLabel "Quinton Fairweather" .
+
+    narr:Actor_XenaExpertgh a narr:Actor ;
+        skos:prefLabel "Xena ExpertGH" .
+
+    aswr:Run_20260720T140737Z_actors a prov:Activity ;
+        aswr:runPass "actors" ;
+        aswr:draftedBy "z-ai/glm-5.2" ;
+        aswr:artifact "aswritten/runs:runs/4a102ce7f88c/2026-07-20-1-unprotected-base-probe/actors.json" ;
+        prov:generated narr:Actor_QuintonFairweather, narr:Actor_XenaExpertgh ;
+        dct:isPartOf aswr:Tx_20260720T140737Z ;
+        prov:generatedAtTime "2026-07-20T14:07:37Z"^^xsd:dateTime .
+
+    aswr:Run_20260720T140737Z_pass1 a prov:Activity ;
+        aswr:runPass "pass1" ;
+        aswr:draftedBy "z-ai/glm-5.2" ;
+        aswr:artifact "aswritten/runs:runs/4a102ce7f88c/2026-07-20-1-unprotected-base-probe/pass1.json" ;
+        prov:generated narr:Sample_1UnprotectedBaseProbe, narr:Expr_1UnprotectedBaseProbe_1, narr:Expr_1UnprotectedBaseProbe_2 ;
+        dct:isPartOf aswr:Tx_20260720T140737Z ;
+        prov:generatedAtTime "2026-07-20T14:07:37Z"^^xsd:dateTime .
+  }
+}
