@@ -1,0 +1,23 @@
+{
+  "placements" : [ {
+    "supporting_segments" : [ "src-1", "src-2" ],
+    "under" : null,
+    "why" : "The content describes pipeline behavior when an id field is absent — an architectural concern about how the system is designed to handle missing input. No existing strata category covers this, so the first architectural content in this repo calls for the category to be minted.",
+    "verdict" : "mint",
+    "leaf" : "Architecture",
+    "kind" : "strata",
+    "title" : "System design governs component behavior under varying input conditions",
+    "theme" : "The system's architecture defines how the pipeline responds to absent or incomplete input.",
+    "consulted" : [ ]
+  }, {
+    "verdict" : "mint",
+    "leaf" : "Narrative_IdSynthesisFromContent",
+    "title" : "Pipeline synthesizes identity from content when none is provided",
+    "theme" : "When a memory is submitted without an explicit identifier, the pipeline must generate a slug from its content — via LLM id-gen or deterministic slugify fallback — and commit the file.",
+    "under" : [ "Architecture" ],
+    "supporting_segments" : [ "src-1", "src-2" ],
+    "why" : "src-1 establishes the precondition (no explicit id at submission) and src-2 directs the pipeline's response (generate a slug from content via LLM id-gen or deterministic fallback, then commit the file). Together they name a thematic subject future envelopes will keep feeding: the pipeline's responsibility to synthesize identity from content when identification is absent. No existing leaf holds this theme.",
+    "consulted" : [ ]
+  } ],
+  "unplaced" : [ ]
+}
