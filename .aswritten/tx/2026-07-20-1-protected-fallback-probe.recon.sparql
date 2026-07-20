@@ -1,0 +1,42 @@
+PREFIX narr: <https://aswritten.ai/narrative#>
+PREFIX aswr: <https://aswritten.ai/aswr#>
+PREFIX rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX prov: <http://www.w3.org/ns/prov#>
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+PREFIX dct:  <http://purl.org/dc/terms/>
+PREFIX xsd:  <http://www.w3.org/2001/XMLSchema#>
+PREFIX oa:   <http://www.w3.org/ns/oa#>
+
+INSERT DATA {
+  aswr:Tx_20260720T105615Z a prov:Activity ;
+      prov:generatedAtTime "2026-07-20T10:56:15Z"^^xsd:dateTime ;
+      prov:wasAssociatedWith "aswritten.ai" ;
+      prov:wasAttributedTo "scarlet@aswritten.ai" ;
+      aswr:pipelinePin "3fefcfcf0b83" ;
+      dct:title "Multipass reconciliations: 1ProtectedFallbackProbe" ;
+      prov:generated narr:Demoted_1ProtectedFallbackProbe_1 .
+} ;
+INSERT DATA {
+  GRAPH aswr:Tx_20260720T105615Z {
+    narr:Demoted_1ProtectedFallbackProbe_1 a narr:DemotedReconciliation ;
+        oa:hasTarget narr:Expr_1ProtectedFallbackProbe_2 ;
+        skos:note "principal \"Quinton Fairweather\" is not the envelope's human (xena+staging@aswritten.ai) or 'session'" ;
+        dct:source narr:Sample_1ProtectedFallbackProbe ;
+        prov:generatedAtTime "2026-07-20T10:56:15Z"^^xsd:dateTime .
+
+    aswr:Run_20260720T105615Z_pass2 a prov:Activity ;
+        aswr:runPass "pass2" ;
+        aswr:draftedBy "z-ai/glm-5.2" ;
+        aswr:artifact "aswritten/runs:runs/17a6d8050b07/2026-07-20-1-protected-fallback-probe/pass2.json" ;
+        dct:isPartOf aswr:Tx_20260720T105615Z ;
+        prov:generatedAtTime "2026-07-20T10:56:15Z"^^xsd:dateTime .
+
+    aswr:Run_20260720T105615Z_pass3 a prov:Activity ;
+        aswr:runPass "pass3" ;
+        aswr:draftedBy "z-ai/glm-5.2" ;
+        aswr:artifact "aswritten/runs:runs/17a6d8050b07/2026-07-20-1-protected-fallback-probe/pass3.json" ;
+        prov:generated narr:Demoted_1ProtectedFallbackProbe_1 ;
+        dct:isPartOf aswr:Tx_20260720T105615Z ;
+        prov:generatedAtTime "2026-07-20T10:56:15Z"^^xsd:dateTime .
+  }
+}
