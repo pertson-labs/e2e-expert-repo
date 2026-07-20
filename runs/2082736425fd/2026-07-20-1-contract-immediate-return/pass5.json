@@ -1,0 +1,23 @@
+{
+  "placements" : [ {
+    "supporting_segments" : [ "src-1", "src-2" ],
+    "under" : null,
+    "why" : "Both segments describe a design contract — the async job dispatch pattern for remember — which is architectural in nature. No existing strata category exists, so Architecture is minted as the organizational home for structural and design-contract decisions.",
+    "verdict" : "mint",
+    "leaf" : "Architecture",
+    "kind" : "strata",
+    "title" : "System design and structural contracts",
+    "theme" : "How the system is structured and the design contracts that govern its operation.",
+    "consulted" : [ ]
+  }, {
+    "verdict" : "mint",
+    "leaf" : "Narrative_AsyncRememberContract",
+    "title" : "Remember returns immediately, extraction proceeds async",
+    "theme" : "The remember operation dispatches work and returns a receipt in seconds while extraction is watched by cursor polling or reaction piggyback, so no call blocks and no work is lost if the client drops the receipt.",
+    "under" : [ "Architecture" ],
+    "supporting_segments" : [ "src-1", "src-2" ],
+    "why" : "src-1 ratifies the contract — receipt return, cursor polling, no blocking, no lost work — and src-2 fills the retrieval-mechanism gap by specifying that the agent polls the run or receives the reaction piggybacked on a later call. Together they name a thematic subject — the async remember contract — that future envelopes will keep feeding, passing the narrative grain test. No existing leaf holds this theme, so it is minted under the Architecture strata.",
+    "consulted" : [ ]
+  } ],
+  "unplaced" : [ ]
+}
