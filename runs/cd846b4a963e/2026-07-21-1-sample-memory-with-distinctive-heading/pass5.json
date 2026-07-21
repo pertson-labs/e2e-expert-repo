@@ -1,0 +1,23 @@
+{
+  "placements" : [ {
+    "supporting_segments" : [ "src-1", "src-2" ],
+    "under" : null,
+    "why" : "Both segments specify pipeline behavior at the design level — the precondition of a missing id field and the required response of generating a slug from content and committing — establishing an architectural category for system behavior specifications that future envelopes can nest under.",
+    "verdict" : "mint",
+    "leaf" : "Architecture",
+    "kind" : "strata",
+    "title" : "system design specifications governing pipeline behavior",
+    "frame" : "What architectural decisions shape how the pipeline processes and commits memory submissions?",
+    "consulted" : [ ]
+  }, {
+    "verdict" : "mint",
+    "leaf" : "Narrative_ContentDerivedIdentity",
+    "title" : "the pipeline derives identity from content when none is supplied",
+    "frame" : "How must the pipeline produce an identifier from memory content when no explicit id is provided?",
+    "under" : [ "Architecture" ],
+    "supporting_segments" : [ "src-1", "src-2" ],
+    "why" : "src-1 establishes the precondition — a submission arriving without an explicit id — and src-2 mandates the pipeline's response: generate a slug from memory content via the LLM id-gen call or the deterministic slugify fallback, then commit. Together they name a thematic subject future envelopes will feed: the pipeline's responsibility to derive identity from content when none is explicitly given.",
+    "consulted" : [ ]
+  } ],
+  "unplaced" : [ ]
+}
