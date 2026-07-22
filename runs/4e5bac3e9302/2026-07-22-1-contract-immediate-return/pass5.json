@@ -1,0 +1,23 @@
+{
+  "placements" : [ {
+    "supporting_segments" : [ "src-1", "src-2", "src-3" ],
+    "under" : null,
+    "why" : "The content describes a ratified architectural contract governing system behavior — the async remember mechanism's dispatch, polling, and safety guarantees. This names an organizational category for architectural decisions that nothing existing covers.",
+    "verdict" : "mint",
+    "leaf" : "Architecture",
+    "kind" : "strata",
+    "title" : "System architecture and operational contracts",
+    "frame" : "What architectural decisions and contracts govern how the system operates?",
+    "consulted" : [ ]
+  }, {
+    "verdict" : "mint",
+    "leaf" : "Narrative_AsyncRememberContract",
+    "title" : "Async remember as immediate-receipt dispatch with poll-or-piggyback retrieval",
+    "frame" : "What immediate-return and retrieval guarantees does the async remember contract establish, and how does its dispatch-and-poll design prevent lost work?",
+    "under" : [ "Architecture" ],
+    "supporting_segments" : [ "src-1", "src-2", "src-3" ],
+    "why" : "All three segments describe a single ratified contract: remember returns a receipt immediately, extraction is watched by polling a cursor, no blocking call occurs, no work is lost if the receipt is dropped, and retrieval happens either by polling or by piggybacking on a later call. This is a thematic subject future envelopes will keep feeding — the async remember contract's operational design — not a one-time fact or measurement. It passes the grain test: the contract's shape is true beyond the words that describe it here.",
+    "consulted" : [ ]
+  } ],
+  "unplaced" : [ ]
+}
