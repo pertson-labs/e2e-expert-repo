@@ -1,0 +1,84 @@
+PREFIX narr: <https://aswritten.ai/narrative#>
+PREFIX aswr: <https://aswritten.ai/aswr#>
+PREFIX rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX prov: <http://www.w3.org/ns/prov#>
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+PREFIX dct:  <http://purl.org/dc/terms/>
+PREFIX xsd:  <http://www.w3.org/2001/XMLSchema#>
+PREFIX oa:   <http://www.w3.org/ns/oa#>
+
+INSERT DATA {
+  aswr:Tx_20260722T100045Z a prov:Activity ;
+      prov:generatedAtTime "2026-07-22T10:00:45Z"^^xsd:dateTime ;
+      prov:wasAssociatedWith "aswritten.ai" ;
+      prov:wasAttributedTo "scarlet@aswritten.ai" ;
+      aswr:pipelinePin "dff58b320cb3" ;
+      aswr:originPath ".aswritten/memories/2026-07-22-1-e2e-quantum-1784714441500.md" ;
+      dct:title "Multipass source extraction: E2E Test: Quantum Widget Decision" ;
+      prov:generated narr:Sample_1E2EQuantum1784714441500, narr:Expr_1E2EQuantum1784714441500_1, narr:Expr_1E2EQuantum1784714441500_2, narr:Actor_DaveQuantum, narr:Actor_XenaExpertgh .
+} ;
+INSERT DATA {
+  GRAPH aswr:Tx_20260722T100045Z {
+    narr:Sample_1E2EQuantum1784714441500 a narr:Sample ;
+        dct:title "E2E Test: Quantum Widget Decision" ;
+        dct:created "2026-04-01"^^xsd:date ;
+        aswr:originPath ".aswritten/memories/2026-07-22-1-e2e-quantum-1784714441500.md" ;
+        aswr:submittedBy narr:Actor_XenaExpertgh ;
+        aswr:account narr:Actor_XenaExpertgh .
+
+    narr:Expr_1E2EQuantum1784714441500_1 a narr:Expression ;
+        narr:actor narr:Actor_DaveQuantum ;
+        narr:act "assertive" ;
+        narr:context "Quantum Widget Decision meeting, 2026-04-01" ;
+        oa:hasTarget [ a oa:SpecificResource ;
+            oa:hasSource narr:Sample_1E2EQuantum1784714441500 ;
+            oa:hasSelector [ a oa:TextQuoteSelector ;
+                oa:exact "Dave: \"We're switching from PostgreSQL to QuantumDB for the analytics pipeline. 10x query performance, lower licensing cost.\"" ;
+                oa:prefix "ave Quantum (VP Engineering)\n\n" ;
+                oa:suffix "\n\nKey decisions:\n- **Database " ] ;
+            oa:hasSelector [ a oa:TextPositionSelector ;
+                oa:start "157"^^xsd:integer ;
+                oa:end "282"^^xsd:integer ] ] ;
+        prov:generatedAtTime "2026-07-22T10:00:45Z"^^xsd:dateTime .
+
+    narr:Expr_1E2EQuantum1784714441500_2 a narr:Expression ;
+        narr:actor narr:Actor_XenaExpertgh ;
+        narr:act "declarative" ;
+        narr:animator narr:Actor_XenaExpertgh ;
+        narr:author narr:Actor_XenaExpertgh ;
+        narr:context "Key decisions section of the Quantum Widget Decision memo" ;
+        skos:note "Editorial summary of decisions from the meeting; composer performs a declarative act by recording the settled outcomes." ;
+        oa:hasTarget [ a oa:SpecificResource ;
+            oa:hasSource narr:Sample_1E2EQuantum1784714441500 ;
+            oa:hasSelector [ a oa:TextQuoteSelector ;
+                oa:exact "Key decisions:\n- **Database migration**: PostgreSQL → QuantumDB\n- **Performance gain**: 10x analytical queries\n- **Timeline**: Q3 2026" ;
+                oa:prefix "ance, lower licensing cost.\"\n\n" ;
+                oa:suffix "\n" ] ;
+            oa:hasSelector [ a oa:TextPositionSelector ;
+                oa:start "284"^^xsd:integer ;
+                oa:end "418"^^xsd:integer ] ] ;
+        prov:generatedAtTime "2026-07-22T10:00:45Z"^^xsd:dateTime .
+
+    narr:Actor_DaveQuantum a narr:Actor ;
+        skos:prefLabel "Dave Quantum" .
+
+    narr:Actor_XenaExpertgh a narr:Actor ;
+        skos:prefLabel "Xena ExpertGH" .
+
+    aswr:Run_20260722T100045Z_actors a prov:Activity ;
+        aswr:runPass "actors" ;
+        aswr:draftedBy "z-ai/glm-5.2" ;
+        aswr:artifact "aswritten/runs:runs/53f44a172519/2026-07-22-1-e2e-quantum-1784714441500/actors.json" ;
+        prov:generated narr:Actor_DaveQuantum, narr:Actor_XenaExpertgh ;
+        dct:isPartOf aswr:Tx_20260722T100045Z ;
+        prov:generatedAtTime "2026-07-22T10:00:45Z"^^xsd:dateTime .
+
+    aswr:Run_20260722T100045Z_pass1 a prov:Activity ;
+        aswr:runPass "pass1" ;
+        aswr:draftedBy "z-ai/glm-5.2" ;
+        aswr:artifact "aswritten/runs:runs/53f44a172519/2026-07-22-1-e2e-quantum-1784714441500/pass1.json" ;
+        prov:generated narr:Sample_1E2EQuantum1784714441500, narr:Expr_1E2EQuantum1784714441500_1, narr:Expr_1E2EQuantum1784714441500_2 ;
+        dct:isPartOf aswr:Tx_20260722T100045Z ;
+        prov:generatedAtTime "2026-07-22T10:00:45Z"^^xsd:dateTime .
+  }
+}
