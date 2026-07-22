@@ -1,0 +1,23 @@
+{
+  "placements" : [ {
+    "supporting_segments" : [ "src-1", "src-2" ],
+    "under" : null,
+    "why" : "The content describes how the pipeline is designed to respond autonomously when an explicit id is absent — an architectural concern about system behavior under missing inputs.",
+    "verdict" : "mint",
+    "leaf" : "Architecture",
+    "kind" : "strata",
+    "title" : "From manual specification to autonomous system behavior",
+    "frame" : "What does the system do on its own when inputs are incomplete?",
+    "consulted" : [ ]
+  }, {
+    "verdict" : "mint",
+    "leaf" : "Narrative_AutonomousIdGeneration",
+    "title" : "Pipeline fills its own identification gap",
+    "frame" : "How does the pipeline produce identification when none is supplied, and what fallback paths does it use?",
+    "under" : [ "Architecture" ],
+    "supporting_segments" : [ "src-1", "src-2" ],
+    "why" : "src-1 records the triggering condition — a submission without an explicit id — and src-2 prescribes the pipeline's required response: generate a slug via the LLM id-gen call or the deterministic slugify fallback, then commit the file. Together they name a subject future envelopes will keep feeding: the pipeline's autonomous identification generation when none is provided.",
+    "consulted" : [ ]
+  } ],
+  "unplaced" : [ ]
+}
