@@ -1,0 +1,23 @@
+{
+  "placements" : [ {
+    "supporting_segments" : [ "src-1", "src-2" ],
+    "under" : null,
+    "why" : "The content is about pipeline behavior — how the system must handle a missing identity field by generating a slug. This is an architectural design decision about pipeline responsibility, warranting a top-level organizational category for system/pipeline architecture that starts empty and will grow.",
+    "verdict" : "mint",
+    "leaf" : "Architecture",
+    "kind" : "strata",
+    "title" : "system and pipeline design decisions",
+    "frame" : "What design obligations does the system impose on itself for how its pipelines must behave?",
+    "consulted" : [ ]
+  }, {
+    "verdict" : "mint",
+    "leaf" : "Narrative_MissingIdSlugGeneration",
+    "title" : "absence of identity triggers generative or deterministic slug production",
+    "frame" : "What does the pipeline owe a submission that arrives without identity, and which generative or deterministic paths fulfill that obligation?",
+    "under" : [ "Architecture" ],
+    "supporting_segments" : [ "src-1", "src-2" ],
+    "why" : "src-1 asserts the condition — a submission without an explicit id field; src-2 states the mandated remedy — the pipeline must produce a slug from memory content via the LLM id-gen call or the deterministic slugify fallback, then commit the file. Together they form a thematic arc about the system's responsibility to generate identity from content when none is provided, a subject future envelopes can keep feeding (other fallback behaviors, other identity-generation paths, other pipeline obligations). No existing leaf or strata holds this — both tiers start empty — so it is a genuine mint.",
+    "consulted" : [ ]
+  } ],
+  "unplaced" : [ ]
+}
