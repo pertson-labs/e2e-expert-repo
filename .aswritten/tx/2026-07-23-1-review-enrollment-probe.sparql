@@ -1,0 +1,82 @@
+PREFIX narr: <https://aswritten.ai/narrative#>
+PREFIX aswr: <https://aswritten.ai/aswr#>
+PREFIX rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX prov: <http://www.w3.org/ns/prov#>
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+PREFIX dct:  <http://purl.org/dc/terms/>
+PREFIX xsd:  <http://www.w3.org/2001/XMLSchema#>
+PREFIX oa:   <http://www.w3.org/ns/oa#>
+
+INSERT DATA {
+  aswr:Tx_20260723T104124Z a prov:Activity ;
+      prov:generatedAtTime "2026-07-23T10:41:24Z"^^xsd:dateTime ;
+      prov:wasAssociatedWith "aswritten.ai" ;
+      prov:wasAttributedTo "scarlet@aswritten.ai" ;
+      aswr:pipelinePin "dff58b320cb3" ;
+      aswr:originPath ".aswritten/memories/2026-07-23-1-review-enrollment-probe.md" ;
+      dct:title "Multipass source extraction: Review enrollment probe" ;
+      prov:generated narr:Sample_1ReviewEnrollmentProbe, narr:Expr_1ReviewEnrollmentProbe_1, narr:Expr_1ReviewEnrollmentProbe_2, narr:Actor_XenaExpertgh .
+} ;
+INSERT DATA {
+  GRAPH aswr:Tx_20260723T104124Z {
+    narr:Sample_1ReviewEnrollmentProbe a narr:Sample ;
+        dct:title "Review enrollment probe" ;
+        aswr:originPath ".aswritten/memories/2026-07-23-1-review-enrollment-probe.md" ;
+        aswr:submittedBy narr:Actor_XenaExpertgh ;
+        aswr:account narr:Actor_XenaExpertgh .
+
+    narr:Expr_1ReviewEnrollmentProbe_1 a narr:Expression ;
+        narr:actor narr:Actor_XenaExpertgh ;
+        narr:act "declarative" ;
+        narr:animator narr:Actor_XenaExpertgh ;
+        narr:author narr:Actor_XenaExpertgh ;
+        narr:context "Review enrollment probe — a memory document carrying an assertion for the e2e suite." ;
+        skos:note "Performs a decision by stating it; the saying establishes the decision the probe carries." ;
+        oa:hasTarget [ a oa:SpecificResource ;
+            oa:hasSource narr:Sample_1ReviewEnrollmentProbe ;
+            oa:hasSelector [ a oa:TextQuoteSelector ;
+                oa:exact "Decision: the e2e suite asserts that saving a memory enrolls its creator as a reviewer." ;
+                oa:prefix "-\n\n# Review enrollment probe\n\n" ;
+                oa:suffix " This probe memory exists only" ] ;
+            oa:hasSelector [ a oa:TextPositionSelector ;
+                oa:start "77"^^xsd:integer ;
+                oa:end "164"^^xsd:integer ] ] ;
+        prov:generatedAtTime "2026-07-23T10:41:24Z"^^xsd:dateTime .
+
+    narr:Expr_1ReviewEnrollmentProbe_2 a narr:Expression ;
+        narr:actor narr:Actor_XenaExpertgh ;
+        narr:act "assertive" ;
+        narr:animator narr:Actor_XenaExpertgh ;
+        narr:author narr:Actor_XenaExpertgh ;
+        narr:context "Review enrollment probe — a memory document carrying an assertion for the e2e suite." ;
+        oa:hasTarget [ a oa:SpecificResource ;
+            oa:hasSource narr:Sample_1ReviewEnrollmentProbe ;
+            oa:hasSelector [ a oa:TextQuoteSelector ;
+                oa:exact "This probe memory exists only to carry that assertion." ;
+                oa:prefix "ls its creator as a reviewer. " ;
+                oa:suffix "" ] ;
+            oa:hasSelector [ a oa:TextPositionSelector ;
+                oa:start "165"^^xsd:integer ;
+                oa:end "219"^^xsd:integer ] ] ;
+        prov:generatedAtTime "2026-07-23T10:41:24Z"^^xsd:dateTime .
+
+    narr:Actor_XenaExpertgh a narr:Actor ;
+        skos:prefLabel "Xena ExpertGH" .
+
+    aswr:Run_20260723T104124Z_actors a prov:Activity ;
+        aswr:runPass "actors" ;
+        aswr:draftedBy "z-ai/glm-5.2" ;
+        aswr:artifact "aswritten/runs:runs/92560fdb6a13/2026-07-23-1-review-enrollment-probe/actors.json" ;
+        prov:generated narr:Actor_XenaExpertgh ;
+        dct:isPartOf aswr:Tx_20260723T104124Z ;
+        prov:generatedAtTime "2026-07-23T10:41:24Z"^^xsd:dateTime .
+
+    aswr:Run_20260723T104124Z_pass1 a prov:Activity ;
+        aswr:runPass "pass1" ;
+        aswr:draftedBy "z-ai/glm-5.2" ;
+        aswr:artifact "aswritten/runs:runs/92560fdb6a13/2026-07-23-1-review-enrollment-probe/pass1.json" ;
+        prov:generated narr:Sample_1ReviewEnrollmentProbe, narr:Expr_1ReviewEnrollmentProbe_1, narr:Expr_1ReviewEnrollmentProbe_2 ;
+        dct:isPartOf aswr:Tx_20260723T104124Z ;
+        prov:generatedAtTime "2026-07-23T10:41:24Z"^^xsd:dateTime .
+  }
+}
