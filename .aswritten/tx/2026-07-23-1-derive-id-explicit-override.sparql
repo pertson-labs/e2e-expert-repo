@@ -1,0 +1,64 @@
+PREFIX narr: <https://aswritten.ai/narrative#>
+PREFIX aswr: <https://aswritten.ai/aswr#>
+PREFIX rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX prov: <http://www.w3.org/ns/prov#>
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+PREFIX dct:  <http://purl.org/dc/terms/>
+PREFIX xsd:  <http://www.w3.org/2001/XMLSchema#>
+PREFIX oa:   <http://www.w3.org/ns/oa#>
+
+INSERT DATA {
+  aswr:Tx_20260723T104005Z a prov:Activity ;
+      prov:generatedAtTime "2026-07-23T10:40:05Z"^^xsd:dateTime ;
+      prov:wasAssociatedWith "aswritten.ai" ;
+      prov:wasAttributedTo "scarlet@aswritten.ai" ;
+      aswr:pipelinePin "dff58b320cb3" ;
+      aswr:originPath ".aswritten/memories/2026-07-23-1-derive-id-explicit-override.md" ;
+      dct:title "Multipass source extraction: Some Other Title That Should Not Win" ;
+      prov:generated narr:Sample_1DeriveIdExplicitOverride, narr:Expr_1DeriveIdExplicitOverride_1, narr:Actor_XenaExpertgh .
+} ;
+INSERT DATA {
+  GRAPH aswr:Tx_20260723T104005Z {
+    narr:Sample_1DeriveIdExplicitOverride a narr:Sample ;
+        dct:title "Some Other Title That Should Not Win" ;
+        aswr:originPath ".aswritten/memories/2026-07-23-1-derive-id-explicit-override.md" ;
+        aswr:submittedBy narr:Actor_XenaExpertgh ;
+        aswr:account narr:Actor_XenaExpertgh .
+
+    narr:Expr_1DeriveIdExplicitOverride_1 a narr:Expression ;
+        narr:actor narr:Actor_XenaExpertgh ;
+        narr:act "assertive" ;
+        narr:animator narr:Actor_XenaExpertgh ;
+        narr:author narr:Actor_XenaExpertgh ;
+        narr:context "Document body under the title 'Some Other Title That Should Not Win'" ;
+        oa:hasTarget [ a oa:SpecificResource ;
+            oa:hasSource narr:Sample_1DeriveIdExplicitOverride ;
+            oa:hasSelector [ a oa:TextQuoteSelector ;
+                oa:exact "Body." ;
+                oa:prefix "er Title That Should Not Win\n\n" ;
+                oa:suffix "" ] ;
+            oa:hasSelector [ a oa:TextPositionSelector ;
+                oa:start "90"^^xsd:integer ;
+                oa:end "95"^^xsd:integer ] ] ;
+        prov:generatedAtTime "2026-07-23T10:40:05Z"^^xsd:dateTime .
+
+    narr:Actor_XenaExpertgh a narr:Actor ;
+        skos:prefLabel "Xena ExpertGH" .
+
+    aswr:Run_20260723T104005Z_actors a prov:Activity ;
+        aswr:runPass "actors" ;
+        aswr:draftedBy "z-ai/glm-5.2" ;
+        aswr:artifact "aswritten/runs:runs/2800eb49b736/2026-07-23-1-derive-id-explicit-override/actors.json" ;
+        prov:generated narr:Actor_XenaExpertgh ;
+        dct:isPartOf aswr:Tx_20260723T104005Z ;
+        prov:generatedAtTime "2026-07-23T10:40:05Z"^^xsd:dateTime .
+
+    aswr:Run_20260723T104005Z_pass1 a prov:Activity ;
+        aswr:runPass "pass1" ;
+        aswr:draftedBy "z-ai/glm-5.2" ;
+        aswr:artifact "aswritten/runs:runs/2800eb49b736/2026-07-23-1-derive-id-explicit-override/pass1.json" ;
+        prov:generated narr:Sample_1DeriveIdExplicitOverride, narr:Expr_1DeriveIdExplicitOverride_1 ;
+        dct:isPartOf aswr:Tx_20260723T104005Z ;
+        prov:generatedAtTime "2026-07-23T10:40:05Z"^^xsd:dateTime .
+  }
+}
