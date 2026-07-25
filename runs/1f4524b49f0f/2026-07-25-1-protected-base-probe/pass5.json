@@ -1,0 +1,23 @@
+{
+  "placements" : [ {
+    "supporting_segments" : [ "src-2", "src-5" ],
+    "under" : null,
+    "why" : "The deployment gate decision — requiring signed release manifests for Meridian deploys across staging and production — is an architectural decision about the deployment pipeline's security structure, establishing a strata category for pipeline and infrastructure decisions that future envelopes can nest under.",
+    "verdict" : "mint",
+    "leaf" : "Architecture",
+    "kind" : "strata",
+    "title" : "deployment pipeline and infrastructure decisions",
+    "frame" : "What architectural decisions shape the system's deployment, infrastructure, and pipeline structure?",
+    "consulted" : [ ]
+  }, {
+    "verdict" : "mint",
+    "leaf" : "SignedManifestDeploymentGate",
+    "title" : "from unsigned artifacts reaching staging to mandatory signed manifests before any Meridian deploy",
+    "frame" : "What binding preconditions does the organization impose on its deployment pipeline before artifacts ship, and what prior failures motivated them?",
+    "under" : [ "Architecture" ],
+    "supporting_segments" : [ "src-1", "src-2", "src-3", "src-4", "src-5", "src-6", "src-7" ],
+    "why" : "All segments contribute to the theme of enforcing signed release manifests as a deployment gate for the Meridian release train: the directive itself (src-2), its reported version through Xena's voice (src-1), the incident justification citing two unsigned artifacts reaching staging (src-3), the ratifying 'Key decisions' header (src-4), and the summary fragments for gate, scope, and ownership (src-5, src-6, src-7). The incident in src-3 is a fact evidencing the gate theme, not a separate leaf.",
+    "consulted" : [ ]
+  } ],
+  "unplaced" : [ ]
+}
