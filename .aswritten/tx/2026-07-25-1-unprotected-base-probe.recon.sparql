@@ -1,0 +1,58 @@
+PREFIX narr: <https://aswritten.ai/narrative#>
+PREFIX aswr: <https://aswritten.ai/aswr#>
+PREFIX rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX prov: <http://www.w3.org/ns/prov#>
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+PREFIX dct:  <http://purl.org/dc/terms/>
+PREFIX xsd:  <http://www.w3.org/2001/XMLSchema#>
+PREFIX oa:   <http://www.w3.org/ns/oa#>
+
+INSERT DATA {
+  aswr:Tx_20260725T102018Z a prov:Activity ;
+      prov:generatedAtTime "2026-07-25T10:20:18Z"^^xsd:dateTime ;
+      prov:wasAssociatedWith "aswritten.ai" ;
+      prov:wasAttributedTo "scarlet@aswritten.ai" ;
+      aswr:pipelinePin "c063fb20bab6" ;
+      dct:title "Multipass reconciliations: 1UnprotectedBaseProbe" ;
+      prov:generated narr:Recon_1UnprotectedBaseProbe_2, narr:Recon_1UnprotectedBaseProbe_3, narr:Demoted_1UnprotectedBaseProbe_1 .
+} ;
+INSERT DATA {
+  GRAPH aswr:Tx_20260725T102018Z {
+    narr:Recon_1UnprotectedBaseProbe_2 a narr:Reconciliation ;
+        oa:hasTarget narr:AtlasRollbackRehearsals ;
+        narr:principal narr:Actor_Session ;
+        skos:note "**Cadence**: monthly Atlas rollback rehearsals" ;
+        narr:extends narr:Expr_1UnprotectedBaseProbe_1 ;
+        dct:source narr:Expr_1UnprotectedBaseProbe_4 ;
+        prov:generatedAtTime "2026-07-25T10:20:18Z"^^xsd:dateTime .
+
+    narr:Recon_1UnprotectedBaseProbe_3 a narr:Reconciliation ;
+        oa:hasTarget narr:AtlasRollbackRehearsals ;
+        narr:principal narr:Actor_Session ;
+        skos:note "**Owner**: Quinton Fairweather" ;
+        narr:extends narr:Expr_1UnprotectedBaseProbe_1 ;
+        dct:source narr:Expr_1UnprotectedBaseProbe_5 ;
+        prov:generatedAtTime "2026-07-25T10:20:18Z"^^xsd:dateTime .
+
+    narr:Demoted_1UnprotectedBaseProbe_1 a narr:DemotedReconciliation ;
+        oa:hasTarget narr:Expr_1UnprotectedBaseProbe_3 ;
+        skos:note "principal \"Quinton Fairweather\" is not the envelope's human (xena+staging@aswritten.ai) or 'session'" ;
+        dct:source narr:Sample_1UnprotectedBaseProbe ;
+        prov:generatedAtTime "2026-07-25T10:20:18Z"^^xsd:dateTime .
+
+    aswr:Run_20260725T102018Z_pass2 a prov:Activity ;
+        aswr:runPass "pass2" ;
+        aswr:draftedBy "z-ai/glm-5.2" ;
+        aswr:artifact "aswritten/runs:runs/0efb2161888b/2026-07-25-1-unprotected-base-probe/pass2.json" ;
+        dct:isPartOf aswr:Tx_20260725T102018Z ;
+        prov:generatedAtTime "2026-07-25T10:20:18Z"^^xsd:dateTime .
+
+    aswr:Run_20260725T102018Z_pass3 a prov:Activity ;
+        aswr:runPass "pass3" ;
+        aswr:draftedBy "z-ai/glm-5.2" ;
+        aswr:artifact "aswritten/runs:runs/0efb2161888b/2026-07-25-1-unprotected-base-probe/pass3.json" ;
+        prov:generated narr:Recon_1UnprotectedBaseProbe_2, narr:Recon_1UnprotectedBaseProbe_3, narr:Demoted_1UnprotectedBaseProbe_1 ;
+        dct:isPartOf aswr:Tx_20260725T102018Z ;
+        prov:generatedAtTime "2026-07-25T10:20:18Z"^^xsd:dateTime .
+  }
+}
