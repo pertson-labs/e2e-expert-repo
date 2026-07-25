@@ -1,0 +1,22 @@
+{
+  "placements" : [ {
+    "verdict" : "mint",
+    "kind" : "strata",
+    "leaf" : "Architecture",
+    "title" : "Architectural contracts and system design decisions",
+    "frame" : "What architectural contracts and design decisions structure the system's behavior?",
+    "supporting_segments" : [ "src-1", "src-2" ],
+    "why" : "The async job contract is an architectural decision about how the system structures dispatch, retrieval, and loss-prevention. No existing strata category holds this; Architecture is the organizational home for system design contracts.",
+    "consulted" : [ ]
+  }, {
+    "verdict" : "mint",
+    "leaf" : "Narrative_AsyncJobContractMechanics",
+    "title" : "Dispatch returns a receipt, not a result — retrieval becomes the caller's concern",
+    "frame" : "What operational mechanics does the async job contract establish for dispatch, retrieval, and loss-prevention?",
+    "under" : [ "Architecture" ],
+    "supporting_segments" : [ "src-1", "src-2" ],
+    "why" : "Both segments perform the same ratified async job contract as a load-bearing operational rule: remember returns a receipt in seconds, extraction is watched by polling a cursor, no blocking call, no lost work. This names a subject future envelopes will keep feeding — the contract's mechanics — not a one-time fact. No existing leaf holds this theme.",
+    "consulted" : [ ]
+  } ],
+  "unplaced" : [ ]
+}
