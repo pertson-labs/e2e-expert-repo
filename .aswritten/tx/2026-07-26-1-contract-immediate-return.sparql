@@ -1,0 +1,83 @@
+PREFIX narr: <https://aswritten.ai/narrative#>
+PREFIX aswr: <https://aswritten.ai/aswr#>
+PREFIX rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX prov: <http://www.w3.org/ns/prov#>
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+PREFIX dct:  <http://purl.org/dc/terms/>
+PREFIX xsd:  <http://www.w3.org/2001/XMLSchema#>
+PREFIX oa:   <http://www.w3.org/ns/oa#>
+
+INSERT DATA {
+  aswr:Tx_20260726T102349Z a prov:Activity ;
+      prov:generatedAtTime "2026-07-26T10:23:49Z"^^xsd:dateTime ;
+      prov:wasAssociatedWith "aswritten.ai" ;
+      prov:wasAttributedTo "scarlet@aswritten.ai" ;
+      aswr:pipelinePin "c063fb20bab6" ;
+      aswr:originPath ".aswritten/memories/2026-07-26-1-contract-immediate-return.md" ;
+      dct:title "Multipass source extraction: Contract check: the immediate-return remember" ;
+      prov:generated narr:Sample_1ContractImmediateReturn, narr:Expr_1ContractImmediateReturn_1, narr:Expr_1ContractImmediateReturn_2, narr:Actor_WynnCastellano, narr:Actor_XenaExpertgh .
+} ;
+INSERT DATA {
+  GRAPH aswr:Tx_20260726T102349Z {
+    narr:Sample_1ContractImmediateReturn a narr:Sample ;
+        dct:title "Contract check: the immediate-return remember" ;
+        dct:created "2026-04-06"^^xsd:date ;
+        aswr:originPath ".aswritten/memories/2026-07-26-1-contract-immediate-return.md" ;
+        aswr:submittedBy narr:Actor_XenaExpertgh ;
+        aswr:account narr:Actor_XenaExpertgh .
+
+    narr:Expr_1ContractImmediateReturn_1 a narr:Expression ;
+        narr:actor narr:Actor_WynnCastellano ;
+        narr:act "declarative" ;
+        skos:note "Reports a ratification and describes the resulting contract as settled fact; kept as one move since the enumeration (receipt speed, polling, no lost work) all serves describing the one ratified contract." ;
+        oa:hasTarget [ a oa:SpecificResource ;
+            oa:hasSource narr:Sample_1ContractImmediateReturn ;
+            oa:hasSelector [ a oa:TextQuoteSelector ;
+                oa:exact "\"We ratified the async job contract: remember returns a receipt in\nseconds and the extraction is watched by polling a cursor. No blocking\ncall, and no lost work if the client drops the receipt.\"" ;
+                oa:prefix "llano (Staff Engineer)\n\nWynn: " ;
+                oa:suffix "\n\nKey decision: remember dispa" ] ;
+            oa:hasSelector [ a oa:TextPositionSelector ;
+                oa:start "178"^^xsd:integer ;
+                oa:end "372"^^xsd:integer ] ] ;
+        prov:generatedAtTime "2026-07-26T10:23:49Z"^^xsd:dateTime .
+
+    narr:Expr_1ContractImmediateReturn_2 a narr:Expression ;
+        narr:actor narr:Actor_XenaExpertgh ;
+        narr:act "assertive" ;
+        narr:animator narr:Actor_XenaExpertgh ;
+        narr:author narr:Actor_XenaExpertgh ;
+        skos:note "Editorial narration summarizing the decision; no embedded quote or named-actor speech verb marking a principal, so composer-editorial by rule." ;
+        oa:hasTarget [ a oa:SpecificResource ;
+            oa:hasSource narr:Sample_1ContractImmediateReturn ;
+            oa:hasSelector [ a oa:TextQuoteSelector ;
+                oa:exact "Key decision: remember dispatches, then the agent either polls the run or\ngets the reaction piggybacked on a later call." ;
+                oa:prefix "e client drops the receipt.\"\n\n" ;
+                oa:suffix "" ] ;
+            oa:hasSelector [ a oa:TextPositionSelector ;
+                oa:start "374"^^xsd:integer ;
+                oa:end "494"^^xsd:integer ] ] ;
+        prov:generatedAtTime "2026-07-26T10:23:49Z"^^xsd:dateTime .
+
+    narr:Actor_WynnCastellano a narr:Actor ;
+        skos:prefLabel "Wynn Castellano" .
+
+    narr:Actor_XenaExpertgh a narr:Actor ;
+        skos:prefLabel "Xena ExpertGH" .
+
+    aswr:Run_20260726T102349Z_actors a prov:Activity ;
+        aswr:runPass "actors" ;
+        aswr:draftedBy "z-ai/glm-5.2" ;
+        aswr:artifact "aswritten/runs:runs/0234ff49e43b/2026-07-26-1-contract-immediate-return/actors.json" ;
+        prov:generated narr:Actor_WynnCastellano, narr:Actor_XenaExpertgh ;
+        dct:isPartOf aswr:Tx_20260726T102349Z ;
+        prov:generatedAtTime "2026-07-26T10:23:49Z"^^xsd:dateTime .
+
+    aswr:Run_20260726T102349Z_pass1 a prov:Activity ;
+        aswr:runPass "pass1" ;
+        aswr:draftedBy "subscription.anthropic/claude-sonnet-5" ;
+        aswr:artifact "aswritten/runs:runs/0234ff49e43b/2026-07-26-1-contract-immediate-return/pass1.json" ;
+        prov:generated narr:Sample_1ContractImmediateReturn, narr:Expr_1ContractImmediateReturn_1, narr:Expr_1ContractImmediateReturn_2 ;
+        dct:isPartOf aswr:Tx_20260726T102349Z ;
+        prov:generatedAtTime "2026-07-26T10:23:49Z"^^xsd:dateTime .
+  }
+}
