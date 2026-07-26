@@ -1,0 +1,81 @@
+PREFIX narr: <https://aswritten.ai/narrative#>
+PREFIX aswr: <https://aswritten.ai/aswr#>
+PREFIX rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX prov: <http://www.w3.org/ns/prov#>
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+PREFIX dct:  <http://purl.org/dc/terms/>
+PREFIX xsd:  <http://www.w3.org/2001/XMLSchema#>
+PREFIX oa:   <http://www.w3.org/ns/oa#>
+
+INSERT DATA {
+  aswr:Tx_20260726T100335Z a prov:Activity ;
+      prov:generatedAtTime "2026-07-26T10:03:35Z"^^xsd:dateTime ;
+      prov:wasAssociatedWith "aswritten.ai" ;
+      prov:wasAttributedTo "scarlet@aswritten.ai" ;
+      aswr:pipelinePin "c063fb20bab6" ;
+      aswr:originPath ".aswritten/memories/2026-07-26-1-forget-lifecycle-bystander.md" ;
+      dct:title "Multipass source extraction: Onboarding Process: Pallasine Checklist" ;
+      prov:generated narr:Sample_1ForgetLifecycleBystander, narr:Expr_1ForgetLifecycleBystander_1, narr:Expr_1ForgetLifecycleBystander_2, narr:Actor_WrenDuskfield, narr:Actor_XenaExpertgh .
+} ;
+INSERT DATA {
+  GRAPH aswr:Tx_20260726T100335Z {
+    narr:Sample_1ForgetLifecycleBystander a narr:Sample ;
+        dct:title "Onboarding Process: Pallasine Checklist" ;
+        dct:created "2026-07-06"^^xsd:date ;
+        aswr:originPath ".aswritten/memories/2026-07-26-1-forget-lifecycle-bystander.md" ;
+        aswr:submittedBy narr:Actor_XenaExpertgh ;
+        aswr:account narr:Actor_XenaExpertgh .
+
+    narr:Expr_1ForgetLifecycleBystander_1 a narr:Expression ;
+        narr:actor narr:Actor_WrenDuskfield ;
+        narr:act "assertive" ;
+        narr:context "Onboarding process discussion; Wren Duskfield (Ops Lead) describing the Pallasine checklist" ;
+        oa:hasTarget [ a oa:SpecificResource ;
+            oa:hasSource narr:Sample_1ForgetLifecycleBystander ;
+            oa:hasSelector [ a oa:TextQuoteSelector ;
+                oa:exact "Every new hire completes the Pallasine checklist in their first\nweek: accounts, pairing rotation, and a shadow shift." ;
+                oa:prefix " Duskfield (Ops Lead)\n\nWren: \"" ;
+                oa:suffix " It replaced the\nold wiki page" ] ;
+            oa:hasSelector [ a oa:TextPositionSelector ;
+                oa:start "166"^^xsd:integer ;
+                oa:end "283"^^xsd:integer ] ] ;
+        prov:generatedAtTime "2026-07-26T10:03:35Z"^^xsd:dateTime .
+
+    narr:Expr_1ForgetLifecycleBystander_2 a narr:Expression ;
+        narr:actor narr:Actor_WrenDuskfield ;
+        narr:act "assertive" ;
+        narr:context "Onboarding process discussion; Wren Duskfield (Ops Lead) describing the Pallasine checklist" ;
+        oa:hasTarget [ a oa:SpecificResource ;
+            oa:hasSource narr:Sample_1ForgetLifecycleBystander ;
+            oa:hasSelector [ a oa:TextQuoteSelector ;
+                oa:exact "It replaced the\nold wiki page last quarter." ;
+                oa:prefix "rotation, and a shadow shift. " ;
+                oa:suffix "\"" ] ;
+            oa:hasSelector [ a oa:TextPositionSelector ;
+                oa:start "284"^^xsd:integer ;
+                oa:end "327"^^xsd:integer ] ] ;
+        prov:generatedAtTime "2026-07-26T10:03:35Z"^^xsd:dateTime .
+
+    narr:Actor_WrenDuskfield a narr:Actor ;
+        skos:prefLabel "Wren Duskfield" .
+
+    narr:Actor_XenaExpertgh a narr:Actor ;
+        skos:prefLabel "Xena ExpertGH" .
+
+    aswr:Run_20260726T100335Z_actors a prov:Activity ;
+        aswr:runPass "actors" ;
+        aswr:draftedBy "z-ai/glm-5.2" ;
+        aswr:artifact "aswritten/runs:runs/8090ec3fb987/2026-07-26-1-forget-lifecycle-bystander/actors.json" ;
+        prov:generated narr:Actor_WrenDuskfield, narr:Actor_XenaExpertgh ;
+        dct:isPartOf aswr:Tx_20260726T100335Z ;
+        prov:generatedAtTime "2026-07-26T10:03:35Z"^^xsd:dateTime .
+
+    aswr:Run_20260726T100335Z_pass1 a prov:Activity ;
+        aswr:runPass "pass1" ;
+        aswr:draftedBy "z-ai/glm-5.2" ;
+        aswr:artifact "aswritten/runs:runs/8090ec3fb987/2026-07-26-1-forget-lifecycle-bystander/pass1.json" ;
+        prov:generated narr:Sample_1ForgetLifecycleBystander, narr:Expr_1ForgetLifecycleBystander_1, narr:Expr_1ForgetLifecycleBystander_2 ;
+        dct:isPartOf aswr:Tx_20260726T100335Z ;
+        prov:generatedAtTime "2026-07-26T10:03:35Z"^^xsd:dateTime .
+  }
+}
