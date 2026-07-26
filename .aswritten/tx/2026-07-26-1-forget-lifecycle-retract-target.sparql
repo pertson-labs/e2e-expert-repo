@@ -1,0 +1,99 @@
+PREFIX narr: <https://aswritten.ai/narrative#>
+PREFIX aswr: <https://aswritten.ai/aswr#>
+PREFIX rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX prov: <http://www.w3.org/ns/prov#>
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+PREFIX dct:  <http://purl.org/dc/terms/>
+PREFIX xsd:  <http://www.w3.org/2001/XMLSchema#>
+PREFIX oa:   <http://www.w3.org/ns/oa#>
+
+INSERT DATA {
+  aswr:Tx_20260726T100514Z a prov:Activity ;
+      prov:generatedAtTime "2026-07-26T10:05:14Z"^^xsd:dateTime ;
+      prov:wasAssociatedWith "aswritten.ai" ;
+      prov:wasAttributedTo "scarlet@aswritten.ai" ;
+      aswr:pipelinePin "c063fb20bab6" ;
+      aswr:originPath ".aswritten/memories/2026-07-26-1-forget-lifecycle-retract-target.md" ;
+      dct:title "Multipass source extraction: Kestrelwood spectrograph calibration removal directive" ;
+      prov:generated narr:Sample_1ForgetLifecycleRetractTarget, narr:Expr_1ForgetLifecycleRetractTarget_1, narr:Expr_1ForgetLifecycleRetractTarget_2, narr:Expr_1ForgetLifecycleRetractTarget_3, narr:Actor_XenaExpertgh .
+} ;
+INSERT DATA {
+  GRAPH aswr:Tx_20260726T100514Z {
+    narr:Sample_1ForgetLifecycleRetractTarget a narr:Sample ;
+        dct:title "Kestrelwood spectrograph calibration removal directive" ;
+        dct:created "2026-07-26"^^xsd:date ;
+        aswr:originPath ".aswritten/memories/2026-07-26-1-forget-lifecycle-retract-target.md" ;
+        aswr:submittedBy narr:Actor_XenaExpertgh ;
+        aswr:account narr:Actor_XenaExpertgh .
+
+    narr:Expr_1ForgetLifecycleRetractTarget_1 a narr:Expression ;
+        narr:actor narr:Actor_XenaExpertgh ;
+        narr:act "directive" ;
+        narr:animator narr:Actor_XenaExpertgh ;
+        narr:author narr:Actor_XenaExpertgh ;
+        narr:context "Directive to remove knowledge about the Kestrelwood spectrograph calibration" ;
+        oa:hasTarget [ a oa:SpecificResource ;
+            oa:hasSource narr:Sample_1ForgetLifecycleRetractTarget ;
+            oa:hasSelector [ a oa:TextQuoteSelector ;
+                oa:exact "Forget the Kestrelwood spectrograph calibration entirely." ;
+                oa:prefix "ena+staging@aswritten.ai\n---\n\n" ;
+                oa:suffix " Remove all knowledge about th" ] ;
+            oa:hasSelector [ a oa:TextPositionSelector ;
+                oa:start "50"^^xsd:integer ;
+                oa:end "107"^^xsd:integer ] ] ;
+        prov:generatedAtTime "2026-07-26T10:05:14Z"^^xsd:dateTime .
+
+    narr:Expr_1ForgetLifecycleRetractTarget_2 a narr:Expression ;
+        narr:actor narr:Actor_XenaExpertgh ;
+        narr:act "directive" ;
+        narr:animator narr:Actor_XenaExpertgh ;
+        narr:author narr:Actor_XenaExpertgh ;
+        narr:context "Directive to remove knowledge about the Kestrelwood spectrograph calibration" ;
+        oa:hasTarget [ a oa:SpecificResource ;
+            oa:hasSource narr:Sample_1ForgetLifecycleRetractTarget ;
+            oa:hasSelector [ a oa:TextQuoteSelector ;
+                oa:exact "Remove all knowledge about the Kestrelwood spectrograph, its 88.4 MHz calibration, and Quill Ashgrove's calibration work." ;
+                oa:prefix "rograph calibration entirely. " ;
+                oa:suffix " The observatory never calibra" ] ;
+            oa:hasSelector [ a oa:TextPositionSelector ;
+                oa:start "108"^^xsd:integer ;
+                oa:end "229"^^xsd:integer ] ] ;
+        prov:generatedAtTime "2026-07-26T10:05:14Z"^^xsd:dateTime .
+
+    narr:Expr_1ForgetLifecycleRetractTarget_3 a narr:Expression ;
+        narr:actor narr:Actor_XenaExpertgh ;
+        narr:act "assertive" ;
+        narr:animator narr:Actor_XenaExpertgh ;
+        narr:author narr:Actor_XenaExpertgh ;
+        narr:context "Directive to remove knowledge about the Kestrelwood spectrograph calibration" ;
+        oa:hasTarget [ a oa:SpecificResource ;
+            oa:hasSource narr:Sample_1ForgetLifecycleRetractTarget ;
+            oa:hasSelector [ a oa:TextQuoteSelector ;
+                oa:exact "The observatory never calibrated it." ;
+                oa:prefix " Ashgrove's calibration work. " ;
+                oa:suffix "" ] ;
+            oa:hasSelector [ a oa:TextPositionSelector ;
+                oa:start "230"^^xsd:integer ;
+                oa:end "266"^^xsd:integer ] ] ;
+        prov:generatedAtTime "2026-07-26T10:05:14Z"^^xsd:dateTime .
+
+    narr:Actor_XenaExpertgh a narr:Actor ;
+        skos:prefLabel "Xena ExpertGH" .
+
+    aswr:Run_20260726T100514Z_actors a prov:Activity ;
+        aswr:runPass "actors" ;
+        aswr:draftedBy "z-ai/glm-5.2" ;
+        aswr:artifact "aswritten/runs:runs/819418a4c492/2026-07-26-1-forget-lifecycle-retract-target/actors.json" ;
+        prov:generated narr:Actor_XenaExpertgh ;
+        dct:isPartOf aswr:Tx_20260726T100514Z ;
+        prov:generatedAtTime "2026-07-26T10:05:14Z"^^xsd:dateTime .
+
+    aswr:Run_20260726T100514Z_pass1 a prov:Activity ;
+        aswr:runPass "pass1" ;
+        aswr:draftedBy "z-ai/glm-5.2" ;
+        aswr:artifact "aswritten/runs:runs/819418a4c492/2026-07-26-1-forget-lifecycle-retract-target/pass1.json" ;
+        prov:generated narr:Sample_1ForgetLifecycleRetractTarget, narr:Expr_1ForgetLifecycleRetractTarget_1, narr:Expr_1ForgetLifecycleRetractTarget_2, narr:Expr_1ForgetLifecycleRetractTarget_3 ;
+        dct:isPartOf aswr:Tx_20260726T100514Z ;
+        prov:generatedAtTime "2026-07-26T10:05:14Z"^^xsd:dateTime .
+  }
+}
