@@ -1,0 +1,286 @@
+PREFIX narr: <https://aswritten.ai/narrative#>
+PREFIX aswr: <https://aswritten.ai/aswr#>
+PREFIX rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX prov: <http://www.w3.org/ns/prov#>
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+PREFIX dct:  <http://purl.org/dc/terms/>
+PREFIX xsd:  <http://www.w3.org/2001/XMLSchema#>
+PREFIX oa:   <http://www.w3.org/ns/oa#>
+
+INSERT DATA {
+  aswr:Tx_20260726T103429Z a prov:Activity ;
+      prov:generatedAtTime "2026-07-26T10:34:29Z"^^xsd:dateTime ;
+      prov:wasAssociatedWith "aswritten.ai" ;
+      prov:wasAttributedTo "scarlet@aswritten.ai" ;
+      aswr:pipelinePin "c063fb20bab6" ;
+      aswr:originPath ".aswritten/memories/2026-07-26-1-review-enrollment-probe.md" ;
+      dct:title "Multipass fragment: 1ReviewEnrollmentProbe" ;
+      prov:generated narr:DirConviction_SettledByLabeling, narr:VecConviction_1ReviewEnrollmentProbe_1, narr:VecConviction_1ReviewEnrollmentProbe_2, narr:VecPower_1ReviewEnrollmentProbe_1, narr:VecPower_1ReviewEnrollmentProbe_2, narr:DirRegister_InstrumentalTechnicalSelfDescription, narr:VecRegister_1ReviewEnrollmentProbe_1, narr:VecRegister_1ReviewEnrollmentProbe_2, narr:VecRelational_1ReviewEnrollmentProbe_1, narr:VecRelational_1ReviewEnrollmentProbe_2, narr:VecTemporal_1ReviewEnrollmentProbe_1, narr:VecTemporal_1ReviewEnrollmentProbe_2, narr:VecValue_1ReviewEnrollmentProbe_1, narr:VecValue_1ReviewEnrollmentProbe_2, narr:Proof, narr:Narrative_ProbeAsAssertionVehicle, narr:Position_ProbeAsAssertionVehicle .
+} ;
+INSERT DATA {
+  GRAPH aswr:Tx_20260726T103429Z {
+    narr:DirConviction_SettledByLabeling a narr:DirectionalNode ;
+        dct:source narr:Sample_1ReviewEnrollmentProbe ;
+        narr:dimension narr:Dim_Conviction ;
+        narr:region narr:Conviction_Decision ;
+        narr:frame "Is the conviction here performed by explicitly labeling the utterance as a settled decision the speaker expects others to act on?" ;
+        skos:note "Decision: the e2e suite asserts" ;
+        prov:generatedAtTime "2026-07-26T10:34:29Z"^^xsd:dateTime .
+
+    narr:VecConviction_1ReviewEnrollmentProbe_1 a narr:VectorObservation ;
+        oa:hasTarget narr:Expr_1ReviewEnrollmentProbe_1 ;
+        narr:dimension narr:Dim_Conviction ;
+        narr:region narr:Conviction_Decision ;
+        narr:direction narr:DirConviction_SettledByLabeling ;
+        narr:evidence "performed-act: Decision: the e2e suite asserts that saving a memory enrolls its creator as a reviewer." ;
+        narr:reported false ;
+        skos:note "Explicit ratification language ('Decision:') performs the settling of a position the speaker expects the suite to act on; the performed declarative carries decision-grade conviction." ;
+        prov:generatedAtTime "2026-07-26T10:34:29Z"^^xsd:dateTime .
+
+    narr:VecConviction_1ReviewEnrollmentProbe_2 a narr:VectorObservation ;
+        oa:hasTarget narr:Expr_1ReviewEnrollmentProbe_2 ;
+        narr:dimension narr:Dim_Conviction ;
+        narr:region narr:Conviction_Claim ;
+        narr:evidence "plain-assertion: This probe memory exists only to carry that assertion." ;
+        narr:reported false ;
+        skos:note "Flat unhedged assertion of the probe's purpose, subordinate to and reinforcing the prior decision but not itself performing a new settling — claim-level conviction." ;
+        prov:generatedAtTime "2026-07-26T10:34:29Z"^^xsd:dateTime .
+
+    narr:VecPower_1ReviewEnrollmentProbe_1 a narr:VectorObservation ;
+        oa:hasTarget narr:Expr_1ReviewEnrollmentProbe_1 ;
+        narr:dimension narr:Dim_Power ;
+        narr:region narr:Power_Informational ;
+        narr:evidence "performed-act: the e2e suite asserts that saving a memory enrolls its creator as a reviewer" ;
+        narr:reported false ;
+        skos:note "The speaker supplies a factual claim about what the test suite enforces, exercising informational power by controlling the facts of the assertion itself." ;
+        prov:generatedAtTime "2026-07-26T10:34:29Z"^^xsd:dateTime .
+
+    narr:VecPower_1ReviewEnrollmentProbe_2 a narr:VectorObservation ;
+        oa:hasTarget narr:Expr_1ReviewEnrollmentProbe_2 ;
+        narr:dimension narr:Dim_Power ;
+        narr:region narr:Power_Informational ;
+        narr:evidence "framing-move: This probe memory exists only to carry that assertion" ;
+        narr:reported false ;
+        skos:note "The speaker frames the document's purpose as a vehicle for the prior factual claim, reinforcing informational control over what the record establishes." ;
+        prov:generatedAtTime "2026-07-26T10:34:29Z"^^xsd:dateTime .
+
+    narr:DirRegister_InstrumentalTechnicalSelfDescription a narr:DirectionalNode ;
+        dct:source narr:Sample_1ReviewEnrollmentProbe ;
+        narr:dimension narr:Dim_Register ;
+        narr:region narr:Register_Technical ;
+        narr:region narr:Register_MatterOfFact ;
+        narr:frame "Does the expression name its own instrumental function in native pipeline vocabulary, performing technical self-awareness without hedging or performance?" ;
+        skos:note "probe memory exists only to carry that assertion" ;
+        prov:generatedAtTime "2026-07-26T10:34:29Z"^^xsd:dateTime .
+
+    narr:VecRegister_1ReviewEnrollmentProbe_1 a narr:VectorObservation ;
+        oa:hasTarget narr:Expr_1ReviewEnrollmentProbe_1 ;
+        narr:dimension narr:Dim_Register ;
+        narr:region narr:Register_Technical ;
+        narr:direction narr:DirRegister_InstrumentalTechnicalSelfDescription ;
+        narr:evidence "lexical-marker: e2e suite" ;
+        narr:evidence "lexical-marker: enrolls its creator as a reviewer" ;
+        narr:reported false ;
+        skos:note "Native pipeline-testing jargon ('e2e suite') and domain-specific enrollment vocabulary used without glossing — a technical register performed as the document's baseline voice." ;
+        prov:generatedAtTime "2026-07-26T10:34:29Z"^^xsd:dateTime .
+
+    narr:VecRegister_1ReviewEnrollmentProbe_2 a narr:VectorObservation ;
+        oa:hasTarget narr:Expr_1ReviewEnrollmentProbe_2 ;
+        narr:dimension narr:Dim_Register ;
+        narr:region narr:Register_MatterOfFact ;
+        narr:direction narr:DirRegister_InstrumentalTechnicalSelfDescription ;
+        narr:evidence "plain-assertion: This probe memory exists only to carry that assertion." ;
+        narr:reported false ;
+        skos:note "Flat instrumental framing of the document's own purpose — no performance, no hedging — a matter-of-fact self-description that names the register signature alongside the technical baseline." ;
+        prov:generatedAtTime "2026-07-26T10:34:29Z"^^xsd:dateTime .
+
+    narr:VecRelational_1ReviewEnrollmentProbe_1 a narr:VectorObservation ;
+        oa:hasTarget narr:Expr_1ReviewEnrollmentProbe_1 ;
+        narr:dimension narr:Dim_Relational ;
+        narr:region narr:Relational_AuthorityRanking ;
+        narr:evidence "performed-act: asserts that saving a memory enrolls its creator as a reviewer" ;
+        narr:reported false ;
+        skos:note "The suite enacts a rule that automatically confers a reviewer role on the creator — a rank-based allocation of authority triggered by an action, not a negotiated or reciprocal exchange." ;
+        prov:generatedAtTime "2026-07-26T10:34:29Z"^^xsd:dateTime .
+
+    narr:VecRelational_1ReviewEnrollmentProbe_2 a narr:VectorObservation ;
+        oa:hasTarget narr:Expr_1ReviewEnrollmentProbe_2 ;
+        narr:dimension narr:Dim_Relational ;
+        narr:region narr:Relational_AuthorityRanking ;
+        narr:evidence "framing-move: exists only to carry that assertion" ;
+        narr:reported false ;
+        skos:note "Framing the memory as a mere vehicle for the enrollment rule reinforces the same authority-ranking move: the probe's purpose is to validate that the system grants reviewer status by rule, not by consent or exchange." ;
+        prov:generatedAtTime "2026-07-26T10:34:29Z"^^xsd:dateTime .
+
+    narr:VecTemporal_1ReviewEnrollmentProbe_1 a narr:VectorObservation ;
+        oa:hasTarget narr:Expr_1ReviewEnrollmentProbe_1 ;
+        narr:dimension narr:Dim_Temporal ;
+        narr:region narr:Temporal_Present ;
+        narr:region narr:Temporal_Realis ;
+        narr:region narr:Temporal_Concrete ;
+        narr:evidence "plain-assertion: the e2e suite asserts" ;
+        narr:reported false ;
+        skos:note "Present attention on a concrete test suite's current assertion behavior; stated as actual settled fact." ;
+        prov:generatedAtTime "2026-07-26T10:34:29Z"^^xsd:dateTime .
+
+    narr:VecTemporal_1ReviewEnrollmentProbe_2 a narr:VectorObservation ;
+        oa:hasTarget narr:Expr_1ReviewEnrollmentProbe_2 ;
+        narr:dimension narr:Dim_Temporal ;
+        narr:region narr:Temporal_Present ;
+        narr:region narr:Temporal_Realis ;
+        narr:region narr:Temporal_Concrete ;
+        narr:evidence "plain-assertion: This probe memory exists" ;
+        narr:reported false ;
+        skos:note "Present-tense attention on the concrete artifact's current existence, stated as actual." ;
+        prov:generatedAtTime "2026-07-26T10:34:29Z"^^xsd:dateTime .
+
+    narr:VecValue_1ReviewEnrollmentProbe_1 a narr:VectorObservation ;
+        oa:hasTarget narr:Expr_1ReviewEnrollmentProbe_1 ;
+        narr:dimension narr:Dim_Value ;
+        narr:region narr:Value_Competence ;
+        narr:evidence "performed-act: the e2e suite asserts that saving a memory enrolls its creator as a reviewer" ;
+        narr:reported false ;
+        skos:note "The suite asserting a behavioral expectation frames correct system function — mastery of craft — as the appealed-to good." ;
+        prov:generatedAtTime "2026-07-26T10:34:29Z"^^xsd:dateTime .
+
+    narr:VecValue_1ReviewEnrollmentProbe_2 a narr:VectorObservation ;
+        oa:hasTarget narr:Expr_1ReviewEnrollmentProbe_2 ;
+        narr:dimension narr:Dim_Value ;
+        narr:region narr:Value_Competence ;
+        narr:evidence "framing-move: This probe memory exists only to carry that assertion" ;
+        narr:reported false ;
+        skos:note "Framing the memory's sole purpose as carrying an assertion foregrounds the test's instrumental role in verifying correct behavior — competence as the good." ;
+        prov:generatedAtTime "2026-07-26T10:34:29Z"^^xsd:dateTime .
+
+    narr:Proof a narr:Strata ;
+        dct:source narr:Sample_1ReviewEnrollmentProbe ;
+        narr:frame "What does the test infrastructure assert about the system it verifies, and how do proof artifacts encode the behaviors they check?" ;
+        skos:note "from claims to executable assertions about system behavior" ;
+        prov:generatedAtTime "2026-07-26T10:34:29Z"^^xsd:dateTime .
+
+    narr:Expr_1ReviewEnrollmentProbe_1 narr:supports narr:Proof .
+
+    narr:Expr_1ReviewEnrollmentProbe_2 narr:supports narr:Proof .
+
+    narr:Narrative_ProbeAsAssertionVehicle a narr:Narrative ;
+        dct:source narr:Sample_1ReviewEnrollmentProbe ;
+        narr:frame "When a test artifact declares its own purpose as merely carrying an assertion about the system under test, what does that self-description reveal about the relationship between proof infrastructure and the behavior it verifies?" ;
+        skos:broader narr:Proof ;
+        skos:note "the test artifact becomes a mere carrier for the assertion it makes about the system" ;
+        prov:generatedAtTime "2026-07-26T10:34:29Z"^^xsd:dateTime .
+
+    narr:Expr_1ReviewEnrollmentProbe_1 narr:supports narr:Narrative_ProbeAsAssertionVehicle .
+
+    narr:Expr_1ReviewEnrollmentProbe_2 narr:supports narr:Narrative_ProbeAsAssertionVehicle .
+
+    narr:Position_ProbeAsAssertionVehicle a narr:Position ;
+        narr:frame "What does it mean for a test artifact to declare its own purpose as merely carrying an assertion about the system it tests?" ;
+        prov:generatedAtTime "2026-07-26T10:34:29Z"^^xsd:dateTime .
+
+    narr:Expr_1ReviewEnrollmentProbe_1 narr:supports narr:Position_ProbeAsAssertionVehicle .
+
+    narr:Expr_1ReviewEnrollmentProbe_2 narr:supports narr:Position_ProbeAsAssertionVehicle .
+
+    aswr:Miss_1ReviewEnrollmentProbe_affect_trip a aswr:Miss ;
+        aswr:missPass "affect" ;
+        aswr:missClass "floor" ;
+        aswr:missError "0 of 2 segments marked" ;
+        aswr:missModel "z-ai/glm-5.2" ;
+        aswr:tripFloor "marked_zero" ;
+        aswr:tripRatio "0.0000"^^xsd:decimal ;
+        aswr:tripOutcome "accepted-flagged" ;
+        aswr:tripFallbackModel "subscription.anthropic/claude-sonnet-5" ;
+        aswr:missScope narr:Sample_1ReviewEnrollmentProbe ;
+        prov:generatedAtTime "2026-07-26T10:34:29Z"^^xsd:dateTime .
+
+    aswr:Miss_1ReviewEnrollmentProbe_style_trip a aswr:Miss ;
+        aswr:missPass "style" ;
+        aswr:missClass "floor" ;
+        aswr:missError "0 of 2 segments marked" ;
+        aswr:missModel "z-ai/glm-5.2" ;
+        aswr:tripFloor "marked_zero" ;
+        aswr:tripRatio "0.0000"^^xsd:decimal ;
+        aswr:tripOutcome "accepted-flagged" ;
+        aswr:tripFallbackModel "subscription.anthropic/claude-sonnet-5" ;
+        aswr:missScope narr:Sample_1ReviewEnrollmentProbe ;
+        prov:generatedAtTime "2026-07-26T10:34:29Z"^^xsd:dateTime .
+
+    aswr:Run_20260726T103429Z_dim_affect a prov:Activity ;
+        aswr:runPass "dim.affect" ;
+        aswr:draftedBy "z-ai/glm-5.2" ;
+        aswr:artifact "aswritten/runs:runs/83f1e3b9fa42/2026-07-26-1-review-enrollment-probe/dim.affect.json" ;
+        dct:isPartOf aswr:Tx_20260726T103429Z ;
+        prov:generatedAtTime "2026-07-26T10:34:29Z"^^xsd:dateTime .
+
+    aswr:Run_20260726T103429Z_dim_conviction a prov:Activity ;
+        aswr:runPass "dim.conviction" ;
+        aswr:draftedBy "z-ai/glm-5.2" ;
+        aswr:artifact "aswritten/runs:runs/83f1e3b9fa42/2026-07-26-1-review-enrollment-probe/dim.conviction.json" ;
+        prov:generated narr:DirConviction_SettledByLabeling, narr:VecConviction_1ReviewEnrollmentProbe_1, narr:VecConviction_1ReviewEnrollmentProbe_2 ;
+        dct:isPartOf aswr:Tx_20260726T103429Z ;
+        prov:generatedAtTime "2026-07-26T10:34:29Z"^^xsd:dateTime .
+
+    aswr:Run_20260726T103429Z_dim_power a prov:Activity ;
+        aswr:runPass "dim.power" ;
+        aswr:draftedBy "z-ai/glm-5.2" ;
+        aswr:artifact "aswritten/runs:runs/83f1e3b9fa42/2026-07-26-1-review-enrollment-probe/dim.power.json" ;
+        prov:generated narr:VecPower_1ReviewEnrollmentProbe_1, narr:VecPower_1ReviewEnrollmentProbe_2 ;
+        dct:isPartOf aswr:Tx_20260726T103429Z ;
+        prov:generatedAtTime "2026-07-26T10:34:29Z"^^xsd:dateTime .
+
+    aswr:Run_20260726T103429Z_dim_register a prov:Activity ;
+        aswr:runPass "dim.register" ;
+        aswr:draftedBy "z-ai/glm-5.2" ;
+        aswr:artifact "aswritten/runs:runs/83f1e3b9fa42/2026-07-26-1-review-enrollment-probe/dim.register.json" ;
+        prov:generated narr:DirRegister_InstrumentalTechnicalSelfDescription, narr:VecRegister_1ReviewEnrollmentProbe_1, narr:VecRegister_1ReviewEnrollmentProbe_2 ;
+        dct:isPartOf aswr:Tx_20260726T103429Z ;
+        prov:generatedAtTime "2026-07-26T10:34:29Z"^^xsd:dateTime .
+
+    aswr:Run_20260726T103429Z_dim_relational a prov:Activity ;
+        aswr:runPass "dim.relational" ;
+        aswr:draftedBy "z-ai/glm-5.2" ;
+        aswr:artifact "aswritten/runs:runs/83f1e3b9fa42/2026-07-26-1-review-enrollment-probe/dim.relational.json" ;
+        prov:generated narr:VecRelational_1ReviewEnrollmentProbe_1, narr:VecRelational_1ReviewEnrollmentProbe_2 ;
+        dct:isPartOf aswr:Tx_20260726T103429Z ;
+        prov:generatedAtTime "2026-07-26T10:34:29Z"^^xsd:dateTime .
+
+    aswr:Run_20260726T103429Z_dim_style a prov:Activity ;
+        aswr:runPass "dim.style" ;
+        aswr:draftedBy "z-ai/glm-5.2" ;
+        aswr:artifact "aswritten/runs:runs/83f1e3b9fa42/2026-07-26-1-review-enrollment-probe/dim.style.json" ;
+        dct:isPartOf aswr:Tx_20260726T103429Z ;
+        prov:generatedAtTime "2026-07-26T10:34:29Z"^^xsd:dateTime .
+
+    aswr:Run_20260726T103429Z_dim_temporal a prov:Activity ;
+        aswr:runPass "dim.temporal" ;
+        aswr:draftedBy "z-ai/glm-5.2" ;
+        aswr:artifact "aswritten/runs:runs/83f1e3b9fa42/2026-07-26-1-review-enrollment-probe/dim.temporal.json" ;
+        prov:generated narr:VecTemporal_1ReviewEnrollmentProbe_1, narr:VecTemporal_1ReviewEnrollmentProbe_2 ;
+        dct:isPartOf aswr:Tx_20260726T103429Z ;
+        prov:generatedAtTime "2026-07-26T10:34:29Z"^^xsd:dateTime .
+
+    aswr:Run_20260726T103429Z_dim_value a prov:Activity ;
+        aswr:runPass "dim.value" ;
+        aswr:draftedBy "z-ai/glm-5.2" ;
+        aswr:artifact "aswritten/runs:runs/83f1e3b9fa42/2026-07-26-1-review-enrollment-probe/dim.value.json" ;
+        prov:generated narr:VecValue_1ReviewEnrollmentProbe_1, narr:VecValue_1ReviewEnrollmentProbe_2 ;
+        dct:isPartOf aswr:Tx_20260726T103429Z ;
+        prov:generatedAtTime "2026-07-26T10:34:29Z"^^xsd:dateTime .
+
+    aswr:Run_20260726T103429Z_pass5 a prov:Activity ;
+        aswr:runPass "pass5" ;
+        aswr:draftedBy "z-ai/glm-5.2" ;
+        aswr:artifact "aswritten/runs:runs/83f1e3b9fa42/2026-07-26-1-review-enrollment-probe/pass5.json" ;
+        prov:generated narr:Proof, narr:Narrative_ProbeAsAssertionVehicle ;
+        dct:isPartOf aswr:Tx_20260726T103429Z ;
+        prov:generatedAtTime "2026-07-26T10:34:29Z"^^xsd:dateTime .
+
+    aswr:Run_20260726T103429Z_position a prov:Activity ;
+        aswr:runPass "position" ;
+        aswr:draftedBy "z-ai/glm-5.2" ;
+        aswr:artifact "aswritten/runs:runs/83f1e3b9fa42/2026-07-26-1-review-enrollment-probe/position.json" ;
+        prov:generated narr:Position_ProbeAsAssertionVehicle ;
+        dct:isPartOf aswr:Tx_20260726T103429Z ;
+        prov:generatedAtTime "2026-07-26T10:34:29Z"^^xsd:dateTime .
+  }
+}
