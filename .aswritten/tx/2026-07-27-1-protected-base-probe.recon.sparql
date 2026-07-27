@@ -1,0 +1,48 @@
+PREFIX narr: <https://aswritten.ai/narrative#>
+PREFIX aswr: <https://aswritten.ai/aswr#>
+PREFIX rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX prov: <http://www.w3.org/ns/prov#>
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+PREFIX dct:  <http://purl.org/dc/terms/>
+PREFIX xsd:  <http://www.w3.org/2001/XMLSchema#>
+PREFIX oa:   <http://www.w3.org/ns/oa#>
+
+INSERT DATA {
+  aswr:Tx_20260727T110604Z a prov:Activity ;
+      prov:generatedAtTime "2026-07-27T11:06:04Z"^^xsd:dateTime ;
+      prov:wasAssociatedWith "aswritten.ai" ;
+      prov:wasAttributedTo "scarlet@aswritten.ai" ;
+      aswr:pipelinePin "c063fb20bab6" ;
+      dct:title "Multipass reconciliations: 1ProtectedBaseProbe" ;
+      prov:generated narr:Recon_1ProtectedBaseProbe_1 .
+} ;
+INSERT DATA {
+  GRAPH aswr:Tx_20260727T110604Z {
+    narr:Recon_1ProtectedBaseProbe_1 a narr:Reconciliation ;
+        oa:hasTarget narr:MeridianReleaseTrain ;
+        narr:principal narr:Actor_Session ;
+        skos:note "Key decisions: **Gate**: signed release manifest required for Meridian deploys **Scope**: applies to staging and production **Owner**: Quinton Fairweather" ;
+        narr:extends narr:Expr_1ProtectedBaseProbe_1 ;
+        narr:extends narr:Expr_1ProtectedBaseProbe_2 ;
+        dct:source narr:Expr_1ProtectedBaseProbe_3 ;
+        dct:source narr:Expr_1ProtectedBaseProbe_4 ;
+        dct:source narr:Expr_1ProtectedBaseProbe_5 ;
+        dct:source narr:Expr_1ProtectedBaseProbe_6 ;
+        prov:generatedAtTime "2026-07-27T11:06:04Z"^^xsd:dateTime .
+
+    aswr:Run_20260727T110604Z_pass2 a prov:Activity ;
+        aswr:runPass "pass2" ;
+        aswr:draftedBy "z-ai/glm-5.2" ;
+        aswr:artifact "aswritten/runs:runs/3b708c83dbbb/2026-07-27-1-protected-base-probe/pass2.json" ;
+        dct:isPartOf aswr:Tx_20260727T110604Z ;
+        prov:generatedAtTime "2026-07-27T11:06:04Z"^^xsd:dateTime .
+
+    aswr:Run_20260727T110604Z_pass3 a prov:Activity ;
+        aswr:runPass "pass3" ;
+        aswr:draftedBy "z-ai/glm-5.2" ;
+        aswr:artifact "aswritten/runs:runs/3b708c83dbbb/2026-07-27-1-protected-base-probe/pass3.json" ;
+        prov:generated narr:Recon_1ProtectedBaseProbe_1 ;
+        dct:isPartOf aswr:Tx_20260727T110604Z ;
+        prov:generatedAtTime "2026-07-27T11:06:04Z"^^xsd:dateTime .
+  }
+}
