@@ -1,0 +1,23 @@
+{
+  "placements" : [ {
+    "supporting_segments" : [ "src-1", "src-2" ],
+    "under" : null,
+    "why" : "The content describes a pipeline processing requirement — how the system must handle a missing id field by generating a slug from content and committing the file. This names an architectural concern about system behavior, warranting a new strata category since none exist yet.",
+    "verdict" : "mint",
+    "leaf" : "Architecture",
+    "kind" : "strata",
+    "title" : "system design and processing behavior",
+    "frame" : "How is the system architected to process, transform, and persist its inputs?",
+    "consulted" : [ "existing strata (empty — none yet)", "existing graph structure (empty — none yet)" ]
+  }, {
+    "verdict" : "mint",
+    "leaf" : "Narrative_SlugGenerationFromContent",
+    "title" : "the pipeline derives identity from content when none is provided",
+    "frame" : "When a memory arrives without an explicit id, how must the pipeline produce a slug from its content — via the LLM id-gen call or the deterministic slugify fallback — and commit the file?",
+    "under" : [ "Architecture" ],
+    "supporting_segments" : [ "src-1", "src-2" ],
+    "why" : "src-1 establishes the triggering condition (submission without an explicit id) and src-2 prescribes the pipeline's required response (generate slug from content via LLM id-gen or deterministic slugify fallback, then commit the file). Together they name a thematic subject — the pipeline's obligation to derive identity from content when none is supplied — that future envelopes about pipeline behavior, edge cases, or alternative generation paths would feed. No existing leaf holds this; the graph is empty.",
+    "consulted" : [ "existing graph structure (empty — none yet)", "strata mint: Architecture (placed in this same response)" ]
+  } ],
+  "unplaced" : [ ]
+}
