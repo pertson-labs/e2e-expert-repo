@@ -1,0 +1,23 @@
+{
+  "placements" : [ {
+    "supporting_segments" : [ "src-1", "src-2" ],
+    "under" : null,
+    "why" : "No strata exist yet. This envelope's content — an E2E test built specifically to reproduce a named prod failure and enforce a no-crash/valid-output constraint — is organizational-category-grain: verification/proof work as a distinct kind of activity from strategy, product, or architecture. Nothing in the (empty) supplied strata covers it, so it is minted standalone per the NEW check; a strata mint needs no parent.",
+    "verdict" : "mint",
+    "leaf" : "Proof",
+    "kind" : "strata",
+    "title" : "Verification work stands as the organization's record of what was actually fixed",
+    "frame" : "What production failure or requirement does this piece of verification work establish as settled?",
+    "consulted" : [ "EXISTING STRATA: none yet", "EXISTING GRAPH STRUCTURE: none yet" ]
+  }, {
+    "verdict" : "mint",
+    "leaf" : "Narrative_RegressionTestsGuardProdFailurePatterns",
+    "title" : "Production failures are converted into permanent regression guards",
+    "frame" : "What specific production failure does this test encode, and what guarantee (no crash, valid output) does it now enforce against recurrence?",
+    "under" : [ "Proof" ],
+    "supporting_segments" : [ "src-1", "src-2" ],
+    "why" : "Both segments describe the same test: it reproduces a specific missing-id failure pattern seen in prod (src-1) and enforces a hard constraint — must not crash, must produce a valid slug (src-2) — as the condition of passing. This is a subject future envelopes will keep feeding (more E2E tests derived from prod failures, more crash/validity guarantees), not a one-time fact, so it clears the narrative grain test. No existing leaf covers it (graph structure is empty), so it is minted fresh under the newly-minted Proof strata rather than left as a bare fact.",
+    "consulted" : [ "EXISTING GRAPH STRUCTURE: none yet", "mint: Proof (this response)" ]
+  } ],
+  "unplaced" : [ ]
+}
