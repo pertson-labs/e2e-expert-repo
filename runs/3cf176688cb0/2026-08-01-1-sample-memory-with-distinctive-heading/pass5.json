@@ -1,0 +1,23 @@
+{
+  "placements" : [ {
+    "supporting_segments" : [ "src-1" ],
+    "under" : null,
+    "why" : "The segment describes a system-level guarantee — id/slug generation with a deterministic fallback and successful commit — that is organizational-architecture grain, not envelope content. No strata category exists yet in this repo, and nothing in the empty graph structure covers 'how the pipeline processes input' as a category, so this founds it rather than being routed under something narrower.",
+    "verdict" : "mint",
+    "leaf" : "Architecture",
+    "kind" : "strata",
+    "title" : "Pipeline mechanics as a first-class design surface",
+    "frame" : "What must the pipeline itself guarantee about how it processes and normalizes input, independent of any single envelope's content?",
+    "consulted" : [ ]
+  }, {
+    "verdict" : "mint",
+    "leaf" : "Narrative_SlugGenerationFallbackRobustness",
+    "title" : "Slug identity survives absence through a fallback path, not a required field",
+    "frame" : "When an envelope arrives without an explicit id, does the pipeline still resolve a stable slug — via LLM id-gen or deterministic fallback — and commit successfully, or does the absence break the pipeline?",
+    "under" : [ "Architecture" ],
+    "supporting_segments" : [ "src-1" ],
+    "why" : "The expression names a recurring pipeline behavior — producing a slug from content when no id is submitted, via either an LLM call or a deterministic fallback, then committing — that future envelopes testing this same robustness would keep feeding. This is a subject beyond the one test instance (grain test passes), distinct from the strata-level claim that pipeline mechanics matter at all, so it sits under Architecture as its own leaf rather than folding into the strata node.",
+    "consulted" : [ ]
+  } ],
+  "unplaced" : [ ]
+}
