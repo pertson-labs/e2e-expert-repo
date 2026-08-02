@@ -1,0 +1,23 @@
+{
+  "placements" : [ {
+    "supporting_segments" : [ "src-1", "src-2", "src-3" ],
+    "under" : null,
+    "why" : "This envelope's entire content is an observatory calibration record — instrument identity, calibration value, and verification against reference plates. This matches the 'Calibration' category named in the org's strata vocabulary, but this repo's existing strata is empty (none yet), so nothing currently covers it. Minting it fresh gives calibration-verification narrative leaves a proper organizational home rather than leaving them parentless.",
+    "verdict" : "mint",
+    "leaf" : "Calibration",
+    "kind" : "strata",
+    "title" : "Instrument verification and calibration work forms its own organizational category",
+    "frame" : "Does this content concern verifying or calibrating an instrument, measurement, or process against a reference standard?",
+    "consulted" : [ "EXISTING STRATA: (none yet)", "EXISTING GRAPH STRUCTURE: (none yet)" ]
+  }, {
+    "verdict" : "mint",
+    "leaf" : "Narrative_CalibrationVerifiedAgainstReferenceStandard",
+    "title" : "Instrument calibration gains warrant through explicit verification against an independent reference standard",
+    "frame" : "What reference standard is invoked to warrant this calibration, and is that standard's authority named explicitly or merely assumed?",
+    "under" : [ "Calibration" ],
+    "supporting_segments" : [ "src-1", "src-3" ],
+    "why" : "src-1 and src-3 both state the 88.4 MHz calibration and ground it explicitly in verification against the June reference plates — restated once in prose and once in structured field form, the same underlying move. The recurring subject is that a calibration's trustworthiness comes from checking it against a named, independent standard rather than asserting it from the instrument alone. That is a theme future calibration envelopes (new instruments, new reference epochs) will keep feeding, not a one-time measurement, so per the narrative grain test it earns a leaf of its own rather than being folded as evidence into something already covering it — nothing existing does, since the repo's graph structure is empty.",
+    "consulted" : [ "EXISTING GRAPH STRUCTURE: (none yet)", "Calibration (strata minted this pass)" ]
+  } ],
+  "unplaced" : [ "src-2" ]
+}
