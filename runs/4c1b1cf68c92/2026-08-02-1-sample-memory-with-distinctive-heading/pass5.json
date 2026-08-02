@@ -1,0 +1,23 @@
+{
+  "placements" : [ {
+    "supporting_segments" : [ "src-2" ],
+    "under" : null,
+    "why" : "src-2 describes concrete pipeline mechanics — the choice between an LLM id-gen call and a deterministic slugify fallback, followed by a file commit — which is system-design/implementation content about how the pipeline itself is built. No existing strata category is supplied to hold this; Architecture is the canonical organizational category for content about the system's own construction and belongs to the org's ratified strata taxonomy, so it is minted fresh rather than folded into anything narrower.",
+    "verdict" : "mint",
+    "leaf" : "Architecture",
+    "kind" : "strata",
+    "title" : "Pipeline internals are a designed system, not ad hoc behavior",
+    "frame" : "What does this envelope reveal about how the pipeline's internal mechanics — identity resolution, fallback logic, commit behavior — are structured and why they were built that way?",
+    "consulted" : [ "EXISTING STRATA: none yet", "EXISTING GRAPH STRUCTURE: none yet" ]
+  }, {
+    "verdict" : "mint",
+    "leaf" : "Narrative_PipelineResolvesIdentityOnMissingId",
+    "title" : "The pipeline owns identity assignment when the author omits one",
+    "frame" : "When a memory arrives without an explicit id, what does the specific resolution path taken — LLM id-gen versus deterministic slugify fallback — and the requirement that the file still commit successfully, reveal about how the pipeline guarantees every memory ends up with a durable identity regardless of what the author supplied?",
+    "under" : [ "Architecture" ],
+    "supporting_segments" : [ "src-1", "src-2" ],
+    "why" : "src-1 states the triggering condition (no explicit id submitted) and src-2 lays down the pipeline's binding response to that condition (produce a slug via LLM id-gen or deterministic slugify fallback, then commit). Together these describe a recurring architectural behavior — how the pipeline resolves identity when the author doesn't supply one — not a one-time fact about this single submission, so it clears the narrative grain test. Nothing in the supplied (empty) graph structure holds this theme, so it is minted as a leaf under the newly minted Architecture strata.",
+    "consulted" : [ "EXISTING GRAPH STRUCTURE: none yet", "Architecture (minted this response)" ]
+  } ],
+  "unplaced" : [ ]
+}
