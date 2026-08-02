@@ -1,0 +1,23 @@
+{
+  "placements" : [ {
+    "supporting_segments" : [ "src-1", "src-2" ],
+    "under" : null,
+    "why" : "Both expressions describe a ratified, load-bearing technical contract (dispatch, receipt, polling, no-blocking, no-lost-work) governing how the remember pipeline behaves — an organizational-strategy category (system architecture/contracts) that nothing in the empty strata list yet covers, and future envelopes will keep filing architectural contracts of this kind under it.",
+    "verdict" : "mint",
+    "leaf" : "Architecture",
+    "kind" : "strata",
+    "title" : "System behavior is governed by ratified technical contracts",
+    "frame" : "What architectural guarantee or contract governs how this system component behaves?",
+    "consulted" : [ ]
+  }, {
+    "verdict" : "mint",
+    "leaf" : "Narrative_AsyncJobContract",
+    "title" : "Remember's result is decoupled from its dispatch",
+    "frame" : "What guarantee does the ratified async contract make about how a dispatched job's receipt, progress, and eventual result reach the caller without a blocking call or lost work?",
+    "under" : [ "Architecture" ],
+    "supporting_segments" : [ "src-1", "src-2" ],
+    "why" : "src-1 states the ratified top-line guarantees of the async job contract (receipt in seconds, cursor-polled extraction, no blocking call, no lost work) and src-2 restates the underlying dispatch mechanism (dispatch, then poll-or-piggyback) as the key decision producing those guarantees — both are the same directional theme of decoupled dispatch/result-delivery design that future envelopes discussing this contract's mechanics will keep feeding, not a one-time fact.",
+    "consulted" : [ "Architecture" ]
+  } ],
+  "unplaced" : [ ]
+}
