@@ -1,0 +1,23 @@
+{
+  "placements" : [ {
+    "supporting_segments" : [ "src-2" ],
+    "under" : null,
+    "why" : "The envelope's content is a technical pipeline-behavior specification (slug derivation, LLM id-gen vs. deterministic fallback, file commit) — an implementation-grain concern. No strata category exists yet in this repo, and nothing supplied approximates this organizational lane, so it is minted standalone as a foundational category rather than forced under a leaf.",
+    "verdict" : "mint",
+    "leaf" : "Architecture",
+    "kind" : "strata",
+    "title" : "system-implementation behavior gets its own organizational lane",
+    "frame" : "Does this content describe how the system is built and behaves internally — its mechanisms, fallbacks, and commit guarantees — rather than what to build or why?",
+    "consulted" : [ ]
+  }, {
+    "verdict" : "mint",
+    "leaf" : "Narrative_MemoryPipelineSlugGeneration",
+    "title" : "memory ids are pipeline-derived, not caller-supplied",
+    "frame" : "When a memory arrives without an explicit id, did the pipeline successfully derive a slug from its content — via the LLM id-gen call or the deterministic slugify fallback — and commit the file?",
+    "under" : [ "Architecture" ],
+    "supporting_segments" : [ "src-1", "src-2" ],
+    "why" : "src-1 establishes the triggering condition (no explicit id field) and src-2 states the required pipeline behavior in response (produce a slug via LLM id-gen or deterministic fallback, then commit). Together they name a subject future envelopes will keep feeding — e.g. which path fired, whether commit succeeded, edge cases in slugify — not a one-time fact. No existing leaf or strata (both empty for this repo) plausibly holds this theme, so it is minted fresh under the newly-minted Architecture strata.",
+    "consulted" : [ ]
+  } ],
+  "unplaced" : [ ]
+}
