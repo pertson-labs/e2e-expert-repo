@@ -1,0 +1,64 @@
+PREFIX narr: <https://aswritten.ai/narrative#>
+PREFIX aswr: <https://aswritten.ai/aswr#>
+PREFIX rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX prov: <http://www.w3.org/ns/prov#>
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+PREFIX dct:  <http://purl.org/dc/terms/>
+PREFIX xsd:  <http://www.w3.org/2001/XMLSchema#>
+PREFIX oa:   <http://www.w3.org/ns/oa#>
+
+INSERT DATA {
+  aswr:Tx_20260803T102933Z a prov:Activity ;
+      prov:generatedAtTime "2026-08-03T10:29:33Z"^^xsd:dateTime ;
+      prov:wasAssociatedWith "aswritten.ai" ;
+      prov:wasAttributedTo "scarlet@aswritten.ai" ;
+      aswr:pipelinePin "c063fb20bab6" ;
+      aswr:originPath ".aswritten/memories/2026-08-03-1-e2e-overwrite-1785752902700.md" ;
+      dct:title "Multipass source extraction: Second version" ;
+      prov:generated narr:Sample_1E2EOverwrite1785752902700, narr:Expr_1E2EOverwrite1785752902700_1, narr:Actor_XenaExpertgh .
+} ;
+INSERT DATA {
+  GRAPH aswr:Tx_20260803T102933Z {
+    narr:Sample_1E2EOverwrite1785752902700 a narr:Sample ;
+        dct:title "Second version" ;
+        dct:created "2026-08-03"^^xsd:date ;
+        aswr:originPath ".aswritten/memories/2026-08-03-1-e2e-overwrite-1785752902700.md" ;
+        aswr:submittedBy narr:Actor_XenaExpertgh ;
+        aswr:account narr:Actor_XenaExpertgh .
+
+    narr:Expr_1E2EOverwrite1785752902700_1 a narr:Expression ;
+        narr:actor narr:Actor_XenaExpertgh ;
+        narr:act "assertive" ;
+        narr:context "Document body, submitted by Xena ExpertGH" ;
+        skos:note "Minimal document body; states this is a second version of something with no further content." ;
+        oa:hasTarget [ a oa:SpecificResource ;
+            oa:hasSource narr:Sample_1E2EOverwrite1785752902700 ;
+            oa:hasSelector [ a oa:TextQuoteSelector ;
+                oa:exact "Second version" ;
+                oa:prefix "ena+staging@aswritten.ai\n---\n\n" ;
+                oa:suffix "" ] ;
+            oa:hasSelector [ a oa:TextPositionSelector ;
+                oa:start "50"^^xsd:integer ;
+                oa:end "64"^^xsd:integer ] ] ;
+        prov:generatedAtTime "2026-08-03T10:29:33Z"^^xsd:dateTime .
+
+    narr:Actor_XenaExpertgh a narr:Actor ;
+        skos:prefLabel "Xena ExpertGH" .
+
+    aswr:Run_20260803T102933Z_actors a prov:Activity ;
+        aswr:runPass "actors" ;
+        aswr:draftedBy "subscription.anthropic/claude-sonnet-5" ;
+        aswr:artifact "aswritten/runs:runs/7b8c5497870d/2026-08-03-1-e2e-overwrite-1785752902700/actors.json" ;
+        prov:generated narr:Actor_XenaExpertgh ;
+        dct:isPartOf aswr:Tx_20260803T102933Z ;
+        prov:generatedAtTime "2026-08-03T10:29:33Z"^^xsd:dateTime .
+
+    aswr:Run_20260803T102933Z_pass1 a prov:Activity ;
+        aswr:runPass "pass1" ;
+        aswr:draftedBy "subscription.anthropic/claude-sonnet-5" ;
+        aswr:artifact "aswritten/runs:runs/7b8c5497870d/2026-08-03-1-e2e-overwrite-1785752902700/pass1.json" ;
+        prov:generated narr:Sample_1E2EOverwrite1785752902700, narr:Expr_1E2EOverwrite1785752902700_1 ;
+        dct:isPartOf aswr:Tx_20260803T102933Z ;
+        prov:generatedAtTime "2026-08-03T10:29:33Z"^^xsd:dateTime .
+  }
+}
