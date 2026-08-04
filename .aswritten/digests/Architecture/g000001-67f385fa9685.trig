@@ -1,0 +1,26 @@
+@prefix narr: <https://aswritten.ai/narrative#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+GRAPH <https://aswritten.ai/narrative#Digest_Architecture> {
+  <https://aswritten.ai/narrative#Digest_Architecture> a narr:Digest ;
+    narr:digestOf <https://aswritten.ai/narrative#Architecture> ;
+    narr:childCount "6"^^xsd:integer ;
+    narr:generatedFrom "67f385fa9685c9233d2ab3cdb73fede8ea35094e" ;
+    narr:narration """On 2026-08-04 this hub encodes a single architectural decision: Meridian deployments now require a signed release manifest before shipping. Quinton Fairweather voices the binding requirement [as a stated decision](narr:Expr_1ProtectedBaseProbe_1), then grounds it in a concrete incident — two unsigned artifacts reached staging last quarter, which he names as [the whole reason for the gate](narr:Expr_1ProtectedBaseProbe_2). The decision is restated in compressed technical form: the [gate definition](narr:Expr_1ProtectedBaseProbe_3), its [scope across staging and production](narr:Expr_1ProtectedBaseProbe_4), and the [named owner](narr:Expr_1ProtectedBaseProbe_5) — all signed by Fairweather as principal. A [broader narrative frame](narr:Narrative_ReleaseIntegrityGating) situates the gate as a shift from implicit trust to enforced cryptographic proof of release integrity. The hub is narrow: one pipeline gate, one accountable owner, one triggering incident. There is no discussion of tooling implementation, exception handling, or rollback — the decision constrains what must precede a deploy but says nothing about what happens when the manifest is missing or fails verification.""" ;
+    narr:covers <https://aswritten.ai/narrative#Expr_1ProtectedBaseProbe_1> ;
+    narr:covers <https://aswritten.ai/narrative#Expr_1ProtectedBaseProbe_2> ;
+    narr:covers <https://aswritten.ai/narrative#Expr_1ProtectedBaseProbe_3> ;
+    narr:covers <https://aswritten.ai/narrative#Expr_1ProtectedBaseProbe_4> ;
+    narr:covers <https://aswritten.ai/narrative#Expr_1ProtectedBaseProbe_5> ;
+    narr:covers <https://aswritten.ai/narrative#Narrative_ReleaseIntegrityGating> ;
+    narr:keyPhrase [ narr:text "Every Meridian deployment now requires a signed release\nmanifest before it ships." ; narr:phraseSource <https://aswritten.ai/narrative#Expr_1ProtectedBaseProbe_1> ] ;
+    narr:keyPhrase [ narr:text "We saw two unsigned artifacts reach staging\nlast quarter and that is the whole reason for the gate." ; narr:phraseSource <https://aswritten.ai/narrative#Expr_1ProtectedBaseProbe_2> ] ;
+    narr:keyPhrase [ narr:text "**Gate**: signed release manifest required for Meridian deploys" ; narr:phraseSource <https://aswritten.ai/narrative#Expr_1ProtectedBaseProbe_3> ] ;
+    narr:keyPhrase [ narr:text "**Scope**: applies to staging and production" ; narr:phraseSource <https://aswritten.ai/narrative#Expr_1ProtectedBaseProbe_4> ] ;
+    narr:keyPhrase [ narr:text "**Owner**: Quinton Fairweather" ; narr:phraseSource <https://aswritten.ai/narrative#Expr_1ProtectedBaseProbe_5> ] ;
+    narr:keyPhrase [ narr:text "Deploy authorization moves from implicit trust to enforced cryptographic proof of release integrity" ; narr:phraseSource <https://aswritten.ai/narrative#Narrative_ReleaseIntegrityGating> ] ;
+    narr:variation [ narr:text "The gate is justified by a past incident (two unsigned artifacts in staging) rather than by a forward-looking threat model — the rationale is reactive, not anticipatory." ; narr:over <https://aswritten.ai/narrative#Expr_1ProtectedBaseProbe_2> ] ;
+    narr:variation [ narr:text "Scope covers staging and production but says nothing about local/dev environments, leaving a gap where unsigned artifacts could still circulate below the gate." ; narr:over <https://aswritten.ai/narrative#Expr_1ProtectedBaseProbe_4> ] ;
+    narr:variation [ narr:text "The broader narrative frames this as cryptographic proof, but the gate as stated only requires a signed manifest — verification of the signature, not just its presence, is unspecified." ; narr:over <https://aswritten.ai/narrative#Narrative_ReleaseIntegrityGating> ; narr:over <https://aswritten.ai/narrative#Expr_1ProtectedBaseProbe_3> ] ;
+    narr:writer "z-ai/glm-5.2" .
+}

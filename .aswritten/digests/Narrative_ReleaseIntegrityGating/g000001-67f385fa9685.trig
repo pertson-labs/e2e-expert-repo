@@ -1,0 +1,22 @@
+@prefix narr: <https://aswritten.ai/narrative#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+GRAPH <https://aswritten.ai/narrative#Digest_Narrative_ReleaseIntegrityGating> {
+  <https://aswritten.ai/narrative#Digest_Narrative_ReleaseIntegrityGating> a narr:Digest ;
+    narr:digestOf <https://aswritten.ai/narrative#Narrative_ReleaseIntegrityGating> ;
+    narr:childCount "5"^^xsd:integer ;
+    narr:generatedFrom "67f385fa9685c9233d2ab3cdb73fede8ea35094e" ;
+    narr:narration """On 2026-08-04, Quinton Fairweather established a binding release-integrity gate for Meridian deployments: [every Meridian deployment now requires a signed release manifest before it ships](narr:Expr_1ProtectedBaseProbe_1). The mandate is reactive — [two unsigned artifacts reached staging the prior quarter](narr:Expr_1ProtectedBaseProbe_2), which Fairweather names as the entire justification for the gate. The decision is restated in technical shorthand as a [signed-manifest requirement for Meridian deploys](narr:Expr_1ProtectedBaseProbe_3), with [scope explicitly covering both staging and production](narr:Expr_1ProtectedBaseProbe_4) — extending beyond the staging-only incident that triggered it. [Accountability is assigned to Fairweather himself](narr:Expr_1ProtectedBaseProbe_5), who both voices and signs the gate. The register moves from a plain-spoken incident recount to formal technical specification, all within a single dated session. The arc is compact: incident, decision, scope, ownership — each child a facet of one gating policy, not a debate over it.""" ;
+    narr:covers <https://aswritten.ai/narrative#Expr_1ProtectedBaseProbe_1> ;
+    narr:covers <https://aswritten.ai/narrative#Expr_1ProtectedBaseProbe_2> ;
+    narr:covers <https://aswritten.ai/narrative#Expr_1ProtectedBaseProbe_3> ;
+    narr:covers <https://aswritten.ai/narrative#Expr_1ProtectedBaseProbe_4> ;
+    narr:covers <https://aswritten.ai/narrative#Expr_1ProtectedBaseProbe_5> ;
+    narr:keyPhrase [ narr:text "Every Meridian deployment now requires a signed release\nmanifest before it ships." ; narr:phraseSource <https://aswritten.ai/narrative#Expr_1ProtectedBaseProbe_1> ] ;
+    narr:keyPhrase [ narr:text "We saw two unsigned artifacts reach staging\nlast quarter and that is the whole reason for the gate." ; narr:phraseSource <https://aswritten.ai/narrative#Expr_1ProtectedBaseProbe_2> ] ;
+    narr:keyPhrase [ narr:text "**Scope**: applies to staging and production" ; narr:phraseSource <https://aswritten.ai/narrative#Expr_1ProtectedBaseProbe_4> ] ;
+    narr:keyPhrase [ narr:text "**Owner**: Quinton Fairweather" ; narr:phraseSource <https://aswritten.ai/narrative#Expr_1ProtectedBaseProbe_5> ] ;
+    narr:variation [ narr:text "The gate covers production preemptively though the triggering incident only involved staging — scope exceeds the cited risk." ; narr:over <https://aswritten.ai/narrative#Expr_1ProtectedBaseProbe_2> ; narr:over <https://aswritten.ai/narrative#Expr_1ProtectedBaseProbe_4> ] ;
+    narr:variation [ narr:text "The incident framing is purely reactive ('that is the whole reason'), leaving no proactive threat model stated alongside it." ; narr:over <https://aswritten.ai/narrative#Expr_1ProtectedBaseProbe_2> ] ;
+    narr:writer "z-ai/glm-5.2" .
+}
