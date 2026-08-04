@@ -1,0 +1,23 @@
+{
+  "placements" : [ {
+    "supporting_segments" : [ "src-1", "src-2", "src-3" ],
+    "under" : null,
+    "why" : "The envelope's whole content is a ratified technical design contract (async dispatch, receipt, polling cursor, no-blocking/no-lost-work guarantees, poll-or-piggyback observation) — organizational-strategy grain, not product or opportunity framing. No strata exists yet to hold architecture-level design content, and this is the first envelope whose content calls for that category, so it is minted standalone with no parent required.",
+    "verdict" : "mint",
+    "leaf" : "Architecture",
+    "kind" : "strata",
+    "title" : "system design and technical contracts as their own organizational category",
+    "frame" : "What technical design decisions and structural guarantees govern how the system's components are built to interact?",
+    "consulted" : [ ]
+  }, {
+    "verdict" : "mint",
+    "leaf" : "Narrative_AsyncJobContractDesign",
+    "title" : "moving from blocking calls to a receipt-and-poll async contract",
+    "frame" : "What guarantees (non-blocking, no lost work) and observation paths (poll vs. piggyback) does the async job contract commit the system to, and how do later envelopes extend, revise, or test those guarantees?",
+    "under" : [ "Architecture" ],
+    "supporting_segments" : [ "src-1", "src-2", "src-3" ],
+    "why" : "src-1 names the ratified contract and its core mechanism (receipt returned in seconds, extraction watched via polling cursor); src-2 states the contract's negative guarantees (no blocking call, no lost work on dropped receipt); src-3 specifies the two ways the agent can observe completion post-dispatch (poll the run, or get the reaction piggybacked on a later call). Together these describe a durable design subject — the async remember contract's shape and guarantees — that future envelopes will keep feeding (edge cases, revisions, failure reports), passing the narrative grain test rather than being a one-time measurement or event. No existing leaf in the (empty) supplied structure covers this, so it is minted fresh under the newly-minted Architecture strata.",
+    "consulted" : [ ]
+  } ],
+  "unplaced" : [ ]
+}
