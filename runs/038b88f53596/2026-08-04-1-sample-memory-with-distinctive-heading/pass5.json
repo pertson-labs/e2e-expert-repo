@@ -1,0 +1,23 @@
+{
+  "placements" : [ {
+    "supporting_segments" : [ "src-1", "src-2" ],
+    "under" : null,
+    "why" : "The envelope specifies a pipeline-level requirement (slug generation and successful commit) that must hold even when a submission arrives without an explicit id field — this is an organizational category about technical system behavior, not yet represented anywhere in this repo's empty strata.",
+    "verdict" : "mint",
+    "leaf" : "Architecture",
+    "kind" : "strata",
+    "title" : "system behavior guarantees when expected structured input is absent",
+    "frame" : "What must the system's architecture still guarantee when a piece of expected structured input — like an explicit id — is missing from what it receives?",
+    "consulted" : [ ]
+  }, {
+    "verdict" : "mint",
+    "leaf" : "Narrative_SlugFallbackGuarantee",
+    "title" : "slug generation as the required fallback identity when explicit ids are absent",
+    "frame" : "Does the pipeline's slug-generation path — LLM id-gen or deterministic slugify — reliably substitute for a missing explicit id, and does that substitution always culminate in a successful commit?",
+    "under" : [ "Architecture" ],
+    "supporting_segments" : [ "src-1", "src-2" ],
+    "why" : "src-1 establishes the precondition future envelopes will keep re-triggering (a memory submitted without an explicit id), and src-2 states the standing behavioral guarantee — slug derivation via LLM id-gen or deterministic slugify fallback, followed by a successful commit. This names a subject the pipeline's fallback behavior will keep being tested against, not a one-time fact, so it earns its own leaf rather than joining another as evidence.",
+    "consulted" : [ ]
+  } ],
+  "unplaced" : [ ]
+}
