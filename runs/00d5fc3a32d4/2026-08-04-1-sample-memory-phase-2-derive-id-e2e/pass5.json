@@ -1,0 +1,32 @@
+{
+  "placements" : [ {
+    "supporting_segments" : [ "src-1", "src-2" ],
+    "under" : null,
+    "why" : "Both segments describe a test built specifically to demonstrate correctness against a real production failure — reproducing the exact bug pattern and asserting a safe outcome. No strata category exists yet in this repo, and neither Opportunity/Strategy/Product/Architecture/Organization/Templates/Calibration (named in the taxonomy but none supplied here) plausibly covers verification-through-reproduction work; this content names that organizational category itself.",
+    "verdict" : "mint",
+    "leaf" : "Proof",
+    "kind" : "strata",
+    "title" : "Correctness is demonstrated by reproducing real failures, not asserting behavior in the abstract",
+    "frame" : "What concrete production failure or edge case does this proof point make verifiable, and does the evidence actually recreate it?",
+    "consulted" : [ ]
+  }, {
+    "verdict" : "mint",
+    "leaf" : "Narrative_ProdFailureReproductionTesting",
+    "title" : "Tests earn trust by reproducing the exact production failure, not a synthetic approximation",
+    "frame" : "What real production failure pattern does this test recreate, and does the reproduction match it precisely (same shape of input, same missing field, same structural cause)?",
+    "under" : [ "Proof" ],
+    "supporting_segments" : [ "src-1" ],
+    "why" : "src-1 states the test's purpose as reproducing 'the missing-id failure pattern from prod' with the specific structural cause named (## level heading, no id field) — a testing-methodology theme future test envelopes will keep feeding as more prod failures get turned into regression cases. This is a subject, not a one-time fact: no existing leaf or strata (both empty for this repo) plausibly holds it, so it is minted fresh under the newly-minted Proof strata.",
+    "consulted" : [ "Proof" ]
+  }, {
+    "verdict" : "mint",
+    "leaf" : "Narrative_GracefulDegradationRequirement",
+    "title" : "Malformed or missing input must degrade to a valid fallback, never a crash",
+    "frame" : "When required data is absent or malformed, does the system fail safely with a valid substitute, or does it crash?",
+    "under" : [ "Proof" ],
+    "supporting_segments" : [ "src-2" ],
+    "why" : "src-2 states a dual requirement — 'must not crash; must produce a valid slug' — as the standard the system must meet under missing-id input. This is a design/verification theme (graceful degradation as the good being enforced) distinct from the reproduction-methodology theme in src-1, and one future test envelopes will keep feeding as more crash-prevention/fallback cases accumulate. Nothing existing (structure is empty) covers it, so it is minted under the same Proof strata.",
+    "consulted" : [ "Proof", "Narrative_ProdFailureReproductionTesting" ]
+  } ],
+  "unplaced" : [ ]
+}
