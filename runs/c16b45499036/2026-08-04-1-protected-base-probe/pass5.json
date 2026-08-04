@@ -1,0 +1,23 @@
+{
+  "placements" : [ {
+    "supporting_segments" : [ "src-1", "src-2", "src-3", "src-4", "src-5" ],
+    "under" : null,
+    "why" : "Nothing in the supplied strata (empty for this repo) covers technical infrastructure/release-pipeline governance decisions. This envelope's content — a deployment gate on the Meridian release pipeline requiring signed manifests, scoped to staging/production, with a named technical owner — is a system-design/infrastructure decision, not an opportunity, product, or proof-point category. Minting a bare 'Architecture' strata category gives this and future infrastructure-governance content a home; no ancestor category needs to exist first.",
+    "verdict" : "mint",
+    "leaf" : "Architecture",
+    "kind" : "strata",
+    "title" : "System-level infrastructure and pipeline-design decisions get their own organizational home",
+    "frame" : "What system or pipeline design decision does this expression encode, and what does it constrain about how the system is built or operated going forward?",
+    "consulted" : [ "(existing strata: none supplied)" ]
+  }, {
+    "verdict" : "mint",
+    "leaf" : "Narrative_ReleaseIntegrityGating",
+    "title" : "Deploy authorization moves from implicit trust to enforced cryptographic proof of release integrity",
+    "frame" : "What does this expression reveal about how signed/verified provenance is required before an artifact reaches an environment, what incident or risk it is answering to, and who is accountable for enforcing it?",
+    "under" : [ "Architecture" ],
+    "supporting_segments" : [ "src-1", "src-2", "src-3", "src-4", "src-5" ],
+    "why" : "The graph and strata are both empty, so nothing existing plausibly holds this theme (fails the EXACT and INSPIRED checks — there is no close prior category to relate to, so this is a NEW mint). All five segments are facets of one enduring subject: a release train enforces artifact provenance before deploy. src-1 states the rule's existence; src-2 is the past-incident fact that motivates it (evidence for the theme, not a leaf of its own, per the narrative-grain test — the two unsigned artifacts are a one-time event, not a subject future envelopes independently feed); src-3/src-4/src-5 are the ratified field-specification (Gate/Scope/Owner) that formalizes the same rule's condition, jurisdiction, and accountable party. Together they support a single theme — gating deploys on verified release integrity — that plausibly accumulates further support as this or other release trains add, tighten, or contest similar gates.",
+    "consulted" : [ "(existing narrative leaves: none supplied)", "Architecture (minted this response)" ]
+  } ],
+  "unplaced" : [ ]
+}
