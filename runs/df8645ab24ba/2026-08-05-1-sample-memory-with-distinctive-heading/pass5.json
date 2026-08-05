@@ -1,0 +1,23 @@
+{
+  "placements" : [ {
+    "supporting_segments" : [ "src-2" ],
+    "under" : null,
+    "why" : "src-2 states a binding system-design requirement (the pipeline must always produce a slug, via LLM id-gen or a deterministic fallback, then commit) — this is an architecture-grade commitment about system behavior, not a product/strategy/proof concern, and no strata category exists yet in this repo to hold it.",
+    "verdict" : "mint",
+    "leaf" : "Architecture",
+    "kind" : "strata",
+    "title" : "system design commitments about pipeline behavior get tracked as their own organizational category",
+    "frame" : "What architectural guarantee is being locked in about how the system must behave under a given input condition?",
+    "consulted" : [ "(existing strata: none supplied)" ]
+  }, {
+    "verdict" : "mint",
+    "leaf" : "Narrative_DeterministicSlugFallbackGuarantee",
+    "title" : "id/slug generation always resolves via a deterministic path even when the primary method is absent or silent",
+    "frame" : "What must be guaranteed about the pipeline's slug/id-generation and commit outcome when the primary (LLM id-gen) path is unavailable — and does the deterministic slugify fallback actually cover every gap the primary path leaves?",
+    "under" : [ "Architecture" ],
+    "supporting_segments" : [ "src-1", "src-2" ],
+    "why" : "src-1 names the precondition (a memory arrived with no explicit id) and src-2 names the pipeline's required response (produce a slug via LLM id-gen or the deterministic slugify fallback, then commit) — together they name a recurring design subject future envelopes about this pipeline will keep feeding (does the fallback path hold, does the commit always succeed), not a one-time fact about this single submission. src-1 is evidence for the same leaf rather than its own leaf, per the narrative grain test.",
+    "consulted" : [ "(existing narrative leaves: none supplied)", "Architecture (minted above, this response)" ]
+  } ],
+  "unplaced" : [ ]
+}
