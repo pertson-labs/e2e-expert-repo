@@ -1,0 +1,32 @@
+{
+  "placements" : [ {
+    "supporting_segments" : [ "src-1", "src-2", "src-3", "src-4", "src-5" ],
+    "under" : null,
+    "why" : "This envelope's entire content — a deployment gate spec covering signing, environment scope, and ownership for a release train — is release-engineering infrastructure governance. No strata category exists yet for this repo (EXISTING STRATA is empty), and none of the organization's example categories (Opportunity/Strategy/Product/Organization/Proof/Templates/Calibration) fit as tightly as an Architecture-grade infrastructure/deployment category; minting it standalone (NEW) gives the two narrative leaves below a home without inventing intermediate scaffolding.",
+    "verdict" : "mint",
+    "leaf" : "Architecture",
+    "kind" : "strata",
+    "title" : "Release and deployment infrastructure decisions get their own home",
+    "frame" : "What technical infrastructure, pipeline, or environment-governance decisions does this organization make and revise over time?",
+    "consulted" : [ ]
+  }, {
+    "verdict" : "mint",
+    "leaf" : "Narrative_SignedManifestDeploymentGate",
+    "title" : "Deployment shipping becomes conditional on manifest signing",
+    "frame" : "What deploys, environments, or accountable owners does the signed-manifest gate's mandate and scope currently reach, and where might it later extend, narrow, or change owners?",
+    "under" : [ "Architecture" ],
+    "supporting_segments" : [ "src-1", "src-3", "src-4", "src-5" ],
+    "why" : "src-1 states the standing requirement ('now requires a signed release manifest before it ships'); src-3/src-4/src-5 record the same policy as a field-labeled spec (gate rule, scope across staging and production, and Quinton Fairweather as owner). Together these are one recurring subject — a signing gate's rule, reach, and accountable holder — that future envelopes will keep feeding as the gate is enforced, exempted, or reassigned; it is a directional policy statement, not a one-time fact, so it earns a leaf rather than staying as unplaced evidence.",
+    "consulted" : [ "Architecture" ]
+  }, {
+    "verdict" : "mint",
+    "leaf" : "Narrative_UnsignedArtifactIncidentRationale",
+    "title" : "A past signing lapse becomes the standing justification for the gate",
+    "frame" : "What incidents or risk evidence are invoked to justify introducing, tightening, or loosening the signing gate?",
+    "under" : [ "Architecture" ],
+    "supporting_segments" : [ "src-2" ],
+    "why" : "src-2 ('two unsigned artifacts reach staging last quarter and that is the whole reason for the gate') names the causal motive behind the policy, delivered in a plain-spoken register distinct from the spec's protocol diction. It is a fact-as-evidence for a recurring subject — incident-driven justification of gating decisions — that future envelopes will keep supplying (new lapses, disputes over sufficiency of rationale, etc.), so it seeds its own thematic leaf rather than being folded silently into the spec leaf, which concerns the rule's terms rather than its cause.",
+    "consulted" : [ "Architecture", "Narrative_SignedManifestDeploymentGate" ]
+  } ],
+  "unplaced" : [ ]
+}
