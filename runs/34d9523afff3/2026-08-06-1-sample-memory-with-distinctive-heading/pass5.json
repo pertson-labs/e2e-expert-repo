@@ -1,0 +1,23 @@
+{
+  "placements" : [ {
+    "supporting_segments" : [ "src-1" ],
+    "under" : null,
+    "why" : "The segment describes concrete pipeline mechanics — slug generation via an LLM id-gen call or a deterministic slugify fallback, and successful file commit — which is architecture-grain organizational content. No strata category exists yet in this repo, and nothing in the (empty) supplied strata or graph structure covers system-implementation themes, so the foundational 'Architecture' category is minted to hold it.",
+    "verdict" : "mint",
+    "leaf" : "Architecture",
+    "kind" : "strata",
+    "title" : "System implementation mechanics as an organizational category",
+    "frame" : "Does this expression describe how the system is built or guaranteed to behave — its pipelines, generation logic, and fallback mechanisms — rather than opportunity, strategy, or proof content?",
+    "consulted" : [ "EXISTING STRATA: none yet", "EXISTING GRAPH STRUCTURE: none yet" ]
+  }, {
+    "verdict" : "mint",
+    "leaf" : "Narrative_SlugFallbackResilience",
+    "title" : "Slug generation is guaranteed by a deterministic fallback beneath the LLM path",
+    "frame" : "Does this expression show the pipeline still producing a valid slug and completing the commit when no explicit id is given, by falling through from an LLM-generated id to a deterministic slugify path?",
+    "under" : [ "Architecture" ],
+    "supporting_segments" : [ "src-1" ],
+    "why" : "The segment states a design guarantee — when a memory arrives without an explicit id, the pipeline still resolves a slug (via LLM id-gen or deterministic slugify fallback) and commits successfully. This is a recurring behavioral guarantee about the system's robustness to missing input, not a one-time fact or measurement — it is the kind of subject future envelopes describing this fallback path or its failures/successes will keep feeding. No existing leaf (graph structure is empty) covers this theme, so it is minted fresh under the newly-minted Architecture strata.",
+    "consulted" : [ "EXISTING STRATA: none yet", "EXISTING GRAPH STRUCTURE: none yet", "placement above: Architecture (strata mint)" ]
+  } ],
+  "unplaced" : [ ]
+}
