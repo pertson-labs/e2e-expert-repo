@@ -1,0 +1,23 @@
+{
+  "placements" : [ {
+    "supporting_segments" : [ "src-1", "src-2" ],
+    "under" : null,
+    "why" : "The only existing strata content served for this focus is ns__Decision_DiagnosticFirst, which sits under ns__Strategy and concerns engagement methodology — it has no bearing on test/reproduction content. This envelope's content (a test reproducing a production defect and stating pass/fail correctness criteria) is organizationally verification work, not strategy, product-shaping, or architecture description. Nothing in the (empty) existing strata covers it, so a new top-level category is minted rather than forcing an ill-fitting attach.",
+    "verdict" : "mint",
+    "leaf" : "Proof",
+    "kind" : "strata",
+    "title" : "Verification and reproduction work forms its own organizational category, distinct from strategy or delivery",
+    "frame" : "What claim about system correctness, capability, or behavior is being tested, reproduced, or verified here?",
+    "consulted" : [ "ns__Decision_DiagnosticFirst" ]
+  }, {
+    "verdict" : "mint",
+    "leaf" : "Narrative_MissingIdCorrectnessContract",
+    "title" : "Reproducing a production failure becomes the test's correctness contract",
+    "frame" : "What must Derive Id guarantee — non-crashing behavior and a valid output — when confronted with the exact malformed-input shape drawn from a real production failure?",
+    "under" : [ "Proof" ],
+    "supporting_segments" : [ "src-1", "src-2" ],
+    "why" : "src-1 names the specific reproduction condition (the prod missing-id failure pattern: a level-2 heading with no id field) and src-2 states the outcome that condition must satisfy (no crash; a valid slug produced). Together they are not a one-time fact but a recurring subject — how Derive Id's test suite encodes production defects as ongoing correctness requirements — that future envelopes describing other edge-case reproductions or requirement statements would keep feeding. No existing leaf or strata (both empty for this repo) covers this theme, and it is not close enough to the only served content (ns__Decision_DiagnosticFirst, an engagement-methodology decision) to warrant an INSPIRED lineage edge, so it is minted standalone under the newly-minted Proof strata.",
+    "consulted" : [ "Proof", "ns__Decision_DiagnosticFirst" ]
+  } ],
+  "unplaced" : [ ]
+}
