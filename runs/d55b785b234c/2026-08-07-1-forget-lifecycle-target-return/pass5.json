@@ -1,0 +1,23 @@
+{
+  "placements" : [ {
+    "supporting_segments" : [ "src-1", "src-2", "src-3" ],
+    "under" : null,
+    "why" : "The envelope's entire content is a calibration verification record (instrument, calibration value, verification method, result). The org's named taxonomy of top-level strata categories explicitly includes 'Calibration' as a canonical top-level name, but this repo's EXISTING STRATA is empty — nothing has been minted here yet. This content is an exact, unambiguous instance of that category, so it mints the strata node verbatim from the taxonomy rather than inventing a paraphrase or forcing the content under an unrelated category.",
+    "verdict" : "mint",
+    "leaf" : "Calibration",
+    "kind" : "strata",
+    "title" : "instrument calibration and verification work as its own organizational category",
+    "frame" : "What instrument, standard, or process is being calibrated or verified here, and does the record show the calibration holding?",
+    "consulted" : [ "EXISTING STRATA: (none yet)", "org taxonomy list in pass instructions: Opportunity/Strategy/Product/Architecture/Organization/Proof/Templates/Calibration" ]
+  }, {
+    "verdict" : "mint",
+    "leaf" : "Narrative_InstrumentCalibrationVerification",
+    "title" : "an instrument's calibration moves from unverified to checked-and-holding against a reference standard",
+    "frame" : "Has this instrument's calibration been checked against a named reference standard, and does the record show it holding across the relevant range?",
+    "under" : [ "Calibration" ],
+    "supporting_segments" : [ "src-1", "src-2", "src-3" ],
+    "why" : "src-1 states the Kestrelwood spectrograph's calibration at 88.4 MHz was verified against the June reference plates and holds across the full observing band; src-2 and src-3 restate the same event in structured field form (instrument name, calibration value + verification basis). Per the grain test, the specific 88.4 MHz figure and the June-plates check are facts/evidence, not a leaf themselves — but 'instrument calibration gets checked against a reference standard and confirmed to hold' is a subject future calibration envelopes (other instruments, other reference sets, re-checks) will keep feeding, so it earns a thematic leaf under the newly-minted Calibration strata rather than being left as a bare fact. The existing graph structure was empty, so nothing could be reused; this names the leaf the content itself calls for.",
+    "consulted" : [ "EXISTING GRAPH STRUCTURE: (none yet)", "Calibration (strata, minted this pass)" ]
+  } ],
+  "unplaced" : [ ]
+}
