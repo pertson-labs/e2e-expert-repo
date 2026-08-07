@@ -1,0 +1,23 @@
+{
+  "placements" : [ {
+    "supporting_segments" : [ "src-1", "src-2", "src-3" ],
+    "under" : null,
+    "why" : "The envelope's content is a ratified engineering contract for the remember operation — receipt semantics, non-blocking dispatch, polling-based completion. Existing strata is empty and nothing in the supplied structure names a technical-design category; this content is squarely architectural (how the system is built and guaranteed to behave), not strategy or product, so it mints the foundational Architecture category rather than reusing anything.",
+    "verdict" : "mint",
+    "leaf" : "Architecture",
+    "kind" : "strata",
+    "title" : "System behavior is governed by ratified technical contracts, not ad hoc implementation choices",
+    "frame" : "Does this content describe how a system component is built or contracted to behave — its interface guarantees, failure semantics, dispatch model — as distinct from product strategy, organizational process, or sales proof?",
+    "consulted" : [ "ns__Decision_DiagnosticFirst", "ns__Decision_KnowledgeMapping" ]
+  }, {
+    "verdict" : "mint",
+    "leaf" : "Narrative_AsyncJobDispatchContract",
+    "title" : "Immediate receipt and pollable completion replace blocking calls as the contract for long-running writes",
+    "frame" : "Does this expression describe an operation that returns an immediate acknowledgment while deferring and later exposing its real completion through a pollable, cursor-tracked mechanism, rather than blocking the caller until work finishes?",
+    "under" : [ "Architecture" ],
+    "supporting_segments" : [ "src-1", "src-2", "src-3" ],
+    "why" : "All three segments cohere as one settled theme: src-1 states the ratified terms (receipt in seconds, extraction watched by polling a cursor), src-2 states the guarantees that follow from that shape (no blocking call, no lost work on a dropped receipt), and src-3 restates the dispatch-then-discover structure as the key decision (poll the run or receive a piggybacked reaction). This is a subject future envelopes about the remember pipeline will keep feeding — not a one-time fact — so it earns its own leaf rather than folding into a measurement or proof point. Nothing in the supplied graph structure (which is empty) or strata covers this async-contract theme, so it mints fresh under the newly minted Architecture strata.",
+    "consulted" : [ "ns__Decision_DiagnosticFirst", "ns__Decision_KnowledgeMapping" ]
+  } ],
+  "unplaced" : [ ]
+}
