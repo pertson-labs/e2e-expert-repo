@@ -1,0 +1,23 @@
+{
+  "placements" : [ {
+    "supporting_segments" : [ "src-1", "src-2" ],
+    "under" : null,
+    "why" : "No strata exist yet for this repo. src-1 and src-2 together constitute a proof point — a test reproducing a real prod failure pattern (missing id field) and asserting the derivation code's required behavior against it (no crash, valid slug). This is squarely organizational-category territory: verification/demonstration work, not opportunity, strategy, product, architecture, or org content. Nothing supplied covers it, so it is minted standalone with no forced parent, as instructed for strata mints.",
+    "verdict" : "mint",
+    "leaf" : "Proof",
+    "kind" : "strata",
+    "title" : "Correctness is demonstrated against real failure, not assumed",
+    "frame" : "What behavioral guarantee does this proof point establish, and against what concrete, previously-observed failure does it hold?",
+    "consulted" : [ "EXISTING STRATA: (none yet)", "EXISTING GRAPH STRUCTURE: (none yet)" ]
+  }, {
+    "verdict" : "mint",
+    "leaf" : "Narrative_IdDerivationRobustness",
+    "title" : "Id derivation must survive malformed input, not just clean input",
+    "frame" : "Does this expression test the derivation code against a real, previously-observed malformed-input pattern, and does it confirm the code degrades safely (no crash, valid output) rather than merely working on well-formed input?",
+    "under" : [ "Proof" ],
+    "supporting_segments" : [ "src-1", "src-2" ],
+    "why" : "src-1 names the reproduced scenario as fact (a real prod pattern: a heading with no id field) and src-2 states the behavioral bar the derivation code must clear given that scenario (must not crash, must produce a valid slug) — per the position pairing, these are setup and required-outcome for a single test theme, not two independent facts. This passes the grain test: it names a subject future envelopes will keep feeding (does the id-derivation logic hold up against known-bad real-world inputs?) rather than reporting a one-time measurement. No existing leaf covers id-derivation robustness against missing-id/malformed-heading input, so it is minted fresh under the newly-minted Proof strata, where proof-point content organizationally belongs.",
+    "consulted" : [ "EXISTING STRATA: (none yet)", "EXISTING GRAPH STRUCTURE: (none yet)", "Proof (minted this response)" ]
+  } ],
+  "unplaced" : [ ]
+}
