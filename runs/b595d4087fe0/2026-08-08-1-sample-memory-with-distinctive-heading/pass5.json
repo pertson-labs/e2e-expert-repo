@@ -1,0 +1,23 @@
+{
+  "placements" : [ {
+    "supporting_segments" : [ "src-2" ],
+    "under" : null,
+    "why" : "No strata exist yet in this repo. src-2 specifies a concrete pipeline design decision (dual-path slug generation with a deterministic fallback) — squarely an architecture-grain organizational subject the taxonomy names but this repo has not yet instantiated. Minting exactly this one category, with no forced parent, per the NEW path.",
+    "verdict" : "mint",
+    "leaf" : "Architecture",
+    "kind" : "strata",
+    "title" : "technical system design and pipeline mechanics as an organizational category",
+    "frame" : "What technical design decisions, mechanisms, and guarantees define how this system's pipelines are built and made to work reliably?",
+    "consulted" : [ "EXISTING STRATA: (none yet)", "EXISTING GRAPH STRUCTURE: (none yet)" ]
+  }, {
+    "verdict" : "mint",
+    "leaf" : "Narrative_SlugGenerationFallbackDesign",
+    "title" : "the pipeline guarantees a slug even when no id is given, via a two-tier generation path",
+    "frame" : "When a memory arrives without an explicit id, does the pipeline reliably resolve a slug — first attempting the LLM id-gen call, then falling back to deterministic slugify — before committing the file?",
+    "under" : [ "Architecture" ],
+    "supporting_segments" : [ "src-1", "src-2" ],
+    "why" : "src-1 states the precondition future envelopes about this behavior will keep recurring — a submission lacking an explicit id — and src-2 states the durable design commitment (LLM-first, deterministic-fallback slug production, then successful commit) that this precondition triggers. This names a subject — how the pipeline guarantees ids/slugs under missing-id conditions — that later envelopes (tests, bugfixes, proof points about this fallback) would keep feeding, satisfying the narrative grain test rather than reporting a one-time fact. No existing narrative leaf was supplied to hold this theme, and the perspective's focus section confirms no witness-depth coverage exists for it, so nothing plausibly reusable was available.",
+    "consulted" : [ "EXISTING GRAPH STRUCTURE: (none yet)", "EXISTING STRATA: (none yet)", "PERSPECTIVE FOCUS: no direct match for slug generation / id-gen / slugify fallback", "strata mint: Architecture (this response)" ]
+  } ],
+  "unplaced" : [ ]
+}
