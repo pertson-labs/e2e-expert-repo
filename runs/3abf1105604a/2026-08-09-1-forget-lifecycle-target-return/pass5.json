@@ -1,0 +1,23 @@
+{
+  "placements" : [ {
+    "supporting_segments" : [ "src-1", "src-2", "src-3" ],
+    "under" : null,
+    "why" : "This envelope's entire content is a calibration verification record for a named instrument (Kestrelwood spectrograph) — a frequency setting checked against a dated reference artifact and confirmed to hold across its operating range. No existing strata category was supplied to hold organizational content of this shape (instrument readiness/verification as opposed to Opportunity, Strategy, Product, Architecture, Organization, Proof, or Templates), and the graph structure is empty, so no narrative leaf can host it either without a home category. This names a recurring organizational subject — future calibration runs on this or other instruments will keep feeding it — not a one-time fact, satisfying the narrative-grain test at the strata tier.",
+    "verdict" : "mint",
+    "leaf" : "Calibration",
+    "kind" : "strata",
+    "title" : "instrument readiness is established through verified calibration",
+    "frame" : "what instrument, at what setting, was verified against what reference, and does the org treat that verification as settling the instrument's readiness?",
+    "consulted" : [ ]
+  }, {
+    "verdict" : "mint",
+    "leaf" : "Narrative_InstrumentCalibrationVerification",
+    "title" : "an instrument's calibration is trusted once checked against a dated reference and shown to hold",
+    "frame" : "what instrument and setting were verified, against which reference artifact, and over what range does the verification hold?",
+    "under" : [ "Calibration" ],
+    "supporting_segments" : [ "src-1", "src-2", "src-3" ],
+    "why" : "src-1 asserts the Kestrelwood spectrograph is now calibrated at 88.4 MHz and that this was verified against the June reference plates, holding across the full observing band; src-2 and src-3 restate the same instrument, calibration value, and verification provenance as catalog fields (per the position pass's single KestrelwoodCalibrationVerified grouping and the register pass's flat instrumental-catalog reading). This is a directional theme — verified calibration as the basis for trusting an instrument's readiness — that future calibration envelopes (other instruments, other reference dates) will keep feeding, not a one-time measurement to be filed as a bare fact. No existing leaf was supplied to hold it, so it mints fresh under the newly-minted Calibration stratum rather than standing unparented.",
+    "consulted" : [ "Calibration" ]
+  } ],
+  "unplaced" : [ ]
+}
