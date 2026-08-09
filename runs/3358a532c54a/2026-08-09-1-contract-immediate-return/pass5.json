@@ -1,0 +1,23 @@
+{
+  "placements" : [ {
+    "supporting_segments" : [ "src-1", "src-2", "src-3" ],
+    "under" : null,
+    "why" : "The envelope's content is a ratified design contract for how the remember pipeline dispatches and reports async work — receipt issuance, cursor polling, no-blocking/no-loss guarantees, and the poll-or-piggyback retrieval pattern. This is structural/mechanical system-design content with no existing strata category to hold it, and it is exactly the kind of organizational category (system architecture) the org's strata taxonomy is meant to carry going forward.",
+    "verdict" : "mint",
+    "leaf" : "Architecture",
+    "kind" : "strata",
+    "title" : "system design commitments as a named organizational tier",
+    "frame" : "Does this content describe a structural or mechanical commitment about how the system is built and behaves, rather than a market, product-scope, or proof-point claim?",
+    "consulted" : [ ]
+  }, {
+    "verdict" : "mint",
+    "leaf" : "Narrative_AsyncJobDispatchContract",
+    "title" : "remember as async dispatch: receipt, poll, no loss",
+    "frame" : "As the async job contract for remember evolves, what guarantees (no blocking, no lost work) and retrieval paths (poll vs. piggyback) does each new envelope confirm, extend, or revise?",
+    "under" : [ "Architecture" ],
+    "supporting_segments" : [ "src-1", "src-2", "src-3" ],
+    "why" : "All three segments describe facets of a single design subject — remember dispatches and returns an immediate receipt (src-1), the contract guarantees no blocking call and no lost work even if the client drops the receipt (src-2), and the agent retrieves the result by polling the run or getting it piggybacked on a later call (src-3). This is a design-pattern subject future envelopes about the job pipeline will keep feeding (refinements, edge cases, exceptions to the guarantees) rather than a one-time fact or measurement, so it clears the narrative grain test. No existing leaf or strata category was supplied to hold this system-design theme, so it is minted fresh under the newly minted Architecture strata.",
+    "consulted" : [ ]
+  } ],
+  "unplaced" : [ ]
+}
