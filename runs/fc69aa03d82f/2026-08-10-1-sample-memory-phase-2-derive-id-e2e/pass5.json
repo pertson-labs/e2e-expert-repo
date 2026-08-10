@@ -1,0 +1,23 @@
+{
+  "placements" : [ {
+    "supporting_segments" : [ "src-1", "src-2" ],
+    "under" : null,
+    "why" : "Both segments are about proving correctness under a known-bad condition: src-1 reproduces a concrete prod failure pattern, src-2 states the guarantee the reproduction must satisfy. Nothing in the (empty) existing strata covers this organizational category — verification/regression evidence — so it is minted standalone as a foundational tier, matching the shape of the org's named strata vocabulary (Proof) without requiring any other strata to exist first.",
+    "verdict" : "mint",
+    "leaf" : "Proof",
+    "kind" : "strata",
+    "title" : "Verification against production failure becomes its own organizational category",
+    "frame" : "What evidence — a reproduced production fault paired with an explicit safe-behavior guarantee — establishes that a component now holds up under conditions that previously broke it?",
+    "consulted" : [ "EXISTING STRATA: (none yet)" ]
+  }, {
+    "verdict" : "mint",
+    "leaf" : "Narrative_ProductionFailureRegressionContract",
+    "title" : "reproduced production failures are tested as paired fault+guarantee contracts, not bare bug reports",
+    "frame" : "When a prod failure pattern is reproduced in a test case, does the test also assert the explicit safe-behavior contract (no crash, valid output) that the fault must not violate — or only that the fault reappears?",
+    "under" : [ "Proof" ],
+    "supporting_segments" : [ "src-1", "src-2" ],
+    "why" : "src-1 names a specific reproduced defect (missing-id heading pattern from prod) and src-2 states the non-negotiable behavioral floor that reproduction must be checked against (must not crash, must produce a valid slug). Together they name a recurring test-design subject — pairing a reproduced production fault with an explicit safety/validity guarantee — that future envelopes about defensive parsing and derive-id robustness will keep feeding; this is not a one-time fact but a thematic pattern for how failure-mode tests are constructed, so it is leaf-grain per the narrative test. No existing leaf exists to hold it (graph structure is empty), so it is minted fresh under the newly-minted Proof strata rather than left as an orphan fact.",
+    "consulted" : [ "EXISTING GRAPH STRUCTURE: (none yet)", "Proof (minted this pass)" ]
+  } ],
+  "unplaced" : [ ]
+}
