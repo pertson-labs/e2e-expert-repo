@@ -1,0 +1,23 @@
+{
+  "placements" : [ {
+    "supporting_segments" : [ "src-1", "src-2", "src-3", "src-4", "src-5" ],
+    "under" : null,
+    "why" : "This repo's strata is empty — nothing exists yet to hold a deployment-pipeline governance decision. The content (signed-manifest gate, environment scope, ownership of the control) is squarely a technical/system-design decision about how releases move through the pipeline, which is what the org's Architecture category is for. Minting it fresh rather than folding it under a narrative leaf keeps the organizational tier distinct per the strata mechanism.",
+    "verdict" : "mint",
+    "leaf" : "Architecture",
+    "kind" : "strata",
+    "title" : "System and release-pipeline structure treated as an organizational decision surface",
+    "frame" : "Does this content describe a structural or technical decision about how the system, its release pipeline, or its deployment controls are built and gated?",
+    "consulted" : [ ]
+  }, {
+    "verdict" : "mint",
+    "leaf" : "Narrative_SignedManifestGate",
+    "title" : "Deployment moves from unsigned trust to mandatory, owned, environment-wide signed-manifest gating",
+    "frame" : "Does this expression establish, scope, or justify a requirement that release artifacts carry verified signed provenance before deployment, and who is accountable for enforcing it?",
+    "under" : [ "Architecture" ],
+    "supporting_segments" : [ "src-1", "src-2", "src-3", "src-4", "src-5" ],
+    "why" : "src-1 states the gate as a standing rule ('now requires a signed release manifest before it ships'); src-3/src-4/src-5 restate and extend it as a structured specification (Gate/Scope/Owner) in the same protocol register — one performed policy: what the gate is, where it applies (staging and production), who owns it (Quinton Fairweather). This is a subject future release-train envelopes will keep feeding (gate exceptions, scope changes, ownership handoffs), not a one-time fact, so it earns a leaf per the narrative grain test. src-2's 'two unsigned artifacts reach staging last quarter' is the evidentiary rationale for the same gate ('the whole reason for the gate') — a fact that evidences this leaf's necessity rather than a standalone occurrence, so it joins as supporting content rather than minting its own leaf. No existing narrative leaf exists in this repo to reuse, so this is a fresh mint under the newly-minted Architecture strata.",
+    "consulted" : [ "Architecture" ]
+  } ],
+  "unplaced" : [ ]
+}
