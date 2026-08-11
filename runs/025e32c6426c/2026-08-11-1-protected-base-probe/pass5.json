@@ -1,0 +1,23 @@
+{
+  "placements" : [ {
+    "supporting_segments" : [ "src-1", "src-2", "src-3", "src-4", "src-5" ],
+    "under" : null,
+    "why" : "This envelope's whole content is a technical release-engineering control (a signed-manifest deployment gate, its environment scope, and its ownership) — nothing in the supplied strata (which is empty for this repo) or in the perspective's map (ns__Strategy and its consulting-methodology children) names an organizational category for engineering/system controls. The org's canonical strata vocabulary named in the role instructions includes Architecture for exactly this kind of technical system-design/control content, so it is minted here as the standalone home for the release-gate leaf, with no ancestor required.",
+    "verdict" : "mint",
+    "leaf" : "Architecture",
+    "kind" : "strata",
+    "title" : "technical system and engineering controls",
+    "frame" : "What technical system, infrastructure, or engineering control is being defined, scoped, or owned here?",
+    "consulted" : [ "ns__Strategy", "ns__Decision_DiagnosticFirst", "ns__Decision_KnowledgeMapping" ]
+  }, {
+    "verdict" : "mint",
+    "leaf" : "Narrative_SignedReleaseGate",
+    "title" : "deploys move from ungated to a signed, owned gate",
+    "frame" : "What requirement, environment scope, triggering incident, or ownership change is being added to this signed-manifest deployment gate?",
+    "under" : [ "Architecture" ],
+    "supporting_segments" : [ "src-1", "src-2", "src-3", "src-4", "src-5" ],
+    "why" : "Every segment in this envelope is one facet of a single reusable theme: a deploy pipeline gated on signed release manifests. src-1 and src-3 state the requirement itself (prose and compressed header form of the same rule); src-4 states its environmental scope; src-5 states its ownership; src-2 is the concrete incident (two unsigned artifacts reaching staging) that motivates the gate — a fact that evidences why the gate exists rather than a leaf of its own (per the grain test, 'true beyond the words it describes': future envelopes will keep feeding this leaf with new incidents, scope changes, or ownership handoffs on the same gate, not just this one Meridian instance). Nothing in the supplied graph structure (empty for this repo) or the perspective's map (consulting-methodology content under ns__Strategy — diagnostic-first engagements, knowledge-gap mapping) plausibly covers a release-engineering gate, so this is a mint rather than a reuse, placed under the newly minted Architecture strata as its home.",
+    "consulted" : [ "ns__Strategy", "ns__Decision_DiagnosticFirst", "ns__Decision_KnowledgeMapping" ]
+  } ],
+  "unplaced" : [ ]
+}
