@@ -1,0 +1,13 @@
+{
+  "placements" : [ {
+    "verdict" : "mint",
+    "leaf" : "Narrative_SlugGenerationFallbackAssurance",
+    "title" : "Missing an explicit id is not a failure mode — the fallback chain guarantees a slug",
+    "frame" : "When a memory arrives without an explicit id, does the pipeline's fallback chain (LLM id-gen, then deterministic slugify) reliably resolve to a slug and a successful commit?",
+    "under" : null,
+    "supporting_segments" : [ "src-1", "src-2" ],
+    "why" : "src-1 establishes the trigger condition future envelopes will keep recreating — a memory submitted with no explicit id field — and src-2 states the pipeline's standing, repeatable response to that condition: derive a slug via the LLM id-gen call or, failing that, the deterministic slugify fallback, then commit. This is not a one-time measurement or event but a design guarantee the pipeline is expected to satisfy on every no-id submission, which is exactly the kind of subject future test/envelope runs will keep feeding evidence into (pass, fail via LLM path, fall back to deterministic path, etc.) — the narrative grain test is met. No existing strata or narrative leaf was supplied to check against (both structures are empty for this repo), so nothing exact or close-enough exists to reuse or extend; this is a standalone NEW-tier mint with no forced parent.",
+    "consulted" : [ ]
+  } ],
+  "unplaced" : [ ]
+}
