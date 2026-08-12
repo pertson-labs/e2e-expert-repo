@@ -1,0 +1,23 @@
+{
+  "placements" : [ {
+    "supporting_segments" : [ "src-1" ],
+    "under" : null,
+    "why" : "This envelope's content is a technical specification of pipeline behavior — how the memory pipeline derives an id/slug and commits a file — not an opportunity, product, or organizational statement. Nothing in the supplied strata (which is empty) covers system/pipeline design, so a foundational strata category is needed to hold architecture-grain content going forward; no existing name is even close enough to warrant an INSPIRED lineage, so this is a NEW, standalone mint.",
+    "verdict" : "mint",
+    "leaf" : "Architecture",
+    "kind" : "strata",
+    "title" : "Pipeline internals become a specified, testable system behavior",
+    "frame" : "What system-level design requirement or component behavior is this expression specifying or exercising?",
+    "consulted" : [ "(no existing strata categories supplied)", "(no existing narrative leaves supplied)" ]
+  }, {
+    "verdict" : "mint",
+    "leaf" : "Narrative_MemoryPipelineSlugGeneration",
+    "title" : "The pipeline derives its own identity when none is supplied",
+    "frame" : "Does the expression specify or exercise how the pipeline produces an id/slug from memory content in the absence of an explicit id — via LLM id-generation, deterministic slugify fallback, or the resulting commit — and what does that reveal about the pipeline's fallback contract?",
+    "under" : [ "Architecture" ],
+    "supporting_segments" : [ "src-1" ],
+    "why" : "The segment states a recurring pipeline requirement — when no explicit id field is submitted, the system must derive a slug either through an LLM id-gen call or a deterministic slugify fallback, then commit the file — this is a subject future test envelopes on this repo will keep exercising (different content, different fallback paths, different commit outcomes), not a one-time fact. No existing narrative leaf covers id/slug-generation behavior (structure is empty), so it is minted fresh under the newly-minted Architecture strata rather than left as a bare fact.",
+    "consulted" : [ "(no existing narrative leaves supplied)", "Architecture (minted this response)" ]
+  } ],
+  "unplaced" : [ ]
+}
