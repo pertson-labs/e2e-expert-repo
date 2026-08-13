@@ -1,0 +1,23 @@
+{
+  "placements" : [ {
+    "supporting_segments" : [ "src-1", "src-2" ],
+    "under" : null,
+    "why" : "This envelope's content (a test case built to reproduce a named prod failure pattern and assert required outcomes) is organizational-proof-grain content — nothing in the supplied strata (currently empty) covers validation/testing work, and the existing narrative structure (ns__Strategy's diagnostic-methodology decisions) is a different organizational category (client-engagement strategy, not internal proof/QA work). Minting the category the content itself names, standalone, since no existing strata entry is even close.",
+    "verdict" : "mint",
+    "leaf" : "Proof",
+    "kind" : "strata",
+    "title" : "Validation work earns its own organizational category",
+    "frame" : "what does this artifact prove, and what evidence does it produce that a fix holds under the real failure conditions it targets?",
+    "consulted" : [ "ns__Strategy", "ns__Decision_DiagnosticFirst", "ns__Decision_KnowledgeMapping" ]
+  }, {
+    "verdict" : "mint",
+    "leaf" : "Narrative_TestsReproduceProdFailurePatterns",
+    "title" : "Regression tests are built to reproduce and guard against known production failures",
+    "frame" : "what production failure pattern is this test reproducing, and what must remain true of the system's behavior (no crash, valid output) for the fix to be considered proven?",
+    "under" : [ "Proof" ],
+    "supporting_segments" : [ "src-1", "src-2" ],
+    "why" : "src-1 names the specific prod failure pattern being reproduced (missing-id, markdown heading with no id field) and src-2 states the acceptance criteria that reproduction must satisfy (must not crash; must produce a valid slug). Together these are not a one-time fact but a recurring theme this repo will keep feeding as more regression/e2e cases reproduce other prod failure patterns and assert required outcomes against them — the narrative grain test is met. No existing leaf (ns__Decision_DiagnosticFirst, ns__Decision_KnowledgeMapping) touches testing or failure reproduction; both live under client-engagement Strategy, a different subject entirely. Minted fresh under the newly-minted Proof strata since nothing existing is even close.",
+    "consulted" : [ "ns__Strategy", "ns__Decision_DiagnosticFirst", "ns__Decision_KnowledgeMapping", "Proof" ]
+  } ],
+  "unplaced" : [ ]
+}
