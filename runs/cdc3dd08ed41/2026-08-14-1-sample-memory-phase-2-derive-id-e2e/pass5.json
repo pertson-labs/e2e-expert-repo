@@ -1,0 +1,23 @@
+{
+  "placements" : [ {
+    "supporting_segments" : [ "src-1", "src-2" ],
+    "under" : null,
+    "why" : "Both segments describe an E2E test's design: it reproduces a documented production failure pattern (src-1) and states hard acceptance criteria that constitute proof the fix holds (src-2, 'must not crash; must produce a valid slug'). Nothing in the existing strata (currently empty) covers organizational content about validation/testing/proof-of-correctness. This is the first envelope in the repo to carry that kind of content, so per the NEW check it is minted standalone with no forced parent — a strata mint does not require its own ancestor to exist first.",
+    "verdict" : "mint",
+    "leaf" : "Proof",
+    "kind" : "strata",
+    "title" : "Evidence of correctness is organized as its own category, separate from strategy or architecture",
+    "frame" : "Does this content establish or validate a guarantee about system behavior — a test, a measurement, a reproduction of a known failure — rather than describe what to build or why?",
+    "consulted" : [ "EXISTING STRATA: (none yet)", "EXISTING GRAPH STRUCTURE: (none yet)" ]
+  }, {
+    "verdict" : "mint",
+    "leaf" : "Narrative_RegressionTestsReproduceProdFailures",
+    "title" : "A regression test earns its keep by faithfully reproducing a real production failure and then enforcing the guarantees that would have caught it",
+    "frame" : "Does this test case name an actual observed production failure pattern (not a synthetic stand-in), and does it also assert the concrete behavioral guarantees — no crash, valid output — that a correct fix must satisfy?",
+    "under" : [ "Proof" ],
+    "supporting_segments" : [ "src-1", "src-2" ],
+    "why" : "src-1 grounds the test as an accurate reproduction of a known prod failure pattern (missing-id, ## heading), and src-2 sets the acceptance criteria (must not crash, must produce a valid slug) that make the reproduction meaningful rather than decorative. Together these describe a recurring practice — not a one-off fact — that future envelopes describing other E2E/regression cases in this pipeline will keep feeding: each new test case will again pair 'reproduces X real failure' with 'must satisfy Y guarantee.' The graph and strata are both empty, so nothing existing plausibly holds this theme; it is minted fresh under the newly-minted Proof strata category, which is the closest organizational home for validation content.",
+    "consulted" : [ "EXISTING GRAPH STRUCTURE: (none yet)", "this response: Proof (strata mint)" ]
+  } ],
+  "unplaced" : [ ]
+}
