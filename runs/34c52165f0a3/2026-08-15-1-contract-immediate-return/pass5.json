@@ -1,0 +1,23 @@
+{
+  "placements" : [ {
+    "supporting_segments" : [ "src-1", "src-2", "src-3" ],
+    "under" : null,
+    "why" : "The ratified async job contract for remember — its return timing, failure guarantees, and retrieval mechanism — is a technical system-design decision. Nothing in the supplied (empty) strata covers this, and the content is squarely organizational-architecture in nature, not a product, proof, or strategy statement. Minting the canonical 'Architecture' stratum as the standalone home for this and future system-design narratives.",
+    "verdict" : "mint",
+    "leaf" : "Architecture",
+    "kind" : "strata",
+    "title" : "the system's technical design decisions become a tracked organizational category",
+    "frame" : "Does this expression record a decision, contract, or mechanism governing how the system is built or how its components interoperate?",
+    "consulted" : [ ]
+  }, {
+    "verdict" : "mint",
+    "leaf" : "Narrative_AsyncRememberContract",
+    "title" : "remember's contract shifts from a blocking call to an async job with receipt-based tracking",
+    "frame" : "What does this expression establish about remember's async contract — its return timing, its failure-safety guarantees, or the poll-or-piggyback mechanics by which results are retrieved?",
+    "under" : [ "Architecture" ],
+    "supporting_segments" : [ "src-1", "src-2", "src-3" ],
+    "why" : "All three segments describe facets of one ratified design: remember returns a receipt immediately rather than blocking (src-1), the contract guarantees no blocking and no lost work even if the receipt is dropped (src-2), and results are obtained either by polling or piggybacked delivery (src-3). This is a subject future envelopes will keep feeding as the contract is exercised, extended, or revised — not a one-time fact, so it earns its own leaf per the narrative grain test. No existing narrative leaf exists in this repo to hold it, so it is minted fresh under the newly-placed Architecture stratum.",
+    "consulted" : [ ]
+  } ],
+  "unplaced" : [ ]
+}
