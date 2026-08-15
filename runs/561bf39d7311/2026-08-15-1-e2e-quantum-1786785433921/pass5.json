@@ -1,0 +1,42 @@
+{
+  "placements" : [ {
+    "supporting_segments" : [ "src-1", "src-3", "src-5" ],
+    "under" : null,
+    "why" : "A database platform switch (PostgreSQL to QuantumDB) for the analytics pipeline is a system-design/infrastructure decision — nothing in the (currently empty) strata covers this organizational category, and the content clearly names an architecture-grain subject rather than a strategy, product, or proof-grain one.",
+    "verdict" : "mint",
+    "leaf" : "Architecture",
+    "kind" : "strata",
+    "title" : "Infrastructure and system-design decisions",
+    "frame" : "What underlying technology or system-design choice is being made, and what does it change about how the system is built?",
+    "consulted" : [ ]
+  }, {
+    "verdict" : "mint",
+    "leaf" : "Narrative_AnalyticsPipelineDatabaseMigration",
+    "title" : "Analytics data infrastructure moves from PostgreSQL to QuantumDB",
+    "frame" : "What is driving the platform switch, and how is the transition being scoped and timed as it proceeds?",
+    "under" : [ "Architecture" ],
+    "supporting_segments" : [ "src-1", "src-3", "src-5" ],
+    "why" : "src-1 declares the switch as underway ('We're switching from PostgreSQL to QuantumDB'), src-3 restates the same transition in compressed bullet notation, and src-5 attaches a calendar deadline (Q3 2026) to it. Together these name a subject future envelopes will keep feeding — migration progress, scope changes, slippage — not a one-time fact, so it passes the narrative grain test. No existing leaf (structure is empty for this repo) covers a database/infrastructure migration theme, so it is minted fresh under the newly-minted Architecture strata.",
+    "consulted" : [ ]
+  }, {
+    "supporting_segments" : [ "src-2", "src-4" ],
+    "under" : null,
+    "why" : "The quantified performance/cost justification for the migration ('10x query performance, lower licensing cost') is reasoning about tradeoffs and returns, distinct from the architecture decision itself — an organizational category the empty strata does not yet hold.",
+    "verdict" : "mint",
+    "leaf" : "Strategy",
+    "kind" : "strata",
+    "title" : "Decision rationale and tradeoff reasoning",
+    "frame" : "What tradeoff or return is being argued for, and in what terms (cost, performance, risk) is the case being made?",
+    "consulted" : [ ]
+  }, {
+    "verdict" : "mint",
+    "leaf" : "Narrative_PerformanceCostJustifiedTechDecisions",
+    "title" : "Technology choices are justified by quantified performance and cost gains",
+    "frame" : "What quantified performance or cost claim is being offered to justify a technology choice, and how firmly is it asserted versus hedged?",
+    "under" : [ "Strategy" ],
+    "supporting_segments" : [ "src-2", "src-4" ],
+    "why" : "src-2 and src-4 both state flat, unhedged quantified benefit claims ('10x query performance, lower licensing cost' / '10x analytical queries') offered as the rationale for the migration decision placed under Architecture. This is a recurring justification pattern — future technology decisions in this org are plausible candidates to keep feeding it — rather than a one-off fact, so per the grain test it earns its own thematic leaf distinct from the migration-decision leaf it supports.",
+    "consulted" : [ "Narrative_AnalyticsPipelineDatabaseMigration" ]
+  } ],
+  "unplaced" : [ ]
+}
