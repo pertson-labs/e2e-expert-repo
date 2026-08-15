@@ -1,0 +1,23 @@
+{
+  "placements" : [ {
+    "supporting_segments" : [ "src-1", "src-2" ],
+    "under" : null,
+    "why" : "Both segments describe a required, repeatable system behavior (id/slug resolution and commit) rather than a one-off event — organizational-strategy content about how the pipeline is engineered, and no strata category exists yet to hold technical-design content.",
+    "verdict" : "mint",
+    "leaf" : "Architecture",
+    "kind" : "strata",
+    "title" : "Pipeline behavior is designed, not incidental",
+    "frame" : "What structural guarantee or system-level requirement does this expression describe about how the pipeline is built to behave?",
+    "consulted" : [ ]
+  }, {
+    "verdict" : "mint",
+    "leaf" : "Narrative_MemoryPipelineIdSlugFallback",
+    "title" : "Memory ids resolve through a deterministic fallback chain",
+    "frame" : "When a memory arrives without an explicit id, what guarantee does the pipeline provide for producing and committing a slug?",
+    "under" : [ "Architecture" ],
+    "supporting_segments" : [ "src-1", "src-2" ],
+    "why" : "src-1 establishes the missing-id condition and src-2 states the pipeline's required response — LLM id-gen or deterministic slugify fallback, then commit — together naming a durable system-behavior theme (not a one-time fact) that future envelopes about the memory pipeline's id/slug handling will keep feeding; no existing leaf or strata covers pipeline id generation, so no reuse target exists.",
+    "consulted" : [ ]
+  } ],
+  "unplaced" : [ ]
+}
