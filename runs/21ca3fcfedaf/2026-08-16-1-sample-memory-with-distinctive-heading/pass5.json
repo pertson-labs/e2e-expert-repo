@@ -1,0 +1,23 @@
+{
+  "placements" : [ {
+    "supporting_segments" : [ "src-1", "src-2" ],
+    "under" : null,
+    "why" : "Both segments describe a mandatory pipeline mechanism — how the system resolves identity when none is supplied — which is an architecture/system-design concern, not a product, strategy, or proof-point concern. No existing strata category covers this (strata is currently empty), and this is exactly the kind of foundational organizational category (matching the named example set: Opportunity/Strategy/Product/Architecture/...) that the content itself calls for. Minted standalone per the NEW check since nothing existing is even close.",
+    "verdict" : "mint",
+    "leaf" : "Architecture",
+    "kind" : "strata",
+    "title" : "System-design decisions as an organizational lens",
+    "frame" : "What architectural or system-behavior commitments does this envelope reveal about how the system is built to work?",
+    "consulted" : [ ]
+  }, {
+    "verdict" : "mint",
+    "leaf" : "Narrative_PipelineIdentityResolution",
+    "title" : "Absence of a supplied id resolves through a pipeline-owned generation path, not human assignment",
+    "frame" : "When an id is missing, what path — LLM id-gen or deterministic slugify fallback — does the pipeline take to derive and commit an identity, and does that choice pattern hold or drift across future envelopes?",
+    "under" : [ "Architecture" ],
+    "supporting_segments" : [ "src-1", "src-2" ],
+    "why" : "src-1 establishes the precondition (no explicit id field) and src-2 states the pipeline's required response (produce a slug via LLM id-gen or deterministic slugify fallback, then commit). Together these describe a recurring system behavior/subject — how identity gets resolved in the absence of an explicit id — that future envelopes describing this pipeline's behavior will keep feeding, satisfying the narrative grain test rather than stating a one-time fact. No existing narrative leaf exists yet (graph structure supplied is empty), so nothing could be reused; minted under the newly-minted Architecture strata since this is a system-design/behavior theme, not product or strategy.",
+    "consulted" : [ "Architecture (minted in this response)" ]
+  } ],
+  "unplaced" : [ ]
+}
