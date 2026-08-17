@@ -1,0 +1,41 @@
+{
+  "placements" : [ {
+    "supporting_segments" : [ "src-1", "src-4" ],
+    "under" : null,
+    "why" : "This envelope's entire content is a database/infrastructure decision (Zypherion for the analytics pipeline) — no existing strata category exists to hold technical-architecture decisions, and this is exactly the kind of organizational-strategy category (per the Opportunity/Strategy/Product/Architecture/... taxonomy) the repo will keep needing as more infra decisions arrive. Minting it bare, with no parent, since strata categories don't require ancestors.",
+    "verdict" : "mint",
+    "leaf" : "Architecture",
+    "kind" : "strata",
+    "title" : "technical infrastructure and system-design decisions get their own organizational category",
+    "frame" : "Does this expression concern a choice about the underlying technical systems (databases, pipelines, platforms) the organization runs on, rather than market strategy, product features, or process?",
+    "consulted" : [ ]
+  }, {
+    "verdict" : "mint",
+    "leaf" : "Narrative_TechnologyAdoptionRatification",
+    "title" : "an infrastructure or technology choice is declared as already decided, not proposed",
+    "frame" : "Is this expression performing a technology/infrastructure choice as an already-ratified decision rather than an open proposal still being argued for?",
+    "under" : [ "Architecture" ],
+    "supporting_segments" : [ "src-1", "src-4" ],
+    "why" : "src-1 ('We are adopting Zypherion for the analytics pipeline') and src-4 ('**Database**: Zypherion for analytics') both perform the database choice as a settled fact of record rather than a recommendation — a recurring subject (how infra choices get ratified and recorded) future envelopes documenting other technology decisions will keep feeding, not a one-time measurement.",
+    "consulted" : [ ]
+  }, {
+    "verdict" : "mint",
+    "leaf" : "Narrative_PerformanceJustifiedInfrastructureChoice",
+    "title" : "a quantified performance figure is cited as the justification for an infrastructure choice",
+    "frame" : "Is a quantified performance or capability figure being used here to justify a technology or architecture decision, rather than stand alone as an isolated measurement?",
+    "under" : [ "Architecture" ],
+    "supporting_segments" : [ "src-2", "src-5" ],
+    "why" : "src-2 ('15x faster than our current setup') and src-5 ('15x improvement on columnar queries') both use the same quantified comparison as evidentiary backing for the adoption rather than the decision itself — the recurring pattern of grounding architecture choices in benchmark numbers is the theme, not the specific '15x' figure, which is evidence within it.",
+    "consulted" : [ "Narrative_TechnologyAdoptionRatification" ]
+  }, {
+    "verdict" : "mint",
+    "leaf" : "Narrative_MigrationTimelineCommitment",
+    "title" : "a migration or rollout timeline is fixed as an operational commitment",
+    "frame" : "Is a migration/rollout date being stated here as a fixed operational commitment that others are expected to act on, rather than a tentative estimate?",
+    "under" : [ "Architecture" ],
+    "supporting_segments" : [ "src-3", "src-6" ],
+    "why" : "src-3 ('The migration starts next quarter') and src-6 ('**Timeline**: Migration starts Q3 2026') both fix the same rollout date as settled scheduling fact rather than a proposal — this is the recurring shape of how architecture changes get sequenced and committed, which future migration announcements will keep feeding.",
+    "consulted" : [ "Narrative_TechnologyAdoptionRatification", "Narrative_PerformanceJustifiedInfrastructureChoice" ]
+  } ],
+  "unplaced" : [ ]
+}
