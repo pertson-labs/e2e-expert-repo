@@ -1,0 +1,23 @@
+{
+  "placements" : [ {
+    "supporting_segments" : [ "src-1", "src-2", "src-3", "src-4", "src-5" ],
+    "under" : null,
+    "why" : "The entire envelope is a deployment-gate specification for the Meridian release train — a signed-manifest requirement, its environment scope, and its rationale. Nothing in the supplied strata (which is empty for this repo) covers release-pipeline governance, and this content is squarely that: a technical control on how artifacts move through staging and production. Minting Architecture as a standalone top-level category (no parent required) gives this and future release-engineering content a home; it is the NEW case since nothing existing is even close.",
+    "verdict" : "mint",
+    "leaf" : "Architecture",
+    "kind" : "strata",
+    "title" : "release-pipeline and deployment governance as its own organizational category",
+    "frame" : "Does this envelope's content concern how technical systems, deploy pipelines, and release gates are structured and controlled, as distinct from product, strategy, proof, or organizational-ownership concerns?",
+    "consulted" : [ "existing strata categories (none supplied — empty for this repo)" ]
+  }, {
+    "verdict" : "mint",
+    "leaf" : "Narrative_SignedManifestReleaseGate",
+    "title" : "release integrity enforced by requiring a signed manifest before a Meridian deploy ships",
+    "frame" : "Is this instance expressing the signed-manifest gate as closing a specific past gap (unsigned artifacts that already reached an environment), or as a standing mandate whose scope and ownership are what's being fixed in place?",
+    "under" : [ "Architecture" ],
+    "supporting_segments" : [ "src-1", "src-2", "src-3", "src-4", "src-5" ],
+    "why" : "src-1, src-3, src-4, and src-5 together state one recurring subject — Meridian deploys now require a signed release manifest, the rule applies to both staging and production, and Quinton Fairweather owns it — phrased once as flowing prose (src-1) and once as compressed bolded headers (src-3/4/5), per the style and conviction reads that these are the same enacted stance in two cadences. src-2 is the incident that motivated the gate ('two unsigned artifacts reach staging last quarter... the whole reason for the gate'); per the narrative grain test it is a one-time fact, not a subject of its own, so it joins this leaf's support as the gate's rationale rather than minting separately. This is a subject future envelopes will keep feeding — new deploys tested against the gate, incidents, scope or ownership changes — which is why it earns a leaf rather than staying position-grain. No existing narrative leaf was available to reuse; the graph is empty for this repo.",
+    "consulted" : [ "existing narrative leaves (none supplied — empty for this repo)", "Architecture (strata, minted alongside this placement)" ]
+  } ],
+  "unplaced" : [ ]
+}
