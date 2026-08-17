@@ -1,0 +1,23 @@
+{
+  "placements" : [ {
+    "supporting_segments" : [ "src-1", "src-2" ],
+    "under" : null,
+    "why" : "The envelope's content describes a required, repeatable pipeline behavior — deriving a slug and committing a file when no explicit id is submitted — which is organizational-architecture grain (a system-design guarantee) rather than a one-off fact or a product/strategy concern. No strata exists yet in this repo, and nothing supplied is even close, so this names the foundational category the content calls for.",
+    "verdict" : "mint",
+    "leaf" : "Architecture",
+    "kind" : "strata",
+    "title" : "Pipeline behavior under missing-id conditions is a system requirement, not an incident",
+    "frame" : "What must the pipeline's own mechanics guarantee when an expected input is absent?",
+    "consulted" : [ ]
+  }, {
+    "verdict" : "mint",
+    "leaf" : "Narrative_MemoryIdSlugFallback",
+    "title" : "Missing explicit ids resolve through a deterministic slug-derivation fallback",
+    "frame" : "When a memory arrives without an explicit id, does the pipeline reliably derive a committable slug — via the LLM id-gen path or the deterministic fallback — and does the file actually commit?",
+    "under" : [ "Architecture" ],
+    "supporting_segments" : [ "src-1", "src-2" ],
+    "why" : "src-1 establishes the triggering condition (no explicit id field submitted) and src-2 states the pipeline's required response — produce a slug via LLM id-gen or deterministic slugify fallback, then commit the file successfully. Together they name a recurring subject future envelopes about id-generation robustness will keep feeding, not a single fact: the grain test is met. No existing leaf structure was supplied to reuse, so this is minted fresh under the newly-minted Architecture strata.",
+    "consulted" : [ ]
+  } ],
+  "unplaced" : [ ]
+}
