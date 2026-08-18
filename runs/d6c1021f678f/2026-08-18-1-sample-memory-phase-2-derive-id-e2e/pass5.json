@@ -1,0 +1,32 @@
+{
+  "placements" : [ {
+    "supporting_segments" : [ "src-1", "src-2" ],
+    "under" : null,
+    "why" : "Both segments describe test-case construction and acceptance criteria for the derive-id pipeline — evidentiary/validation work, not opportunity framing, strategy, product definition, or architecture. Nothing exists yet in this repo's strata; 'Proof' is the org's canonical category for this kind of content and nothing here calls for inventing a different one.",
+    "verdict" : "mint",
+    "leaf" : "Proof",
+    "kind" : "strata",
+    "title" : "Validation work — proving the pipeline holds under real-world failure conditions",
+    "frame" : "Does this content establish or exercise evidence that the system behaves correctly under conditions drawn from production, rather than describing what to build or why?",
+    "consulted" : [ ]
+  }, {
+    "verdict" : "mint",
+    "leaf" : "Narrative_ProdFailureReproductionAsTestGrounding",
+    "title" : "Test cases are grounded in reproduced production failures, not invented scenarios",
+    "frame" : "Does this expression tie a test case's setup to an actual, named failure pattern observed in production, rather than a synthetic or hypothetical one?",
+    "under" : [ "Proof" ],
+    "supporting_segments" : [ "src-1" ],
+    "why" : "src-1 asserts that the test reproduces a specific, named prod failure pattern (## heading with no id field) — a methodology of grounding test fixtures in real production failures. This is a recurring practice future envelopes about this pipeline (and others) will keep instantiating, not a one-time fact about a single test run, so it clears the narrative grain test. No existing leaf or strata (both empty) covers this theme, so it is minted standalone under the newly-minted Proof strata.",
+    "consulted" : [ ]
+  }, {
+    "verdict" : "mint",
+    "leaf" : "Narrative_CrashPreventionAsAcceptanceInvariant",
+    "title" : "Pipeline correctness is defined by never crashing and always producing valid output, not merely by correct output",
+    "frame" : "Does this expression treat crash-avoidance and always-valid output as a mandatory, non-negotiable invariant for the pipeline, rather than a best-effort goal?",
+    "under" : [ "Proof" ],
+    "supporting_segments" : [ "src-2" ],
+    "why" : "src-2 states an operational requirement — 'must not crash; must produce a valid slug' — as a settled, unhedged constraint (per the conviction read: 'decision', not a debated claim). This is a robustness invariant likely to recur as an acceptance bar across future derive-id and related pipeline work, distinct from the failure-reproduction theme of src-1, so it clears the grain test as its own theme rather than folding into the reproduction leaf.",
+    "consulted" : [ "Narrative_ProdFailureReproductionAsTestGrounding" ]
+  } ],
+  "unplaced" : [ ]
+}
