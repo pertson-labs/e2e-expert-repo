@@ -1,0 +1,23 @@
+{
+  "placements" : [ {
+    "supporting_segments" : [ "src-1", "src-2", "src-3" ],
+    "under" : null,
+    "why" : "Both the graph structure and the strata tier are empty for this repo, so no existing category can be reused (EXACT fails) and nothing supplied is even close enough to relate to (INSPIRED fails, no lineage target exists). The envelope's entire content — Quill's narrated verification and the structured Instrument/Calibration record fields — is squarely an instrument-calibration-verification record, matching the org's own named strata vocabulary ('Calibration') cited in the pass instructions. This is the NEW case: nothing existing is close, but the content itself names the organizational category. Minting it standalone with no forced parent, per the rule that a strata mint usually needs no ancestor minted first.",
+    "verdict" : "mint",
+    "leaf" : "Calibration",
+    "kind" : "strata",
+    "title" : "InstrumentCalibrationAndVerification",
+    "frame" : "What instrument calibration and verification claims live in this organizational category, and against what reference standards are they checked?",
+    "consulted" : [ ]
+  }, {
+    "verdict" : "mint",
+    "leaf" : "Narrative_InstrumentCalibrationVerification",
+    "title" : "CalibrationConfirmedAgainstReferenceStandard",
+    "frame" : "Does this instrument's stated calibration hold when checked against an independent reference standard, and across what range does that verification extend?",
+    "under" : [ "Calibration" ],
+    "supporting_segments" : [ "src-1", "src-2", "src-3" ],
+    "why" : "src-1 narrates the team verifying the Kestrelwood spectrograph's 88.4 MHz calibration against June reference plates and holding across the observing band; src-2 and src-3 render the same content as structured record fields (instrument identity, calibration status with verification lineage). This passes the narrative grain test: 'calibration verified against a reference standard' is a subject future calibration envelopes (new instruments, new reference dates, re-verifications) will keep feeding — it is not itself a one-time fact but the recurring theme those facts evidence. The specific 88.4 MHz figure and June reference plates are the evidence, not the leaf. No existing narrative leaf exists in this fresh graph to reuse, so this is minted fresh under the newly-minted Calibration strata (EXACT/INSPIRED both fail for the same reason as the strata mint; this is the NEW case at leaf grain).",
+    "consulted" : [ ]
+  } ],
+  "unplaced" : [ ]
+}
