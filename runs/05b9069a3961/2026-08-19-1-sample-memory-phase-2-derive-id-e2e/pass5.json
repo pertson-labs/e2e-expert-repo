@@ -1,0 +1,23 @@
+{
+  "placements" : [ {
+    "supporting_segments" : [ "src-1", "src-2" ],
+    "under" : null,
+    "why" : "Both segments describe an E2E test artifact whose entire content is verification: reproducing a real prod failure pattern and stating pass/fail conditions ('must not crash', 'must produce a valid slug'). No strata exists yet in this repo (supplied strata is empty), and nothing in the supplied graph structure covers organizational placement for test/proof content, so this category is minted fresh as the org-level home for verification work, standalone with no forced parent.",
+    "verdict" : "mint",
+    "leaf" : "Proof",
+    "kind" : "strata",
+    "title" : "Verification is anchored to real production failure modes, not hypothetical ones",
+    "frame" : "What production failure or hardening requirement does this piece of verification work exist to demonstrate?",
+    "consulted" : [ "EXISTING STRATA: (none yet)", "EXISTING GRAPH STRUCTURE: (none yet)" ]
+  }, {
+    "verdict" : "mint",
+    "leaf" : "Narrative_IdDerivationRobustness",
+    "title" : "Id derivation is hardened to survive malformed input rather than fail on it",
+    "frame" : "What malformed, missing, or edge-case input has the derive-id pipeline now been shown to survive without crashing, and does it still yield a valid slug?",
+    "under" : [ "Proof" ],
+    "supporting_segments" : [ "src-1", "src-2" ],
+    "why" : "src-1 names a specific reproduction (missing-id heading from prod) — a fact, not its own leaf per the grain test — offered as evidence for a broader, recurring subject: the id-derivation pipeline's robustness against malformed markdown input. src-2 states the general requirement ('must not crash; must produce a valid slug') that this specific case instantiates. Together they point at a theme future test envelopes (more failure patterns, more edge cases) will keep feeding, not a one-time event, so it earns a leaf rather than staying a bare fact. No existing narrative leaf was supplied to reuse, so it is minted under the newly-minted Proof stratum.",
+    "consulted" : [ "EXISTING STRATA: (none yet)", "EXISTING GRAPH STRUCTURE: (none yet)", "Proof (minted this response)" ]
+  } ],
+  "unplaced" : [ ]
+}
