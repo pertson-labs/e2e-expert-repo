@@ -1,0 +1,23 @@
+{
+  "placements" : [ {
+    "supporting_segments" : [ "src-1" ],
+    "under" : null,
+    "why" : "No strata exists yet in this repo. The segment's content — how the memory-submission pipeline resolves an id when none is given, choosing between an LLM call and a deterministic fallback before committing — is squarely a system-design/robustness concern, matching the organization's known strata vocabulary (Architecture) rather than any product, proof, or organizational category.",
+    "verdict" : "mint",
+    "leaf" : "Architecture",
+    "kind" : "strata",
+    "title" : "pipeline behavior under missing input is a first-class design concern",
+    "frame" : "Does this expression describe how the system's internal machinery is designed to behave — including its fallback and recovery paths — rather than what it accomplishes for a user or the business?",
+    "consulted" : [ ]
+  }, {
+    "verdict" : "mint",
+    "leaf" : "Narrative_IdGenerationFallbackPipeline",
+    "title" : "missing ids are resolved through a graduated fallback, not treated as failure",
+    "frame" : "When an envelope arrives without an explicit id, does the pipeline reliably produce one — via LLM id-gen or the deterministic slugify fallback — and carry the commit through to success?",
+    "under" : [ "Architecture" ],
+    "supporting_segments" : [ "src-1" ],
+    "why" : "The graph and strata are both empty, so nothing existing can hold this content. The segment names a recurring pipeline behavior — slug/id resolution with a two-tier fallback (LLM-first, deterministic-second) that must still end in a successful file commit — which is a subject future envelopes about this pipeline's id-generation and commit behavior will keep feeding, not a one-time fact (the fact-grain reading would be 'this one envelope committed successfully,' which is not what's asserted; the assertion is about how the pipeline is built to behave in general).",
+    "consulted" : [ ]
+  } ],
+  "unplaced" : [ ]
+}
