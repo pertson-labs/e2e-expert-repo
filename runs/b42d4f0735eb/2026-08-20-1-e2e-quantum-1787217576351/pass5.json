@@ -1,0 +1,32 @@
+{
+  "placements" : [ {
+    "supporting_segments" : [ "src-1", "src-3", "src-5" ],
+    "under" : null,
+    "why" : "No strata exist yet in this repo. This envelope enacts a concrete system-architecture decision (a database engine swap for the analytics pipeline) with a committed timeline — the organizational-strategy category this belongs under is a technical/system-architecture one, and nothing in the supplied (empty) strata covers it, so it is minted standalone as the foundational category future architecture-decision envelopes will nest under.",
+    "verdict" : "mint",
+    "leaf" : "Architecture",
+    "kind" : "strata",
+    "title" : "Architecture as a Decision Domain",
+    "frame" : "What structural or technical system decisions are being made, and what do they commit the organization to?",
+    "consulted" : [ ]
+  }, {
+    "verdict" : "mint",
+    "leaf" : "Narrative_DatabaseMigrationDecision",
+    "title" : "Database Migration as an Enacted Commitment",
+    "frame" : "What system migration has been decided, and what timeline is it pinned to?",
+    "under" : [ "Architecture" ],
+    "supporting_segments" : [ "src-1", "src-3", "src-5" ],
+    "why" : "src-1 performs the switch as decided ('we're switching'), src-3 restates the same PostgreSQL→QuantumDB move as a settled bolded header, and src-5 pins a Q3 2026 commitment date to that same decision — together these name a recurring subject (architectural migration decisions and their commitment timelines) rather than a one-time fact, satisfying the narrative grain test. No existing leaf or hub was supplied to hold this theme, so it is minted fresh under the newly-minted Architecture strata.",
+    "consulted" : [ ]
+  }, {
+    "verdict" : "mint",
+    "leaf" : "Narrative_PerformanceCostRationale",
+    "title" : "Quantified Performance and Cost as Migration Justification",
+    "frame" : "What measured performance or cost benefit is being marshaled to justify an architectural change?",
+    "under" : [ "Architecture" ],
+    "supporting_segments" : [ "src-2", "src-4" ],
+    "why" : "src-2's '10x query performance, lower licensing cost' and src-4's bulleted restatement '10x analytical queries' both offer quantified benefit claims as the rationale for the migration rather than the decision itself — this is a recurring justificatory pattern (performance/cost evidence marshaled for architecture changes) distinct from the enactment leaf, so it is minted as its own leaf rather than folded into the decision leaf or left as a bare fact.",
+    "consulted" : [ "Narrative_DatabaseMigrationDecision" ]
+  } ],
+  "unplaced" : [ ]
+}
