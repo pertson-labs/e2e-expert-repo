@@ -1,0 +1,23 @@
+{
+  "placements" : [ {
+    "supporting_segments" : [ "src-2" ],
+    "under" : null,
+    "why" : "The content describes a concrete pipeline mechanism (slug generation via LLM id-gen or deterministic fallback, then file commit) — technical/architecture-grain material with no existing strata category to hold it. Minting the canonical 'Architecture' stratum named in the org's taxonomy gives this and future pipeline-mechanism content a home.",
+    "verdict" : "mint",
+    "leaf" : "Architecture",
+    "kind" : "strata",
+    "title" : "the pipeline's technical build and operational mechanics as an organizing category",
+    "frame" : "what technical mechanism or system behavior governing the pipeline does this content describe?",
+    "consulted" : [ ]
+  }, {
+    "verdict" : "mint",
+    "leaf" : "Narrative_IdGenerationFallbackGuarantee",
+    "title" : "slug generation must resolve to a committable slug even without an explicit id",
+    "frame" : "when the primary id-generation path is unavailable or an explicit id is omitted, does the deterministic fallback still guarantee a committable slug?",
+    "under" : [ "Architecture" ],
+    "supporting_segments" : [ "src-1", "src-2" ],
+    "why" : "src-1 establishes the precondition (no explicit id submitted) and src-2 states the pipeline's obligation to still produce a slug — via LLM id-gen or a deterministic slugify fallback — and commit successfully. Together these describe a durable design guarantee (dual-path slug generation ensuring the pipeline never stalls for lack of an id) rather than a one-off fact, so it's leaf-grain: future envelopes about this fallback behavior would keep feeding it. No existing leaf covers this theme.",
+    "consulted" : [ "Architecture" ]
+  } ],
+  "unplaced" : [ ]
+}
