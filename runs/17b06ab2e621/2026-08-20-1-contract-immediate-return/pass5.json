@@ -1,0 +1,23 @@
+{
+  "placements" : [ {
+    "supporting_segments" : [ "src-1", "src-2", "src-3" ],
+    "under" : null,
+    "why" : "This envelope's content is a ratified system-design contract (async job dispatch, receipt, polling) — an organizational category for architecture-level decisions doesn't yet exist in strata, and this content is exactly the shape of thing that category should hold going forward.",
+    "verdict" : "mint",
+    "leaf" : "Architecture",
+    "kind" : "strata",
+    "title" : "system design decisions get fixed as durable contracts",
+    "frame" : "what architectural contract or invariant is being ratified here, and what future work will be judged against it?",
+    "consulted" : [ ]
+  }, {
+    "verdict" : "mint",
+    "leaf" : "Narrative_AsyncRememberContract",
+    "title" : "remember becomes an async dispatch-and-poll contract rather than a blocking call",
+    "frame" : "what does the ratified async remember contract guarantee about latency, durability, and how results reach the consuming agent, and how do later envelopes test, extend, or revise those guarantees?",
+    "under" : [ "Architecture" ],
+    "supporting_segments" : [ "src-1", "src-2", "src-3" ],
+    "why" : "All three segments describe facets of one subject future envelopes will keep feeding: the async remember contract's shape (receipt-in-seconds, no blocking, no lost work, poll-or-piggyback delivery). This is a directional design theme, not a one-time fact — it names the SUBJECT (the contract's nature) rather than a measurement or single event, so it clears the narrative grain test. No existing leaf covers it since the graph is empty for this repo.",
+    "consulted" : [ ]
+  } ],
+  "unplaced" : [ ]
+}
