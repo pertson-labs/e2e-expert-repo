@@ -1,0 +1,32 @@
+{
+  "placements" : [ {
+    "supporting_segments" : [ "src-1", "src-3", "src-4", "src-5" ],
+    "under" : null,
+    "why" : "This envelope introduces a mandatory deployment gate spanning staging and production with a named owner — engineering release governance with no existing organizational category to hold it. Strata is empty, and this content's shape (a technical process control with scope and ownership) is the first instance legible as its own top-level organizational category rather than a leaf under something else.",
+    "verdict" : "mint",
+    "leaf" : "Architecture",
+    "kind" : "strata",
+    "title" : "Deployment process controls become an organizational strata category",
+    "frame" : "Does this content define a technical infrastructure or release-process governance control that organizational strategy must nest under?",
+    "consulted" : [ "EXISTING STRATA: none yet" ]
+  }, {
+    "verdict" : "mint",
+    "leaf" : "Narrative_DeploymentGateAsSecurityControl",
+    "title" : "Unsigned artifacts become impossible through a mandatory signed-manifest gate",
+    "frame" : "What deployment failure does this gate close, and how far does its mandatory reach extend across environments and future release trains?",
+    "under" : [ "Architecture" ],
+    "supporting_segments" : [ "src-1", "src-2", "src-3", "src-4" ],
+    "why" : "src-1 and src-3 both declare the signed-manifest requirement (directive, then restated as a labeled gate clause); src-2 grounds it in a specific past failure of unsigned artifacts reaching staging; src-4 extends the requirement's scope to staging and production. Together these perform one recurring theme — a security-motivated deployment precondition and its justification and reach — that future envelopes about this or other release gates will keep feeding, satisfying the narrative grain test rather than standing as a one-time fact. No existing leaf holds this theme (the graph is empty), so mint rather than reuse.",
+    "consulted" : [ "EXISTING GRAPH STRUCTURE: none yet", "GateAsSecurityMandate (position, this document)" ]
+  }, {
+    "verdict" : "mint",
+    "leaf" : "Narrative_GateOwnershipAccountability",
+    "title" : "A named individual becomes the accountable owner of a governance gate",
+    "frame" : "Who is designated accountable for this control, and does that ownership persist, transfer, or get contested as the gate evolves?",
+    "under" : [ "Narrative_DeploymentGateAsSecurityControl" ],
+    "supporting_segments" : [ "src-5" ],
+    "why" : "src-5 names Quinton Fairweather as owner of the gate — a distinct facet from why the gate exists (accountability/governance rather than security justification), and one the position pass itself left ungrouped from the mandate frame. Ownership of a standing control is a subject future envelopes will keep feeding (transfer, escalation, review), not a one-time fact, so it earns its own leaf under the gate it governs rather than folding into the mandate leaf's support.",
+    "consulted" : [ "EXISTING GRAPH STRUCTURE: none yet", "Narrative_DeploymentGateAsSecurityControl (minted this pass)" ]
+  } ],
+  "unplaced" : [ ]
+}
