@@ -1,0 +1,23 @@
+{
+  "placements" : [ {
+    "supporting_segments" : [ "src-1", "src-2" ],
+    "under" : null,
+    "why" : "Nothing in the (empty) strata tier covers system-implementation content yet. This envelope's content — a pipeline requirement for id/slug generation and file commit — is squarely organizational-architecture grain, matching the ratified taxonomy's own named category. Minting it standalone since no parent tier exists to require first.",
+    "verdict" : "mint",
+    "leaf" : "Architecture",
+    "kind" : "strata",
+    "title" : "Architecture",
+    "frame" : "Does this content describe how the system is built or required to behave, rather than why it should exist or how it will be sold?",
+    "consulted" : [ ]
+  }, {
+    "verdict" : "mint",
+    "leaf" : "Narrative_PipelineIdFallbackGeneration",
+    "title" : "the pipeline, not the submitter, is responsible for producing a working id",
+    "frame" : "When a submission arrives without an explicit id, does the pipeline's fallback path — LLM id-gen or deterministic slugify — reliably yield a usable slug and a successful commit?",
+    "under" : [ "Architecture" ],
+    "supporting_segments" : [ "src-1", "src-2" ],
+    "why" : "src-1 states a submission lacked an explicit id — a fact, but one that only matters as evidence of the fallback-generation requirement src-2 states directly: the pipeline must derive a slug (via LLM or deterministic fallback) and commit successfully. This is a recurring system-behavior subject (id-generation fallback correctness) that future envelopes about the pipeline will keep feeding, not a one-time measurement, so it clears the narrative grain test. No existing leaf (the graph is empty) covers it, so it is minted fresh under the newly-minted Architecture stratum.",
+    "consulted" : [ ]
+  } ],
+  "unplaced" : [ ]
+}
