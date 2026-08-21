@@ -1,0 +1,23 @@
+{
+  "placements" : [ {
+    "supporting_segments" : [ "src-1", "src-2" ],
+    "under" : null,
+    "why" : "Both segments describe an E2E test whose purpose is to validate — with a reproduced production failure and pass/fail acceptance criteria — that the id-derivation pipeline behaves correctly. Nothing in the supplied strata (empty) covers validation/testing content, and this is squarely organizational-category grain: a home for test-and-evidence content the repo will keep accumulating, not a one-off fact.",
+    "verdict" : "mint",
+    "leaf" : "Proof",
+    "kind" : "strata",
+    "title" : "Validation of pipeline correctness against known production failures",
+    "frame" : "Does this expression establish or extend evidence that the system correctly handles a previously-observed failure mode?",
+    "consulted" : [ ]
+  }, {
+    "verdict" : "mint",
+    "leaf" : "Narrative_IdDerivationFallbackRobustness",
+    "title" : "Missing-id headings become a tested fallback path, not a crash risk",
+    "frame" : "Does this expression show the id-derivation/slug-generation pipeline handling a missing-or-malformed-id input (matching or extending known production failure patterns) without crashing, and producing a valid output?",
+    "under" : [ "Proof" ],
+    "supporting_segments" : [ "src-1", "src-2" ],
+    "why" : "src-1 names the exact production failure pattern being reproduced (## heading, no id field) and src-2 states the non-negotiable behavioral bar the fallback must clear (no crash, valid slug); together they describe a recurring subject — the robustness of the derive-id fallback path against malformed input — that future test cases and fixes will keep feeding, not a single fact. No existing leaf or strata (both empty for this repo) plausibly holds this theme, so mint fresh under the newly-minted Proof stratum.",
+    "consulted" : [ ]
+  } ],
+  "unplaced" : [ ]
+}
