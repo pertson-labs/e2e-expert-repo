@@ -1,0 +1,23 @@
+{
+  "placements" : [ {
+    "supporting_segments" : [ "src-1" ],
+    "under" : null,
+    "why" : "The segment describes a concrete pipeline design contract (id/slug generation and fallback behavior on file commit) — organizational-strategy-grain architecture content. Strata is empty in this repo, and nothing in the supplied (empty) strata or graph structure covers this category, so it is minted standalone per the NEW check, matching the canonical strata vocabulary (Architecture) named in the role description.",
+    "verdict" : "mint",
+    "leaf" : "Architecture",
+    "kind" : "strata",
+    "title" : "system and pipeline design decisions get an organizational home",
+    "frame" : "Does this content describe how a system component is built or behaves — its design, mechanism, or implementation contract — rather than an opportunity, strategy, proof point, or organizational decision?",
+    "consulted" : [ "EXISTING STRATA: (none yet)", "EXISTING GRAPH STRUCTURE: (none yet)" ]
+  }, {
+    "verdict" : "mint",
+    "leaf" : "Narrative_SlugGenerationFallback",
+    "title" : "the pipeline derives identity from content, never requires it as input",
+    "frame" : "When an explicit id is absent, does the pipeline still reliably produce a usable slug — via LLM id-gen or deterministic fallback — and commit successfully?",
+    "under" : [ "Architecture" ],
+    "supporting_segments" : [ "src-1" ],
+    "why" : "The segment names a design behavior — the pipeline must derive a slug from memory content through either an LLM id-gen call or a deterministic slugify fallback, and commit without an explicit id field — that is true beyond this one submission: it states a guarantee future envelopes about pipeline id/slug behavior would keep feeding (per the grain test), not a one-time fact. No existing leaf or strata (both empty) covers this, so it is minted fresh under the newly-minted Architecture strata.",
+    "consulted" : [ "EXISTING STRATA: (none yet)", "EXISTING GRAPH STRUCTURE: (none yet)", "Architecture (minted this response)" ]
+  } ],
+  "unplaced" : [ ]
+}
