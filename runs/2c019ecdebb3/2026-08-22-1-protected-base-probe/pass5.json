@@ -1,0 +1,23 @@
+{
+  "placements" : [ {
+    "supporting_segments" : [ "src-1", "src-3", "src-4", "src-5" ],
+    "under" : null,
+    "why" : "This envelope introduces a deployment/release governance decision — a signed-manifest gate for Meridian spanning staging and production, with a named owner — an infrastructure-grain organizational concern. No strata category exists yet in this repo to hold it (EXISTING STRATA is empty), and nothing close enough to be 'inspired by' exists either, so this is the NEW case: minting the foundational Architecture category as the home for deployment/system-design governance decisions, with no parent required.",
+    "verdict" : "mint",
+    "leaf" : "Architecture",
+    "kind" : "strata",
+    "title" : "Deployment and release governance as a first-class organizational tier",
+    "frame" : "What system-level policies — deployment gates, release processes, infrastructure controls — belong under this category as the organization formalizes them?",
+    "consulted" : [ "EXISTING STRATA: none yet", "EXISTING GRAPH STRUCTURE: none yet" ]
+  }, {
+    "verdict" : "mint",
+    "leaf" : "Narrative_ReleaseIntegrityGate",
+    "title" : "Shipping is gated on verified artifact provenance, not just approval",
+    "frame" : "What incident, risk, or scope change motivates tightening or extending this gate, and who is accountable for it as the policy evolves?",
+    "under" : [ "Architecture" ],
+    "supporting_segments" : [ "src-1", "src-2", "src-3", "src-4", "src-5" ],
+    "why" : "src-1 issues the binding requirement ('now requires a signed release manifest before it ships'); src-2 supplies the incident rationale (two unsigned artifacts reaching staging); src-3, src-4, src-5 formalize the same decision into gate/scope/owner fields. Together these describe a recurring organizational subject — artifact-provenance verification as a shipping precondition — that future envelopes will keep feeding (policy exceptions, audits, scope expansions, ownership transfers), satisfying the narrative grain test. The past-incident fact in src-2 is evidence for this theme, not a leaf of its own; no existing leaf or strata (both empty for this repo) covers deployment gating, so nothing to reuse.",
+    "consulted" : [ "EXISTING STRATA: none yet", "EXISTING GRAPH STRUCTURE: none yet", "mint: Architecture (strata, this response)" ]
+  } ],
+  "unplaced" : [ ]
+}
