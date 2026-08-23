@@ -1,0 +1,23 @@
+{
+  "placements" : [ {
+    "supporting_segments" : [ "src-1", "src-2" ],
+    "under" : null,
+    "why" : "Both segments describe a concrete pipeline mechanism — how a memory submission without an explicit id is required to resolve to a slug (via LLM id-gen or deterministic fallback) and commit — which is architecture-grain content. No strata category exists yet in this repo to hold system-design/pipeline-behavior themes, so this top-level category is minted fresh rather than reused or paraphrased from a name that isn't present.",
+    "verdict" : "mint",
+    "leaf" : "Architecture",
+    "kind" : "strata",
+    "title" : "the memory pipeline's internal mechanics become a namable organizational category",
+    "frame" : "Does this content describe how a system component is built or required to behave, rather than why it exists or what it proves?",
+    "consulted" : [ "(existing strata: none supplied — repo strata tier is empty)" ]
+  }, {
+    "verdict" : "mint",
+    "leaf" : "Narrative_MemoryPipelineSlugFallback",
+    "title" : "slug generation degrades gracefully from LLM id-gen to deterministic fallback without losing the commit",
+    "frame" : "When an explicit id is absent, does the pipeline's slug path (LLM call or deterministic slugify) still land in a successfully committed file?",
+    "under" : [ "Architecture" ],
+    "supporting_segments" : [ "src-1", "src-2" ],
+    "why" : "src-1 establishes the triggering condition — a submission with no explicit id field — and src-2 states the pipeline's required response: derive a slug from content via either the LLM id-gen call or the deterministic slugify fallback, then commit the file. Together they describe a recurring behavioral guarantee about the memory pipeline's id-generation path, not a one-time fact — future envelopes exercising this same fallback logic would keep feeding this theme, which is why it clears the narrative grain test rather than staying position-grain evidence. No existing narrative leaf exists in the (empty) supplied graph structure to hold this theme, so it is minted new under the newly-minted Architecture strata.",
+    "consulted" : [ "(existing narrative leaves: none supplied — repo graph structure is empty)", "Architecture (minted this response)" ]
+  } ],
+  "unplaced" : [ ]
+}
