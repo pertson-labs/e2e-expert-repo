@@ -1,0 +1,23 @@
+{
+  "placements" : [ {
+    "supporting_segments" : [ "src-1", "src-2" ],
+    "under" : null,
+    "why" : "Both segments concern the internal robustness of the ID derivation pipeline against a known-bad input shape (a heading with no id field) — an organizational category about how the system is built to withstand edge cases, not a test-outcome fact or a strategy/product-market theme. Existing strata is empty for this repo, so the pillar must be minted before a leaf can nest under it; 'Architecture' is the taxonomy pillar this pipeline-behavior concern squarely names.",
+    "verdict" : "mint",
+    "leaf" : "Architecture",
+    "kind" : "strata",
+    "title" : "System design is judged by how it behaves under malformed or missing input",
+    "frame" : "Does this describe how a system's structure or pipeline is engineered to hold up — or fail safely — when its inputs deviate from the expected shape?",
+    "consulted" : [ ]
+  }, {
+    "verdict" : "mint",
+    "leaf" : "Narrative_DefensiveIdDerivation",
+    "title" : "ID derivation degrades gracefully on malformed input rather than crashing",
+    "frame" : "When the ID derivation pipeline meets an input that lacks the id field it expects (e.g. a heading with no id), does it fail safely and still emit a usable, valid slug rather than crashing?",
+    "under" : [ "Architecture" ],
+    "supporting_segments" : [ "src-1", "src-2" ],
+    "why" : "src-1 names the specific failure shape being reproduced (heading, no id field, mirroring a real prod failure) and src-2 states the governing requirement (no crash, valid slug output) — together these describe a recurring design theme about fail-safe behavior in the ID derivation pipeline, not a one-off test result: future envelopes touching this pipeline's edge-case handling will keep feeding this same theme. No existing leaf covers ID-derivation robustness (graph structure supplied is empty), so nothing to reuse.",
+    "consulted" : [ ]
+  } ],
+  "unplaced" : [ ]
+}
