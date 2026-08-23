@@ -1,0 +1,43 @@
+PREFIX narr: <https://aswritten.ai/narrative#>
+PREFIX aswr: <https://aswritten.ai/aswr#>
+PREFIX rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX prov: <http://www.w3.org/ns/prov#>
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+PREFIX dct:  <http://purl.org/dc/terms/>
+PREFIX xsd:  <http://www.w3.org/2001/XMLSchema#>
+PREFIX oa:   <http://www.w3.org/ns/oa#>
+
+INSERT DATA {
+  aswr:Tx_20260823T093541Z a prov:Activity ;
+      prov:generatedAtTime "2026-08-23T09:35:41Z"^^xsd:dateTime ;
+      prov:wasAssociatedWith "aswritten.ai" ;
+      prov:wasAttributedTo "scarlet@aswritten.ai" ;
+      aswr:pipelinePin "c063fb20bab6" ;
+      dct:title "Multipass reconciliations: 1ForgetLifecycleTarget" ;
+      prov:generated narr:Demoted_1ForgetLifecycleTarget_1 .
+} ;
+INSERT DATA {
+  GRAPH aswr:Tx_20260823T093541Z {
+    narr:Demoted_1ForgetLifecycleTarget_1 a narr:DemotedReconciliation ;
+        oa:hasTarget narr:Expr_1ForgetLifecycleTarget_2 ;
+        oa:hasTarget narr:Expr_1ForgetLifecycleTarget_3 ;
+        skos:note "principal \"Quill Ashgrove\" is not the envelope's human (xena+staging@aswritten.ai) or 'session'" ;
+        dct:source narr:Sample_1ForgetLifecycleTarget ;
+        prov:generatedAtTime "2026-08-23T09:35:41Z"^^xsd:dateTime .
+
+    aswr:Run_20260823T093541Z_pass2 a prov:Activity ;
+        aswr:runPass "pass2" ;
+        aswr:draftedBy "subscription.anthropic/claude-sonnet-5" ;
+        aswr:artifact "aswritten/runs:runs/c45d50edc649/2026-08-23-1-forget-lifecycle-target/pass2.json" ;
+        dct:isPartOf aswr:Tx_20260823T093541Z ;
+        prov:generatedAtTime "2026-08-23T09:35:41Z"^^xsd:dateTime .
+
+    aswr:Run_20260823T093541Z_pass3 a prov:Activity ;
+        aswr:runPass "pass3" ;
+        aswr:draftedBy "subscription.anthropic/claude-sonnet-5" ;
+        aswr:artifact "aswritten/runs:runs/c45d50edc649/2026-08-23-1-forget-lifecycle-target/pass3.json" ;
+        prov:generated narr:Demoted_1ForgetLifecycleTarget_1 ;
+        dct:isPartOf aswr:Tx_20260823T093541Z ;
+        prov:generatedAtTime "2026-08-23T09:35:41Z"^^xsd:dateTime .
+  }
+}
