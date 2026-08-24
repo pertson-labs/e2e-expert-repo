@@ -1,0 +1,23 @@
+{
+  "placements" : [ {
+    "supporting_segments" : [ "src-1", "src-2" ],
+    "under" : null,
+    "why" : "This envelope's content (a test reproducing a specific derive-id failure mode and asserting the behavioral contract required of the code) is organizational-category-grain: it names a system-design concern — how the derive-id component is contracted to behave — not a strategy, product, or organizational-process concern. Nothing in the supplied strata (which is empty for this repo) covers this; the map's only visible strata reference, ns__Strategy, holds unrelated consulting-methodology content (Diagnostic First) and does not plausibly cover engineering component contracts. Minting the standard org category 'Architecture' for this repo gives the derive-id robustness theme a home without forcing it under an unrelated category.",
+    "verdict" : "mint",
+    "leaf" : "Architecture",
+    "kind" : "strata",
+    "title" : "system component design and behavioral contracts as an organizational category",
+    "frame" : "does this content define how a system component is built to behave, including the guarantees and contracts it must hold under edge-case input?",
+    "consulted" : [ "ns__Strategy (via ns__Decision_DiagnosticFirst, unrelated content)" ]
+  }, {
+    "verdict" : "mint",
+    "leaf" : "Narrative_GracefulDegradationOverCrash",
+    "title" : "malformed or incomplete input treated as recoverable, not fatal",
+    "frame" : "when an expected structural field is missing or malformed, what fallback behavior must the system guarantee instead of failing outright?",
+    "under" : [ "Architecture" ],
+    "supporting_segments" : [ "src-1", "src-2" ],
+    "why" : "src-1 names the exact production failure being reproduced (a heading missing its id field) and src-2 states the required behavioral contract for that case (no crash; valid slug produced). Together these describe a recurring engineering theme — treating missing/malformed input as a case the system must degrade gracefully through, not fail on — that future envelopes testing other missing-field or malformed-input scenarios against the same derive-id (or sibling) pipelines would keep feeding. This passes the narrative grain test: it is not the fact of one test passing, but the standing design principle the test exists to enforce. No existing leaf or hub in the supplied graph structure (which is empty for this repo) covers it, so it is minted fresh under the newly-placed Architecture strata.",
+    "consulted" : [ "ns__Decision_DiagnosticFirst (unrelated: consulting methodology, not a system-behavior contract)" ]
+  } ],
+  "unplaced" : [ ]
+}
