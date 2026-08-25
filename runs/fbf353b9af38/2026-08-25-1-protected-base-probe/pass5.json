@@ -1,0 +1,32 @@
+{
+  "placements" : [ {
+    "supporting_segments" : [ "src-1", "src-2", "src-3", "src-4" ],
+    "under" : null,
+    "why" : "This envelope's whole content is a deployment-gate policy for the Meridian release train (signed manifests, staging/production scope, incident rationale) — an organizational-strategy category for technical release governance that nothing in the (currently empty) strata list covers. No existing strata category exists in this repo to reuse, so the top-level category the gate content calls for is minted fresh, matching the org's canonical vocabulary shape (bare CamelCase, no prefix) referenced in the perspective's taxonomy description.",
+    "verdict" : "mint",
+    "leaf" : "Architecture",
+    "kind" : "strata",
+    "title" : "deployment and release engineering treated as a governed technical domain",
+    "frame" : "Does this content name a technical system-integrity or release/deployment control that the organization is establishing as policy, rather than a one-off engineering fact?",
+    "consulted" : [ "EXISTING STRATA: (none yet)", "EXISTING GRAPH STRUCTURE: (none yet)" ]
+  }, {
+    "verdict" : "mint",
+    "leaf" : "Narrative_ReleaseIntegritySigningGate",
+    "title" : "deployment now conditioned on cryptographic proof of release integrity",
+    "frame" : "What deployment gate or signing requirement is being imposed, across what environments, and what prior failure or risk is cited as its cause?",
+    "under" : [ "Architecture" ],
+    "supporting_segments" : [ "src-1", "src-2", "src-3", "src-4" ],
+    "why" : "src-1's directive ('now requires a signed release manifest before it ships'), src-2's incident justification ('two unsigned artifacts reach staging last quarter... the whole reason for the gate'), and src-3/src-4's formalized restatement ('signed release manifest required'; 'applies to staging and production') are all facets of one recurring subject — a signing gate imposed on Meridian deploys — not a one-time fact. The two-unsigned-artifacts incident (src-2) is evidence FOR this theme rather than its own leaf, per the narrative grain test: it explains why the gate exists but the gate itself (its existence, scope, and enforcement) is what future envelopes about Meridian releases will keep feeding. No existing leaf covers this repo yet, so it is minted fresh under the newly-placed Architecture strata.",
+    "consulted" : [ "EXISTING GRAPH STRUCTURE: (none yet)", "EXISTING STRATA: (none yet)", "placement Architecture (this response)" ]
+  }, {
+    "verdict" : "mint",
+    "leaf" : "Narrative_GateOwnershipAccountability",
+    "title" : "a single named individual is made accountable for a deployment control",
+    "frame" : "Who is named as the accountable owner of this gate or policy, and what does assigning a single named owner (rather than a team or role) signal about how the control will be enforced and revisited?",
+    "under" : [ "Narrative_ReleaseIntegritySigningGate" ],
+    "supporting_segments" : [ "src-5" ],
+    "why" : "src-5's '**Owner**: Quinton Fairweather' assigns personal accountability for the gate as a distinct facet from the gate's technical scope — the value-dimension read marks it as self-enhancement/standing-oriented rather than the conservation/competence framing carried by src-3/src-4, and it is spoken with the same decision-level conviction but toward a different subject (who answers for the control, not what the control requires). This is thin support from a single segment, but it names a subject — accountability structure for governance gates — that plausibly recurs across future policy envelopes, distinct enough from the gate's technical content to warrant its own leaf nested under the gate it accompanies rather than folded silently into it.",
+    "consulted" : [ "EXISTING GRAPH STRUCTURE: (none yet)", "placement Narrative_ReleaseIntegritySigningGate (this response)" ]
+  } ],
+  "unplaced" : [ ]
+}
