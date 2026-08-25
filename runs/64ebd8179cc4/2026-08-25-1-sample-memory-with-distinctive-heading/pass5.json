@@ -1,0 +1,23 @@
+{
+  "placements" : [ {
+    "supporting_segments" : [ "src-1", "src-2" ],
+    "under" : null,
+    "why" : "The envelope's content — a described test submission and its expected pipeline outcome (slug generation, successful commit) — is proof-grain: it documents a scenario meant to verify the pipeline behaves as specified, not a product decision, architecture design, or strategic claim. Nothing in the (empty) strata or graph structure covers verification/test-outcome content, and the org's named taxonomy includes 'Proof' as exactly this category, so it is minted standalone with no forced parent.",
+    "verdict" : "mint",
+    "leaf" : "Proof",
+    "kind" : "strata",
+    "title" : "End-to-end verified pipeline behavior becomes its own organizational category",
+    "frame" : "What pipeline behaviors has this suite of envelopes actually exercised and confirmed working end-to-end?",
+    "consulted" : [ ]
+  }, {
+    "verdict" : "mint",
+    "leaf" : "Narrative_IdOptionalSlugFallback",
+    "title" : "Explicit ids become optional as the pipeline derives slugs from content on submission",
+    "frame" : "When an explicit id is omitted, does the pipeline reliably derive a usable slug — via LLM id-gen or the deterministic fallback — and commit the resulting file?",
+    "under" : [ "Proof" ],
+    "supporting_segments" : [ "src-1", "src-2" ],
+    "why" : "src-1 establishes the triggering condition (a memory submitted with no explicit id field) and src-2 states the required pipeline response to that condition (slug must be produced by one of two named mechanisms, then the file committed). Together they name a recurring subject — the pipeline's guaranteed fallback behavior when ids are absent — that future envelopes exercising this same scenario (or its variants: LLM path succeeding, slugify fallback engaging, commit failing) would keep feeding, satisfying the narrative grain test rather than merely reporting a one-time fact. No existing leaf or hub was available to reuse since the graph structure is currently empty, so this is a NEW mint, placed under the freshly minted Proof strata as its most exact home.",
+    "consulted" : [ ]
+  } ],
+  "unplaced" : [ ]
+}
