@@ -1,0 +1,23 @@
+{
+  "placements" : [ {
+    "supporting_segments" : [ "src-1", "src-2" ],
+    "under" : null,
+    "why" : "Both segments describe an end-to-end test built specifically to reproduce a documented production failure (missing-id headings) and assert a non-crashing, valid outcome. This is proof-of-correctness content — evidence the pipeline handles a known failure class — not strategy, product, or architecture description. No strata category exists yet in this repo, and nothing in the supplied (empty) structure covers this organizational category, so it is minted fresh as the foundational 'Proof' category rather than nested under anything.",
+    "verdict" : "mint",
+    "leaf" : "Proof",
+    "kind" : "strata",
+    "title" : "Test coverage as evidence of pipeline robustness",
+    "frame" : "Does this expression add verifiable evidence that the pipeline correctly handles a known production failure mode?",
+    "consulted" : [ ]
+  }, {
+    "verdict" : "mint",
+    "leaf" : "Narrative_DeriveIdRobustness",
+    "title" : "ID derivation must survive malformed input without crashing",
+    "frame" : "Does this expression describe a case where the derive-id logic must handle missing, malformed, or unexpected heading data gracefully rather than fail?",
+    "under" : [ "Proof" ],
+    "supporting_segments" : [ "src-1", "src-2" ],
+    "why" : "src-1 names the specific production failure class being reproduced (a heading with no id field), and src-2 states the required robustness outcome (no crash, valid slug produced). Together they name a recurring subject — the derive-id function's obligation to degrade gracefully on malformed input — that future test envelopes for this pipeline will keep feeding, not a one-time fact. The graph structure supplied is empty, so nothing existing holds this theme; it is minted as a leaf under the newly-minted Proof strata since it is a specific robustness theme within that broader proof-of-correctness category.",
+    "consulted" : [ "Proof" ]
+  } ],
+  "unplaced" : [ ]
+}
