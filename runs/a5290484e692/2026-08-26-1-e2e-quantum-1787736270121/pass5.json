@@ -1,0 +1,32 @@
+{
+  "placements" : [ {
+    "supporting_segments" : [ "src-1", "src-2", "src-3", "src-4", "src-5" ],
+    "under" : null,
+    "why" : "Every segment in this envelope is either the declaration of a database-layer swap (src-1, src-3), the technical/cost case for it (src-2, src-4), or its execution timeline (src-5) — all organizational-strategy content about a technical architecture decision. No existing strata category exists in this repo (EXISTING STRATA is empty), and nothing close enough to relate this to via lineage, so this is a NEW, standalone strata mint that the leaves below sit under.",
+    "verdict" : "mint",
+    "leaf" : "Architecture",
+    "kind" : "strata",
+    "title" : "Technical infrastructure decisions are tracked as their own organizational category",
+    "frame" : "what system-design or infrastructure decision is being recorded, and what does it change about the technical foundation?",
+    "consulted" : [ "EXISTING STRATA: (none yet)", "EXISTING GRAPH STRUCTURE: (none yet)" ]
+  }, {
+    "verdict" : "mint",
+    "leaf" : "Narrative_DatabaseMigrationDecision",
+    "title" : "The analytics pipeline's storage layer is being replaced, not extended",
+    "frame" : "what is driving the move off PostgreSQL toward QuantumDB, and does this direction still hold as the migration proceeds toward its committed date?",
+    "under" : [ "Architecture" ],
+    "supporting_segments" : [ "src-1", "src-3", "src-5" ],
+    "why" : "src-1 performs the decision in prose ('We're switching from PostgreSQL to QuantumDB') and src-3 restates the identical move as a structured heading ('Database migration: PostgreSQL → QuantumDB') — per the conviction/relational reads both are decision-grade, authority-ranking statements of the same directional move, not one-time facts: the migration is a subject future envelopes about this pipeline will keep feeding (progress updates, rollback risk, completion). src-5's Q3 2026 timeline is folded in as the committed execution date attached to this same decision (conviction reads it as decision-grade, commitment-marker) rather than a theme of its own — a fact evidencing when the decision lands, not a separate subject. No existing leaf in this fresh repo covers a database migration theme, so this is a NEW mint under the newly-minted Architecture strata.",
+    "consulted" : [ "Architecture", "EXISTING GRAPH STRUCTURE: (none yet)" ]
+  }, {
+    "verdict" : "mint",
+    "leaf" : "Narrative_InfrastructureCostPerformanceRationale",
+    "title" : "Performance and licensing cost become the stated case for infrastructure change",
+    "frame" : "what performance or cost claims are offered to justify an infrastructure decision, and do the claims narrow or hold as they get restated?",
+    "under" : [ "Architecture" ],
+    "supporting_segments" : [ "src-2", "src-4" ],
+    "why" : "src-2 states the justification in prose as a flat pair of benefits ('10x query performance, lower licensing cost'); src-4 restates the performance half alone as a bolded summary bullet ('10x analytical queries'), dropping the licensing-cost half — the position pass already flags this narrowing without resolving it. Both directional reads mark these claim-grade, market-pricing/rational-persuasion appeals rather than settled facts about this one migration: the pattern of justifying infra spend via performance multipliers and cost reduction is a recurring subject future infra-decision envelopes will keep feeding, passing the narrative grain test rather than being a one-time measurement. No existing leaf covers this rationale pattern, so NEW mint under Architecture, sibling to the migration-decision leaf it justifies.",
+    "consulted" : [ "Architecture", "Narrative_DatabaseMigrationDecision", "EXISTING GRAPH STRUCTURE: (none yet)" ]
+  } ],
+  "unplaced" : [ ]
+}
