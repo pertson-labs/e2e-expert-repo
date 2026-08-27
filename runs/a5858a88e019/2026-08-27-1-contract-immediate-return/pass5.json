@@ -1,0 +1,23 @@
+{
+  "placements" : [ {
+    "supporting_segments" : [ "src-1", "src-2", "src-3" ],
+    "under" : null,
+    "why" : "The content performs an API contract design — async dispatch, receipt, cursor polling, no-blocking, no-lost-work — which is architectural in nature and names an organizational category nothing existing holds.",
+    "verdict" : "mint",
+    "leaf" : "Architecture",
+    "kind" : "strata",
+    "title" : "architectural design decisions as a distinct organizational tier",
+    "frame" : "what architectural patterns and contract designs shape the system's structure?",
+    "consulted" : [ ]
+  }, {
+    "verdict" : "mint",
+    "leaf" : "Narrative_ImmediateReturnWatchedExtraction",
+    "title" : "blocking calls give way to dispatch-receipt-cursor-poll watching",
+    "frame" : "what design guarantees that the caller never blocks, the extraction is always watched, and no work is lost when the receipt is dropped?",
+    "under" : [ "Architecture" ],
+    "supporting_segments" : [ "src-1", "src-2", "src-3" ],
+    "why" : "All three segments perform the async remember contract's design rules as a coherent architectural theme: remember dispatches and returns a receipt in seconds, extraction is watched by polling a cursor, no blocking call, no lost work if the receipt is dropped, and the agent either polls or gets the reaction piggybacked. This names a subject future envelopes will keep feeding — the immediate-return async contract pattern.",
+    "consulted" : [ ]
+  } ],
+  "unplaced" : [ ]
+}
