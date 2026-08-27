@@ -1,0 +1,23 @@
+{
+  "placements" : [ {
+    "supporting_segments" : [ "src-1", "src-2" ],
+    "under" : null,
+    "why" : "The content describes a pipeline design requirement — generating identifiers from content when none is provided and committing the result — which is an architectural concern about how the system is structured to handle its processing responsibilities. No existing strata or structure exists to hold this.",
+    "verdict" : "mint",
+    "leaf" : "Architecture",
+    "kind" : "strata",
+    "title" : "system design and pipeline behavior as load-bearing requirements",
+    "frame" : "What structural responsibilities does the system design impose, and how do its pipelines fulfill them?",
+    "consulted" : [ ]
+  }, {
+    "verdict" : "mint",
+    "leaf" : "Narrative_PipelineIdentityGeneration",
+    "title" : "the pipeline must forge identity from content when none is given",
+    "frame" : "What must the pipeline do when a submission arrives without explicit identity, and through what mechanisms does it produce and persist one?",
+    "under" : [ "Architecture" ],
+    "supporting_segments" : [ "src-1", "src-2" ],
+    "why" : "Both segments describe the pipeline's responsibility to generate a slug from memory content when no explicit ID is provided: src-1 establishes the triggering condition (submission without an explicit id field), src-2 states the required behavior (produce a slug via the LLM id-gen call or the deterministic slugify fallback, then commit the file successfully). This is a thematic subject future envelopes will keep feeding — the pipeline's identity-generation contract — not a one-time fact.",
+    "consulted" : [ ]
+  } ],
+  "unplaced" : [ ]
+}
