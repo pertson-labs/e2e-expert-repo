@@ -1,0 +1,216 @@
+PREFIX narr: <https://aswritten.ai/narrative#>
+PREFIX aswr: <https://aswritten.ai/aswr#>
+PREFIX rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX prov: <http://www.w3.org/ns/prov#>
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+PREFIX dct:  <http://purl.org/dc/terms/>
+PREFIX xsd:  <http://www.w3.org/2001/XMLSchema#>
+PREFIX oa:   <http://www.w3.org/ns/oa#>
+
+INSERT DATA {
+  aswr:Tx_20260830T095252Z a prov:Activity ;
+      prov:generatedAtTime "2026-08-30T09:52:52Z"^^xsd:dateTime ;
+      prov:wasAssociatedWith "aswritten.ai" ;
+      prov:wasAttributedTo "scarlet@aswritten.ai" ;
+      aswr:pipelinePin "0ff046062bd4" ;
+      aswr:originPath ".aswritten/memories/2026-08-30-1-review-enrollment-probe.md" ;
+      dct:title "Multipass fragment: 1ReviewEnrollmentProbe" ;
+      prov:generated narr:VecConviction_1ReviewEnrollmentProbe_1, narr:VecRegister_1ReviewEnrollmentProbe_1, narr:VecTemporal_1ReviewEnrollmentProbe_1, narr:Product, narr:Narrative_MemoryCreationEnrollsReviewer .
+} ;
+INSERT DATA {
+  GRAPH aswr:Tx_20260830T095252Z {
+    narr:VecConviction_1ReviewEnrollmentProbe_1 a narr:VectorObservation ;
+        oa:hasTarget narr:Expr_1ReviewEnrollmentProbe_1 ;
+        narr:dimension narr:Dim_Conviction ;
+        narr:region narr:Conviction_Decision ;
+        narr:evidence "commitment-marker: Decision:" ;
+        narr:reported false ;
+        skos:note "Explicit ratification prefix framing the operational rule as a settled decision." ;
+        prov:generatedAtTime "2026-08-30T09:52:52Z"^^xsd:dateTime .
+
+    narr:VecRegister_1ReviewEnrollmentProbe_1 a narr:VectorObservation ;
+        oa:hasTarget narr:Expr_1ReviewEnrollmentProbe_1 ;
+        narr:dimension narr:Dim_Register ;
+        narr:region narr:Register_Technical ;
+        narr:region narr:Register_MatterOfFact ;
+        narr:evidence "framing-move: Decision:" ;
+        narr:evidence "lexical-marker: e2e suite asserts" ;
+        narr:reported false ;
+        skos:note "Adopts an instrumental, technical test-harness framing to specify test harness rationale without affective performance." ;
+        prov:generatedAtTime "2026-08-30T09:52:52Z"^^xsd:dateTime .
+
+    narr:VecTemporal_1ReviewEnrollmentProbe_1 a narr:VectorObservation ;
+        oa:hasTarget narr:Expr_1ReviewEnrollmentProbe_1 ;
+        narr:dimension narr:Dim_Temporal ;
+        narr:region narr:Temporal_Present ;
+        narr:region narr:Temporal_Realis ;
+        narr:region narr:Temporal_Concrete ;
+        narr:evidence "plain-assertion: the e2e suite asserts that saving a memory enrolls its creator as a reviewer. This probe memory exists only to carry that assertion." ;
+        narr:reported false ;
+        skos:note "The statement asserts the current factual behavior of a specific test suite and probe memory." ;
+        prov:generatedAtTime "2026-08-30T09:52:52Z"^^xsd:dateTime .
+
+    narr:Product a narr:Strata ;
+        dct:source narr:Sample_1ReviewEnrollmentProbe ;
+        narr:frame "What behavioral guarantees and workflow capabilities define the core product surface?" ;
+        skos:note "Product Capabilities and Functional Guarantees" ;
+        prov:generatedAtTime "2026-08-30T09:52:52Z"^^xsd:dateTime .
+
+    narr:Expr_1ReviewEnrollmentProbe_1 narr:supports narr:Product .
+
+    narr:Narrative_MemoryCreationEnrollsReviewer a narr:Narrative ;
+        dct:source narr:Sample_1ReviewEnrollmentProbe ;
+        narr:frame "How does memory creation establish and verify the creator's mandatory enrollment in the review process?" ;
+        skos:broader narr:Product ;
+        skos:note "Automatic Reviewer Enrollment Upon Memory Creation" ;
+        prov:generatedAtTime "2026-08-30T09:52:52Z"^^xsd:dateTime .
+
+    narr:Expr_1ReviewEnrollmentProbe_1 narr:supports narr:Narrative_MemoryCreationEnrollsReviewer .
+
+    aswr:Miss_1ReviewEnrollmentProbe_affect_trip a aswr:Miss ;
+        aswr:missPass "affect" ;
+        aswr:missClass "floor" ;
+        aswr:missError "0 of 1 segments marked" ;
+        aswr:missModel "google/gemini-3.7-flash" ;
+        aswr:tripFloor "marked_zero" ;
+        aswr:tripRatio "0.0000"^^xsd:decimal ;
+        aswr:tripOutcome "accepted-flagged" ;
+        aswr:tripFallbackModel "anthropic/claude-sonnet-5" ;
+        aswr:missScope narr:Sample_1ReviewEnrollmentProbe ;
+        prov:generatedAtTime "2026-08-30T09:52:52Z"^^xsd:dateTime .
+
+    aswr:Miss_1ReviewEnrollmentProbe_position_trip a aswr:Miss ;
+        aswr:missPass "position" ;
+        aswr:missClass "floor" ;
+        aswr:missError "ungrouped 1/1 exceeds 0.9" ;
+        aswr:missModel "google/gemini-3.7-flash" ;
+        aswr:tripFloor "ungrouped_ratio" ;
+        aswr:tripRatio "1.0000"^^xsd:decimal ;
+        aswr:tripOutcome "accepted-flagged" ;
+        aswr:tripFallbackModel "anthropic/claude-sonnet-5" ;
+        aswr:missScope narr:Sample_1ReviewEnrollmentProbe ;
+        prov:generatedAtTime "2026-08-30T09:52:52Z"^^xsd:dateTime .
+
+    aswr:Miss_1ReviewEnrollmentProbe_power_trip a aswr:Miss ;
+        aswr:missPass "power" ;
+        aswr:missClass "floor" ;
+        aswr:missError "0 of 1 segments marked" ;
+        aswr:missModel "google/gemini-3.7-flash" ;
+        aswr:tripFloor "marked_zero" ;
+        aswr:tripRatio "0.0000"^^xsd:decimal ;
+        aswr:tripOutcome "accepted-flagged" ;
+        aswr:tripFallbackModel "anthropic/claude-sonnet-5" ;
+        aswr:missScope narr:Sample_1ReviewEnrollmentProbe ;
+        prov:generatedAtTime "2026-08-30T09:52:52Z"^^xsd:dateTime .
+
+    aswr:Miss_1ReviewEnrollmentProbe_relational_trip a aswr:Miss ;
+        aswr:missPass "relational" ;
+        aswr:missClass "floor" ;
+        aswr:missError "0 of 1 segments marked" ;
+        aswr:missModel "google/gemini-3.7-flash" ;
+        aswr:tripFloor "marked_zero" ;
+        aswr:tripRatio "0.0000"^^xsd:decimal ;
+        aswr:tripOutcome "accepted-flagged" ;
+        aswr:tripFallbackModel "anthropic/claude-sonnet-5" ;
+        aswr:missScope narr:Sample_1ReviewEnrollmentProbe ;
+        prov:generatedAtTime "2026-08-30T09:52:52Z"^^xsd:dateTime .
+
+    aswr:Miss_1ReviewEnrollmentProbe_style_trip a aswr:Miss ;
+        aswr:missPass "style" ;
+        aswr:missClass "floor" ;
+        aswr:missError "0 of 1 segments marked" ;
+        aswr:missModel "google/gemini-3.7-flash" ;
+        aswr:tripFloor "marked_zero" ;
+        aswr:tripRatio "0.0000"^^xsd:decimal ;
+        aswr:tripOutcome "accepted-flagged" ;
+        aswr:tripFallbackModel "anthropic/claude-sonnet-5" ;
+        aswr:missScope narr:Sample_1ReviewEnrollmentProbe ;
+        prov:generatedAtTime "2026-08-30T09:52:52Z"^^xsd:dateTime .
+
+    aswr:Miss_1ReviewEnrollmentProbe_value_trip a aswr:Miss ;
+        aswr:missPass "value" ;
+        aswr:missClass "floor" ;
+        aswr:missError "0 of 1 segments marked" ;
+        aswr:missModel "google/gemini-3.7-flash" ;
+        aswr:tripFloor "marked_zero" ;
+        aswr:tripRatio "0.0000"^^xsd:decimal ;
+        aswr:tripOutcome "accepted-flagged" ;
+        aswr:tripFallbackModel "anthropic/claude-sonnet-5" ;
+        aswr:missScope narr:Sample_1ReviewEnrollmentProbe ;
+        prov:generatedAtTime "2026-08-30T09:52:52Z"^^xsd:dateTime .
+
+    aswr:Run_20260830T095252Z_dim_affect a prov:Activity ;
+        aswr:runPass "dim.affect" ;
+        aswr:draftedBy "google/gemini-3.7-flash" ;
+        aswr:artifact "aswritten/runs:runs/1ee690fe71ac/2026-08-30-1-review-enrollment-probe/dim.affect.json" ;
+        dct:isPartOf aswr:Tx_20260830T095252Z ;
+        prov:generatedAtTime "2026-08-30T09:52:52Z"^^xsd:dateTime .
+
+    aswr:Run_20260830T095252Z_dim_conviction a prov:Activity ;
+        aswr:runPass "dim.conviction" ;
+        aswr:draftedBy "google/gemini-3.7-flash" ;
+        aswr:artifact "aswritten/runs:runs/1ee690fe71ac/2026-08-30-1-review-enrollment-probe/dim.conviction.json" ;
+        prov:generated narr:VecConviction_1ReviewEnrollmentProbe_1 ;
+        dct:isPartOf aswr:Tx_20260830T095252Z ;
+        prov:generatedAtTime "2026-08-30T09:52:52Z"^^xsd:dateTime .
+
+    aswr:Run_20260830T095252Z_dim_power a prov:Activity ;
+        aswr:runPass "dim.power" ;
+        aswr:draftedBy "google/gemini-3.7-flash" ;
+        aswr:artifact "aswritten/runs:runs/1ee690fe71ac/2026-08-30-1-review-enrollment-probe/dim.power.json" ;
+        dct:isPartOf aswr:Tx_20260830T095252Z ;
+        prov:generatedAtTime "2026-08-30T09:52:52Z"^^xsd:dateTime .
+
+    aswr:Run_20260830T095252Z_dim_register a prov:Activity ;
+        aswr:runPass "dim.register" ;
+        aswr:draftedBy "google/gemini-3.7-flash" ;
+        aswr:artifact "aswritten/runs:runs/1ee690fe71ac/2026-08-30-1-review-enrollment-probe/dim.register.json" ;
+        prov:generated narr:VecRegister_1ReviewEnrollmentProbe_1 ;
+        dct:isPartOf aswr:Tx_20260830T095252Z ;
+        prov:generatedAtTime "2026-08-30T09:52:52Z"^^xsd:dateTime .
+
+    aswr:Run_20260830T095252Z_dim_relational a prov:Activity ;
+        aswr:runPass "dim.relational" ;
+        aswr:draftedBy "google/gemini-3.7-flash" ;
+        aswr:artifact "aswritten/runs:runs/1ee690fe71ac/2026-08-30-1-review-enrollment-probe/dim.relational.json" ;
+        dct:isPartOf aswr:Tx_20260830T095252Z ;
+        prov:generatedAtTime "2026-08-30T09:52:52Z"^^xsd:dateTime .
+
+    aswr:Run_20260830T095252Z_dim_style a prov:Activity ;
+        aswr:runPass "dim.style" ;
+        aswr:draftedBy "google/gemini-3.7-flash" ;
+        aswr:artifact "aswritten/runs:runs/1ee690fe71ac/2026-08-30-1-review-enrollment-probe/dim.style.json" ;
+        dct:isPartOf aswr:Tx_20260830T095252Z ;
+        prov:generatedAtTime "2026-08-30T09:52:52Z"^^xsd:dateTime .
+
+    aswr:Run_20260830T095252Z_dim_temporal a prov:Activity ;
+        aswr:runPass "dim.temporal" ;
+        aswr:draftedBy "google/gemini-3.7-flash" ;
+        aswr:artifact "aswritten/runs:runs/1ee690fe71ac/2026-08-30-1-review-enrollment-probe/dim.temporal.json" ;
+        prov:generated narr:VecTemporal_1ReviewEnrollmentProbe_1 ;
+        dct:isPartOf aswr:Tx_20260830T095252Z ;
+        prov:generatedAtTime "2026-08-30T09:52:52Z"^^xsd:dateTime .
+
+    aswr:Run_20260830T095252Z_dim_value a prov:Activity ;
+        aswr:runPass "dim.value" ;
+        aswr:draftedBy "google/gemini-3.7-flash" ;
+        aswr:artifact "aswritten/runs:runs/1ee690fe71ac/2026-08-30-1-review-enrollment-probe/dim.value.json" ;
+        dct:isPartOf aswr:Tx_20260830T095252Z ;
+        prov:generatedAtTime "2026-08-30T09:52:52Z"^^xsd:dateTime .
+
+    aswr:Run_20260830T095252Z_pass5 a prov:Activity ;
+        aswr:runPass "pass5" ;
+        aswr:draftedBy "google/gemini-3.7-flash" ;
+        aswr:artifact "aswritten/runs:runs/1ee690fe71ac/2026-08-30-1-review-enrollment-probe/pass5.json" ;
+        prov:generated narr:Product, narr:Narrative_MemoryCreationEnrollsReviewer ;
+        dct:isPartOf aswr:Tx_20260830T095252Z ;
+        prov:generatedAtTime "2026-08-30T09:52:52Z"^^xsd:dateTime .
+
+    aswr:Run_20260830T095252Z_position a prov:Activity ;
+        aswr:runPass "position" ;
+        aswr:draftedBy "google/gemini-3.7-flash" ;
+        aswr:artifact "aswritten/runs:runs/1ee690fe71ac/2026-08-30-1-review-enrollment-probe/position.json" ;
+        dct:isPartOf aswr:Tx_20260830T095252Z ;
+        prov:generatedAtTime "2026-08-30T09:52:52Z"^^xsd:dateTime .
+  }
+}
