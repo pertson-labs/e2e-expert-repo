@@ -1,0 +1,95 @@
+{
+  "run_id" : "mp-eng-831eec84",
+  "gates" : [ {
+    "id" : "aswritten/clarify",
+    "run?" : false,
+    "gate" : 2,
+    "reason" : "score 0.05 < threshold 0.7",
+    "score" : 0.05,
+    "evidence" : [ "Decision: the e2e suite asserts that saving a memory enrolls its creator as a reviewer.", "This probe memory exists only to carry that assertion.", "Explicitly labeled as a decision and formulated as an operative rule/ratification.", "Mints the position that saving a memory automatically enrolls its creator as a reviewer." ]
+  }, {
+    "id" : "aswritten/refract",
+    "run?" : true,
+    "gate" : 2,
+    "reason" : "predicate only"
+  }, {
+    "id" : "aswritten/review",
+    "run?" : false,
+    "gate" : 1,
+    "reason" : "skill off"
+  }, {
+    "id" : "aswritten/riff",
+    "run?" : false,
+    "gate" : 1,
+    "reason" : "requires perspective, expand"
+  } ],
+  "spend" : {
+    "cost_usd" : 0.007744,
+    "passes" : [ {
+      "pass" : "reaction:_score",
+      "llm_calls" : 1,
+      "cost_usd" : 0.00159565
+    }, {
+      "pass" : "reaction:refract",
+      "llm_calls" : 2,
+      "cost_usd" : 0.00614795
+    } ]
+  },
+  "bundle" : {
+    "items" : 1,
+    "audience" : "only-me",
+    "recipients" : 1,
+    "moments_cached" : true,
+    "sent" : [ {
+      "items" : [ {
+        "kind" : "note",
+        "skill" : "aswritten/refract",
+        "audience" : "speakers"
+      } ],
+      "handle" : "xena+staging@aswritten.ai",
+      "channel" : "email",
+      "status" : "sent",
+      "front_message_id" : "msg_3ct6qgbs",
+      "front_conversation_id" : "cnv_1p48su7c"
+    } ]
+  },
+  "policy" : {
+    "mode" : "on",
+    "budget_per_run_usd" : 0.25,
+    "channels" : [ "email", "sms" ]
+  },
+  "jobs" : [ {
+    "skill" : "aswritten/refract",
+    "status" : "ok",
+    "gate" : { },
+    "output" : {
+      "lens" : {
+        "shift" : "Saving a memory now enrolls its creator as a reviewer — the save is a binding act, not just an act of record. The e2e suite holds this as its operative rule for who is bound into review.",
+        "affected" : [ {
+          "document" : ".aswritten/memories/2026-09-08-1-review-enrollment-probe.md",
+          "section" : "Review enrollment probe",
+          "how" : "Already states the rule — it stops reading as a disposable probe and becomes the standing assertion the suite's reviewer-binding checks hang on; no rewrite, it anchors the rest."
+        } ],
+        "other_lenses" : [ "A second, narrower shift: a 'Decision:' line in a memory now functions as an operative rule with structural force over test behavior, not a note — worth its own reaction if Decision-labeled statements start carrying behavior." ],
+        "drew_on" : [ "delta_line: 'Mints the position that saving a memory automatically enrolls its creator as a reviewer'", "narrated frame: 'How does creating a memory bind its creator into the review process?' — note 'Saving a memory enrolls its creator as a reviewer'", "position: 'how is automatic reviewer enrollment on memory creation asserted and tested?'", "power observation on the 'Decision:' preface — 'invokes structural/procedural legitimate authority over test behavior'", "conversation: 'Decision: the e2e suite asserts that saving a memory enrolls its creator as a reviewer' and the reviewers frontmatter (xena+staging@aswritten.ai)" ],
+        "quote" : "Decision: the e2e suite asserts that saving a memory enrolls its creator as a reviewer.",
+        "approaches" : [ "who is bound into review when a memory is saved", "what the e2e suite asserts when a memory is saved", "whether a reviewer list is authored by hand or produced by the save" ],
+        "speaker" : "Xena ExpertGH",
+        "message" : "Here's the shift: saving a memory now enrolls its creator as a reviewer — the save itself is the binding act, not just a record of one. You fixed it as a decision: \"Decision: the e2e suite asserts that saving a memory enrolls its creator as a reviewer.\" That changes how we approach who is bound into review when a memory is saved, what the e2e suite asserts about a save, and whether a reviewer list is authored by hand or produced by the save.\n\nBefore/after, on the probe itself —\n\nAs written: \"Decision: the e2e suite asserts that saving a memory enrolls its creator as a reviewer. This probe memory exists only to carry that assertion.\"\n\nAs it reads now: this is the operative rule, issued as a decision — the save is the enrollment event, and this memory fixes it. The frontmatter already shows it in effect: the reviewers list carries xena+staging@aswritten.ai, the creator's own address, which reads as the enrollment the save produced rather than a reviewer picked by hand. The memory doesn't describe the binding; it carries it into force.\n\nRight lens? If this is off, everything below moves with it.\n\nWhere it lands: honestly, on one document — this probe. It already states the rule, so nothing needs rewriting; it stops reading as a throwaway and becomes the standing assertion the suite's reviewer-binding checks hang on. Nothing else is in view on this stream yet, so I can't show reach beyond it.\n\nWant me to apply this across the one document it reaches — or hold it here until more of the stream is in view?",
+        "eye_chart" : {
+          "document" : ".aswritten/memories/2026-09-08-1-review-enrollment-probe.md",
+          "section" : "Review enrollment probe",
+          "as_written" : "Decision: the e2e suite asserts that saving a memory enrolls its creator as a reviewer. This probe memory exists only to carry that assertion.",
+          "through_the_lens" : "This is the operative rule, issued as a decision: the save is the enrollment event, and this memory fixes it. The frontmatter already shows it in effect — the reviewers list carries xena+staging@aswritten.ai, the creator's own address, which reads as the enrollment the save produced rather than a reviewer picked by hand. The memory doesn't describe the binding; it carries it into force."
+        }
+      }
+    },
+    "landing" : {
+      "landed" : "message"
+    },
+    "ms" : 200399
+  } ],
+  "stream" : "e2e-review-enrollment-1788861634915",
+  "at" : "2026-09-08T14:27:10.565455741Z",
+  "live_run_id" : "2ba9f8973585"
+}
