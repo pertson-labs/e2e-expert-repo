@@ -1,0 +1,77 @@
+{
+  "run_id" : "mp-eng-96b9af46",
+  "gates" : [ {
+    "id" : "aswritten/clarify",
+    "run?" : false,
+    "gate" : 2,
+    "reason" : "score 0.0 < threshold 0.7",
+    "score" : 0.0,
+    "evidence" : [ "Mints a mandatory release integrity gate requiring signed manifests for all Meridian deployments.", "commitment-marker: applies to staging and production", "plain-signal: signed release manifest required for Meridian deploys" ]
+  }, {
+    "id" : "aswritten/refract",
+    "run?" : true,
+    "gate" : 2,
+    "reason" : "predicate only"
+  }, {
+    "id" : "aswritten/review",
+    "run?" : false,
+    "gate" : 1,
+    "reason" : "skill off"
+  }, {
+    "id" : "aswritten/riff",
+    "run?" : false,
+    "gate" : 1,
+    "reason" : "requires perspective, expand"
+  } ],
+  "spend" : {
+    "cost_usd" : 0.005519,
+    "passes" : [ {
+      "pass" : "reaction:_score",
+      "llm_calls" : 1,
+      "cost_usd" : 0.00217545
+    }, {
+      "pass" : "reaction:refract",
+      "llm_calls" : 1,
+      "cost_usd" : 0.00334395
+    } ]
+  },
+  "bundle" : {
+    "items" : 1,
+    "audience" : "only-me",
+    "recipients" : 1,
+    "moments_cached" : true,
+    "sent" : [ {
+      "items" : [ {
+        "kind" : "note",
+        "skill" : "aswritten/refract",
+        "audience" : "speakers"
+      } ],
+      "handle" : "xena+staging@aswritten.ai",
+      "channel" : "email",
+      "status" : "sent",
+      "front_message_id" : "msg_3cxbzr1k",
+      "front_conversation_id" : "cnv_1p6a0l9k"
+    } ]
+  },
+  "policy" : {
+    "mode" : "on",
+    "budget_per_run_usd" : 0.25,
+    "channels" : [ "email", "sms" ]
+  },
+  "jobs" : [ {
+    "skill" : "aswritten/refract",
+    "status" : "ok",
+    "gate" : { },
+    "output" : {
+      "lens" : null,
+      "ask" : "I can see the shift — every Meridian deployment to staging and production now requires a signed release manifest before it ships, owned by Quinton Fairweather — but this stream's document index is empty, so I can't yet see which documents it moves; point me at the deployment runbooks or staging docs and I'll confirm it on one section."
+    },
+    "landing" : {
+      "landed" : "message"
+    },
+    "ms" : 58015
+  } ],
+  "stream" : "e2e-protected",
+  "at" : "2026-09-10T15:44:12.686511544Z",
+  "live_run_id" : "d7ca6d759dd7"
+}
