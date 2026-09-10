@@ -1,0 +1,77 @@
+{
+  "run_id" : "mp-eng-58261cfb",
+  "gates" : [ {
+    "id" : "aswritten/clarify",
+    "run?" : false,
+    "gate" : 2,
+    "reason" : "score 0.0 < threshold 0.7",
+    "score" : 0.0,
+    "evidence" : [ "plain-assertion: The Kestrelwood spectrograph is now calibrated at 88.4 MHz.", "plain-assertion: 88.4 MHz, verified against June reference plates", "Describes the settled current calibration state of a specific instrument.", "Mints the verified calibration of the Kestrelwood spectrograph at 88.4 MHz." ]
+  }, {
+    "id" : "aswritten/refract",
+    "run?" : true,
+    "gate" : 2,
+    "reason" : "predicate only"
+  }, {
+    "id" : "aswritten/review",
+    "run?" : false,
+    "gate" : 1,
+    "reason" : "skill off"
+  }, {
+    "id" : "aswritten/riff",
+    "run?" : false,
+    "gate" : 1,
+    "reason" : "requires perspective, expand"
+  } ],
+  "spend" : {
+    "cost_usd" : 0.005799,
+    "passes" : [ {
+      "pass" : "reaction:_score",
+      "llm_calls" : 1,
+      "cost_usd" : 0.00174315
+    }, {
+      "pass" : "reaction:refract",
+      "llm_calls" : 1,
+      "cost_usd" : 0.00405545
+    } ]
+  },
+  "bundle" : {
+    "items" : 1,
+    "audience" : "only-me",
+    "recipients" : 1,
+    "moments_cached" : true,
+    "sent" : [ {
+      "items" : [ {
+        "kind" : "note",
+        "skill" : "aswritten/refract",
+        "audience" : "speakers"
+      } ],
+      "handle" : "xena+staging@aswritten.ai",
+      "channel" : "email",
+      "status" : "sent",
+      "front_message_id" : "msg_3cwouhyg",
+      "front_conversation_id" : "cnv_1p5ysfmw"
+    } ]
+  },
+  "policy" : {
+    "mode" : "on",
+    "budget_per_run_usd" : 0.25,
+    "channels" : [ "email", "sms" ]
+  },
+  "jobs" : [ {
+    "skill" : "aswritten/refract",
+    "status" : "ok",
+    "gate" : { },
+    "output" : {
+      "lens" : null,
+      "ask" : "The verified 88.4 MHz calibration of the Kestrelwood spectrograph is now on record, but nothing else in this stream deals with instruments or calibration yet — there's no second document to read it against, so I can't yet tell what it changes."
+    },
+    "landing" : {
+      "landed" : "message"
+    },
+    "ms" : 123948
+  } ],
+  "stream" : "e2e-forget-1789033376080",
+  "at" : "2026-09-10T09:46:32.698486926Z",
+  "live_run_id" : "529c559d61ce"
+}
