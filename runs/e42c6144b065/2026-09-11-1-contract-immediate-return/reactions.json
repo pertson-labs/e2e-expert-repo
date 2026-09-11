@@ -1,0 +1,91 @@
+{
+  "run_id" : "mp-eng-dd86083b",
+  "gates" : [ {
+    "id" : "aswritten/clarify",
+    "run?" : false,
+    "gate" : 2,
+    "reason" : "score 0.0 < threshold 0.7",
+    "score" : 0.0,
+    "evidence" : [ "commitment-marker: Key decision:", "performed-act: We ratified the async job contract", "Explicitly prefaced as a settled decision structuring operational execution.", "remember returns a receipt in seconds and the extraction is watched by polling a cursor." ]
+  }, {
+    "id" : "aswritten/refract",
+    "run?" : true,
+    "gate" : 2,
+    "reason" : "predicate only"
+  }, {
+    "id" : "aswritten/review",
+    "run?" : false,
+    "gate" : 1,
+    "reason" : "skill off"
+  }, {
+    "id" : "aswritten/riff",
+    "run?" : false,
+    "gate" : 1,
+    "reason" : "requires perspective, expand"
+  } ],
+  "spend" : {
+    "cost_usd" : 0.007517,
+    "passes" : [ {
+      "pass" : "reaction:_score",
+      "llm_calls" : 1,
+      "cost_usd" : 0.00152955
+    }, {
+      "pass" : "reaction:refract",
+      "llm_calls" : 1,
+      "cost_usd" : 0.0059871
+    } ]
+  },
+  "bundle" : {
+    "items" : 1,
+    "audience" : "only-me",
+    "recipients" : 1,
+    "moments_cached" : true,
+    "sent" : [ {
+      "items" : [ {
+        "kind" : "note",
+        "skill" : "aswritten/refract",
+        "audience" : "speakers"
+      } ],
+      "handle" : "xena+staging@aswritten.ai",
+      "channel" : "email",
+      "status" : "sent",
+      "front_message_id" : "msg_3cyyk814",
+      "front_conversation_id" : "cnv_1p73ayjs"
+    } ]
+  },
+  "policy" : {
+    "mode" : "on",
+    "budget_per_run_usd" : 0.25,
+    "channels" : [ "email", "sms" ]
+  },
+  "jobs" : [ {
+    "skill" : "aswritten/refract",
+    "status" : "ok",
+    "gate" : { },
+    "output" : {
+      "lens" : {
+        "shift" : "remember is now governed by a ratified async job contract: it dispatches and returns a receipt in seconds, the run is watched by polling a cursor, and no call blocks — a dropped receipt loses no work. We now design against the receipt, the cursor, and piggybacked reactions instead of against a call that waits.",
+        "affected" : [ ],
+        "other_lenses" : [ ],
+        "drew_on" : [ "document — Wynn: 'We ratified the async job contract: remember returns a receipt in seconds and the extraction is watched by polling a cursor. No blocking call, and no lost work if the client drops the receipt.'", "document — 'Key decision: remember dispatches, then the agent either polls the run or gets the reaction piggybacked on a later call.'", "narrated.delta_line — 'ratifying a non-blocking dispatch pattern where receipts return immediately… resilience against client disconnects'", "committed.tx — narr:Position_AsyncRememberJobContract (new position on how the async job contract structures remember dispatch, execution polling, and reaction delivery)", "committed.tx — narr:Narrative_NonBlockingAsyncReceiptDispatch (immediate receipt return with polling and piggybacked delivery prevents blocking and lost work)" ],
+        "quote" : "We ratified the async job contract: remember returns a receipt in seconds and the extraction is watched by polling a cursor.",
+        "approaches" : [ "what remember returns — a receipt, not a result", "how an agent follows a run — polling the cursor or taking the reaction piggybacked on a later call", "client failure handling — a dropped receipt is safe, not lost work" ],
+        "speaker" : "Wynn Castellano",
+        "message" : "Here's the shift: remember now runs under a ratified async job contract — it dispatches and returns a receipt in seconds, the run is watched by polling a cursor, and no call blocks; a dropped receipt loses no work. It changes how we approach what remember returns (a receipt, not a result), how an agent follows a run (poll the cursor, or take the reaction piggybacked on a later call), and what a client dropping the receipt means (safe, not lost work).\n\nAs written: \"No blocking call, and no lost work if the client drops the receipt.\"\n\nThrough the shift: the receipt is the return value and the cursor is the progress handle. After dispatch, the caller polls the run or takes the reaction piggybacked on a later call — no call stays open waiting on work, and a dropped receipt is a normal, recoverable event rather than a failure to engineer around.\n\nRight shift?\n\nThis contract note is the only document in view, so the reach beyond it is unproven — nothing else to sweep yet. Want me to apply this across this stream's documents as they land?",
+        "eye_chart" : {
+          "document" : ".aswritten/memories/2026-09-11-1-contract-immediate-return.md",
+          "section" : "Wynn: \"We ratified the async job contract…\"",
+          "as_written" : "We ratified the async job contract: remember returns a receipt in seconds and the extraction is watched by polling a cursor. No blocking call, and no lost work if the client drops the receipt.",
+          "through_the_lens" : "Read through the shift, this is the whole interface in three moves: the receipt is what remember hands back and the only thing the caller holds; the cursor is how the run is followed; and the piggyback branch is how reactions arrive without a second request. Any call that blocks on the work would break the contract, and a client that drops the receipt still gets its reaction by poll or on a later call — nothing is lost."
+        }
+      }
+    },
+    "landing" : {
+      "landed" : "message"
+    },
+    "ms" : 98396
+  } ],
+  "stream" : "e2e-contract-1789120578112",
+  "at" : "2026-09-11T09:59:27.680513294Z",
+  "live_run_id" : "e42c6144b065"
+}
