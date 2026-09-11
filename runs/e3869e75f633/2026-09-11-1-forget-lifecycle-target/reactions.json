@@ -1,0 +1,77 @@
+{
+  "run_id" : "mp-eng-a7f13b8f",
+  "gates" : [ {
+    "id" : "aswritten/clarify",
+    "run?" : false,
+    "gate" : 2,
+    "reason" : "score 0.0 < threshold 0.7",
+    "score" : 0.0,
+    "evidence" : [ "The Kestrelwood spectrograph is now calibrated at 88.4 MHz.", "**Calibration**: 88.4 MHz, verified against June reference plates", "Clear unhedged empirical assertion supported by reference verification.", "Direct factual assertion regarding calibration status stated without hedging." ]
+  }, {
+    "id" : "aswritten/refract",
+    "run?" : true,
+    "gate" : 2,
+    "reason" : "predicate only"
+  }, {
+    "id" : "aswritten/review",
+    "run?" : false,
+    "gate" : 1,
+    "reason" : "skill off"
+  }, {
+    "id" : "aswritten/riff",
+    "run?" : false,
+    "gate" : 1,
+    "reason" : "requires perspective, expand"
+  } ],
+  "spend" : {
+    "cost_usd" : 0.003835,
+    "passes" : [ {
+      "pass" : "reaction:_score",
+      "llm_calls" : 1,
+      "cost_usd" : 0.0014266
+    }, {
+      "pass" : "reaction:refract",
+      "llm_calls" : 1,
+      "cost_usd" : 0.0024084
+    } ]
+  },
+  "bundle" : {
+    "items" : 1,
+    "audience" : "only-me",
+    "recipients" : 1,
+    "moments_cached" : true,
+    "sent" : [ {
+      "items" : [ {
+        "kind" : "note",
+        "skill" : "aswritten/refract",
+        "audience" : "speakers"
+      } ],
+      "handle" : "xena+staging@aswritten.ai",
+      "channel" : "email",
+      "status" : "sent",
+      "front_message_id" : "msg_3cyy5hyg",
+      "front_conversation_id" : "cnv_1p731uso"
+    } ]
+  },
+  "policy" : {
+    "mode" : "on",
+    "budget_per_run_usd" : 0.25,
+    "channels" : [ "email", "sms" ]
+  },
+  "jobs" : [ {
+    "skill" : "aswritten/refract",
+    "status" : "ok",
+    "gate" : { },
+    "output" : {
+      "lens" : null,
+      "ask" : "The Kestrelwood spectrograph is now held as calibrated at 88.4 MHz and verified against the June reference plates across the full observing band, but the document index is empty so this has nowhere to land — point me at the instrument or observing records it should move."
+    },
+    "landing" : {
+      "landed" : "message"
+    },
+    "ms" : 30316
+  } ],
+  "stream" : "e2e-forget-1789119593363",
+  "at" : "2026-09-11T09:41:16.308223353Z",
+  "live_run_id" : "e3869e75f633"
+}
