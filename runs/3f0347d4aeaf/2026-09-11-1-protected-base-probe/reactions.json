@@ -1,0 +1,77 @@
+{
+  "run_id" : "mp-eng-0fa81d14",
+  "gates" : [ {
+    "id" : "aswritten/clarify",
+    "run?" : false,
+    "gate" : 2,
+    "reason" : "score 0.0 < threshold 0.7",
+    "score" : 0.0,
+    "evidence" : [ "Every Meridian deployment now requires a signed release\nmanifest before it ships.", "- **Scope**: applies to staging and production", "- **Owner**: Quinton Fairweather", "We saw two unsigned artifacts reach staging\nlast quarter and that is the whole reason for the gate." ]
+  }, {
+    "id" : "aswritten/refract",
+    "run?" : true,
+    "gate" : 2,
+    "reason" : "predicate only"
+  }, {
+    "id" : "aswritten/review",
+    "run?" : false,
+    "gate" : 1,
+    "reason" : "skill off"
+  }, {
+    "id" : "aswritten/riff",
+    "run?" : false,
+    "gate" : 1,
+    "reason" : "requires perspective, expand"
+  } ],
+  "spend" : {
+    "cost_usd" : 0.004878,
+    "passes" : [ {
+      "pass" : "reaction:_score",
+      "llm_calls" : 1,
+      "cost_usd" : 0.0019193
+    }, {
+      "pass" : "reaction:refract",
+      "llm_calls" : 1,
+      "cost_usd" : 0.0029583
+    } ]
+  },
+  "bundle" : {
+    "items" : 1,
+    "audience" : "only-me",
+    "recipients" : 1,
+    "moments_cached" : true,
+    "sent" : [ {
+      "items" : [ {
+        "kind" : "note",
+        "skill" : "aswritten/refract",
+        "audience" : "speakers"
+      } ],
+      "handle" : "xena+staging@aswritten.ai",
+      "channel" : "email",
+      "status" : "sent",
+      "front_message_id" : "msg_3cyyhico",
+      "front_conversation_id" : "cnv_1p7398fc"
+    } ]
+  },
+  "policy" : {
+    "mode" : "on",
+    "budget_per_run_usd" : 0.25,
+    "channels" : [ "email", "sms" ]
+  },
+  "jobs" : [ {
+    "skill" : "aswritten/refract",
+    "status" : "ok",
+    "gate" : { },
+    "output" : {
+      "lens" : null,
+      "ask" : "I can see the shift — every Meridian deployment now requires a signed release manifest before it ships, staging and production both, with Quinton Fairweather owning the gate — but no documents came through to read it against, so I can't yet say what moves; share the release and deployment docs and I'll map everything this gate touches."
+    },
+    "landing" : {
+      "landed" : "message"
+    },
+    "ms" : 43476
+  } ],
+  "stream" : "aswr/updates-e2e-protected",
+  "at" : "2026-09-11T09:56:03.127180725Z",
+  "live_run_id" : "3f0347d4aeaf"
+}
