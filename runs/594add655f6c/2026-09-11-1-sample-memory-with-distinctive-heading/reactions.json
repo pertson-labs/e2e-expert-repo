@@ -1,0 +1,91 @@
+{
+  "run_id" : "mp-eng-24069268",
+  "gates" : [ {
+    "id" : "aswritten/clarify",
+    "run?" : false,
+    "gate" : 2,
+    "reason" : "score 0.1 < threshold 0.7",
+    "score" : 0.1,
+    "evidence" : [ "plain-assertion: Submitted without an explicit id field.", "commitment-marker: The pipeline must produce", "lexical-marker: deterministic slugify fallback", "Defines an operational requirement/rule with normative modal 'must', settling the required pipeline behavior." ]
+  }, {
+    "id" : "aswritten/refract",
+    "run?" : true,
+    "gate" : 2,
+    "reason" : "predicate only"
+  }, {
+    "id" : "aswritten/review",
+    "run?" : false,
+    "gate" : 1,
+    "reason" : "skill off"
+  }, {
+    "id" : "aswritten/riff",
+    "run?" : false,
+    "gate" : 1,
+    "reason" : "requires perspective, expand"
+  } ],
+  "spend" : {
+    "cost_usd" : 0.009377,
+    "passes" : [ {
+      "pass" : "reaction:_score",
+      "llm_calls" : 1,
+      "cost_usd" : 0.00278415
+    }, {
+      "pass" : "reaction:refract",
+      "llm_calls" : 1,
+      "cost_usd" : 0.0065925
+    } ]
+  },
+  "bundle" : {
+    "items" : 1,
+    "audience" : "only-me",
+    "recipients" : 1,
+    "moments_cached" : true,
+    "sent" : [ {
+      "items" : [ {
+        "kind" : "note",
+        "skill" : "aswritten/refract",
+        "audience" : "speakers"
+      } ],
+      "handle" : "xena+staging@aswritten.ai",
+      "channel" : "email",
+      "status" : "sent",
+      "front_message_id" : "msg_3cyylkbs",
+      "front_conversation_id" : "cnv_1p73bt60"
+    } ]
+  },
+  "policy" : {
+    "mode" : "on",
+    "budget_per_run_usd" : 0.25,
+    "channels" : [ "email", "sms" ]
+  },
+  "jobs" : [ {
+    "skill" : "aswritten/refract",
+    "status" : "ok",
+    "gate" : { },
+    "output" : {
+      "lens" : {
+        "shift" : "A submission that arrives without an explicit id is no longer an unspecified edge case: the organization now holds it as a standing requirement that the system derive the identifier itself — LLM id-gen first, deterministic slugify fallback behind it — and commit the file successfully every time. The fallback is the guarantee, so a missing id can never block a memory from landing.",
+        "affected" : [ ],
+        "other_lenses" : [ ],
+        "drew_on" : [ "narrated.delta_line: \"minting a position on automated identifier resolution… establishes a technical requirement for deterministic slugify fallbacks when submissions lack explicit IDs\"", "committed.tx narr:Position_SubmissionIdentifierResolution frame: \"how does the pipeline resolve and commit memory submissions that arrive without an explicit id?\"", "committed.tx narr:Narrative_AutomatedIdentifierDerivation frame: \"resolve missing explicit IDs through LLM generation and deterministic fallback to guarantee successful commit\"", "committed.tx VecConviction_1SampleMemoryWithDistinctiveHeading_2: evidence \"commitment-marker: The pipeline must produce\", region Conviction_Decision — \"settling the required pipeline behavior\"", "document body: \"The pipeline must produce a slug… and commit the file successfully.\"" ],
+        "quote" : "The pipeline must produce a slug from the memory content — either via the LLM id-gen call or the deterministic slugify fallback — and commit the file successfully.",
+        "approaches" : [ "submissions that arrive without an explicit id — expected input, not an error", "the handoff from the LLM id-gen call to the deterministic slugify fallback — a required backstop, not a convenience", "what counts as a failed commit — a missing id no longer qualifies" ],
+        "speaker" : "Xena ExpertGH",
+        "message" : "Here's the shift: a submission that arrives without an explicit id is no longer an unspecified edge case — it's now a standing requirement that the system derive the identifier itself (LLM id-gen first, deterministic slugify fallback behind it) and commit the file successfully every time. The fallback is the guarantee: a missing id can never block a memory from landing.\n\nWhat it changes our approach to: submissions lacking an explicit id (expected input, not an error), the handoff from the id-gen call to the deterministic slugify fallback (a required backstop, not a convenience), and what counts as a failed commit (a missing id no longer qualifies).\n\nAs written, in this memory: \"Submitted without an explicit id field. The pipeline must produce a slug from the memory content — either via the LLM id-gen call or the deterministic slugify fallback — and commit the file successfully.\"\n\nRead through the shift: \"must\" binds the whole ingest — if the id-gen call comes back empty, the deterministic slugify takes over and the file still commits. A submission without an id is an expected input, and the fallback exists precisely so the commit succeeds; there's no reading where the submission is turned away for lacking one.\n\nRight lens?\n\nFor now this shift lives in one document — nothing else in this stream is indexed yet, so there's no affected list to give you. Point me at any documents it should reach (ingestion specs, validation or error-handling notes) and I'll apply it across all of them in one pass.",
+        "eye_chart" : {
+          "document" : ".aswritten/memories/2026-09-11-1-sample-memory-with-distinctive-heading.md",
+          "section" : "# Sample Memory With Distinctive Heading",
+          "as_written" : "Submitted without an explicit id field. The pipeline must produce a slug from the memory content — either via the LLM id-gen call or the deterministic slugify fallback — and commit the file successfully.",
+          "through_the_lens" : "This reads as a binding requirement, not a description of the happy path. 'Must' covers the whole ingest: if the id-gen call returns nothing, the deterministic slugify takes over and the file still commits. A submission lacking an id is an expected input, and the fallback exists precisely so the commit succeeds — there's no reading where the submission is turned away for lacking one."
+        }
+      }
+    },
+    "landing" : {
+      "landed" : "message"
+    },
+    "ms" : 64002
+  } ],
+  "stream" : "e2e-derive-id-1789120686743",
+  "at" : "2026-09-11T10:00:54.196219088Z",
+  "live_run_id" : "594add655f6c"
+}
