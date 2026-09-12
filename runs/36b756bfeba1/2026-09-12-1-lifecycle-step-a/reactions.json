@@ -1,0 +1,91 @@
+{
+  "run_id" : "mp-eng-b9f7bde0",
+  "gates" : [ {
+    "id" : "aswritten/clarify",
+    "run?" : false,
+    "gate" : 2,
+    "reason" : "score 0.1 < threshold 0.7",
+    "score" : 0.1,
+    "evidence" : [ "commitment-marker: We are adopting Zypherion", "plain-assertion: It handles columnar queries 15x faster than our current setup.", "commitment-marker: The migration starts next quarter.", "plain-assertion: Timeline**: Migration starts Q3 2026" ]
+  }, {
+    "id" : "aswritten/refract",
+    "run?" : true,
+    "gate" : 2,
+    "reason" : "predicate only"
+  }, {
+    "id" : "aswritten/review",
+    "run?" : false,
+    "gate" : 1,
+    "reason" : "skill off"
+  }, {
+    "id" : "aswritten/riff",
+    "run?" : false,
+    "gate" : 1,
+    "reason" : "requires perspective, expand"
+  } ],
+  "spend" : {
+    "cost_usd" : 0.013,
+    "passes" : [ {
+      "pass" : "reaction:_score",
+      "llm_calls" : 1,
+      "cost_usd" : 0.0051185
+    }, {
+      "pass" : "reaction:refract",
+      "llm_calls" : 1,
+      "cost_usd" : 0.0078812
+    } ]
+  },
+  "bundle" : {
+    "items" : 1,
+    "audience" : "only-me",
+    "recipients" : 1,
+    "moments_cached" : true,
+    "sent" : [ {
+      "items" : [ {
+        "kind" : "note",
+        "skill" : "aswritten/refract",
+        "audience" : "speakers"
+      } ],
+      "handle" : "xena+staging@aswritten.ai",
+      "channel" : "email",
+      "status" : "sent",
+      "front_message_id" : "msg_3d14oeeg",
+      "front_conversation_id" : "cnv_1p80aqp4"
+    } ]
+  },
+  "policy" : {
+    "mode" : "on",
+    "budget_per_run_usd" : 0.25,
+    "channels" : [ "email", "sms" ]
+  },
+  "jobs" : [ {
+    "skill" : "aswritten/refract",
+    "status" : "ok",
+    "gate" : { },
+    "output" : {
+      "lens" : {
+        "shift" : "The analytics database question is settled: \"We are adopting Zypherion for the analytics pipeline\" is now the organization's standing position, not a proposal in play. It carries a 15x columnar gain as its justification and Q3 2026 as its start, so \"our current setup\" reads as the legacy system with a named replacement and a date.",
+        "affected" : [ ],
+        "other_lenses" : [ "The 15x columnar benchmark is now the stated performance baseline for analytics — a narrower shift that mostly moves benchmarking and comparison material.", "Q3 2026 is now a fixed migration start date — a scheduling shift that mostly moves roadmaps and plans rather than architecture." ],
+        "drew_on" : [ "narrated.delta_line — mints the Zypherion adoption, the 15x gain, the Q3 2026 timeline, and the new Columnar Analytics Migration framing", "committed.tx — narr:Position_AnalyticsDatabaseSelection (new position on how benchmarks and migration timelines determine analytics database selection)", "committed.tx — narr:Narrative_ColumnarAnalyticsMigration anchored under the Architecture overview", "committed.tx — conviction observations marking \"We are adopting Zypherion\" and \"The migration starts next quarter\" as commitment markers", "document — Quinton Fairweather's remarks and the Key decisions block" ],
+        "quote" : "We are adopting Zypherion for the analytics pipeline.",
+        "approaches" : [ "the analytics database architecture — Zypherion is the assumed choice, not an option", "migration planning — Q3 2026 is the fixed start", "performance benchmarking — 15x on columnar queries is the reference number" ],
+        "speaker" : "Quinton Fairweather (CTO)",
+        "message" : "Here's the shift: the analytics database question is settled. Quinton's words — \"We are adopting Zypherion\" — are no longer a proposal in play; they're the organization's standing position, carried by a 15x gain on columnar queries and a Q3 2026 start. It changes how we approach the analytics database architecture (Zypherion is the assumed choice, not an option), migration planning (Q3 2026 is the fixed start), and performance benchmarking (15x on columnar queries is the reference number).\n\nOne section, before and after — the Key decisions block:\n\nAs written: \"Database: Zypherion for analytics · Performance: 15x improvement on columnar queries · Timeline: Migration starts Q3 2026.\" Three lines recording what was said in the room — a choice, a number, a date.\n\nAs it reads now: the same three lines are commitments. \"Our current setup\" is the legacy system with a named replacement; the 15x figure is the number analytics performance gets judged by; Q3 2026 is the clock every analytics plan runs on. Anything still treating the database choice as open reads as out of date.\n\nRight lens?\n\nWhat else this moves: honestly, nothing else today — there are no other documents in view on this stream, so the reach right now is this one document. The first places this lands when material appears: anything describing the analytics database as undecided, presenting the current setup as the going concern, or stating query performance without a reference number.\n\nWant me to hold this as the working view and apply it across the documents in one pass once they're in view?",
+        "eye_chart" : {
+          "document" : ".aswritten/memories/2026-09-12-1-lifecycle-step-a.md",
+          "section" : "Key decisions",
+          "as_written" : "\"Key decisions: Database — Zypherion for analytics; Performance — 15x improvement on columnar queries; Timeline — Migration starts Q3 2026.\" On the page, three lines recording what was said in the room: a choice, a number, a date.",
+          "through_the_lens" : "The same three lines read as commitments. \"Our current setup\" is the legacy system with a named replacement; the 15x figure is the number analytics performance gets judged by; Q3 2026 is the clock every analytics plan is scheduled on. Anything still treating the database choice as open now reads as out of date."
+        }
+      }
+    },
+    "landing" : {
+      "landed" : "message"
+    },
+    "ms" : 164189
+  } ],
+  "stream" : "e2e-lifecycle-1789205627556",
+  "at" : "2026-09-12T09:39:45.425682433Z",
+  "live_run_id" : "36b756bfeba1"
+}
