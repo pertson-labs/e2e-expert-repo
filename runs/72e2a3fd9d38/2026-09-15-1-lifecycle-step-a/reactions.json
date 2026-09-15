@@ -1,0 +1,64 @@
+{
+  "run_id" : "mp-eng-805c9656",
+  "gates" : [ {
+    "id" : "aswritten/clarify",
+    "run?" : false,
+    "gate" : 2,
+    "reason" : "score 0.0 < threshold 0.7",
+    "score" : 0.0,
+    "evidence" : [ ]
+  }, {
+    "id" : "aswritten/refract",
+    "run?" : true,
+    "gate" : 2,
+    "reason" : "predicate only"
+  }, {
+    "id" : "aswritten/review",
+    "run?" : false,
+    "gate" : 1,
+    "reason" : "skill off"
+  }, {
+    "id" : "aswritten/riff",
+    "run?" : false,
+    "gate" : 1,
+    "reason" : "requires perspective, expand"
+  } ],
+  "spend" : {
+    "cost_usd" : null,
+    "unknown" : true,
+    "passes" : [ {
+      "pass" : "reaction:_score",
+      "llm_calls" : 3,
+      "cost_usd" : null
+    }, {
+      "pass" : "reaction:refract",
+      "llm_calls" : 3,
+      "cost_usd" : null
+    } ]
+  },
+  "bundle" : {
+    "items" : 0,
+    "audience" : "only-me",
+    "recipients" : 1,
+    "moments_cached" : true,
+    "sent" : [ ]
+  },
+  "policy" : {
+    "mode" : "on",
+    "budget_per_run_usd" : 0.25,
+    "channels" : [ "email", "sms" ]
+  },
+  "jobs" : [ {
+    "skill" : "aswritten/refract",
+    "status" : "failed",
+    "reason" : "LLM call failed after 3 tries: relay HTTP 429: Provider returned error",
+    "gate" : { },
+    "landing" : {
+      "landed" : "message"
+    },
+    "ms" : 26171
+  } ],
+  "stream" : "e2e-lifecycle-1789465272120",
+  "at" : "2026-09-15T09:43:53.354187108Z",
+  "live_run_id" : "72e2a3fd9d38"
+}
