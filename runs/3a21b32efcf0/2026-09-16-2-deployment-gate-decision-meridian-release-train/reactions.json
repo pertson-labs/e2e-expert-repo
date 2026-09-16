@@ -1,0 +1,91 @@
+{
+  "run_id" : "mp-eng-59b79a4d",
+  "gates" : [ {
+    "id" : "aswritten/clarify",
+    "run?" : false,
+    "gate" : 2,
+    "reason" : "score 0.0 < threshold 0.7",
+    "score" : 0.0,
+    "evidence" : [ "**Gate**: signed release manifest required for Meridian deploys", "**Scope**: applies to staging and production", "**Owner**: Quinton Fairweather", "We saw two unsigned artifacts reach staging\nlast quarter and that is the whole reason for the gate." ]
+  }, {
+    "id" : "aswritten/refract",
+    "run?" : true,
+    "gate" : 2,
+    "reason" : "predicate only"
+  }, {
+    "id" : "aswritten/review",
+    "run?" : false,
+    "gate" : 1,
+    "reason" : "skill off"
+  }, {
+    "id" : "aswritten/riff",
+    "run?" : false,
+    "gate" : 1,
+    "reason" : "requires perspective, expand"
+  } ],
+  "spend" : {
+    "cost_usd" : 0.008191,
+    "passes" : [ {
+      "pass" : "reaction:_score",
+      "llm_calls" : 1,
+      "cost_usd" : 0.00198985
+    }, {
+      "pass" : "reaction:refract",
+      "llm_calls" : 1,
+      "cost_usd" : 0.00620085
+    } ]
+  },
+  "bundle" : {
+    "items" : 1,
+    "audience" : "only-me",
+    "recipients" : 1,
+    "moments_cached" : true,
+    "sent" : [ {
+      "items" : [ {
+        "kind" : "note",
+        "skill" : "aswritten/refract",
+        "audience" : "speakers"
+      } ],
+      "handle" : "xena+staging@aswritten.ai",
+      "channel" : "email",
+      "status" : "sent",
+      "front_message_id" : "msg_3d7gchk8",
+      "front_conversation_id" : "cnv_1pb7x548"
+    } ]
+  },
+  "policy" : {
+    "mode" : "on",
+    "budget_per_run_usd" : 0.25,
+    "channels" : [ "email", "sms" ]
+  },
+  "jobs" : [ {
+    "skill" : "aswritten/refract",
+    "status" : "ok",
+    "gate" : { },
+    "output" : {
+      "lens" : {
+        "shift" : "A signed release manifest is now a hard precondition for shipping, not good practice: no Meridian deployment goes to staging or production without one. Artifact integrity moved from habit to enforced gate — scoped to staging and production, owned by Quinton Fairweather.",
+        "affected" : [ ],
+        "other_lenses" : [ "Deployment-gate accountability is now personally assigned: Quinton Fairweather owns the signed-manifest gate, so unsigned-deploy questions route to a named owner rather than the team at large." ],
+        "drew_on" : [ "narrated.delta_line: 'Mints a mandatory gate requiring signed release manifests for all Meridian deployments to staging and production… enforces artifact integrity following security incidents in the previous quarter'", "Quinton Fairweather in the conversation: 'Every Meridian deployment now requires a signed release manifest before it ships.'", "Quinton's rationale: 'We saw two unsigned artifacts reach staging last quarter and that is the whole reason for the gate.'", "Key decisions block: Gate / Scope (staging and production) / Owner (Quinton Fairweather)", "committed position narr:Position_ReleaseArtifactIntegrityVerification and narrative narr:Narrative_SignedReleaseManifestsEnforceDeploymentIntegrity" ],
+        "quote" : "Every Meridian deployment now requires a signed release manifest before it ships.",
+        "approaches" : [ "Meridian deploys to staging and production", "release artifact signing and provenance before deploy", "accountability when something ships unsigned" ],
+        "speaker" : "Quinton Fairweather",
+        "message" : "Here's the shift: a signed release manifest is no longer good practice — it's the price of shipping. Every Meridian deployment to staging or production now needs one first. Quinton Fairweather, in the decision: \"Every Meridian deployment now requires a signed release manifest before it ships.\" And the reason is on the record: \"We saw two unsigned artifacts reach staging last quarter and that is the whole reason for the gate.\" That changes how we approach Meridian releases, how artifacts get signed before deploy, and who answers when something ships unsigned.\n\nBefore/after, on the decision itself — the \"Key decisions\" section:\n\nAs written: **Gate**: signed release manifest required for Meridian deploys · **Scope**: applies to staging and production · **Owner**: Quinton Fairweather — three bullets recording what was decided on 2026-07-02.\n\nThrough the shift: a standing precondition. A Meridian deploy to staging or production without a signed manifest doesn't go out — blocked by default — and Quinton Fairweather is the named person accountable when one does. The burden sits on the artifact now: prove it's signed before it ships.\n\nRight lens?\n\nStraight answer on reach: this is the only document I can confirm it on right now — nothing else is in view, so I can't yet tell you how far it moves. If there are release runbooks, deploy checklists, or staging/production process docs, they're not in front of me and I won't invent them. If the shift is right, point me at the release and deploy docs and I'll map exactly what changes in each.",
+        "eye_chart" : {
+          "document" : ".aswritten/memories/2026-09-16-2-deployment-gate-decision-meridian-release-train.md",
+          "section" : "Key decisions",
+          "as_written" : "**Gate**: signed release manifest required for Meridian deploys · **Scope**: applies to staging and production · **Owner**: Quinton Fairweather — three bullets recording what was decided on 2026-07-02.",
+          "through_the_lens" : "A standing precondition, not a dated decision: a Meridian deploy to staging or production without a signed manifest doesn't go out — blocked by default — and Quinton Fairweather is the named person accountable when one does. The burden sits on the artifact now: prove it's signed before it ships, because last quarter two unsigned ones reached staging."
+        }
+      }
+    },
+    "landing" : {
+      "landed" : "message"
+    },
+    "ms" : 130407
+  } ],
+  "stream" : "e2e-protected",
+  "at" : "2026-09-16T13:35:36.368413644Z",
+  "live_run_id" : "3a21b32efcf0"
+}
