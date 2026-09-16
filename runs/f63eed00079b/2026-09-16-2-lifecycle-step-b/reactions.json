@@ -1,0 +1,91 @@
+{
+  "run_id" : "mp-eng-3a431509",
+  "gates" : [ {
+    "id" : "aswritten/clarify",
+    "run?" : false,
+    "gate" : 2,
+    "reason" : "score 0.0 < threshold 0.7",
+    "score" : 0.0,
+    "evidence" : [ "performed-act: We are now switching to Meridian instead.", "performed-act: This supersedes the previous Zypherion decision.", "commitment-marker: Same Q3 2026 migration window", "principal \\\"Quinton Fairweather\\\" is not the envelope's human (xena+staging@aswritten.ai) or 'session'" ]
+  }, {
+    "id" : "aswritten/refract",
+    "run?" : true,
+    "gate" : 2,
+    "reason" : "predicate only"
+  }, {
+    "id" : "aswritten/review",
+    "run?" : false,
+    "gate" : 1,
+    "reason" : "skill off"
+  }, {
+    "id" : "aswritten/riff",
+    "run?" : false,
+    "gate" : 1,
+    "reason" : "requires perspective, expand"
+  } ],
+  "spend" : {
+    "cost_usd" : 0.007273,
+    "passes" : [ {
+      "pass" : "reaction:_score",
+      "llm_calls" : 1,
+      "cost_usd" : 0.00218785
+    }, {
+      "pass" : "reaction:refract",
+      "llm_calls" : 1,
+      "cost_usd" : 0.00508495
+    } ]
+  },
+  "bundle" : {
+    "items" : 1,
+    "audience" : "only-me",
+    "recipients" : 1,
+    "moments_cached" : true,
+    "sent" : [ {
+      "items" : [ {
+        "kind" : "note",
+        "skill" : "aswritten/refract",
+        "audience" : "speakers"
+      } ],
+      "handle" : "xena+staging@aswritten.ai",
+      "channel" : "email",
+      "status" : "sent",
+      "front_message_id" : "msg_3d73ti5k",
+      "front_conversation_id" : "cnv_1pb11rag"
+    } ]
+  },
+  "policy" : {
+    "mode" : "on",
+    "budget_per_run_usd" : 0.25,
+    "channels" : [ "email", "sms" ]
+  },
+  "jobs" : [ {
+    "skill" : "aswritten/refract",
+    "status" : "ok",
+    "gate" : { },
+    "output" : {
+      "lens" : {
+        "shift" : "Zypherion is out: further evaluation found critical gaps in its streaming ingestion, so Meridian — which handles batch and streaming natively — is the analytics database now. The Q3 2026 migration window is unchanged; only the engine named in it changes.",
+        "affected" : [ ],
+        "other_lenses" : [ ],
+        "drew_on" : [ "Memo quote: 'We evaluated Zypherion further and found critical gaps in its streaming ingestion. We are now switching to Meridian instead.'", "Memo: 'This supersedes the previous Zypherion decision.'", "Memo: 'Timeline: Same Q3 2026 migration window'", "Committed supersession: Position_MeridianAnalyticsAdoption supersedes Position_ZypherionAnalyticsAdoption", "Committed: unified batch + streaming selection frame supersedes the prior columnar-engine frame (Narrative_UnifiedStreamingAnalyticsAdoption supersedes Narrative_ColumnarEngineAdoption)", "Narrated delta line: pivot to Meridian citing streaming ingestion gaps, Q3 2026 timeline retained", "Hub reaction on AnalyticsPipeline: core trajectory holds, scheduled transition undisrupted" ],
+        "quote" : "We evaluated Zypherion further and found critical gaps in its streaming ingestion. We are now switching to Meridian instead.",
+        "approaches" : [ "analytics engine selection", "the Q3 2026 migration plan", "streaming ingestion requirements" ],
+        "speaker" : "Quinton Fairweather (CTO)",
+        "message" : "Here's the shift: Zypherion is out. Further evaluation found critical gaps in its streaming ingestion, and Meridian — which handles batch and streaming natively — is the analytics database now. Quinton's memo is explicit: \"This supersedes the previous Zypherion decision.\" It changes our approach to analytics engine selection (native batch + streaming support is now the deciding criterion), the Q3 2026 migration plan (same window, different engine), and how streaming workloads weigh in infrastructure choices.\n\nBefore / after, on the memo's \"Key decisions\" block:\n\nAs written:\n- Database: Meridian replaces Zypherion for analytics\n- Reason: Zypherion lacks streaming ingestion\n- Timeline: Same Q3 2026 migration window\n\nThrough the shift: Zypherion is no longer the plan of record — anything naming it as the analytics target now points to Meridian. The criterion on record is native batch and streaming support; Zypherion failed it. The Q3 2026 window stands untouched, so dates and dependencies keyed to the timeline hold; only the engine named in them changes.\n\nRight lens?\n\nOn reach: this should move everything that names Zypherion as the analytics database or schedules against the Q3 2026 migration — but no other documents came through with this pass, so I can't list them yet. The memo is the one document in view.\n\nWant me to pull the documents that reference Zypherion or the migration and apply this across them?",
+        "eye_chart" : {
+          "document" : ".aswritten/memories/2026-09-16-2-lifecycle-step-b.md",
+          "section" : "Key decisions",
+          "as_written" : "- **Database**: Meridian replaces Zypherion for analytics\n- **Reason**: Zypherion lacks streaming ingestion\n- **Timeline**: Same Q3 2026 migration window",
+          "through_the_lens" : "Zypherion is no longer the plan of record — anything naming it as the analytics target now points to Meridian. The deciding criterion on record is native batch and streaming support; Zypherion failed it on streaming ingestion. The Q3 2026 window stands, so dates and dependencies keyed to the timeline hold; only the engine named in them changes."
+        }
+      }
+    },
+    "landing" : {
+      "landed" : "message"
+    },
+    "ms" : 51306
+  } ],
+  "stream" : "e2e-lifecycle-1789551544730",
+  "at" : "2026-09-16T09:43:37.133860014Z",
+  "live_run_id" : "f63eed00079b"
+}
