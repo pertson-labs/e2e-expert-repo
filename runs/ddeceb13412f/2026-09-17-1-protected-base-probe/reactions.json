@@ -1,0 +1,95 @@
+{
+  "run_id" : "mp-eng-46b4e1f5",
+  "gates" : [ {
+    "id" : "aswritten/clarify",
+    "run?" : false,
+    "gate" : 2,
+    "reason" : "score 0.0 < threshold 0.7",
+    "score" : 0.0,
+    "evidence" : [ "plain-assertion: We saw two unsigned artifacts reach staging\nlast quarter and that is the whole reason for the gate.", "commitment-marker: applies to staging and production", "commitment-marker: signed release manifest required for Meridian deploys" ]
+  }, {
+    "id" : "aswritten/refract",
+    "run?" : true,
+    "gate" : 2,
+    "reason" : "predicate only"
+  }, {
+    "id" : "aswritten/review",
+    "run?" : false,
+    "gate" : 1,
+    "reason" : "skill off"
+  }, {
+    "id" : "aswritten/riff",
+    "run?" : false,
+    "gate" : 1,
+    "reason" : "requires perspective, expand"
+  } ],
+  "spend" : {
+    "cost_usd" : 0.008707,
+    "passes" : [ {
+      "pass" : "reaction:_score",
+      "llm_calls" : 1,
+      "cost_usd" : 0.0021483
+    }, {
+      "pass" : "reaction:refract",
+      "llm_calls" : 1,
+      "cost_usd" : 0.0065583
+    } ]
+  },
+  "bundle" : {
+    "items" : 1,
+    "audience" : "only-me",
+    "recipients" : 1,
+    "moments_cached" : true,
+    "sent" : [ {
+      "items" : [ {
+        "kind" : "note",
+        "skill" : "aswritten/refract",
+        "audience" : "speakers"
+      } ],
+      "handle" : "xena+staging@aswritten.ai",
+      "channel" : "email",
+      "status" : "sent",
+      "front_message_id" : "msg_3d9gvi5k",
+      "front_conversation_id" : "cnv_1pc805m0"
+    } ]
+  },
+  "policy" : {
+    "mode" : "on",
+    "budget_per_run_usd" : 0.25,
+    "channels" : [ "email", "sms" ]
+  },
+  "jobs" : [ {
+    "skill" : "aswritten/refract",
+    "status" : "ok",
+    "gate" : { },
+    "output" : {
+      "lens" : {
+        "shift" : "Meridian artifacts are no longer trusted by default: nothing ships to staging or production without a signed release manifest. Verification moved from a production concern to a pre-ship gate covering every environment.",
+        "affected" : [ {
+          "document" : ".aswritten/memories/2026-09-17-1-protected-base-probe.md",
+          "section" : "Key decisions",
+          "how" : "The gate's home record — every future Meridian deploy note gets read against its scope line; no other documents exist in this stream's index to move."
+        } ],
+        "other_lenses" : [ "Past lapses as standing justification: the two unsigned artifacts that reached staging last quarter become the organization's reference case for defending security controls generally, not just the reason for this one gate." ],
+        "drew_on" : [ "Quinton Fairweather: \"Every Meridian deployment now requires a signed release manifest before it ships.\"", "Quinton Fairweather: \"We saw two unsigned artifacts reach staging last quarter and that is the whole reason for the gate.\"", "Key decisions: \"Scope: applies to staging and production\"", "narrated.delta_line: \"Mints a mandatory deployment gate for Meridian releases, requiring signed manifests for staging and production\"", "committed.tx: narr:Position_MeridianDeploymentGateRequirements and narr:Narrative_SignedManifestRequiredForMeridianDeployments, with Conviction_Decision observations on \"now requires a signed release manifest\" and \"applies to staging and production\"" ],
+        "quote" : "Every Meridian deployment now requires a signed release manifest before it ships.",
+        "approaches" : [ "how Meridian releases ship", "what staging accepts", "how we justify the next security control" ],
+        "speaker" : "Quinton Fairweather (CTO)",
+        "message" : "Here's the shift: Meridian artifacts are no longer trusted by default — nothing ships to staging or production without a signed release manifest. Quinton put it flat: \"Every Meridian deployment now requires a signed release manifest before it ships.\"\n\nIt changes our approach to how Meridian releases ship (every deploy now passes the gate), what staging accepts (unsigned builds no longer land there), and how we justify the next security control (the two unsigned artifacts from last quarter are the standing reason, not a one-off).\n\nOne place to check it — the decision record's \"Key decisions\":\nAs written: \"Gate: signed release manifest required for Meridian deploys. Scope: applies to staging and production. Owner: Quinton Fairweather.\"\nThrough the shift: that scope line is the load-bearing one. Staging stops being the forgiving environment — an unsigned build that used to be fine there is now unshippable, same bar as production. And the two unsigned artifacts stop being backstory; they're the precedent the gate gets defended with.\n\nRight lens?\n\nWhat it moves: honestly, one document — this decision record itself. Your stream's document index is empty; there's no runbook, release checklist, or staging policy here to move, and I won't stretch the list to fill it.\n\nWant me to apply this across these 1 documents — or hold until the deployment docs land in the index?",
+        "eye_chart" : {
+          "document" : ".aswritten/memories/2026-09-17-1-protected-base-probe.md",
+          "section" : "Key decisions",
+          "as_written" : "Gate: signed release manifest required for Meridian deploys. Scope: applies to staging and production. Owner: Quinton Fairweather.",
+          "through_the_lens" : "The scope line is the load-bearing one: staging stops being the forgiving environment, and an unsigned build that used to land there is now unshippable — same bar as production. The two unsigned artifacts from last quarter stop being backstory and become the standing precedent the gate is defended with."
+        }
+      }
+    },
+    "landing" : {
+      "landed" : "message"
+    },
+    "ms" : 165544
+  } ],
+  "stream" : "aswr/updates-e2e-protected",
+  "at" : "2026-09-17T09:59:45.550237013Z",
+  "live_run_id" : "ddeceb13412f"
+}
