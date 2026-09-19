@@ -1,0 +1,77 @@
+{
+  "run_id" : "mp-eng-b42d66c0",
+  "gates" : [ {
+    "id" : "aswritten/clarify",
+    "run?" : false,
+    "gate" : 2,
+    "reason" : "score 0.0 < threshold 0.7",
+    "score" : 0.0,
+    "evidence" : [ "- **Scope**: applies to staging and production", "- **Owner**: Quinton Fairweather", "signed release manifest required for Meridian deploys", "We saw two unsigned artifacts reach staging\\nlast quarter and that is the whole reason for the gate." ]
+  }, {
+    "id" : "aswritten/refract",
+    "run?" : true,
+    "gate" : 2,
+    "reason" : "predicate only"
+  }, {
+    "id" : "aswritten/review",
+    "run?" : false,
+    "gate" : 1,
+    "reason" : "skill off"
+  }, {
+    "id" : "aswritten/riff",
+    "run?" : false,
+    "gate" : 1,
+    "reason" : "requires perspective, expand"
+  } ],
+  "spend" : {
+    "cost_usd" : 0.004738,
+    "passes" : [ {
+      "pass" : "reaction:_score",
+      "llm_calls" : 1,
+      "cost_usd" : 0.00215765
+    }, {
+      "pass" : "reaction:refract",
+      "llm_calls" : 1,
+      "cost_usd" : 0.00258065
+    } ]
+  },
+  "bundle" : {
+    "items" : 1,
+    "audience" : "only-me",
+    "recipients" : 1,
+    "moments_cached" : true,
+    "sent" : [ {
+      "items" : [ {
+        "kind" : "note",
+        "skill" : "aswritten/refract",
+        "audience" : "speakers"
+      } ],
+      "handle" : "xena+staging@aswritten.ai",
+      "channel" : "email",
+      "status" : "sent",
+      "front_message_id" : "msg_3ddiw3e0",
+      "front_conversation_id" : "cnv_1pe9riaw"
+    } ]
+  },
+  "policy" : {
+    "mode" : "on",
+    "budget_per_run_usd" : 0.25,
+    "channels" : [ "email", "sms" ]
+  },
+  "jobs" : [ {
+    "skill" : "aswritten/refract",
+    "status" : "ok",
+    "gate" : { },
+    "output" : {
+      "lens" : null,
+      "ask" : "I can see the shift — every Meridian deployment to staging and production now requires a signed release manifest before it ships, owned by Quinton Fairweather, after two unsigned artifacts reached staging last quarter — but there are no documents indexed on this stream yet, so point me at the release or deployment docs and I'll map what moves."
+    },
+    "landing" : {
+      "landed" : "message"
+    },
+    "ms" : 11531
+  } ],
+  "stream" : "aswr/updates-e2e-protected",
+  "at" : "2026-09-19T09:56:57.542739917Z",
+  "live_run_id" : "08d471ede29c"
+}
