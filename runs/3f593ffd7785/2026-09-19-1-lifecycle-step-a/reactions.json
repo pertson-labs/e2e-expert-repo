@@ -1,0 +1,96 @@
+{
+  "run_id" : "mp-eng-0a2de8ae",
+  "gates" : [ {
+    "id" : "aswritten/clarify",
+    "run?" : true,
+    "gate" : 2,
+    "score" : 0.8,
+    "evidence" : [ "commitment-marker: The migration starts next quarter.", "commitment-marker: Timeline**: Migration starts Q3 2026", "Mints a concrete migration position and timeline starting in Q3 2026.", "what database infrastructure and rollout timeline govern our analytics pipeline migration?" ],
+    "why" : "The conversation dates the same migration start two incompatible ways — prose says 'The migration starts next quarter' (Q4 as of the record's 2026-09-19 date) while the committed notes and the minted position lean on 'Q3 2026' with reconciliations at 0 — so the committed rollout timeline rests on an unresolved choice between the two, which is exactly a date stated two ways that the perspective now depends on."
+  }, {
+    "id" : "aswritten/refract",
+    "run?" : true,
+    "gate" : 2,
+    "reason" : "predicate only"
+  }, {
+    "id" : "aswritten/review",
+    "run?" : false,
+    "gate" : 1,
+    "reason" : "skill off"
+  }, {
+    "id" : "aswritten/riff",
+    "run?" : false,
+    "gate" : 1,
+    "reason" : "requires perspective, expand"
+  } ],
+  "spend" : {
+    "cost_usd" : 0.011332,
+    "passes" : [ {
+      "pass" : "reaction:_score",
+      "llm_calls" : 1,
+      "cost_usd" : 0.00746195
+    }, {
+      "pass" : "reaction:clarify",
+      "llm_calls" : 1,
+      "cost_usd" : 0.0018276
+    }, {
+      "pass" : "reaction:refract",
+      "llm_calls" : 1,
+      "cost_usd" : 0.00204265
+    } ]
+  },
+  "bundle" : {
+    "items" : 1,
+    "audience" : "only-me",
+    "recipients" : 1,
+    "moments_cached" : true,
+    "sent" : [ {
+      "items" : [ {
+        "kind" : "note",
+        "skill" : "aswritten/refract",
+        "audience" : "speakers"
+      } ],
+      "handle" : "xena+staging@aswritten.ai",
+      "channel" : "email",
+      "status" : "sent",
+      "front_message_id" : "msg_3ddiv0mg",
+      "front_conversation_id" : "cnv_1pe9qy94"
+    } ]
+  },
+  "policy" : {
+    "mode" : "on",
+    "budget_per_run_usd" : 0.25,
+    "channels" : [ "email", "sms" ]
+  },
+  "jobs" : [ {
+    "skill" : "aswritten/clarify",
+    "status" : "empty",
+    "gate" : {
+      "score" : 0.8,
+      "evidence" : [ "commitment-marker: The migration starts next quarter.", "commitment-marker: Timeline**: Migration starts Q3 2026", "Mints a concrete migration position and timeline starting in Q3 2026.", "what database infrastructure and rollout timeline govern our analytics pipeline migration?" ],
+      "why" : "The conversation dates the same migration start two incompatible ways — prose says 'The migration starts next quarter' (Q4 as of the record's 2026-09-19 date) while the committed notes and the minted position lean on 'Q3 2026' with reconciliations at 0 — so the committed rollout timeline rests on an unresolved choice between the two, which is exactly a date stated two ways that the perspective now depends on."
+    },
+    "output" : {
+      "questions" : [ ]
+    },
+    "landing" : {
+      "landed" : "message"
+    },
+    "ms" : 8298
+  }, {
+    "skill" : "aswritten/refract",
+    "status" : "ok",
+    "gate" : { },
+    "output" : {
+      "lens" : null,
+      "ask" : "The shift is real — Zypherion is now the settled database for analytics, 15x faster on columnar queries, with migration starting Q3 2026 — but this stream has no documents yet to check that decision against, so point me at where it should land (architecture notes, runbooks, the roadmap) and I'll confirm it there."
+    },
+    "landing" : {
+      "landed" : "message"
+    },
+    "ms" : 9674
+  } ],
+  "stream" : "e2e-lifecycle-1789811548395",
+  "at" : "2026-09-19T09:54:24.534610715Z",
+  "live_run_id" : "3f593ffd7785"
+}
