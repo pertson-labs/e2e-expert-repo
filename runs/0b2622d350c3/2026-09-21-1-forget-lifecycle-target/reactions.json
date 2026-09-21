@@ -1,0 +1,77 @@
+{
+  "run_id" : "mp-eng-a87ef0e5",
+  "gates" : [ {
+    "id" : "aswritten/clarify",
+    "run?" : false,
+    "gate" : 2,
+    "reason" : "score 0.0 < threshold 0.7",
+    "score" : 0.0,
+    "evidence" : [ "plain-assertion: The Kestrelwood spectrograph is now calibrated at 88.4 MHz.", "plain-assertion: We verified the calibration against the June reference plates", "Explicitly categorizes and records the calibration parameters as settled decisions." ]
+  }, {
+    "id" : "aswritten/refract",
+    "run?" : true,
+    "gate" : 2,
+    "reason" : "predicate only"
+  }, {
+    "id" : "aswritten/review",
+    "run?" : false,
+    "gate" : 1,
+    "reason" : "skill off"
+  }, {
+    "id" : "aswritten/riff",
+    "run?" : false,
+    "gate" : 1,
+    "reason" : "requires perspective, expand"
+  } ],
+  "spend" : {
+    "cost_usd" : 0.004741,
+    "passes" : [ {
+      "pass" : "reaction:_score",
+      "llm_calls" : 1,
+      "cost_usd" : 0.00149635
+    }, {
+      "pass" : "reaction:refract",
+      "llm_calls" : 1,
+      "cost_usd" : 0.00324465
+    } ]
+  },
+  "bundle" : {
+    "items" : 1,
+    "audience" : "only-me",
+    "recipients" : 1,
+    "moments_cached" : true,
+    "sent" : [ {
+      "items" : [ {
+        "kind" : "note",
+        "skill" : "aswritten/refract",
+        "audience" : "speakers"
+      } ],
+      "handle" : "xena+staging@aswritten.ai",
+      "channel" : "email",
+      "status" : "sent",
+      "front_message_id" : "msg_3deq9u08",
+      "front_conversation_id" : "cnv_1pexytd4"
+    } ]
+  },
+  "policy" : {
+    "mode" : "on",
+    "budget_per_run_usd" : 0.25,
+    "channels" : [ "email", "sms" ]
+  },
+  "jobs" : [ {
+    "skill" : "aswritten/refract",
+    "status" : "ok",
+    "gate" : { },
+    "output" : {
+      "lens" : null,
+      "ask" : "I can see the shift — the organization now treats verification against the June reference plates as its baseline for instrument reliability, starting with the Kestrelwood spectrograph at 88.4 MHz — but no documents are indexed on this stream yet, so I can't show where it lands; point me at the documents it should touch and I'll take it from there."
+    },
+    "landing" : {
+      "landed" : "message"
+    },
+    "ms" : 22924
+  } ],
+  "stream" : "e2e-forget-1789984069971",
+  "at" : "2026-09-21T09:49:28.413856938Z",
+  "live_run_id" : "0b2622d350c3"
+}
