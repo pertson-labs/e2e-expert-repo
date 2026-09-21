@@ -1,0 +1,77 @@
+{
+  "run_id" : "mp-eng-57d9776d",
+  "gates" : [ {
+    "id" : "aswritten/clarify",
+    "run?" : false,
+    "gate" : 2,
+    "reason" : "score 0.1 < threshold 0.7",
+    "score" : 0.1,
+    "evidence" : [ "its 88.4 MHz calibration", "Forget the Kestrelwood spectrograph calibration entirely.", "The observatory never calibrated it.", "narr:supersedes narr:Position_KestrelwoodSpectrographCalibration", "narr:contradicts narr:Position_KestrelwoodSpectrographCalibration" ]
+  }, {
+    "id" : "aswritten/refract",
+    "run?" : true,
+    "gate" : 2,
+    "reason" : "predicate only"
+  }, {
+    "id" : "aswritten/review",
+    "run?" : false,
+    "gate" : 1,
+    "reason" : "skill off"
+  }, {
+    "id" : "aswritten/riff",
+    "run?" : false,
+    "gate" : 1,
+    "reason" : "requires perspective, expand"
+  } ],
+  "spend" : {
+    "cost_usd" : 0.006178,
+    "passes" : [ {
+      "pass" : "reaction:_score",
+      "llm_calls" : 1,
+      "cost_usd" : 0.0032206
+    }, {
+      "pass" : "reaction:refract",
+      "llm_calls" : 1,
+      "cost_usd" : 0.0029577
+    } ]
+  },
+  "bundle" : {
+    "items" : 1,
+    "audience" : "only-me",
+    "recipients" : 1,
+    "moments_cached" : true,
+    "sent" : [ {
+      "items" : [ {
+        "kind" : "note",
+        "skill" : "aswritten/refract",
+        "audience" : "speakers"
+      } ],
+      "handle" : "xena+staging@aswritten.ai",
+      "channel" : "email",
+      "status" : "sent",
+      "front_message_id" : "msg_3deqcep4",
+      "front_conversation_id" : "cnv_1pey0b3c"
+    } ]
+  },
+  "policy" : {
+    "mode" : "on",
+    "budget_per_run_usd" : 0.25,
+    "channels" : [ "email", "sms" ]
+  },
+  "jobs" : [ {
+    "skill" : "aswritten/refract",
+    "status" : "ok",
+    "gate" : { },
+    "output" : {
+      "lens" : null,
+      "ask" : "I can see the shift — the observatory now holds that the Kestrelwood spectrograph was never calibrated at 88.4 MHz, that all records of it and of Quill Ashgrove's work are to be expunged, and that reference baselines can no longer be taken as proof of instrument reliability — but nothing came through showing where this lands, so point me at the calibration records and anything citing Quill Ashgrove's work and I'll put the before/after in front of you."
+    },
+    "landing" : {
+      "landed" : "message"
+    },
+    "ms" : 24841
+  } ],
+  "stream" : "e2e-forget-1789984069971",
+  "at" : "2026-09-21T09:54:23.353437298Z",
+  "live_run_id" : "b7cf271c0f6c"
+}
