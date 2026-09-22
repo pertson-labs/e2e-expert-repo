@@ -1,0 +1,77 @@
+{
+  "run_id" : "mp-eng-c0e35c4a",
+  "gates" : [ {
+    "id" : "aswritten/clarify",
+    "run?" : false,
+    "gate" : 2,
+    "reason" : "score 0.05 < threshold 0.7",
+    "score" : 0.05,
+    "evidence" : [ "plain-assertion: signed release manifest required for Meridian deploys", "plain-assertion: applies to staging and production", "commitment-marker: now requires a signed release\nmanifest before it ships." ]
+  }, {
+    "id" : "aswritten/refract",
+    "run?" : true,
+    "gate" : 2,
+    "reason" : "predicate only"
+  }, {
+    "id" : "aswritten/review",
+    "run?" : false,
+    "gate" : 1,
+    "reason" : "skill off"
+  }, {
+    "id" : "aswritten/riff",
+    "run?" : false,
+    "gate" : 1,
+    "reason" : "requires perspective, expand"
+  } ],
+  "spend" : {
+    "cost_usd" : 0.005024,
+    "passes" : [ {
+      "pass" : "reaction:_score",
+      "llm_calls" : 1,
+      "cost_usd" : 0.002418
+    }, {
+      "pass" : "reaction:refract",
+      "llm_calls" : 1,
+      "cost_usd" : 0.002606
+    } ]
+  },
+  "bundle" : {
+    "items" : 1,
+    "audience" : "only-me",
+    "recipients" : 1,
+    "moments_cached" : true,
+    "sent" : [ {
+      "items" : [ {
+        "kind" : "note",
+        "skill" : "aswritten/refract",
+        "audience" : "speakers"
+      } ],
+      "handle" : "xena+staging@aswritten.ai",
+      "channel" : "email",
+      "status" : "sent",
+      "front_message_id" : "msg_3dgxhnl4",
+      "front_conversation_id" : "cnv_1pg0dkq0"
+    } ]
+  },
+  "policy" : {
+    "mode" : "on",
+    "budget_per_run_usd" : 0.25,
+    "channels" : [ "email", "sms" ]
+  },
+  "jobs" : [ {
+    "skill" : "aswritten/refract",
+    "status" : "ok",
+    "gate" : { },
+    "output" : {
+      "lens" : null,
+      "ask" : "I can see the shift — Quinton's rule that every Meridian deploy to staging or production now requires a signed release manifest before it ships — but the document index came back empty, so there's nothing here to confirm it against or move; point me at the release and deployment docs and I'll take it from there."
+    },
+    "landing" : {
+      "landed" : "message"
+    },
+    "ms" : 15913
+  } ],
+  "stream" : "e2e-protected",
+  "at" : "2026-09-22T13:32:11.645556260Z",
+  "live_run_id" : "e45b7a7b8118"
+}
