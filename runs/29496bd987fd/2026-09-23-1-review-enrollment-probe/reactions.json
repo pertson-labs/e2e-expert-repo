@@ -1,0 +1,102 @@
+{
+  "schema_version" : 1,
+  "run_id" : "mp-eng-313925c9",
+  "live_run_id" : "29496bd987fd",
+  "stream" : "e2e-review-enrollment-1790207794521",
+  "policy" : {
+    "lands" : { },
+    "channels" : [ "email", "sms" ],
+    "mode" : "on",
+    "source" : "default",
+    "skills" : { },
+    "warn_per_run_usd" : 0.25,
+    "audience" : "owner-setting",
+    "version" : 1,
+    "stop_per_dispatch_usd" : 2.0
+  },
+  "gates" : [ {
+    "id" : "aswritten/clarify",
+    "run?" : false,
+    "gate" : 2,
+    "reason" : "score 0.1 < threshold 0.7",
+    "score" : 0.1,
+    "evidence" : [ "Mints the formal position that saving a memory enrolls its creator as a reviewer. This probe establishes the rule as a binding operational decision within the verification workflow.", "Explicitly labelled as a decision setting an operational test expectation.", "plain-assertion: This probe memory exists only to carry that assertion." ]
+  }, {
+    "id" : "aswritten/refract",
+    "run?" : true,
+    "gate" : 2,
+    "reason" : "predicate only"
+  }, {
+    "id" : "aswritten/review",
+    "run?" : false,
+    "gate" : 1,
+    "reason" : "skill off"
+  }, {
+    "id" : "aswritten/riff",
+    "run?" : false,
+    "gate" : 1,
+    "reason" : "requires perspective, expand"
+  } ],
+  "jobs" : [ {
+    "skill" : "aswritten/refract",
+    "status" : "ok",
+    "phase" : "before",
+    "gate" : { },
+    "output" : {
+      "lens" : {
+        "shift" : "Saving a memory enrolls its creator as a reviewer — held from here on as a binding rule of the verification workflow, not a side effect of storage. The act of saving and the act of assigning review rights are now the same act.",
+        "affected" : [ ],
+        "other_lenses" : [ "Probe memories are deliberate fixtures: the memory store doubles as the test suite, so what we save is also what we assert — narrow reach for now, worth its own pass when more probe documents land." ],
+        "drew_on" : [ "narrated.delta_line: 'Mints the formal position that saving a memory enrolls its creator as a reviewer… establishes the rule as a binding operational decision within the verification workflow'", "committed.tx: narr:Narrative_MemorySaveEnrollsCreatorAsReviewer — 'Saving a memory enrolls its creator as a reviewer'", "committed.tx: narr:Position_ReviewerEnrollmentOnMemorySave — frame 'how does saving a memory determine reviewer enrollment in e2e verification?'", "committed.tx: narr:VecPower_1ReviewEnrollmentProbe_1 — Power_Legitimate, 'binding operational rule established by decision authority'", "committed.tx: narr:VecRelational_1ReviewEnrollmentProbe_1 — 'role-assignment rule governing review permissions and hierarchy'", "document frontmatter: reviewers: xena+staging@aswritten.ai on the probe itself, matching the enrollment the rule predicts", "candidate_documents.index empty, touched_hubs 0 and hub_reactions 0 — reach is limited to the one document, so the singular form" ],
+        "quote" : "Decision: the e2e suite asserts that saving a memory enrolls its creator as a reviewer.",
+        "approaches" : [ "who appears on a memory's reviewers list", "what saving a memory does in the workflow", "what the e2e suite asserts about reviewer enrollment" ],
+        "speaker" : "Xena ExpertGH",
+        "message" : "Here's the shift: saving a memory enrolls its creator as a reviewer — held from here on as a binding rule of the verification workflow, not a side effect of storage. The act of saving and the act of assigning review rights are now the same act.\n\nWhat it changes our approach to: who appears on a memory's reviewers list · what saving a memory does in the workflow · what the e2e suite asserts about reviewer enrollment.\n\nThe line carrying it, from Xena ExpertGH: \"Decision: the e2e suite asserts that saving a memory enrolls its creator as a reviewer.\"\n\nBefore/after, on the probe itself (.aswritten/memories/2026-09-23-1-review-enrollment-probe.md, \"Review enrollment probe\"):\n\nAs written: \"Decision: the e2e suite asserts that saving a memory enrolls its creator as a reviewer. This probe memory exists only to carry that assertion.\"\n\nThrough the shift: this reads as the rule performing itself, not a report about a test — saving this very memory put its creator on the reviewers list (the frontmatter already carries xena+staging@aswritten.ai), and the e2e suite treats that enrollment as the expected outcome of every save. The probe doesn't just state the rule; it enacts it.\n\nRight shift?\n\nWho else it moves: honestly, no one yet — no other documents are in view on this stream, so the probe is the only place this rule currently lives. One narrower shift is parked for its own pass: probe memories as deliberate fixtures, the memory store doubling as the test suite.\n\nNothing to apply across yet — want me to hold this as the shift for the stream, so the next documents touching reviewers or the memory lifecycle get read through it?",
+        "eye_chart" : {
+          "document" : ".aswritten/memories/2026-09-23-1-review-enrollment-probe.md",
+          "section" : "Review enrollment probe",
+          "as_written" : "Decision: the e2e suite asserts that saving a memory enrolls its creator as a reviewer. This probe memory exists only to carry that assertion.",
+          "through_the_lens" : "This reads as the rule performing itself, not a report about a test: saving this very memory put its creator on the reviewers list — the frontmatter already carries xena+staging@aswritten.ai — and the e2e suite treats that enrollment as the expected outcome of every save. The probe doesn't just state the rule; it enacts it."
+        }
+      }
+    },
+    "landing" : {
+      "landed" : "message"
+    },
+    "ms" : 73694
+  } ],
+  "spend" : {
+    "cost_usd" : 0.008267,
+    "passes" : [ {
+      "pass" : "reaction:_score",
+      "llm_calls" : 1,
+      "cost_usd" : 0.0021241
+    }, {
+      "pass" : "reaction:refract",
+      "llm_calls" : 1,
+      "cost_usd" : 0.0061424
+    } ]
+  },
+  "bundle" : {
+    "items" : 1,
+    "audience" : "only-me",
+    "recipients" : 1,
+    "moments_cached" : true,
+    "sent" : [ {
+      "items" : [ {
+        "kind" : "note",
+        "skill" : "aswritten/refract",
+        "audience" : "speakers"
+      } ],
+      "handle" : "xena+staging@aswritten.ai",
+      "channel" : "email",
+      "status" : "sent",
+      "front_message_id" : "msg_3djzusx4",
+      "front_conversation_id" : "cnv_1phhsl7s"
+    } ]
+  },
+  "counters" : {
+    "xena+staging@aswritten.ai" : 0
+  },
+  "at" : "2026-09-23T23:58:58.067761261Z"
+}
