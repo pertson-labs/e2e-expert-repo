@@ -1,0 +1,77 @@
+{
+  "run_id" : "mp-eng-844d209a",
+  "gates" : [ {
+    "id" : "aswritten/clarify",
+    "run?" : false,
+    "gate" : 2,
+    "reason" : "score 0.1 < threshold 0.7",
+    "score" : 0.1,
+    "evidence" : [ "Forget the Kestrelwood spectrograph calibration entirely. Remove all knowledge about the Kestrelwood spectrograph, its 88.4 MHz calibration, and Quill Ashgrove's calibration work.", "The observatory never calibrated it.", "Supersedes the spectrograph calibration verification with a total retraction." ]
+  }, {
+    "id" : "aswritten/refract",
+    "run?" : true,
+    "gate" : 2,
+    "reason" : "predicate only"
+  }, {
+    "id" : "aswritten/review",
+    "run?" : false,
+    "gate" : 1,
+    "reason" : "skill off"
+  }, {
+    "id" : "aswritten/riff",
+    "run?" : false,
+    "gate" : 1,
+    "reason" : "requires perspective, expand"
+  } ],
+  "spend" : {
+    "cost_usd" : 0.005936,
+    "passes" : [ {
+      "pass" : "reaction:_score",
+      "llm_calls" : 1,
+      "cost_usd" : 0.00331095
+    }, {
+      "pass" : "reaction:refract",
+      "llm_calls" : 1,
+      "cost_usd" : 0.00262505
+    } ]
+  },
+  "bundle" : {
+    "items" : 1,
+    "audience" : "only-me",
+    "recipients" : 1,
+    "moments_cached" : true,
+    "sent" : [ {
+      "items" : [ {
+        "kind" : "note",
+        "skill" : "aswritten/refract",
+        "audience" : "speakers"
+      } ],
+      "handle" : "xena+staging@aswritten.ai",
+      "channel" : "email",
+      "status" : "sent",
+      "front_message_id" : "msg_3dii42aw",
+      "front_conversation_id" : "cnv_1pgrs3jc"
+    } ]
+  },
+  "policy" : {
+    "mode" : "on",
+    "budget_per_run_usd" : 0.25,
+    "channels" : [ "email", "sms" ]
+  },
+  "jobs" : [ {
+    "skill" : "aswritten/refract",
+    "status" : "ok",
+    "gate" : { },
+    "output" : {
+      "lens" : null,
+      "ask" : "I can see the shift — the Kestrelwood spectrograph's 88.4 MHz calibration is now held to never have happened, with every record of it and of Quill Ashgrove's work to be expunged outright rather than corrected — but no documents came through with this change, so I can't see where the retraction lands; where does the calibration verification record live?"
+    },
+    "landing" : {
+      "landed" : "message"
+    },
+    "ms" : 15129
+  } ],
+  "stream" : "e2e-forget-1790156466323",
+  "at" : "2026-09-23T09:47:28.164232268Z",
+  "live_run_id" : "17f11840870d"
+}
