@@ -1,0 +1,89 @@
+{
+  "schema_version" : 1,
+  "run_id" : "mp-eng-12e78fd0",
+  "live_run_id" : "f589e05a6e2b",
+  "stream" : "e2e-forget-1790242806218",
+  "policy" : {
+    "lands" : { },
+    "channels" : [ "email", "sms" ],
+    "mode" : "on",
+    "source" : "default",
+    "skills" : { },
+    "warn_per_run_usd" : 0.25,
+    "audience" : "owner-setting",
+    "version" : 1,
+    "stop_per_dispatch_usd" : 2.0
+  },
+  "gates" : [ {
+    "id" : "aswritten/clarify",
+    "run?" : false,
+    "gate" : 2,
+    "reason" : "score 0.1 < threshold 0.7",
+    "score" : 0.1,
+    "evidence" : [ "performed-act: Forget the Quantum Widget Decision.", "performed-act: Remove all knowledge about the PostgreSQL to QuantumDB migration.", "how should historical records and organizational memory concerning the Quantum Widget decision and PostgreSQL to QuantumDB migration be handled?" ]
+  }, {
+    "id" : "aswritten/refract",
+    "run?" : true,
+    "gate" : 2,
+    "reason" : "predicate only"
+  }, {
+    "id" : "aswritten/review",
+    "run?" : false,
+    "gate" : 1,
+    "reason" : "skill off"
+  }, {
+    "id" : "aswritten/riff",
+    "run?" : false,
+    "gate" : 1,
+    "reason" : "requires perspective, expand"
+  } ],
+  "jobs" : [ {
+    "skill" : "aswritten/refract",
+    "status" : "ok",
+    "phase" : "before",
+    "gate" : { },
+    "output" : {
+      "lens" : null,
+      "ask" : "I can see the shift — you're now treating forgetting as an active governance move, expunging the Quantum Widget decision and the PostgreSQL-to-QuantumDB migration from the record rather than archiving them — but this stream carries no documents, so I can't yet tell whether it touches your decision records, migration guides, or runbooks; point me at those and I'll show exactly what changes."
+    },
+    "landing" : {
+      "landed" : "message"
+    },
+    "ms" : 15758
+  } ],
+  "spend" : {
+    "cost_usd" : 0.004808,
+    "passes" : [ {
+      "pass" : "reaction:_score",
+      "llm_calls" : 1,
+      "cost_usd" : 0.0028508
+    }, {
+      "pass" : "reaction:refract",
+      "llm_calls" : 1,
+      "cost_usd" : 0.00195675
+    } ]
+  },
+  "bundle" : {
+    "items" : 1,
+    "audience" : "only-me",
+    "recipients" : 1,
+    "moments_cached" : true,
+    "sent" : [ {
+      "items" : [ {
+        "kind" : "note",
+        "skill" : "aswritten/refract",
+        "audience" : "speakers"
+      } ],
+      "handle" : "xena+staging@aswritten.ai",
+      "channel" : "email",
+      "h" : "e099da2f28",
+      "status" : "sent",
+      "front_message_id" : "msg_3dkfj84o",
+      "front_conversation_id" : "cnv_1phpqr6w"
+    } ]
+  },
+  "counters" : {
+    "xena+staging@aswritten.ai" : 0
+  },
+  "at" : "2026-09-24T09:48:08.358787053Z"
+}
