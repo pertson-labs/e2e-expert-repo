@@ -1,0 +1,103 @@
+{
+  "schema_version" : 1,
+  "run_id" : "mp-eng-fe05bed3",
+  "live_run_id" : "2070720974e3",
+  "stream" : "e2e-forget-1790243478060",
+  "policy" : {
+    "lands" : { },
+    "channels" : [ "email", "sms" ],
+    "mode" : "on",
+    "source" : "default",
+    "skills" : { },
+    "warn_per_run_usd" : 0.25,
+    "audience" : "owner-setting",
+    "version" : 1,
+    "stop_per_dispatch_usd" : 2.0
+  },
+  "gates" : [ {
+    "id" : "aswritten/clarify",
+    "run?" : false,
+    "gate" : 2,
+    "reason" : "score 0.1 < threshold 0.7",
+    "score" : 0.1,
+    "evidence" : [ "A factual assertion about a past operational change, stated without hedges.", "Stated as an established operational rule with universal scope ('Every new hire completes...').", "Mints the Pallasine onboarding workflow narrative, establishing the mandatory first-week checklist as institutional policy that replaced legacy wiki documentation last quarter." ]
+  }, {
+    "id" : "aswritten/refract",
+    "run?" : true,
+    "gate" : 2,
+    "reason" : "predicate only"
+  }, {
+    "id" : "aswritten/review",
+    "run?" : false,
+    "gate" : 1,
+    "reason" : "skill off"
+  }, {
+    "id" : "aswritten/riff",
+    "run?" : false,
+    "gate" : 1,
+    "reason" : "requires perspective, expand"
+  } ],
+  "jobs" : [ {
+    "skill" : "aswritten/refract",
+    "status" : "ok",
+    "phase" : "before",
+    "gate" : { },
+    "output" : {
+      "lens" : {
+        "shift" : "Onboarding is no longer wiki documentation people find on their own — it's a mandatory first-week workflow. Every new hire completes the Pallasine checklist (accounts, pairing rotation, shadow shift), and the wiki page it replaced is retired as of last quarter.",
+        "affected" : [ ],
+        "other_lenses" : [ ],
+        "drew_on" : [ "Wren Duskfield's statement: \"Every new hire completes the Pallasine checklist in their first week: accounts, pairing rotation, and a shadow shift.\"", "Wren Duskfield's statement: \"It replaced the old wiki page last quarter.\"", "The change line for this conversation: the Pallasine onboarding workflow established as institutional policy that replaced legacy wiki documentation last quarter.", "The new standing position recorded this session: how new hires are onboarded and what artifacts govern the initial onboarding workflow." ],
+        "quote" : "Every new hire completes the Pallasine checklist in their first week: accounts, pairing rotation, and a shadow shift. It replaced the old wiki page last quarter.",
+        "approaches" : [ "new-hire onboarding — the first week is a fixed rotation, not self-serve docs", "first-week scheduling — accounts setup, pairing rotation, and a shadow shift for every hire", "onboarding documentation — the old wiki page is superseded; anything still pointing at it is stale" ],
+        "speaker" : "Wren Duskfield (Ops Lead)",
+        "message" : "Here's the shift: onboarding stopped being wiki documentation people find on their own and became a mandatory first-week workflow — every new hire completes the Pallasine checklist (accounts, pairing rotation, shadow shift), and the wiki page it replaced is retired as of last quarter. It changes how we approach new-hire onboarding, first-week scheduling, and where onboarding knowledge lives.\n\nThe one place this is written down right now is the conversation itself — nothing else in this stream carries it yet.\n\nAs written (Onboarding Process: Pallasine Checklist): Wren: \"Every new hire completes the Pallasine checklist in their first week: accounts, pairing rotation, and a shadow shift. It replaced the old wiki page last quarter.\" — reads as one ops lead describing the current routine.\n\nThrough the shift: this is institutional policy, not one lead's habit. The first week is a fixed, universal rotation, and the wiki page it replaced is a retired path — anything still describing or linking onboarding through that wiki points at something superseded last quarter.\n\nRight lens?\n\nHonest reach: this rests on a single statement from Wren, and there are no other documents in this stream yet — zero pages move on this alone today. If there's an onboarding doc, a handbook page, or anything still pointing at the old wiki page, point me at it and I'll map what moves. Want me to apply this across those documents once you point me at them, or hold it here — confirmed on this one place — for now?",
+        "eye_chart" : {
+          "document" : ".aswritten/memories/2026-09-24-2-forget-lifecycle-bystander.md",
+          "section" : "Onboarding Process: Pallasine Checklist",
+          "as_written" : "Wren: \"Every new hire completes the Pallasine checklist in their first week: accounts, pairing rotation, and a shadow shift. It replaced the old wiki page last quarter.\" As written, this reads as one ops lead describing the team's current onboarding routine and noting a recent swap in where it's documented.",
+          "through_the_lens" : "Read as standing policy, the first week is a fixed, universal rotation — accounts, pairing, shadow shift — that every hire completes. The wiki page it replaced is a retired path: any page still describing or linking onboarding through that wiki now points at something superseded last quarter, and onboarding knowledge lives in the checklist workflow, not the wiki."
+        }
+      }
+    },
+    "landing" : {
+      "landed" : "message"
+    },
+    "ms" : 59570
+  } ],
+  "spend" : {
+    "cost_usd" : 0.008444,
+    "passes" : [ {
+      "pass" : "reaction:_score",
+      "llm_calls" : 1,
+      "cost_usd" : 0.0022082
+    }, {
+      "pass" : "reaction:refract",
+      "llm_calls" : 1,
+      "cost_usd" : 0.006236
+    } ]
+  },
+  "bundle" : {
+    "items" : 1,
+    "audience" : "only-me",
+    "recipients" : 1,
+    "moments_cached" : true,
+    "sent" : [ {
+      "items" : [ {
+        "kind" : "note",
+        "skill" : "aswritten/refract",
+        "audience" : "speakers"
+      } ],
+      "handle" : "xena+staging@aswritten.ai",
+      "channel" : "email",
+      "h" : "e099da2f28",
+      "status" : "sent",
+      "front_message_id" : "msg_3dkfoq3s",
+      "front_conversation_id" : "cnv_1phptka0"
+    } ]
+  },
+  "counters" : {
+    "xena+staging@aswritten.ai" : 0
+  },
+  "at" : "2026-09-24T09:55:17.079459663Z"
+}
