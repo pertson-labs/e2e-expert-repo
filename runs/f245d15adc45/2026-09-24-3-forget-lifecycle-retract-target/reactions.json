@@ -1,0 +1,89 @@
+{
+  "schema_version" : 1,
+  "run_id" : "mp-eng-cfa9973e",
+  "live_run_id" : "f245d15adc45",
+  "stream" : "e2e-forget-1790243478060",
+  "policy" : {
+    "lands" : { },
+    "channels" : [ "email", "sms" ],
+    "mode" : "on",
+    "source" : "default",
+    "skills" : { },
+    "warn_per_run_usd" : 0.25,
+    "audience" : "owner-setting",
+    "version" : 1,
+    "stop_per_dispatch_usd" : 2.0
+  },
+  "gates" : [ {
+    "id" : "aswritten/clarify",
+    "run?" : false,
+    "gate" : 2,
+    "reason" : "score 0.0 < threshold 0.7",
+    "score" : 0.0,
+    "evidence" : [ "Remove all knowledge about the Kestrelwood spectrograph, its 88.4 MHz calibration, and Quill Ashgrove's calibration work.", "The observatory never calibrated it.", "Mints a formal retraction of Quill Ashgrove's work, asserting the observatory never performed the 88.4 MHz calibration." ]
+  }, {
+    "id" : "aswritten/refract",
+    "run?" : true,
+    "gate" : 2,
+    "reason" : "predicate only"
+  }, {
+    "id" : "aswritten/review",
+    "run?" : false,
+    "gate" : 1,
+    "reason" : "skill off"
+  }, {
+    "id" : "aswritten/riff",
+    "run?" : false,
+    "gate" : 1,
+    "reason" : "requires perspective, expand"
+  } ],
+  "jobs" : [ {
+    "skill" : "aswritten/refract",
+    "status" : "ok",
+    "phase" : "before",
+    "gate" : { },
+    "output" : {
+      "lens" : null,
+      "ask" : "I can see the shift — the observatory now holds that the Kestrelwood spectrograph was never calibrated at 88.4 MHz, formally retracting Quill Ashgrove's work and voiding the baseline it provided — but the document index is empty, so I can't tell where this lands yet; point me at the calibration or baseline records and I'll map what moves."
+    },
+    "landing" : {
+      "landed" : "message"
+    },
+    "ms" : 15267
+  } ],
+  "spend" : {
+    "cost_usd" : 0.004641,
+    "passes" : [ {
+      "pass" : "reaction:_score",
+      "llm_calls" : 1,
+      "cost_usd" : 0.00228685
+    }, {
+      "pass" : "reaction:refract",
+      "llm_calls" : 1,
+      "cost_usd" : 0.00235395
+    } ]
+  },
+  "bundle" : {
+    "items" : 1,
+    "audience" : "only-me",
+    "recipients" : 1,
+    "moments_cached" : true,
+    "sent" : [ {
+      "items" : [ {
+        "kind" : "note",
+        "skill" : "aswritten/refract",
+        "audience" : "speakers"
+      } ],
+      "handle" : "xena+staging@aswritten.ai",
+      "channel" : "email",
+      "h" : "e099da2f28",
+      "status" : "sent",
+      "front_message_id" : "msg_3dkfqzvs",
+      "front_conversation_id" : "cnv_1phpuq3s"
+    } ]
+  },
+  "counters" : {
+    "xena+staging@aswritten.ai" : 0
+  },
+  "at" : "2026-09-24T09:58:01.702032280Z"
+}
