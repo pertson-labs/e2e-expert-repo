@@ -1,0 +1,108 @@
+{
+  "schema_version" : 1,
+  "run_id" : "mp-eng-d80691bb",
+  "live_run_id" : "324d3d3e9909",
+  "stream" : "e2e-forget-1790328634879",
+  "policy" : {
+    "lands" : { },
+    "channels" : [ "email", "sms" ],
+    "mode" : "on",
+    "source" : "default",
+    "skills" : { },
+    "warn_per_run_usd" : 0.25,
+    "audience" : "owner-setting",
+    "version" : 1,
+    "stop_per_dispatch_usd" : 2.0
+  },
+  "gates" : [ {
+    "id" : "aswritten/clarify",
+    "run?" : false,
+    "gate" : 2,
+    "reason" : "score 0.0 < threshold 0.7",
+    "score" : 0.0,
+    "evidence" : [ "performed-act: Forget the Quantum Widget Decision.", "performed-act: Remove all knowledge about the PostgreSQL to QuantumDB migration.", "specifically mandating the erasure of the Quantum Widget decision and the PostgreSQL to QuantumDB migration from organizational memory" ]
+  }, {
+    "id" : "aswritten/merge-suggest",
+    "run?" : false,
+    "gate" : 1,
+    "reason" : "skill off"
+  }, {
+    "id" : "aswritten/refract",
+    "run?" : true,
+    "gate" : 2,
+    "reason" : "predicate only"
+  }, {
+    "id" : "aswritten/review",
+    "run?" : false,
+    "gate" : 1,
+    "reason" : "skill off"
+  }, {
+    "id" : "aswritten/riff",
+    "run?" : false,
+    "gate" : 1,
+    "reason" : "requires perspective, expand"
+  } ],
+  "jobs" : [ {
+    "skill" : "aswritten/refract",
+    "status" : "ok",
+    "phase" : "before",
+    "gate" : { },
+    "output" : {
+      "lens" : null,
+      "ask" : "You asked to forget the Quantum Widget decision and to remove everything about the PostgreSQL to QuantumDB migration. None of the documents available to me mention either one. Which documents carry that decision or the migration?"
+    },
+    "landing" : {
+      "landed" : "message"
+    },
+    "ms" : 8422,
+    "attempts" : [ {
+      "disposition" : "ok",
+      "elapsed_ms" : 8419,
+      "content_chars" : 254
+    } ]
+  } ],
+  "spend" : {
+    "cost_usd" : 0.082616,
+    "passes" : [ {
+      "pass" : "reaction:_score",
+      "llm_calls" : 1,
+      "cost_usd" : 0.0022428,
+      "null_cost_calls" : 0
+    }, {
+      "pass" : "reaction:refract",
+      "llm_calls" : 1,
+      "cost_usd" : 0.0803728,
+      "null_cost_calls" : 0
+    } ]
+  },
+  "bundle" : {
+    "items" : 1,
+    "audience" : "only-me",
+    "recipients" : 1,
+    "moments_cached" : true,
+    "sent" : [ {
+      "items" : [ {
+        "kind" : "note",
+        "skill" : "aswritten/refract",
+        "audience" : "speakers"
+      } ],
+      "handle" : "xena+staging@aswritten.ai",
+      "channel" : "email",
+      "h" : "e099da2f28:aswritten/refract",
+      "status" : "sent",
+      "front_message_id" : "msg_3dmds8yw",
+      "front_conversation_id" : "cnv_1pipykrs"
+    } ]
+  },
+  "counters" : {
+    "xena+staging@aswritten.ai" : 0
+  },
+  "at" : "2026-09-25T09:37:55.876055777Z",
+  "scorer" : {
+    "attempts" : [ {
+      "disposition" : "ok",
+      "elapsed_ms" : 16847,
+      "content_chars" : 600
+    } ]
+  }
+}
