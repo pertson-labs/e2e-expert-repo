@@ -1,0 +1,94 @@
+{
+  "schema_version" : 1,
+  "run_id" : "mp-eng-0a84b3ff",
+  "live_run_id" : "4e6e290f54a1",
+  "stream" : "e2e-derive-id-1790297874310",
+  "policy" : {
+    "lands" : { },
+    "channels" : [ "email", "sms" ],
+    "mode" : "on",
+    "source" : "default",
+    "skills" : { },
+    "warn_per_run_usd" : 0.25,
+    "audience" : "owner-setting",
+    "version" : 1,
+    "stop_per_dispatch_usd" : 2.0
+  },
+  "gates" : [ {
+    "id" : "aswritten/clarify",
+    "run?" : false,
+    "gate" : 2,
+    "reason" : "score 0.05 < threshold 0.7",
+    "score" : 0.05,
+    "evidence" : [ "Mints the Memory Pipeline stratum to establish how the ingestion pipeline guarantees resilient identification when submission IDs are omitted.", "Deterministic Fallbacks Guarantee Entity Persistence Without Explicit Identifiers", "plain-assertion: Submitted without an explicit id field." ]
+  }, {
+    "id" : "aswritten/merge-suggest",
+    "run?" : false,
+    "gate" : 1,
+    "reason" : "skill off"
+  }, {
+    "id" : "aswritten/refract",
+    "run?" : true,
+    "gate" : 2,
+    "reason" : "predicate only"
+  }, {
+    "id" : "aswritten/review",
+    "run?" : false,
+    "gate" : 1,
+    "reason" : "skill off"
+  }, {
+    "id" : "aswritten/riff",
+    "run?" : false,
+    "gate" : 1,
+    "reason" : "requires perspective, expand"
+  } ],
+  "jobs" : [ {
+    "skill" : "aswritten/refract",
+    "status" : "empty",
+    "phase" : "before",
+    "gate" : { },
+    "output" : {
+      "lens" : null,
+      "ask" : ""
+    },
+    "landing" : {
+      "landed" : "message"
+    },
+    "ms" : 5777,
+    "attempts" : [ {
+      "disposition" : "ok",
+      "elapsed_ms" : 5776,
+      "content_chars" : 25
+    } ]
+  } ],
+  "spend" : {
+    "cost_usd" : 0.076279,
+    "passes" : [ {
+      "pass" : "reaction:_score",
+      "llm_calls" : 1,
+      "cost_usd" : 0.00165045,
+      "null_cost_calls" : 0
+    }, {
+      "pass" : "reaction:refract",
+      "llm_calls" : 1,
+      "cost_usd" : 0.0746288,
+      "null_cost_calls" : 0
+    } ]
+  },
+  "bundle" : {
+    "items" : 0,
+    "audience" : "only-me",
+    "recipients" : 1,
+    "moments_cached" : true,
+    "sent" : [ ]
+  },
+  "counters" : { },
+  "at" : "2026-09-25T01:04:19.572776140Z",
+  "scorer" : {
+    "attempts" : [ {
+      "disposition" : "ok",
+      "elapsed_ms" : 8499,
+      "content_chars" : 636
+    } ]
+  }
+}
