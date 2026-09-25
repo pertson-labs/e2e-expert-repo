@@ -1,0 +1,108 @@
+{
+  "schema_version" : 1,
+  "run_id" : "mp-eng-74cf45a2",
+  "live_run_id" : "098f3b5890cf",
+  "stream" : "e2e-forget-1790297795867",
+  "policy" : {
+    "lands" : { },
+    "channels" : [ "email", "sms" ],
+    "mode" : "on",
+    "source" : "default",
+    "skills" : { },
+    "warn_per_run_usd" : 0.25,
+    "audience" : "owner-setting",
+    "version" : 1,
+    "stop_per_dispatch_usd" : 2.0
+  },
+  "gates" : [ {
+    "id" : "aswritten/clarify",
+    "run?" : false,
+    "gate" : 2,
+    "reason" : "score 0.05 < threshold 0.7",
+    "score" : 0.05,
+    "evidence" : [ "plain-assertion: Every new hire completes the Pallasine checklist in their first\\nweek: accounts, pairing rotation, and a shadow shift.", "Plain unhedged factual assertion regarding past operational change.", "It establishes the mandatory Pallasine checklist as the operational replacement for static wiki documentation." ]
+  }, {
+    "id" : "aswritten/merge-suggest",
+    "run?" : false,
+    "gate" : 1,
+    "reason" : "skill off"
+  }, {
+    "id" : "aswritten/refract",
+    "run?" : true,
+    "gate" : 2,
+    "reason" : "predicate only"
+  }, {
+    "id" : "aswritten/review",
+    "run?" : false,
+    "gate" : 1,
+    "reason" : "skill off"
+  }, {
+    "id" : "aswritten/riff",
+    "run?" : false,
+    "gate" : 1,
+    "reason" : "requires perspective, expand"
+  } ],
+  "jobs" : [ {
+    "skill" : "aswritten/refract",
+    "status" : "ok",
+    "phase" : "before",
+    "gate" : { },
+    "output" : {
+      "lens" : null,
+      "ask" : "You said every new hire finishes the Pallasine checklist in their first week, with accounts, pairing rotation and a shadow shift, and that it replaced the old wiki page last quarter. None of the documents here cover onboarding yet, so there's nothing for this to change. Is there a document that should say this, or should it wait until there is one?"
+    },
+    "landing" : {
+      "landed" : "message"
+    },
+    "ms" : 6564,
+    "attempts" : [ {
+      "disposition" : "ok",
+      "elapsed_ms" : 6562,
+      "content_chars" : 375
+    } ]
+  } ],
+  "spend" : {
+    "cost_usd" : 0.075036,
+    "passes" : [ {
+      "pass" : "reaction:_score",
+      "llm_calls" : 1,
+      "cost_usd" : 0.0015715,
+      "null_cost_calls" : 0
+    }, {
+      "pass" : "reaction:refract",
+      "llm_calls" : 1,
+      "cost_usd" : 0.0734648,
+      "null_cost_calls" : 0
+    } ]
+  },
+  "bundle" : {
+    "items" : 1,
+    "audience" : "only-me",
+    "recipients" : 1,
+    "moments_cached" : true,
+    "sent" : [ {
+      "items" : [ {
+        "kind" : "note",
+        "skill" : "aswritten/refract",
+        "audience" : "speakers"
+      } ],
+      "handle" : "xena+staging@aswritten.ai",
+      "channel" : "email",
+      "h" : "e099da2f28",
+      "status" : "sent",
+      "front_message_id" : "msg_3dlzrt7s",
+      "front_conversation_id" : "cnv_1pih28yw"
+    } ]
+  },
+  "counters" : {
+    "xena+staging@aswritten.ai" : 0
+  },
+  "at" : "2026-09-25T01:07:36.695247687Z",
+  "scorer" : {
+    "attempts" : [ {
+      "disposition" : "ok",
+      "elapsed_ms" : 23120,
+      "content_chars" : 653
+    } ]
+  }
+}
