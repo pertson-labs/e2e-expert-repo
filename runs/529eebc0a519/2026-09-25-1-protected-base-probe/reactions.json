@@ -1,0 +1,108 @@
+{
+  "schema_version" : 1,
+  "run_id" : "mp-eng-222b2700",
+  "live_run_id" : "529eebc0a519",
+  "stream" : "aswr/updates-e2e-protected",
+  "policy" : {
+    "lands" : { },
+    "channels" : [ "email", "sms" ],
+    "mode" : "on",
+    "source" : "default",
+    "skills" : { },
+    "warn_per_run_usd" : 0.25,
+    "audience" : "owner-setting",
+    "version" : 1,
+    "stop_per_dispatch_usd" : 2.0
+  },
+  "gates" : [ {
+    "id" : "aswritten/clarify",
+    "run?" : false,
+    "gate" : 2,
+    "reason" : "score 0.0 < threshold 0.7",
+    "score" : 0.0,
+    "evidence" : [ "- **Gate**: signed release manifest required for Meridian deploys", "- **Scope**: applies to staging and production", "- **Owner**: Quinton Fairweather", "Records the ratified gate parameters and scope in structured, operational summary form.", "We saw two unsigned artifacts reach staging last quarter and that is the whole reason for the gate." ]
+  }, {
+    "id" : "aswritten/merge-suggest",
+    "run?" : false,
+    "gate" : 1,
+    "reason" : "skill off"
+  }, {
+    "id" : "aswritten/refract",
+    "run?" : true,
+    "gate" : 2,
+    "reason" : "predicate only"
+  }, {
+    "id" : "aswritten/review",
+    "run?" : false,
+    "gate" : 1,
+    "reason" : "skill off"
+  }, {
+    "id" : "aswritten/riff",
+    "run?" : false,
+    "gate" : 1,
+    "reason" : "requires perspective, expand"
+  } ],
+  "jobs" : [ {
+    "skill" : "aswritten/refract",
+    "status" : "ok",
+    "phase" : "before",
+    "gate" : { },
+    "output" : {
+      "lens" : null,
+      "ask" : "The memory you saved sets a new rule: every Meridian deployment, to staging and production, needs a signed release manifest before it ships, and Quinton Fairweather owns that rule. None of the docs I can see cover how Meridian releases or deploys, so which doc should say this?"
+    },
+    "landing" : {
+      "landed" : "message"
+    },
+    "ms" : 7006,
+    "attempts" : [ {
+      "disposition" : "ok",
+      "elapsed_ms" : 7004,
+      "content_chars" : 302
+    } ]
+  } ],
+  "spend" : {
+    "cost_usd" : 0.086185,
+    "passes" : [ {
+      "pass" : "reaction:_score",
+      "llm_calls" : 1,
+      "cost_usd" : 0.0017245,
+      "null_cost_calls" : 0
+    }, {
+      "pass" : "reaction:refract",
+      "llm_calls" : 1,
+      "cost_usd" : 0.0844608,
+      "null_cost_calls" : 0
+    } ]
+  },
+  "bundle" : {
+    "items" : 1,
+    "audience" : "only-me",
+    "recipients" : 1,
+    "moments_cached" : true,
+    "sent" : [ {
+      "items" : [ {
+        "kind" : "note",
+        "skill" : "aswritten/refract",
+        "audience" : "speakers"
+      } ],
+      "handle" : "xena+staging@aswritten.ai",
+      "channel" : "email",
+      "h" : "e099da2f28",
+      "status" : "sent",
+      "front_message_id" : "msg_3dlzkkmg",
+      "front_conversation_id" : "cnv_1pigxy08"
+    } ]
+  },
+  "counters" : {
+    "xena+staging@aswritten.ai" : 0
+  },
+  "at" : "2026-09-25T01:02:14.189858300Z",
+  "scorer" : {
+    "attempts" : [ {
+      "disposition" : "ok",
+      "elapsed_ms" : 9015,
+      "content_chars" : 645
+    } ]
+  }
+}
