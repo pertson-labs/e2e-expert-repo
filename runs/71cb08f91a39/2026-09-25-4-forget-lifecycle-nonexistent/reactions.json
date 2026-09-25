@@ -1,0 +1,108 @@
+{
+  "schema_version" : 1,
+  "run_id" : "mp-eng-af3d780a",
+  "live_run_id" : "71cb08f91a39",
+  "stream" : "e2e-forget-1790329278407",
+  "policy" : {
+    "lands" : { },
+    "channels" : [ "email", "sms" ],
+    "mode" : "on",
+    "source" : "default",
+    "skills" : { },
+    "warn_per_run_usd" : 0.25,
+    "audience" : "owner-setting",
+    "version" : 1,
+    "stop_per_dispatch_usd" : 2.0
+  },
+  "gates" : [ {
+    "id" : "aswritten/clarify",
+    "run?" : false,
+    "gate" : 2,
+    "reason" : "score 0.0 < threshold 0.7",
+    "score" : 0.0,
+    "evidence" : [ "Forget everything about the Quixotic Zeppelin freight fleet and its helium procurement contracts.", "Unconditional operational directive requiring full removal.", "targets with no prior assertion in this graph, so the pattern is no longer just retract-what-was-said but forget-what-never-appeared" ]
+  }, {
+    "id" : "aswritten/merge-suggest",
+    "run?" : false,
+    "gate" : 1,
+    "reason" : "skill off"
+  }, {
+    "id" : "aswritten/refract",
+    "run?" : true,
+    "gate" : 2,
+    "reason" : "predicate only"
+  }, {
+    "id" : "aswritten/review",
+    "run?" : false,
+    "gate" : 1,
+    "reason" : "skill off"
+  }, {
+    "id" : "aswritten/riff",
+    "run?" : false,
+    "gate" : 1,
+    "reason" : "requires perspective, expand"
+  } ],
+  "jobs" : [ {
+    "skill" : "aswritten/refract",
+    "status" : "ok",
+    "phase" : "before",
+    "gate" : { },
+    "output" : {
+      "lens" : null,
+      "ask" : "You asked to \"Forget everything about the Quixotic Zeppelin freight fleet and its helium procurement contracts,\" and to remove all knowledge of zeppelin routes, but nothing about that fleet, its contracts or its routes was ever saved here, and no document mentions them, so there is nothing to remove. Were you thinking of something that was saved under a different name?"
+    },
+    "landing" : {
+      "landed" : "message"
+    },
+    "ms" : 7887,
+    "attempts" : [ {
+      "disposition" : "ok",
+      "elapsed_ms" : 7880,
+      "content_chars" : 398
+    } ]
+  } ],
+  "spend" : {
+    "cost_usd" : 0.081041,
+    "passes" : [ {
+      "pass" : "reaction:_score",
+      "llm_calls" : 1,
+      "cost_usd" : 0.0021563,
+      "null_cost_calls" : 0
+    }, {
+      "pass" : "reaction:refract",
+      "llm_calls" : 1,
+      "cost_usd" : 0.0788848,
+      "null_cost_calls" : 0
+    } ]
+  },
+  "bundle" : {
+    "items" : 1,
+    "audience" : "only-me",
+    "recipients" : 1,
+    "moments_cached" : true,
+    "sent" : [ {
+      "items" : [ {
+        "kind" : "note",
+        "skill" : "aswritten/refract",
+        "audience" : "speakers"
+      } ],
+      "handle" : "xena+staging@aswritten.ai",
+      "channel" : "email",
+      "h" : "e099da2f28:aswritten/refract",
+      "status" : "sent",
+      "front_message_id" : "msg_3dme3sx4",
+      "front_conversation_id" : "cnv_1piq6cdk"
+    } ]
+  },
+  "counters" : {
+    "xena+staging@aswritten.ai" : 0
+  },
+  "at" : "2026-09-25T09:51:05.847187842Z",
+  "scorer" : {
+    "attempts" : [ {
+      "disposition" : "ok",
+      "elapsed_ms" : 17314,
+      "content_chars" : 642
+    } ]
+  }
+}
