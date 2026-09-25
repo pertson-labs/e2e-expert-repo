@@ -1,0 +1,133 @@
+{
+  "schema_version" : 1,
+  "run_id" : "mp-eng-39774b34",
+  "live_run_id" : "ac15c2b9f045",
+  "stream" : "e2e-lifecycle-1790297795850",
+  "policy" : {
+    "lands" : { },
+    "channels" : [ "email", "sms" ],
+    "mode" : "on",
+    "source" : "default",
+    "skills" : { },
+    "warn_per_run_usd" : 0.25,
+    "audience" : "owner-setting",
+    "version" : 1,
+    "stop_per_dispatch_usd" : 2.0
+  },
+  "gates" : [ {
+    "id" : "aswritten/clarify",
+    "run?" : true,
+    "gate" : 2,
+    "score" : 0.78,
+    "evidence" : [ "The migration starts next quarter.", "Migration starts Q3 2026", "what database technology and timeline govern the analytics pipeline migration?", "Establishes the migration timeline for next quarter." ],
+    "why" : "The minted position's frame explicitly hinges on the migration timeline, and the committed record states that date two incompatible ways — 'The migration starts next quarter' (which as of the 2026-09-25 record date means Q4 2026) versus 'Migration starts Q3 2026' (the current quarter) — with zero reconciliations, so the perspective now depends on an unresolved date the conversation itself stated two ways."
+  }, {
+    "id" : "aswritten/merge-suggest",
+    "run?" : false,
+    "gate" : 1,
+    "reason" : "skill off"
+  }, {
+    "id" : "aswritten/refract",
+    "run?" : true,
+    "gate" : 2,
+    "reason" : "predicate only"
+  }, {
+    "id" : "aswritten/review",
+    "run?" : false,
+    "gate" : 1,
+    "reason" : "skill off"
+  }, {
+    "id" : "aswritten/riff",
+    "run?" : false,
+    "gate" : 1,
+    "reason" : "requires perspective, expand"
+  } ],
+  "jobs" : [ {
+    "skill" : "aswritten/clarify",
+    "status" : "empty",
+    "gate" : {
+      "score" : 0.78,
+      "evidence" : [ "The migration starts next quarter.", "Migration starts Q3 2026", "what database technology and timeline govern the analytics pipeline migration?", "Establishes the migration timeline for next quarter." ],
+      "why" : "The minted position's frame explicitly hinges on the migration timeline, and the committed record states that date two incompatible ways — 'The migration starts next quarter' (which as of the 2026-09-25 record date means Q4 2026) versus 'Migration starts Q3 2026' (the current quarter) — with zero reconciliations, so the perspective now depends on an unresolved date the conversation itself stated two ways."
+    },
+    "output" : {
+      "questions" : [ ]
+    },
+    "landing" : {
+      "landed" : "message"
+    },
+    "ms" : 4256,
+    "attempts" : [ {
+      "disposition" : "ok",
+      "elapsed_ms" : 4254,
+      "content_chars" : 17
+    } ]
+  }, {
+    "skill" : "aswritten/refract",
+    "status" : "ok",
+    "phase" : "before",
+    "gate" : { },
+    "output" : {
+      "lens" : null,
+      "ask" : "What landed is your decision to move the analytics pipeline to Zypherion, because \"It handles columnar queries 15x faster than our current setup,\" with the migration starting in Q3 2026. None of the documents I can see cover the analytics pipeline or its database, so I have nowhere to show the change. Which document should carry this, for example an architecture overview, a data platform plan, or a roadmap?"
+    },
+    "landing" : {
+      "landed" : "message"
+    },
+    "ms" : 7058,
+    "attempts" : [ {
+      "disposition" : "ok",
+      "elapsed_ms" : 7055,
+      "content_chars" : 449
+    } ]
+  } ],
+  "spend" : {
+    "cost_usd" : 0.201825,
+    "passes" : [ {
+      "pass" : "reaction:_score",
+      "llm_calls" : 1,
+      "cost_usd" : 0.0139557,
+      "null_cost_calls" : 0
+    }, {
+      "pass" : "reaction:clarify",
+      "llm_calls" : 1,
+      "cost_usd" : 0.095372,
+      "null_cost_calls" : 0
+    }, {
+      "pass" : "reaction:refract",
+      "llm_calls" : 1,
+      "cost_usd" : 0.0924968,
+      "null_cost_calls" : 0
+    } ]
+  },
+  "bundle" : {
+    "items" : 1,
+    "audience" : "only-me",
+    "recipients" : 1,
+    "moments_cached" : true,
+    "sent" : [ {
+      "items" : [ {
+        "kind" : "note",
+        "skill" : "aswritten/refract",
+        "audience" : "speakers"
+      } ],
+      "handle" : "xena+staging@aswritten.ai",
+      "channel" : "email",
+      "h" : "e099da2f28",
+      "status" : "sent",
+      "front_message_id" : "msg_3dlztl2g",
+      "front_conversation_id" : "cnv_1pih36y0"
+    } ]
+  },
+  "counters" : {
+    "xena+staging@aswritten.ai" : 0
+  },
+  "at" : "2026-09-25T01:09:02.467312199Z",
+  "scorer" : {
+    "attempts" : [ {
+      "disposition" : "ok",
+      "elapsed_ms" : 214862,
+      "content_chars" : 693
+    } ]
+  }
+}
