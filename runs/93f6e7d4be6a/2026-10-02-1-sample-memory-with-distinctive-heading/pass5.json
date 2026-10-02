@@ -1,0 +1,26 @@
+{
+  "placements" : [ {
+    "supporting_segments" : [ "src-2", "src-3" ],
+    "under" : null,
+    "why" : "Establishes the ingestion and persistence architecture category responsible for receiving memory submissions and normalizing their metadata.",
+    "verdict" : "mint",
+    "leaf" : "MemoryIngestion",
+    "region" : [ "DataModelLifecycle", "CoreWorkflows" ],
+    "kind" : "strata",
+    "title" : "Ingestion Pipelines Must Handle Incomplete Submission Metadata Gracefully",
+    "frame" : "How does the ingestion workflow validate, enrich, and persist submissions lacking standard metadata?",
+    "consulted" : [ ]
+  }, {
+    "supporting_segments" : [ "src-2", "src-3" ],
+    "under" : [ "MemoryIngestion" ],
+    "why" : "Segments src-2 and src-3 define the requirement that submissions lacking an ID must automatically generate a slug via LLM generation or deterministic fallback to successfully commit.",
+    "verdict" : "mint",
+    "leaf" : "Narrative_IdentifierGenerationFallbackEnsuresCommit",
+    "kind" : "narrative",
+    "title" : "Multilayered Slug Generation Eliminates Submission Identifier Dependencies",
+    "frame" : "How does the pipeline ensure memory persistence when explicit identifiers are absent?",
+    "consulted" : [ ]
+  } ],
+  "unplaced" : [ ],
+  "_source_sha256" : "d9c42355e0bd3a2e1f84bffb20dd3006b9ca60113b97527a18fd94dc8b3ce622"
+}
