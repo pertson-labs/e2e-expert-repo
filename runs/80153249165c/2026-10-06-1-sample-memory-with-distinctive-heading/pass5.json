@@ -1,0 +1,25 @@
+{
+  "placements" : [ {
+    "supporting_segments" : [ "src-2", "src-3" ],
+    "under" : null,
+    "why" : "Establishes the organizational domain category covering memory ingestion flows, fallback mechanisms, and file commit handling.",
+    "verdict" : "mint",
+    "leaf" : "IngestionPipeline",
+    "region" : [ "DataIntegrationFlows", "CoreWorkflows" ],
+    "kind" : "strata",
+    "title" : "Ingestion and identifier resolution pipelines",
+    "frame" : "How does the system process submitted memories and ensure resilient identifier generation and commit handling?",
+    "consulted" : [ ]
+  }, {
+    "verdict" : "mint",
+    "leaf" : "Narrative_AutomatedSlugGenerationAndFallback",
+    "title" : "Resilient identifier generation via LLM generation with deterministic slugify fallback",
+    "frame" : "How should ingestion pipelines derive identifiers and ensure file commits when explicit IDs are omitted?",
+    "under" : [ "IngestionPipeline" ],
+    "supporting_segments" : [ "src-2", "src-3" ],
+    "why" : "Captures the operational requirement that submissions lacking an explicit ID must resolve to a valid slug via LLM id-gen or deterministic fallback and commit successfully.",
+    "consulted" : [ ]
+  } ],
+  "unplaced" : [ ],
+  "_source_sha256" : "d9c42355e0bd3a2e1f84bffb20dd3006b9ca60113b97527a18fd94dc8b3ce622"
+}
