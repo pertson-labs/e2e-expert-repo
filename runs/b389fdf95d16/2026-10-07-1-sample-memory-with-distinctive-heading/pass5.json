@@ -1,0 +1,26 @@
+{
+  "placements" : [ {
+    "supporting_segments" : [ "src-1", "src-2" ],
+    "under" : null,
+    "why" : "The envelope establishes operational and technical specifications for how the memory ingestion pipeline handles submissions and persistence.",
+    "verdict" : "mint",
+    "leaf" : "MemoryPipeline",
+    "region" : [ "DataIntegrationFlows", "CoreWorkflows" ],
+    "kind" : "strata",
+    "title" : "Memory ingestion pipeline structures and persists submitted records",
+    "frame" : "How does the memory ingestion and persistence pipeline process incoming submissions?",
+    "consulted" : [ ]
+  }, {
+    "supporting_segments" : [ "src-1", "src-2" ],
+    "under" : [ "MemoryPipeline" ],
+    "why" : "src-1 defines the input condition of missing explicit id fields, and src-2 specifies the fallback mechanisms (LLM id-gen and deterministic slugify) required to generate slugs and commit files successfully.",
+    "verdict" : "mint",
+    "leaf" : "Narrative_DeterministicFallbackSlugGeneration",
+    "kind" : "narrative",
+    "title" : "Fallback slug generation guarantees persistence for unindexed submissions",
+    "frame" : "How does the pipeline resolve missing submission identifiers to ensure successful persistence?",
+    "consulted" : [ ]
+  } ],
+  "unplaced" : [ ],
+  "_source_sha256" : "d9c42355e0bd3a2e1f84bffb20dd3006b9ca60113b97527a18fd94dc8b3ce622"
+}
