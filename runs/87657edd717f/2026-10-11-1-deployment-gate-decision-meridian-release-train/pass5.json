@@ -1,0 +1,24 @@
+{
+  "placements" : [ {
+    "supporting_segments" : [ "src-4", "src-6" ],
+    "why" : "The memo sets a standing organizational rule over how Meridian artifacts reach staging and production, with a named owner. Nothing in the supplied structure holds a category for release governance. The reference's Process tier (ChangeManagement: safe, auditable changes; QualityReviewGates: sign-offs) is the closest location, so the category is located there and named in the memo's own terms.",
+    "verdict" : "mint",
+    "leaf" : "ReleaseGovernance",
+    "region" : [ "Organization", "Process" ],
+    "kind" : "strata",
+    "title" : "Release gating moves from trusting artifacts to verifying them before they ship",
+    "frame" : "What must be verified about an artifact before it is allowed to reach an environment, and which deploy paths does that verification now cover?",
+    "consulted" : [ "Organization", "Organization > Process", "Process > ChangeManagement", "Process > QualityReviewGates", "Process > IntakePrioritization" ]
+  }, {
+    "verdict" : "mint",
+    "leaf" : "Narrative_SignedArtifactDeployGate",
+    "title" : "Unsigned artifacts stop being able to reach environments",
+    "frame" : "What does the gate verify before a deploy ships, and which unsigned path does it close for staging and production?",
+    "under" : [ "ReleaseGovernance" ],
+    "supporting_segments" : [ "src-4", "src-6" ],
+    "why" : "Quinton's statement and the memo's decision record both state a standing requirement that every Meridian deploy carry a signed release manifest before it ships, applying to staging and production. This is a durable subject future envelopes will keep feeding (deploy integrity and what must hold before release), not a one-time event. The incident that prompted it is cited as support and is not given its own leaf.",
+    "consulted" : [ "Organization > Process > ChangeManagement", "Process > QualityReviewGates", "ReleaseGovernance (same-response strata mint)" ]
+  } ],
+  "unplaced" : [ "src-1", "src-2", "src-3", "src-5" ],
+  "_source_sha256" : "03d0fba059551f7346a655f03d07ed2bd78df9aa4a533804f28631856bef1d1e"
+}
