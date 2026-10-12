@@ -1,0 +1,38 @@
+{
+  "placements" : [ {
+    "verdict" : "mint",
+    "leaf" : "Narrative_ReceiptAndObserveBackgroundWork",
+    "title" : "From blocking extraction to receipt-and-observe",
+    "frame" : "What does the caller hold after dispatch, and how does it observe background work without waiting on it or losing it when its receipt is dropped?",
+    "under" : null,
+    "supporting_positions" : [ "AsyncRememberContract" ],
+    "why" : "The position holds that remember returns a receipt in seconds, extraction is watched by a polling cursor, the call never blocks, work survives a dropped receipt, and the agent either polls the run or receives the reaction piggybacked on a later call. Together these state a durable pattern for handing work to the background, not a one-time event, so the theme is one future envelopes can keep feeding. The graph has no existing leaves, so nothing could be reused, and no close-but-not-exact neighbor exists, so this mint stands alone.",
+    "consulted" : [ "EXISTING GRAPH STRUCTURE: none yet, so no leaf could be reused", "Hard rule 2 grain test: the theme (background handoff without blocking) recurs across envelopes; the receipt and cursor are mechanics, not leaves", "POSITION VERDICTS: AsyncRememberContract, members src-2, src-3, src-4" ]
+  } ],
+  "unplaced" : [ "src-1" ],
+  "unplacements" : [ ],
+  "weighed" : [ ],
+  "strata" : {
+    "mints" : [ {
+      "name" : "AsyncJobContract",
+      "type" : "thematic",
+      "frame" : "What does the caller get back at dispatch, what is the agreed way to watch the work, and what survives if the caller stops listening?",
+      "title" : "The async job contract for remember",
+      "why" : "The org names this grouping itself: the 'async job contract' is the ratified term for the receipt-and-poll design. No existing stratum holds it, and the members it will gather (the narrative leaf and the position) are about this one subject across the graph, which is what a thematic stratum groups.",
+      "nests_in" : null,
+      "lineage" : null
+    } ],
+    "connections" : [ {
+      "member" : "Narrative_ReceiptAndObserveBackgroundWork",
+      "strata" : [ "AsyncJobContract" ],
+      "why" : "The leaf's theme is the receipt-and-observe handoff that the ratified async job contract defines."
+    }, {
+      "member" : "Position_AsyncRememberContract",
+      "strata" : [ "AsyncJobContract" ],
+      "why" : "The position is the ratified contract itself, holding the receipt, polling cursor, non-blocking call, and dispatch decision."
+    } ],
+    "disconnections" : [ ],
+    "unconnected" : [ ]
+  },
+  "_source_sha256" : "77d6d919259273e81ac98bd959d3abc23c5668169f2882122e8ff556b69dd030"
+}
