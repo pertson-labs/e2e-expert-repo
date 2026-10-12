@@ -1,0 +1,49 @@
+{
+  "placements" : [ {
+    "lineage" : null,
+    "under" : null,
+    "supporting_positions" : [ "NeverCalibratedContest", "Position_KestrelwoodCalibrationVerification" ],
+    "why" : "The leaf's narrative is whether a calibration was actually checked before it is treated as settled. NeverCalibratedContest holds src-3, an unhedged denial that the observatory ever calibrated the Kestrelwood spectrograph. That denial bears directly on the same question and is the contrary account to the affirming claim already held here. Position_KestrelwoodCalibrationVerification is adopted beside it as the affirming position the tension is about. The directives src-1 and src-2 are not a calibration subject and are not placed here. The tension is left open, not resolved.",
+    "verdict" : "reuse",
+    "leaf" : "Narrative_CalibrationClaimsNeedVerification",
+    "title" : null,
+    "frame" : null,
+    "consulted" : [ "Narrative_CalibrationClaimsNeedVerification (exact: stated vs. verified calibration, the frame's subject)", "Position_KestrelwoodCalibrationVerification (existing, supports the leaf; adopted)", "NeverCalibratedContest (this document's minted position, under this leaf per the position pass's proposal)", "Existing stratum CalibrationVerification (thematic; weighed for connection)" ]
+  } ],
+  "unplaced" : [ "src-1", "src-2" ],
+  "unplacements" : [ ],
+  "weighed" : [ {
+    "position" : "Position_KestrelwoodCalibrationVerification",
+    "verdict" : "adopt",
+    "leaves" : [ "Narrative_CalibrationClaimsNeedVerification" ],
+    "why" : "Under Narrative_CalibrationClaimsNeedVerification. It holds the affirming calibration claim (88.4 MHz, verified against June reference plates across the band), which is the calibration-status account the leaf's frame asks about and the account NeverCalibratedContest contests. This adds a supporting placement and does not move its existing one."
+  } ],
+  "strata" : {
+    "mints" : [ {
+      "name" : "CalibrationDispute",
+      "type" : "contested",
+      "frame" : "What would the calibration record have to show for the affirming account and the denying account to be reconciled, and which of them does that record support?",
+      "title" : "Whether the instrument was ever calibrated, affirmed and denied",
+      "coordinate" : null,
+      "lineage" : null,
+      "nests_in" : [ "CalibrationVerification" ],
+      "why" : "The affirming position and the new denial position pull against each other on the same calibration-status question. No existing stratum groups members in that tension. The content names it directly, so a contested stratum is minted, nested within the thematic CalibrationVerification stratum. It does not resolve the tension."
+    } ],
+    "connections" : [ {
+      "member" : "Narrative_CalibrationClaimsNeedVerification",
+      "strata" : [ "CalibrationVerification" ],
+      "why" : "The leaf is about what was checked before a calibration was treated as settled, which is the thematic subject of the existing CalibrationVerification stratum."
+    }, {
+      "member" : "Position_NeverCalibratedContest",
+      "strata" : [ "CalibrationVerification", "CalibrationDispute" ],
+      "why" : "The position concerns whether calibration occurred at all, which is the thematic subject of CalibrationVerification. It also stands in direct tension with the affirming position, which is the grouping CalibrationDispute encodes."
+    }, {
+      "member" : "Position_KestrelwoodCalibrationVerification",
+      "strata" : [ "CalibrationDispute" ],
+      "why" : "This is the affirming account that NeverCalibratedContest contests, so the contested grouping connects it. Its existing connection to CalibrationVerification is unchanged."
+    } ],
+    "disconnections" : [ ],
+    "unconnected" : [ ]
+  },
+  "_source_sha256" : "4d500e5d6b5feec7c2de0412ee10e3d0040e5f24c7f88e01af4a063679ac3ee1"
+}
