@@ -1,0 +1,36 @@
+{
+  "placements" : [ {
+    "verdict" : "mint",
+    "leaf" : "Narrative_ReleaseGatesBindDeploys",
+    "title" : "Release gates move from advice to binding rule",
+    "frame" : "What must a release gate establish before it binds every deploy, and what prior incident justifies making it binding?",
+    "under" : null,
+    "supporting_positions" : [ "ReleaseGateBinding" ],
+    "why" : "The ReleaseGateBinding position holds the settled deploy requirement (a signed release manifest for Meridian deploys, scoped to staging and production, owned by Quinton Fairweather) and the stated justification (two unsigned artifacts reaching staging last quarter). Together they make a binding gate and its evidential basis a subject future envelopes can keep feeding. The leaf is minted because no existing leaf is present in the graph structure.",
+    "consulted" : [ "No existing narrative leaves supplied (graph structure: none yet)" ]
+  } ],
+  "unplaced" : [ "src-1", "src-3" ],
+  "weighed" : [ ],
+  "strata" : {
+    "mints" : [ {
+      "name" : "DeploymentGate",
+      "type" : "categorical",
+      "frame" : "What kind of change-control thinking do these members do: what must a deploy gate require, and who holds it?",
+      "title" : "Deployment gates on Meridian releases",
+      "coordinate" : [ "ChangeManagement" ],
+      "why" : "The memo's own term 'Deployment Gate' names the grouping. The content is change-control thinking about what a release must carry before it ships, which sits under the scheme's ChangeManagement coordinate (safe, auditable changes in code, configuration, and policy)."
+    } ],
+    "connections" : [ {
+      "member" : "Narrative_ReleaseGatesBindDeploys",
+      "strata" : [ "DeploymentGate" ],
+      "why" : "The leaf is about the gate's binding rule for deploys, which is the subject the DeploymentGate stratum groups."
+    }, {
+      "member" : "Position_ReleaseGateBinding",
+      "strata" : [ "DeploymentGate" ],
+      "why" : "The position holds the gate's requirement, scope, and ownership, so it belongs in the deployment-gate grouping."
+    } ],
+    "disconnections" : [ ],
+    "unconnected" : [ ]
+  },
+  "_source_sha256" : "03d0fba059551f7346a655f03d07ed2bd78df9aa4a533804f28631856bef1d1e"
+}
