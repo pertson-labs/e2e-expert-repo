@@ -1,0 +1,34 @@
+{
+  "placements" : [ {
+    "verdict" : "mint",
+    "leaf" : "Narrative_AsyncRememberContract",
+    "title" : "Extraction leaves the call: the receipt returns at once and the work is watched after it",
+    "frame" : "When a remember call returns only a receipt, what must the system keep so the extraction can still be watched, collected, and finished from a cursor, without the client's receipt being the only handle on the work?",
+    "under" : null,
+    "supporting_positions" : [ "AsyncRememberExtractionWatch" ],
+    "why" : "Both segments answer how a client follows a remember extraction once the call has returned. src-1 ratifies the contract: a receipt in seconds, progress watched by polling a cursor, no blocking call, and no lost work if the receipt is dropped. src-2 names the two observation paths that follow a dispatch: polling the run, or the reaction piggybacked on a later call. This is a recurring subject that future envelopes on async work will keep feeding, so it earns a theme leaf rather than a fact leaf. No existing leaf is present in the supplied structure, so nothing is reused. Foundational, so no under.",
+    "consulted" : [ "EXISTING GRAPH STRUCTURE: none yet (no leaf to reuse)", "POSITIONS: none surfaced (no adoption candidates)", "POSITION VERDICTS: AsyncRememberExtractionWatch (members src-1, src-2)" ]
+  } ],
+  "unplaced" : [ ],
+  "weighed" : [ ],
+  "strata" : {
+    "mints" : [ {
+      "name" : "AsyncJobContract",
+      "type" : "thematic",
+      "title" : "The async job contract: an immediate receipt, extraction watched by a polling cursor, and no lost work when the receipt is dropped",
+      "why" : "The organization ratified the async job contract in its own words, and the members (the contract ratification and the dispatch-then-poll-or-piggyback mechanism) are about one subject across the thinking on remember. No existing stratum holds it, and the grouping is about what the members are about together, so it is thematic. No coordinate example is near, so none is given."
+    } ],
+    "connections" : [ {
+      "member" : "Narrative_AsyncRememberContract",
+      "strata" : [ "AsyncJobContract" ],
+      "why" : "The narrative is about the async job contract as a subject, which is the stratum's theme."
+    }, {
+      "member" : "Position_AsyncRememberExtractionWatch",
+      "strata" : [ "AsyncJobContract" ],
+      "why" : "The position's members state the contract's receipt, cursor, and observation mechanics, so it sits in the same thematic grouping."
+    } ],
+    "disconnections" : [ ],
+    "unconnected" : [ ]
+  },
+  "_source_sha256" : "77d6d919259273e81ac98bd959d3abc23c5668169f2882122e8ff556b69dd030"
+}
