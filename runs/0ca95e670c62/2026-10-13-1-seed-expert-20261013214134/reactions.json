@@ -1,0 +1,180 @@
+{
+  "schema_version" : 1,
+  "run_id" : "mp-eng-b1a2bd35",
+  "live_run_id" : "0ca95e670c62",
+  "stream" : "e2e-662-attr-20261013214134",
+  "policy" : {
+    "mode" : "on",
+    "source" : "default",
+    "version" : 1,
+    "skills" : { },
+    "lands" : { },
+    "audience" : "owner-setting",
+    "warn_per_run_usd" : 0.25,
+    "channels" : [ "email", "sms", "teams" ]
+  },
+  "gates" : [ {
+    "id" : "aswritten/clarify",
+    "run?" : false,
+    "gate" : 2,
+    "reason" : "score 0.0 < threshold 0.7",
+    "score" : 0.0,
+    "evidence" : [ "Agreed on all three.", "Firms up settled operating facts regarding the Quillmoor archive retention policy, the two-week Thistlewick diagnostic schedule, and late March orchard grafting as ratified planning items.", "Expresses assent to the three prior statements; could be read as assertive endorsement, glossed here as expressive agreement." ]
+  }, {
+    "id" : "aswritten/merge-suggest",
+    "run?" : false,
+    "gate" : 1,
+    "reason" : "skill off"
+  }, {
+    "id" : "aswritten/refract",
+    "run?" : false,
+    "gate" : 1,
+    "reason" : "skill off"
+  }, {
+    "id" : "aswritten/review-message",
+    "run?" : true,
+    "gate" : 2,
+    "reason" : "predicate only"
+  }, {
+    "id" : "aswritten/review-request",
+    "run?" : false,
+    "gate" : 1,
+    "reason" : "skill off"
+  }, {
+    "id" : "aswritten/riff",
+    "run?" : false,
+    "gate" : 1,
+    "reason" : "skill off"
+  } ],
+  "jobs" : [ {
+    "job_key" : "0ca95e670c62:aswritten/review-message:u17592186058512",
+    "turn_attempts" : 1,
+    "n8n_execution_id" : "160502",
+    "skill" : "aswritten/review-message",
+    "landing" : {
+      "landed" : "message"
+    },
+    "recipient" : {
+      "name" : "Xena ExpertGH",
+      "role" : "submitter",
+      "status" : "routed",
+      "channels_not" : {
+        "sms" : "no verified phone opted in to texts",
+        "teams" : "no Teams identity in the home tenant"
+      },
+      "roles" : [ "submitter" ],
+      "seated" : true,
+      "test-identity" : true,
+      "via" : [ {
+        "how" : "saved",
+        "as" : "saver"
+      } ]
+    },
+    "cite_missing" : [ "email" ],
+    "output" : {
+      "beats" : {
+        "we_said" : "Odette Varga said on October 1, on the planning call with Linus Pratt: \"The Quillmoor archive keeps raw field recordings for eighteen months and then deletes them. Transcripts we keep permanently.\" Linus Pratt followed on the same call: \"The Thistlewick diagnostic runs two full weeks, and it starts with the warehouse team before anyone in management.\" Odette added: \"And the orchard grafting happens in late March, once the frosts are done.\" Linus closed with: \"Agreed on all three.\"",
+        "that_changes" : null,
+        "so_now" : "Raw field recordings are kept for eighteen months, and transcripts are kept permanently. The Thistlewick diagnostic is two weeks and opens with the warehouse team. Orchard grafting is set for late March, after the frosts. Linus agreed to all three, and nobody on the call reopened them.",
+        "which_means" : "I read that as the retention question being something the team can plan against without debating it again. It also suggests to me that the diagnostic can be scheduled with the warehouse team first, though the call does not say what happens to management's part after that. If that holds, the orchard work is a date to hold rather than a project to scope, and since the grafting window is still ahead, nothing about it is in force yet.",
+        "where_does_it_end" : [ "Does the eighteen-month clock start at capture, or when a recording is filed in the archive?", "Does the two-week diagnostic sit inside the $5K engagement, or is it priced separately?", "Does a late-March graft date still hold if the frosts run late?" ]
+      },
+      "email" : {
+        "subject" : "Re: Quillmoor, Thistlewick and orchard, from October 1",
+        "body" : "Odette Varga said on October 1, on the planning call with Linus Pratt: \"The Quillmoor archive keeps raw field recordings for eighteen months and then deletes them. Transcripts we keep permanently.\" Linus Pratt followed on the same call: \"The Thistlewick diagnostic runs two full weeks, and it starts with the warehouse team before anyone in management.\" Odette added: \"And the orchard grafting happens in late March, once the frosts are done.\" Linus closed with: \"Agreed on all three.\"\n\nThe work as it stands: raw field recordings are kept for eighteen months, and transcripts are kept permanently. The Thistlewick diagnostic is two weeks and opens with the warehouse team. Orchard grafting is set for late March, after the frosts. Linus agreed to all three, and nobody on the call reopened them.\n\nI read that as the retention question being something the team can plan against without debating it again. It also suggests to me that the diagnostic can be scheduled with the warehouse team first, though the call does not say what happens to management's part after that. If that holds, the orchard work is a date to hold rather than a project to scope, and since the grafting window is still ahead, nothing about it is in force yet.\n\nThree questions it leaves open: Does the eighteen-month clock start at capture, or when a recording is filed in the archive? Does the two-week diagnostic sit inside the $5K engagement, or is it priced separately? Does a late-March graft date still hold if the frosts run late?\n\nThe conversation, with everyone's words: https://dev.api.aswritten.ai/live/conversation/2026-10-13-1-seed-expert-20261013214134"
+      },
+      "self_check" : {
+        "forbidden_words_outside_quotes" : [ ],
+        "quotations_verified_exact" : true,
+        "question_count" : {
+          "chat" : 0,
+          "email" : 3
+        }
+      }
+    },
+    "status" : "ok",
+    "gate" : { },
+    "length_stops" : 0,
+    "plan_id" : "reaction:0ca95e670c62:review-message:2f6c442428ce",
+    "pass" : "reaction:review-message",
+    "ms" : 215264,
+    "reask" : {
+      "attempted" : false,
+      "withheld" : false
+    },
+    "model" : "anthropic/claude-haiku-5.5"
+  } ],
+  "spend" : {
+    "cost_usd" : 0.043637,
+    "passes" : [ {
+      "pass" : "reaction:_score",
+      "llm_calls" : 1,
+      "cost_usd" : 0.0027883,
+      "null_cost_calls" : 0
+    }, {
+      "pass" : "reaction:review-message",
+      "llm_calls" : 3,
+      "cost_usd" : 0.01283223,
+      "null_cost_calls" : 0
+    }, {
+      "pass" : "reaction:review-message:cite",
+      "llm_calls" : 7,
+      "cost_usd" : 0.028016280000000005,
+      "null_cost_calls" : 0
+    } ]
+  },
+  "bundle" : {
+    "items" : 1,
+    "recipients" : 1,
+    "sent" : [ {
+      "items" : [ {
+        "kind" : "reaction",
+        "skill" : "aswritten/review-message",
+        "audience" : "touched"
+      } ],
+      "handle" : "xena+staging@aswritten.ai",
+      "channel" : "email",
+      "recipient" : "Xena ExpertGH",
+      "h" : "e099da2f28:aswritten/review-message",
+      "status" : "skipped: test identity"
+    } ]
+  },
+  "counters" : { },
+  "at" : "2026-10-13T21:47:56.790604138Z",
+  "context" : {
+    "roster" : [ {
+      "name" : "Xena ExpertGH",
+      "role" : "submitter",
+      "status" : "routed",
+      "channels_not" : {
+        "sms" : "no verified phone opted in to texts",
+        "teams" : "no Teams identity in the home tenant"
+      },
+      "roles" : [ "submitter" ],
+      "seated" : true,
+      "test-identity" : true,
+      "via" : [ {
+        "how" : "saved",
+        "as" : "saver"
+      } ]
+    } ],
+    "inputs" : {
+      "we_said" : 4,
+      "new_positions" : 1,
+      "touches" : 0,
+      "threads" : 1,
+      "reaches" : 0
+    },
+    "navigation" : {
+      "source" : "engine",
+      "context_chars" : 2812
+    }
+  },
+  "scorer" : {
+    "attempts" : [ {
+      "disposition" : "ok",
+      "elapsed_ms" : 17929,
+      "content_chars" : 783
+    } ]
+  }
+}
