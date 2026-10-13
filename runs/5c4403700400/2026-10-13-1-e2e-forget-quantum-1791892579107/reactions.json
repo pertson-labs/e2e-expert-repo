@@ -1,0 +1,125 @@
+{
+  "schema_version" : 1,
+  "run_id" : "mp-eng-d90b3dfb",
+  "live_run_id" : "5c4403700400",
+  "stream" : "e2e-forget-1791892313657",
+  "policy" : {
+    "mode" : "on",
+    "source" : "default",
+    "version" : 1,
+    "skills" : { },
+    "lands" : { },
+    "audience" : "owner-setting",
+    "warn_per_run_usd" : 0.25,
+    "channels" : [ "email", "sms", "teams" ]
+  },
+  "gates" : [ {
+    "id" : "aswritten/clarify",
+    "run?" : false,
+    "gate" : 2,
+    "reason" : "delta predicate false: new_positions >= 1 or reconciliations >= 1 or on_behalf >= 1 or unresolved >= 1"
+  }, {
+    "id" : "aswritten/merge-suggest",
+    "run?" : false,
+    "gate" : 1,
+    "reason" : "skill off"
+  }, {
+    "id" : "aswritten/refract",
+    "run?" : false,
+    "gate" : 1,
+    "reason" : "skill off"
+  }, {
+    "id" : "aswritten/review-message",
+    "run?" : true,
+    "gate" : 2,
+    "reason" : "predicate only"
+  }, {
+    "id" : "aswritten/review-request",
+    "run?" : false,
+    "gate" : 1,
+    "reason" : "skill off"
+  }, {
+    "id" : "aswritten/riff",
+    "run?" : false,
+    "gate" : 1,
+    "reason" : "skill off"
+  } ],
+  "jobs" : [ {
+    "job_key" : "5c4403700400:aswritten/review-message:u17592186058512",
+    "turn_attempts" : 1,
+    "n8n_execution_id" : "160232",
+    "skill" : "aswritten/review-message",
+    "landing" : {
+      "landed" : "message"
+    },
+    "recipient" : {
+      "name" : "Xena ExpertGH",
+      "role" : "submitter",
+      "status" : "routed",
+      "channels_not" : {
+        "sms" : "no verified phone opted in to texts",
+        "teams" : "no Teams identity in the home tenant"
+      },
+      "roles" : [ "submitter" ],
+      "seated" : true,
+      "test-identity" : true,
+      "via" : [ {
+        "how" : "saved",
+        "as" : "saver"
+      } ]
+    },
+    "reason" : "The run touched no earlier statements and wrote no positions or threads; the removal request matched nothing the navigator could find, so there is no change for the reader to act on.",
+    "status" : "silent",
+    "gate" : { },
+    "length_stops" : 0,
+    "plan_id" : "reaction:5c4403700400:review-message:9ae6c816d64f",
+    "pass" : "reaction:review-message",
+    "ms" : 10863,
+    "model" : "anthropic/claude-haiku-5.5"
+  } ],
+  "spend" : {
+    "cost_usd" : 0.003508,
+    "passes" : [ {
+      "pass" : "reaction:review-message",
+      "llm_calls" : 1,
+      "cost_usd" : 0.00350764,
+      "null_cost_calls" : 0
+    } ]
+  },
+  "bundle" : {
+    "items" : 0,
+    "recipients" : 1,
+    "sent" : [ ]
+  },
+  "counters" : { },
+  "at" : "2026-10-13T11:57:06.701923727Z",
+  "context" : {
+    "roster" : [ {
+      "name" : "Xena ExpertGH",
+      "role" : "submitter",
+      "status" : "routed",
+      "channels_not" : {
+        "sms" : "no verified phone opted in to texts",
+        "teams" : "no Teams identity in the home tenant"
+      },
+      "roles" : [ "submitter" ],
+      "seated" : true,
+      "test-identity" : true,
+      "via" : [ {
+        "how" : "saved",
+        "as" : "saver"
+      } ]
+    } ],
+    "inputs" : {
+      "we_said" : 1,
+      "new_positions" : 0,
+      "touches" : 0,
+      "threads" : 0,
+      "reaches" : 0
+    },
+    "navigation" : {
+      "source" : "engine",
+      "context_chars" : 2952
+    }
+  }
+}
