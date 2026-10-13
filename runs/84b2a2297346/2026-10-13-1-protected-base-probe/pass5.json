@@ -1,0 +1,40 @@
+{
+  "placements" : [ {
+    "verdict" : "mint",
+    "leaf" : "Narrative_SignedReleaseGate",
+    "title" : "A signed release manifest becomes a precondition for shipping, not a review step",
+    "frame" : "What must a release artifact carry before it reaches staging or production, and who holds the authority to require it?",
+    "under" : null,
+    "supporting_positions" : [ "ReleaseGateRequirement" ],
+    "why" : "No existing leaves were supplied, so nothing is reusable. ReleaseGateRequirement holds the directive (src-1), the recorded gate rule (src-4), its staging and production scope (src-5), and the named owner (src-6). Together they state a standing requirement that a signed manifest gates Meridian deploys. This is a subject future envelopes will keep feeding (release provenance and deploy gating), not a single fact, so it passes the grain test. It stands alone as foundational because nothing exists to hold it under.",
+    "consulted" : [ "EXISTING GRAPH STRUCTURE (none yet)", "ReleaseGateRequirement (POSITION VERDICTS)" ]
+  } ],
+  "unplaced" : [ "src-3" ],
+  "unplacements" : [ ],
+  "weighed" : [ ],
+  "strata" : {
+    "mints" : [ {
+      "name" : "ReleaseGateSigning",
+      "type" : "thematic",
+      "title" : "Signed release manifests gating Meridian deploys to staging and production",
+      "why" : "No existing strata were supplied. The gate and its signing requirement form a subject the organization returns to, so the theme groups the narrative and its position together."
+    }, {
+      "name" : "UnsignedArtifactsGate",
+      "type" : "causal",
+      "title" : "Two unsigned artifacts reaching staging last quarter set off the signed-manifest gate on Meridian deploys",
+      "why" : "The content draws an explicit line from a cause (unsigned artifacts reached staging) to what it drove (the gate). This is a causal relationship, so it is minted as a causal stratum."
+    } ],
+    "connections" : [ {
+      "member" : "Narrative_SignedReleaseGate",
+      "strata" : [ "ReleaseGateSigning" ],
+      "why" : "The leaf is about the signed release gate as a subject, which is what the thematic stratum groups."
+    }, {
+      "member" : "Position_ReleaseGateRequirement",
+      "strata" : [ "ReleaseGateSigning", "UnsignedArtifactsGate" ],
+      "why" : "The position holds the gate requirement (thematic) and cites the unsigned staging incident as its cause (causal)."
+    } ],
+    "disconnections" : [ ],
+    "unconnected" : [ ]
+  },
+  "_source_sha256" : "03d0fba059551f7346a655f03d07ed2bd78df9aa4a533804f28631856bef1d1e"
+}
