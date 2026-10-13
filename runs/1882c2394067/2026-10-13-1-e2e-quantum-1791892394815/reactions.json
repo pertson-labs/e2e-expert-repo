@@ -1,0 +1,166 @@
+{
+  "schema_version" : 1,
+  "run_id" : "mp-eng-953e7775",
+  "live_run_id" : "1882c2394067",
+  "stream" : "e2e-remember-1791892313657",
+  "policy" : {
+    "mode" : "on",
+    "source" : "default",
+    "version" : 1,
+    "skills" : { },
+    "lands" : { },
+    "audience" : "owner-setting",
+    "warn_per_run_usd" : 0.25,
+    "channels" : [ "email", "sms", "teams" ]
+  },
+  "gates" : [ {
+    "id" : "aswritten/clarify",
+    "run?" : false,
+    "gate" : 2,
+    "reason" : "delta predicate false: new_positions >= 1 or reconciliations >= 1 or on_behalf >= 1 or unresolved >= 1"
+  }, {
+    "id" : "aswritten/merge-suggest",
+    "run?" : false,
+    "gate" : 1,
+    "reason" : "skill off"
+  }, {
+    "id" : "aswritten/refract",
+    "run?" : false,
+    "gate" : 1,
+    "reason" : "skill off"
+  }, {
+    "id" : "aswritten/review-message",
+    "run?" : true,
+    "gate" : 2,
+    "reason" : "predicate only"
+  }, {
+    "id" : "aswritten/review-request",
+    "run?" : false,
+    "gate" : 1,
+    "reason" : "skill off"
+  }, {
+    "id" : "aswritten/riff",
+    "run?" : false,
+    "gate" : 1,
+    "reason" : "skill off"
+  } ],
+  "jobs" : [ {
+    "job_key" : "1882c2394067:aswritten/review-message:u17592186058512",
+    "turn_attempts" : 1,
+    "n8n_execution_id" : "160194",
+    "skill" : "aswritten/review-message",
+    "landing" : {
+      "landed" : "message"
+    },
+    "recipient" : {
+      "name" : "Xena ExpertGH",
+      "role" : "submitter",
+      "status" : "routed",
+      "channels_not" : {
+        "sms" : "no verified phone opted in to texts",
+        "teams" : "no Teams identity in the home tenant"
+      },
+      "roles" : [ "submitter" ],
+      "seated" : true,
+      "test-identity" : true,
+      "via" : [ {
+        "how" : "saved",
+        "as" : "saver"
+      } ]
+    },
+    "cite_missing" : [ "email" ],
+    "output" : {
+      "beats" : {
+        "we_said" : "Dave Quantum said on April 1, in the session you saved as \"E2E Test: Quantum Widget Decision\": \"We're switching from PostgreSQL to QuantumDB for the analytics pipeline. 10x query performance, lower licensing cost.\"",
+        "that_changes" : "Nothing earlier in the perspective is touched by this statement, so there is no earlier words to replace, narrow or add to.",
+        "so_now" : "The switch is now stated as settled, with a tenfold gain on analytical queries and lower licensing cost given as the reasons. Your memory also lists Q3 2026 as the timeline, though Dave's words give no date for it. The session holds only this one statement.",
+        "which_means" : "My read is that the move is now the working assumption for the analytics pipeline, and that the performance and licensing figures are what it will be judged against. If that holds, the question of whether the pipeline stays on PostgreSQL no longer has to be argued, and the 10x figure becomes the first thing to test, since the case rests on it. That suggests to me the figure needs a source before anyone plans cutover around it, and that the Q3 date needs an owner before it is treated as fixed.",
+        "where_does_it_end" : [ "Is the 10x figure from a benchmark you have run, or from the vendor?", "Is Q3 2026 still the target for cutover?", "Does the licensing saving still hold once QuantumDB's costs are counted at the query volumes the pipeline actually runs?" ]
+      },
+      "email" : {
+        "subject" : "Re: Quantum database switch, from April 1",
+        "body" : "Dave Quantum said on April 1, in the session you saved as \"E2E Test: Quantum Widget Decision\": \"We're switching from PostgreSQL to QuantumDB for the analytics pipeline. 10x query performance, lower licensing cost.\"\n\nNothing earlier in the perspective is touched by this statement, so there are no earlier words it replaces, narrows or adds to.\n\nThe switch is now stated as settled, with a tenfold gain on analytical queries and lower licensing cost given as the reasons. Your memory also lists Q3 2026 as the timeline, though Dave's words give no date for it. The session holds only this one statement, so the 10x figure and the licensing saving are not backed by anything else in it.\n\nMy read is that the move is now the working assumption for the analytics pipeline, and that the performance and licensing figures are what it will be judged against. If that holds, the question of whether the pipeline stays on PostgreSQL no longer has to be argued, and the 10x figure becomes the first thing to test, since the case rests on it. That suggests to me the figure needs a source before anyone plans cutover around it, and that the Q3 date needs an owner before it is treated as fixed.\n\nIs the 10x figure from a benchmark you have run, or from the vendor? Is Q3 2026 still the target for cutover? Does the licensing saving still hold once QuantumDB's costs are counted at the query volumes the pipeline actually runs?\n\nThe conversation, with everyone's words: https://dev.api.aswritten.ai/live/conversation/2026-10-13-1-e2e-quantum-1791892394815"
+      },
+      "self_check" : {
+        "forbidden_words_outside_quotes" : [ ],
+        "quotations_verified_exact" : true,
+        "question_count" : {
+          "chat" : 0,
+          "email" : 3
+        }
+      }
+    },
+    "status" : "ok",
+    "gate" : { },
+    "length_stops" : 0,
+    "plan_id" : "reaction:1882c2394067:review-message:90fe2824ba12",
+    "pass" : "reaction:review-message",
+    "ms" : 272876,
+    "reask" : {
+      "attempted" : false,
+      "withheld" : false
+    },
+    "model" : "anthropic/claude-haiku-5.5"
+  } ],
+  "spend" : {
+    "cost_usd" : 0.046628,
+    "passes" : [ {
+      "pass" : "reaction:review-message",
+      "llm_calls" : 5,
+      "cost_usd" : 0.01233304,
+      "null_cost_calls" : 0
+    }, {
+      "pass" : "reaction:review-message:cite",
+      "llm_calls" : 16,
+      "cost_usd" : 0.0342949,
+      "null_cost_calls" : 0
+    } ]
+  },
+  "bundle" : {
+    "items" : 1,
+    "recipients" : 1,
+    "sent" : [ {
+      "items" : [ {
+        "kind" : "reaction",
+        "skill" : "aswritten/review-message",
+        "audience" : "touched"
+      } ],
+      "handle" : "xena+staging@aswritten.ai",
+      "channel" : "email",
+      "recipient" : "Xena ExpertGH",
+      "h" : "e099da2f28:aswritten/review-message",
+      "status" : "skipped: test identity"
+    } ]
+  },
+  "counters" : { },
+  "at" : "2026-10-13T11:58:21.791504210Z",
+  "context" : {
+    "roster" : [ {
+      "name" : "Xena ExpertGH",
+      "role" : "submitter",
+      "status" : "routed",
+      "channels_not" : {
+        "sms" : "no verified phone opted in to texts",
+        "teams" : "no Teams identity in the home tenant"
+      },
+      "roles" : [ "submitter" ],
+      "seated" : true,
+      "test-identity" : true,
+      "via" : [ {
+        "how" : "saved",
+        "as" : "saver"
+      } ]
+    } ],
+    "inputs" : {
+      "we_said" : 1,
+      "new_positions" : 0,
+      "touches" : 0,
+      "threads" : 0,
+      "reaches" : 0
+    },
+    "navigation" : {
+      "source" : "engine",
+      "context_chars" : 2543
+    }
+  }
+}
