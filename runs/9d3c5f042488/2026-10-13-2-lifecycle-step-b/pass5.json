@@ -1,0 +1,32 @@
+{
+  "placements" : [ {
+    "verdict" : "reuse",
+    "leaf" : "Narrative_AnalyticsPlatformChoice",
+    "supporting_positions" : [ "Position_ZypherionAdoptionDecision" ],
+    "why" : "The existing leaf holds that analytics platform choices move from settled declaration to dated migration. This document's revised position now carries a settled declaration that supersedes the prior Zypherion decision, with the reason (missing streaming ingestion) and a same-window migration timeline. The leaf's narrative still holds, and this document adds a case where the settled declaration itself changes.",
+    "consulted" : [ "Narrative_AnalyticsPlatformChoice", "AnalyticsPipelineDatabase", "Position_ZypherionAdoptionDecision" ]
+  } ],
+  "unplaced" : [ "src-1", "src-2", "src-3" ],
+  "unplacements" : [ ],
+  "weighed" : [ ],
+  "strata" : {
+    "mints" : [ {
+      "name" : "StreamingIngestionGap",
+      "type" : "causal",
+      "title" : "Zypherion's missing streaming ingestion sets off the switch to Meridian, which supersedes the prior Zypherion decision",
+      "why" : "The memo draws an explicit line from a found capability gap (Zypherion lacks streaming ingestion) to the decision to switch to Meridian and to the supersession of the prior decision. No existing stratum groups a decision with the cause it was set off by."
+    } ],
+    "connections" : [ {
+      "member" : "Narrative_AnalyticsPlatformChoice",
+      "strata" : [ "AnalyticsPipelineDatabase" ],
+      "why" : "The leaf concerns the analytics pipeline's platform choice, which is the same subject the existing thematic stratum groups."
+    }, {
+      "member" : "Position_ZypherionAdoptionDecision",
+      "strata" : [ "AnalyticsPipelineDatabase", "StreamingIngestionGap" ],
+      "why" : "The revised position holds the database decision, which belongs to the analytics pipeline thematic grouping. It also holds the streaming-ingestion gap as the cause of the switch that supersedes it."
+    } ],
+    "disconnections" : [ ],
+    "unconnected" : [ ]
+  },
+  "_source_sha256" : "ae84a3275fb9ea6ea86aa58121714015345aaa93f86e66879547aac22c0fcd28"
+}
