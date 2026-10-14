@@ -1,0 +1,34 @@
+{
+  "placements" : [ {
+    "verdict" : "mint",
+    "leaf" : "Narrative_RememberHandsBackControlWhileExtractionRuns",
+    "title" : "Remember returns control at once while extraction runs on durable work",
+    "frame" : "What does the agent get back the moment it asks to remember, and how does it come to see the extraction outcome without blocking or losing work?",
+    "under" : null,
+    "supporting_positions" : [ "AsyncRememberJobContract" ],
+    "why" : "The position carries both the ratified contract (immediate receipt, cursor polling, no blocking call, no lost work) and the decision on how the outcome is seen (poll the run, or piggyback the reaction on a later call). This is a subject future envelopes will keep feeding, not a one-time fact. No existing leaf is in the graph, so it is minted standalone.",
+    "consulted" : [ ]
+  } ],
+  "unplaced" : [ ],
+  "weighed" : [ ],
+  "strata" : {
+    "mints" : [ {
+      "name" : "AsyncRememberContract",
+      "type" : "thematic",
+      "title" : "How remember dispatches extraction asynchronously and how the agent watches its outcome",
+      "why" : "The org keeps returning to the async job contract of remember: receipt, polling cursor, durable work, piggybacked reaction. A thematic stratum lets future positions about it connect across documents."
+    } ],
+    "connections" : [ {
+      "member" : "Narrative_RememberHandsBackControlWhileExtractionRuns",
+      "strata" : [ "AsyncRememberContract" ],
+      "why" : "The leaf is the narrative core of the async remember contract."
+    }, {
+      "member" : "Position_AsyncRememberJobContract",
+      "strata" : [ "AsyncRememberContract" ],
+      "why" : "The position states the ratified contract and the decision on how its outcome is observed."
+    } ],
+    "disconnections" : [ ],
+    "unconnected" : [ ]
+  },
+  "_source_sha256" : "77d6d919259273e81ac98bd959d3abc23c5668169f2882122e8ff556b69dd030"
+}
