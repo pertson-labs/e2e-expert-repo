@@ -1,0 +1,202 @@
+{
+  "schema_version" : 1,
+  "run_id" : "mp-eng-60e322d8",
+  "live_run_id" : "43143b7d3cc6",
+  "stream" : "e2e-662-attr-20261014023839",
+  "policy" : {
+    "mode" : "on",
+    "source" : "default",
+    "version" : 1,
+    "skills" : { },
+    "lands" : { },
+    "audience" : "owner-setting",
+    "warn_per_run_usd" : 0.25,
+    "channels" : [ "email", "sms", "teams" ]
+  },
+  "gates" : [ {
+    "id" : "aswritten/clarify",
+    "run?" : false,
+    "gate" : 2,
+    "reason" : "score 0.0 < threshold 0.7",
+    "score" : 0.0,
+    "evidence" : [ "The eighteen-month retention for Quillmoor field recordings, set on the 1 October planning call, is replaced by twelve months.", "Plain unhedged assertion of a change; no ratification language or operational commitment marker, so the claim/decision tear resolves lower to claim.", "Transcripts are still kept permanently; only the recordings change." ]
+  }, {
+    "id" : "aswritten/merge-suggest",
+    "run?" : false,
+    "gate" : 1,
+    "reason" : "skill off"
+  }, {
+    "id" : "aswritten/refract",
+    "run?" : false,
+    "gate" : 1,
+    "reason" : "skill off"
+  }, {
+    "id" : "aswritten/review-message",
+    "run?" : true,
+    "gate" : 2,
+    "reason" : "predicate only"
+  }, {
+    "id" : "aswritten/review-request",
+    "run?" : false,
+    "gate" : 1,
+    "reason" : "skill off"
+  }, {
+    "id" : "aswritten/riff",
+    "run?" : false,
+    "gate" : 1,
+    "reason" : "skill off"
+  } ],
+  "jobs" : [ {
+    "job_key" : "43143b7d3cc6:aswritten/review-message:u17592186058512",
+    "turn_attempts" : 1,
+    "n8n_execution_id" : "160878",
+    "skill" : "aswritten/review-message",
+    "landing" : {
+      "landed" : "message"
+    },
+    "recipient" : {
+      "name" : "Xena ExpertGH",
+      "role" : "submitter",
+      "status" : "routed",
+      "channels_not" : {
+        "sms" : "no verified phone opted in to texts",
+        "teams" : "no Teams identity in the home tenant"
+      },
+      "roles" : [ "submitter" ],
+      "seated" : true,
+      "test-identity" : true,
+      "via" : [ {
+        "how" : "saved",
+        "as" : "saver"
+      } ]
+    },
+    "output" : {
+      "beats" : {
+        "we_said" : "The Claude session said today, in the memory \"Quillmoor retention: twelve months\": \"The eighteen-month retention for Quillmoor field recordings, set on the 1 October planning call, is replaced by twelve months.\" The same memory adds: \"The consent renewal letters sent in September came back from fewer than half of the participants, so consent cannot be counted on past the first year.\" and \"Transcripts are still kept permanently; only the recordings change.\"",
+        "that_changes" : "That replaces what Odette Varga said on the planning call of 1 October: \"The Quillmoor archive keeps raw field recordings for eighteen months and then deletes them.\" Her line \"Transcripts we keep permanently.\" is not replaced. Your memory adds to it, because the transcript rule stands and only the recordings change.",
+        "so_now" : "The Quillmoor recordings are kept twelve months, not eighteen, and transcripts are still kept permanently. The reason is the September consent letters: fewer than half of participants answered, so consent cannot be counted on past the first year.",
+        "which_means" : "That suggests to me that the eighteen-month figure from the planning call no longer holds for anything recorded from now on. It also suggests the permanent transcripts now rest on a different footing than the recordings, since they outlast the consent that covers them. If that holds, anyone who built a retention schedule from the 1 October call will need to look again.",
+        "where_does_it_end" : [ "Does the twelve-month limit hold for recordings from sites other than Quillmoor?", "Is the September response count the only evidence on consent, or is there a second renewal channel that would change how far consent reaches?" ]
+      },
+      "email" : {
+        "subject" : "Re: Quillmoor recording retention, from today",
+        "body" : "The Claude session said today, in the memory \"Quillmoor retention: twelve months\": \"The eighteen-month retention for Quillmoor field recordings, set on the 1 October planning call, is replaced by twelve months.\" The same memory adds: \"The consent renewal letters sent in September came back from fewer than half of the participants, so consent cannot be counted on past the first year.\" and \"Transcripts are still kept permanently; only the recordings change.\"\n\nThat replaces what Odette Varga said on the planning call of 1 October: \"The Quillmoor archive keeps raw field recordings for eighteen months and then deletes them.\" Her line \"Transcripts we keep permanently.\" is not replaced. Your memory adds to it, because the transcript rule stands and only the recordings change.\n\nSo now the Quillmoor recordings are kept twelve months, not eighteen, and transcripts are still kept permanently. The reason is the September consent letters: fewer than half of participants answered, so consent cannot be counted on past the first year.\n\nThat suggests to me that the eighteen-month figure from the planning call no longer holds for anything recorded from now on. It also suggests the permanent transcripts now rest on a different footing than the recordings, since they outlast the consent that covers them. If that holds, anyone who built a retention schedule from the 1 October call will need to look again.\n\nTwo questions I cannot answer from here. Does the twelve-month limit hold for recordings from sites other than Quillmoor? Is the September response count the only evidence on consent, or is there a second renewal channel that would change how far consent reaches?\n\nThe conversation, with everyone's words: https://dev.api.aswritten.ai/live/conversation/2026-10-14-2-f5-declared-author-20261014023839"
+      },
+      "self_check" : {
+        "forbidden_words_outside_quotes" : [ ],
+        "quotations_verified_exact" : true,
+        "question_count" : {
+          "chat" : 0,
+          "email" : 2
+        }
+      }
+    },
+    "status" : "ok",
+    "gate" : { },
+    "length_stops" : 0,
+    "plan_id" : "reaction:43143b7d3cc6:review-message:1366e8159d0d",
+    "pass" : "reaction:review-message",
+    "ms" : 101445,
+    "cite" : {
+      "email" : {
+        "claims" : 11,
+        "citations" : 4
+      }
+    },
+    "reask" : {
+      "attempted" : false,
+      "withheld" : false
+    },
+    "model" : "anthropic/claude-haiku-5.5"
+  } ],
+  "spend" : {
+    "cost_usd" : 0.023924,
+    "passes" : [ {
+      "pass" : "reaction:_score",
+      "llm_calls" : 1,
+      "cost_usd" : 0.00272775,
+      "null_cost_calls" : 0
+    }, {
+      "pass" : "reaction:review-message",
+      "llm_calls" : 2,
+      "cost_usd" : 0.00983475,
+      "null_cost_calls" : 0
+    }, {
+      "pass" : "reaction:review-message:cite",
+      "llm_calls" : 3,
+      "cost_usd" : 0.011361669999999999,
+      "null_cost_calls" : 0
+    } ]
+  },
+  "bundle" : {
+    "items" : 1,
+    "recipients" : 1,
+    "sent" : [ {
+      "items" : [ {
+        "kind" : "reaction",
+        "skill" : "aswritten/review-message",
+        "audience" : "touched"
+      } ],
+      "handle" : "xena+staging@aswritten.ai",
+      "channel" : "email",
+      "recipient" : "Xena ExpertGH",
+      "h" : "e099da2f28:aswritten/review-message",
+      "status" : "skipped: test identity"
+    } ]
+  },
+  "counters" : { },
+  "at" : "2026-10-14T02:50:02.290998794Z",
+  "context" : {
+    "roster" : [ {
+      "name" : "Xena ExpertGH",
+      "role" : "submitter",
+      "status" : "routed",
+      "channels_not" : {
+        "sms" : "no verified phone opted in to texts",
+        "teams" : "no Teams identity in the home tenant"
+      },
+      "roles" : [ "submitter" ],
+      "seated" : true,
+      "test-identity" : true,
+      "via" : [ {
+        "how" : "saved",
+        "as" : "saver"
+      } ]
+    }, {
+      "name" : "Odette Varga",
+      "role" : "touched",
+      "status" : "no-account",
+      "roles" : [ "touched" ],
+      "reason" : "no account linked to this speaker",
+      "via" : [ {
+        "how" : "recon",
+        "relation" : "supersedes",
+        "statement" : "Expr_20261014_1_SeedExpert20261014023839_hbd4b052ad403_1",
+        "as" : "speaker"
+      }, {
+        "how" : "recon",
+        "relation" : "extends",
+        "statement" : "Expr_20261014_1_SeedExpert20261014023839_hbd4b052ad403_1",
+        "as" : "speaker"
+      } ]
+    } ],
+    "inputs" : {
+      "we_said" : 3,
+      "new_positions" : 1,
+      "touches" : 2,
+      "threads" : 1,
+      "reaches" : 0
+    },
+    "navigation" : {
+      "source" : "engine",
+      "context_chars" : 2856
+    }
+  },
+  "scorer" : {
+    "attempts" : [ {
+      "disposition" : "ok",
+      "elapsed_ms" : 12532,
+      "content_chars" : 883
+    } ]
+  }
+}
