@@ -1,0 +1,221 @@
+{
+  "schema_version" : 1,
+  "run_id" : "mp-eng-e7ef2910",
+  "live_run_id" : "1b4b177d6bf3",
+  "stream" : "e2e-remember-1791978210824",
+  "policy" : {
+    "mode" : "on",
+    "source" : "default",
+    "version" : 1,
+    "skills" : { },
+    "lands" : { },
+    "audience" : "owner-setting",
+    "warn_per_run_usd" : 0.25,
+    "channels" : [ "email", "sms", "teams" ]
+  },
+  "gates" : [ {
+    "id" : "aswritten/clarify",
+    "run?" : true,
+    "gate" : 2,
+    "score" : 0.8,
+    "evidence" : [ "aswr:qualityFlag \"principal:unresolved\"", "Editorial record of a decision; no in-segment marker naming Dave, so principal null by rule.", "**Database migration**: PostgreSQL → QuantumDB", "restates the migration announced by Dave Quantum without quoting his words" ],
+    "why" : "Three key-decision statements carry principal:unresolved flags because the document's own prose never says whose decisions they state, squarely meeting the skill's unresolved-attribution trigger; the one question is whose position the key-decisions record states."
+  }, {
+    "id" : "aswritten/merge-suggest",
+    "run?" : false,
+    "gate" : 1,
+    "reason" : "skill off"
+  }, {
+    "id" : "aswritten/refract",
+    "run?" : false,
+    "gate" : 1,
+    "reason" : "skill off"
+  }, {
+    "id" : "aswritten/review-message",
+    "run?" : true,
+    "gate" : 2,
+    "reason" : "predicate only"
+  }, {
+    "id" : "aswritten/review-request",
+    "run?" : false,
+    "gate" : 1,
+    "reason" : "skill off"
+  }, {
+    "id" : "aswritten/riff",
+    "run?" : false,
+    "gate" : 1,
+    "reason" : "skill off"
+  } ],
+  "jobs" : [ {
+    "job_key" : "1b4b177d6bf3:aswritten/clarify:u17592186058512",
+    "turn_attempts" : 1,
+    "n8n_execution_id" : "161044",
+    "skill" : "aswritten/clarify",
+    "landing" : {
+      "landed" : "message"
+    },
+    "recipient" : {
+      "name" : "Xena ExpertGH",
+      "role" : "submitter",
+      "status" : "routed",
+      "channels_not" : {
+        "sms" : "no verified phone opted in to texts",
+        "teams" : "no Teams identity in the home tenant"
+      },
+      "roles" : [ "submitter" ],
+      "seated" : true,
+      "test-identity" : true,
+      "via" : [ {
+        "how" : "saved",
+        "as" : "saver"
+      } ]
+    },
+    "reason" : "The memory states the migration, the 10x gain, and the Q3 2026 timeline plainly, with no undefined term or speaker disagreement for the record to have guessed at. The only open point is the 2026-04-01 date on a memory marked as an E2E test, and nothing in the perspective depends on it.",
+    "status" : "silent",
+    "gate" : {
+      "score" : 0.8,
+      "evidence" : [ "aswr:qualityFlag \"principal:unresolved\"", "Editorial record of a decision; no in-segment marker naming Dave, so principal null by rule.", "**Database migration**: PostgreSQL → QuantumDB", "restates the migration announced by Dave Quantum without quoting his words" ],
+      "why" : "Three key-decision statements carry principal:unresolved flags because the document's own prose never says whose decisions they state, squarely meeting the skill's unresolved-attribution trigger; the one question is whose position the key-decisions record states."
+    },
+    "length_stops" : 0,
+    "plan_id" : "reaction:1b4b177d6bf3:clarify:2dca00c8ff0d",
+    "pass" : "reaction:clarify",
+    "ms" : 11921,
+    "model" : "anthropic/claude-haiku-5.5"
+  }, {
+    "job_key" : "1b4b177d6bf3:aswritten/review-message:u17592186058512",
+    "turn_attempts" : 1,
+    "n8n_execution_id" : "161043",
+    "skill" : "aswritten/review-message",
+    "landing" : {
+      "landed" : "message"
+    },
+    "recipient" : {
+      "name" : "Xena ExpertGH",
+      "role" : "submitter",
+      "status" : "routed",
+      "channels_not" : {
+        "sms" : "no verified phone opted in to texts",
+        "teams" : "no Teams identity in the home tenant"
+      },
+      "roles" : [ "submitter" ],
+      "seated" : true,
+      "test-identity" : true,
+      "via" : [ {
+        "how" : "saved",
+        "as" : "saver"
+      } ]
+    },
+    "cite_missing" : [ "email" ],
+    "output" : {
+      "beats" : {
+        "we_said" : "Dave Quantum said on 1 April, in the E2E Test: Quantum Widget Decision memo you saved: \"We're switching from PostgreSQL to QuantumDB for the analytics pipeline. 10x query performance, lower licensing cost.\"",
+        "that_changes" : "No earlier statement of yours is touched in this run. The key decisions list under your name restates the migration and adds a 10x gain on analytical queries and a Q3 2026 timeline.",
+        "so_now" : "The analytics pipeline is moving from PostgreSQL to QuantumDB, and the case for it rests on the performance and licensing figures. Dave's words give the move and the rationale but no date. The Q3 2026 window appears only in the list.",
+        "which_means" : "I read that as the move being settled rather than proposed, since Dave put it in the present tense. My read is that Q3 2026 is a planning date not yet confirmed by Dave, so anyone scheduling the cutover should treat it as provisional. It also suggests that work built on PostgreSQL analytics may need a second look.",
+        "where_does_it_end" : [ "Does the 10x figure come from a benchmark on your own analytical queries?", "Is Q3 2026 Dave's date, or the one the list carries?", "Does the lower licensing cost have a number yet?" ]
+      },
+      "email" : {
+        "subject" : "Re: Quantum database migration, from 1 April",
+        "body" : "Dave Quantum said on 1 April, in the E2E Test: Quantum Widget Decision memo you saved: \"We're switching from PostgreSQL to QuantumDB for the analytics pipeline. 10x query performance, lower licensing cost.\"\n\nThe key decisions list under your name restates the move and adds a 10x gain on analytical queries and a timeline of Q3 2026.\n\nThe analytics pipeline is moving from PostgreSQL to QuantumDB, and the case for it rests on the performance and licensing figures. Dave's words give the move and the rationale, but no date. The Q3 2026 window appears only in the list you wrote, and nothing else in the memo ties it to Dave.\n\nI read that as the move being settled rather than proposed, since Dave put it in the present tense. If that holds, the 10x figure and the lower licensing cost are what the decision stands on, so they are the first things to check before anyone plans around them. My read is that Q3 2026 is a planning date that has not yet been confirmed by Dave, so anyone scheduling the cutover should treat it as provisional until he says otherwise. It also suggests that any work built on PostgreSQL analytics may need a second look, though I can't see from here which work depends on it. If the 10x gain was measured on your own analytical queries, that would also settle how far the figure can be trusted across the pipeline.\n\nThree questions: Does the 10x figure come from a benchmark on your own analytical queries? Is Q3 2026 Dave's date, or the one the list carries? Does the lower licensing cost have a number yet?\n\nThe conversation, with everyone's words: https://dev.api.aswritten.ai/live/conversation/2026-10-14-1-e2e-quantum-1791978296426"
+      },
+      "self_check" : {
+        "forbidden_words_outside_quotes" : [ ],
+        "quotations_verified_exact" : true,
+        "question_count" : {
+          "chat" : 0,
+          "email" : 3
+        }
+      }
+    },
+    "status" : "ok",
+    "gate" : { },
+    "length_stops" : 0,
+    "plan_id" : "reaction:1b4b177d6bf3:review-message:1a6b8af69673",
+    "pass" : "reaction:review-message",
+    "ms" : 268637,
+    "reask" : {
+      "attempted" : false,
+      "withheld" : false
+    },
+    "model" : "anthropic/claude-haiku-5.5"
+  } ],
+  "spend" : {
+    "cost_usd" : 0.066717,
+    "passes" : [ {
+      "pass" : "reaction:_score",
+      "llm_calls" : 1,
+      "cost_usd" : 0.0032848,
+      "null_cost_calls" : 0
+    }, {
+      "pass" : "reaction:clarify",
+      "llm_calls" : 1,
+      "cost_usd" : 0.0095918,
+      "null_cost_calls" : 0
+    }, {
+      "pass" : "reaction:review-message",
+      "llm_calls" : 4,
+      "cost_usd" : 0.014978829999999999,
+      "null_cost_calls" : 0
+    }, {
+      "pass" : "reaction:review-message:cite",
+      "llm_calls" : 29,
+      "cost_usd" : 0.03886121000000001,
+      "null_cost_calls" : 0
+    } ]
+  },
+  "bundle" : {
+    "items" : 1,
+    "recipients" : 1,
+    "sent" : [ {
+      "items" : [ {
+        "kind" : "reaction",
+        "skill" : "aswritten/review-message",
+        "audience" : "touched"
+      } ],
+      "handle" : "xena+staging@aswritten.ai",
+      "channel" : "email",
+      "recipient" : "Xena ExpertGH",
+      "h" : "e099da2f28:aswritten/review-message",
+      "status" : "skipped: test identity"
+    } ]
+  },
+  "counters" : { },
+  "at" : "2026-10-14T11:51:34.014125817Z",
+  "context" : {
+    "roster" : [ {
+      "name" : "Xena ExpertGH",
+      "role" : "submitter",
+      "status" : "routed",
+      "channels_not" : {
+        "sms" : "no verified phone opted in to texts",
+        "teams" : "no Teams identity in the home tenant"
+      },
+      "roles" : [ "submitter" ],
+      "seated" : true,
+      "test-identity" : true,
+      "via" : [ {
+        "how" : "saved",
+        "as" : "saver"
+      } ]
+    } ],
+    "inputs" : {
+      "we_said" : 4,
+      "new_positions" : 1,
+      "touches" : 0,
+      "threads" : 1,
+      "reaches" : 0
+    },
+    "navigation" : {
+      "source" : "engine",
+      "context_chars" : 2121
+    }
+  },
+  "scorer" : {
+    "attempts" : [ {
+      "disposition" : "ok",
+      "elapsed_ms" : 12171,
+      "content_chars" : 601
+    } ]
+  }
+}
