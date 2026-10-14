@@ -1,0 +1,39 @@
+{
+  "placements" : [ {
+    "verdict" : "mint",
+    "leaf" : "Narrative_DeploymentsProveProvenanceBeforeShipping",
+    "title" : "Nothing ships until its provenance is proven",
+    "frame" : "What must a release show about where it came from before it is allowed to reach staging or production, and what has the organization seen go wrong that makes it insist?",
+    "under" : null,
+    "supporting_positions" : [ "MeridianSignedManifestGate" ],
+    "why" : "The position carries the CTO's rule (a signed release manifest on every Meridian deployment), its scope (staging and production), its owner, and the incident that prompted it. Release provenance is a subject future envelopes will keep feeding, and the leaf rests on the rule and its rationale, not on the incident count. The graph has no existing leaf, so this is a new standalone mint.",
+    "consulted" : [ ]
+  } ],
+  "unplaced" : [ ],
+  "weighed" : [ ],
+  "strata" : {
+    "mints" : [ {
+      "name" : "UnsignedArtifactsPromptedTheSignedManifestGate",
+      "type" : "causal",
+      "title" : "Unsigned artifacts reaching staging set off the CTO's signed-manifest requirement for Meridian deploys",
+      "why" : "The CTO says the two unsigned artifacts that reached staging last quarter are 'the whole reason for the gate', which draws the line from incident to decision directly."
+    }, {
+      "name" : "MeridianReleaseGovernance",
+      "type" : "thematic",
+      "title" : "Everything said about how Meridian releases are gated, scoped, and owned before they ship",
+      "why" : "The gate, its scope across staging and production, and its named owner are one subject that later release-train decisions will keep returning to."
+    } ],
+    "connections" : [ {
+      "member" : "Position_MeridianSignedManifestGate",
+      "strata" : [ "UnsignedArtifactsPromptedTheSignedManifestGate", "MeridianReleaseGovernance" ],
+      "why" : "The position holds both the incident that prompted the gate and the gate's rule, scope, and owner."
+    }, {
+      "member" : "Narrative_DeploymentsProveProvenanceBeforeShipping",
+      "strata" : [ "MeridianReleaseGovernance" ],
+      "why" : "The leaf's theme is release gating and provenance for Meridian deployments."
+    } ],
+    "disconnections" : [ ],
+    "unconnected" : [ ]
+  },
+  "_source_sha256" : "03d0fba059551f7346a655f03d07ed2bd78df9aa4a533804f28631856bef1d1e"
+}
