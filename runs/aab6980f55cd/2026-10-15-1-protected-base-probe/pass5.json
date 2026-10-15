@@ -1,0 +1,37 @@
+{
+  "placements" : [ {
+    "verdict" : "mint",
+    "leaf" : "Narrative_SignedManifestDeploymentGating",
+    "title" : "Mandatory cryptographic signing gates prevent unverified artifacts from reaching pre-production and production environments",
+    "frame" : "how are deployment integrity and artifact provenance enforced across release environments?",
+    "under" : null,
+    "supporting_positions" : [ "MeridianDeploymentGatePolicy" ],
+    "why" : "Establishes the governance theme requiring verified release manifests and explicit gate ownership to eliminate unsigned artifacts in deployments.",
+    "consulted" : [ ]
+  } ],
+  "unplaced" : [ ],
+  "weighed" : [ ],
+  "strata" : {
+    "mints" : [ {
+      "name" : "DeploymentQualityGates",
+      "type" : "categorical",
+      "title" : "Quality review and change management gates governing release deployment safety",
+      "coordinate" : [ "QualityReviewGates", "ChangeManagement" ],
+      "lineage" : null,
+      "nests_in" : null,
+      "why" : "Groups organizational policies and narratives concerning release sign-offs, gate ownership, and deployment safety constraints."
+    } ],
+    "connections" : [ {
+      "member" : "Narrative_SignedManifestDeploymentGating",
+      "strata" : [ "DeploymentQualityGates" ],
+      "why" : "The narrative defines the thematic shift toward mandatory gating before shipping."
+    }, {
+      "member" : "Position_MeridianDeploymentGatePolicy",
+      "strata" : [ "DeploymentQualityGates" ],
+      "why" : "The position codifies the specific rules, environment scope, and ownership for the deployment gate."
+    } ],
+    "disconnections" : [ ],
+    "unconnected" : [ ]
+  },
+  "_source_sha256" : "03d0fba059551f7346a655f03d07ed2bd78df9aa4a533804f28631856bef1d1e"
+}
