@@ -1,0 +1,81 @@
+{
+  "schema_version" : 1,
+  "run_id" : "mp-eng-d8fe272b",
+  "live_run_id" : "d1cae0bd3d69",
+  "stream" : "e2e-protected",
+  "policy" : {
+    "mode" : "on",
+    "source" : "default",
+    "version" : 1,
+    "skills" : { },
+    "lands" : { },
+    "audience" : "owner-setting",
+    "warn_per_run_usd" : 0.25,
+    "channels" : [ "email", "sms", "teams" ]
+  },
+  "gates" : [ ],
+  "jobs" : [ ],
+  "spend" : {
+    "cost_usd" : 0.04016,
+    "passes" : [ {
+      "pass" : "reaction:_score",
+      "llm_calls" : 1,
+      "cost_usd" : 0.003138792,
+      "null_cost_calls" : 0
+    }, {
+      "pass" : "reaction:clarify",
+      "llm_calls" : 2,
+      "cost_usd" : 0.00647629,
+      "null_cost_calls" : 0
+    }, {
+      "pass" : "reaction:review-message",
+      "llm_calls" : 2,
+      "cost_usd" : 0.00693225,
+      "null_cost_calls" : 0
+    }, {
+      "pass" : "reaction:clarify:cite",
+      "llm_calls" : 15,
+      "cost_usd" : 0.015858179999999996,
+      "null_cost_calls" : 0
+    }, {
+      "pass" : "reaction:review-message:cite",
+      "llm_calls" : 7,
+      "cost_usd" : 0.007754300000000001,
+      "null_cost_calls" : 0
+    } ]
+  },
+  "bundle" : {
+    "audience" : null,
+    "recipients" : 1,
+    "sent" : [ {
+      "h" : "e099da2f28:aswritten/clarify",
+      "channel" : "email",
+      "status" : "skipped: test identity",
+      "from_log" : true,
+      "handle" : "xena+staging@aswritten.ai"
+    }, {
+      "h" : "e099da2f28:aswritten/review-message",
+      "channel" : "email",
+      "status" : "skipped: test identity",
+      "from_log" : true,
+      "handle" : "xena+staging@aswritten.ai"
+    } ]
+  },
+  "counters" : { },
+  "at" : "2026-10-15T15:07:51.845194389Z",
+  "reconciliation" : [ {
+    "source" : "event log",
+    "claim_token" : null,
+    "sent" : [ ],
+    "uncertain" : [ ],
+    "claimed_at" : "2026-10-15T12:39:34.926Z",
+    "skipped" : [ "e099da2f28:aswritten/clarify", "e099da2f28:aswritten/review-message" ]
+  } ],
+  "healed" : {
+    "healed" : true,
+    "window_h" : 2.0,
+    "never_covered" : true
+  },
+  "reason" : "recorded from the run's log: an earlier dispatch finished and its record never landed",
+  "reason_class" : "final"
+}
