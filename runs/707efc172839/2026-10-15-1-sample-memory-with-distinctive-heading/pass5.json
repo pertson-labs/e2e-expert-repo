@@ -1,0 +1,37 @@
+{
+  "placements" : [ {
+    "verdict" : "mint",
+    "leaf" : "Narrative_AutomatedIdentifierGeneration",
+    "title" : "Automated slug generation guarantees memory intake continuity",
+    "frame" : "How does the ingestion pipeline resolve missing explicit identifiers to guarantee persistence?",
+    "under" : null,
+    "supporting_positions" : [ "PipelineIdGenerationFallback" ],
+    "why" : "Establishes a foundational narrative leaf governing automated slug generation and fallback mechanisms during memory intake when explicit identifiers are omitted.",
+    "consulted" : [ ]
+  } ],
+  "unplaced" : [ ],
+  "weighed" : [ ],
+  "strata" : {
+    "mints" : [ {
+      "name" : "MemoryIntakePipeline",
+      "type" : "categorical",
+      "title" : "Memory intake pipeline workflows and fallback behaviors",
+      "coordinate" : [ "CoreWorkflows", "EdgeCaseHandling" ],
+      "lineage" : null,
+      "nests_in" : null,
+      "why" : "Groups operational workflows and fallback handling governing intake and persistence of incoming memory documents."
+    } ],
+    "connections" : [ {
+      "member" : "Narrative_AutomatedIdentifierGeneration",
+      "strata" : [ "MemoryIntakePipeline" ],
+      "why" : "Narrative defines automated identifier resolution as part of the pipeline intake workflow."
+    }, {
+      "member" : "Position_PipelineIdGenerationFallback",
+      "strata" : [ "MemoryIntakePipeline" ],
+      "why" : "Position specifies concrete fallback mechanisms for identifier generation during ingestion."
+    } ],
+    "disconnections" : [ ],
+    "unconnected" : [ ]
+  },
+  "_source_sha256" : "d9c42355e0bd3a2e1f84bffb20dd3006b9ca60113b97527a18fd94dc8b3ce622"
+}
