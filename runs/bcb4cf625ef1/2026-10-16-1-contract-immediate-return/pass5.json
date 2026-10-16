@@ -1,0 +1,34 @@
+{
+  "placements" : [ {
+    "verdict" : "mint",
+    "leaf" : "Narrative_RememberHandsBackControlWhileWorkStaysWatched",
+    "title" : "Remember hands control back at once, and the work behind it is still watched and never lost",
+    "frame" : "What does this expression say about how a call returns control to the client while the work it started is still observed to completion, and what guarantees it gives when the client lets go of its handle?",
+    "under" : null,
+    "supporting_positions" : [ "AsyncRememberContract" ],
+    "why" : "The graph holds no leaves yet. AsyncRememberContract carries both statements, which describe an immediate-return receipt, a polled cursor, no blocking call, no lost work, and dispatch followed by polling or a piggybacked reaction. This is a durable theme that later documents about async job behavior will keep feeding, and the position itself is the evidence for it, not a leaf.",
+    "consulted" : [ ]
+  } ],
+  "unplaced" : [ ],
+  "weighed" : [ ],
+  "strata" : {
+    "mints" : [ {
+      "name" : "AsyncJobContract",
+      "type" : "thematic",
+      "title" : "The async job contract for remember: a quick receipt, observed extraction, and no lost work",
+      "why" : "Wynn Castellano names the async job contract directly, and the organization will keep returning to it. A stratum for the subject lets later positions about run status, polling, or piggybacked reactions connect without waiting on any other grouping."
+    } ],
+    "connections" : [ {
+      "member" : "Narrative_RememberHandsBackControlWhileWorkStaysWatched",
+      "strata" : [ "AsyncJobContract" ],
+      "why" : "The leaf's whole theme is the async job contract."
+    }, {
+      "member" : "Position_AsyncRememberContract",
+      "strata" : [ "AsyncJobContract" ],
+      "why" : "The position holds both statements that state the ratified contract."
+    } ],
+    "disconnections" : [ ],
+    "unconnected" : [ ]
+  },
+  "_source_sha256" : "77d6d919259273e81ac98bd959d3abc23c5668169f2882122e8ff556b69dd030"
+}
