@@ -1,0 +1,40 @@
+{
+  "placements" : [ {
+    "verdict" : "mint",
+    "leaf" : "Narrative_SignedManifestGatesDeploys",
+    "title" : "Nothing deploys without a signed release manifest",
+    "frame" : "What must a release carry before it ships, where does that requirement bind, who owns it, and what prompted it?",
+    "under" : null,
+    "supporting_positions" : [ "MeridianDeployGateRequirement" ],
+    "why" : "The CTO's rule (src-1), the incident behind it (src-2), and the memo's gate, scope and owner lines (src-3 to src-5) all describe one deployment gate. Future envelopes on release integrity, signing, and gate ownership will keep feeding this theme, so it is a subject rather than a one-off fact. The two unsigned artifacts are evidence for the theme and sit in the position, not in a leaf of their own.",
+    "consulted" : [ ]
+  } ],
+  "unplaced" : [ ],
+  "weighed" : [ ],
+  "strata" : {
+    "mints" : [ {
+      "name" : "MeridianDeployGate",
+      "type" : "thematic",
+      "title" : "Signed release manifests, gate scope, and ownership for Meridian deployments",
+      "why" : "The org's own terms 'gate' and 'signed release manifest' name what the members are about together. Later documents on release gating will join this grouping."
+    }, {
+      "name" : "ReleaseQualityGates",
+      "type" : "categorical",
+      "title" : "Quality review gates and change management",
+      "coordinate" : [ "QualityReviewGates", "ChangeManagement" ],
+      "why" : "A deployment sign-off requirement is a quality-review and change-management gate in the Organization/Process domain."
+    } ],
+    "connections" : [ {
+      "member" : "Narrative_SignedManifestGatesDeploys",
+      "strata" : [ "MeridianDeployGate", "ReleaseQualityGates" ],
+      "why" : "The leaf is about the deployment gate itself and does the work of a process gate."
+    }, {
+      "member" : "Position_MeridianDeployGateRequirement",
+      "strata" : [ "MeridianDeployGate" ],
+      "why" : "The position holds the gate requirement, its scope, its owner, and the incident that prompted it."
+    } ],
+    "disconnections" : [ ],
+    "unconnected" : [ ]
+  },
+  "_source_sha256" : "03d0fba059551f7346a655f03d07ed2bd78df9aa4a533804f28631856bef1d1e"
+}
