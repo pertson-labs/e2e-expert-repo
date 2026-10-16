@@ -1,0 +1,188 @@
+{
+  "schema_version" : 1,
+  "run_id" : "mp-eng-6c809878",
+  "live_run_id" : "bb07e006fea3",
+  "stream" : "e2e-overwrite-1792150152203",
+  "policy" : {
+    "mode" : "on",
+    "source" : "default",
+    "version" : 1,
+    "skills" : { },
+    "lands" : { },
+    "audience" : "owner-setting",
+    "warn_per_run_usd" : 0.25,
+    "channels" : [ "email", "sms", "teams" ]
+  },
+  "gates" : [ {
+    "id" : "aswritten/clarify",
+    "run?" : true,
+    "gate" : 2,
+    "score" : 0.85,
+    "evidence" : [ "aswr:qualityFlag \"principal:unresolved\"", "skos:note \"Single-line document body; a statement of the document's version status.\"", "oa:exact \"Second version\"" ],
+    "why" : "The delta's single committed expression carries the flag `principal:unresolved` on the document's own prose (\"Second version\"), which is exactly the flagged-unresolved-statement case the `when`'s second branch names — the one question being whose position that prose states — and `prior` is empty so nothing here has already been reacted to."
+  }, {
+    "id" : "aswritten/merge-suggest",
+    "run?" : false,
+    "gate" : 1,
+    "reason" : "skill off"
+  }, {
+    "id" : "aswritten/refract",
+    "run?" : false,
+    "gate" : 1,
+    "reason" : "skill off"
+  }, {
+    "id" : "aswritten/review-message",
+    "run?" : true,
+    "gate" : 2,
+    "reason" : "predicate only"
+  }, {
+    "id" : "aswritten/review-request",
+    "run?" : false,
+    "gate" : 1,
+    "reason" : "skill off"
+  }, {
+    "id" : "aswritten/riff",
+    "run?" : false,
+    "gate" : 1,
+    "reason" : "skill off"
+  } ],
+  "jobs" : [ {
+    "job_key" : "bb07e006fea3:aswritten/clarify:u17592186058512",
+    "turn_attempts" : 1,
+    "n8n_execution_id" : "162575",
+    "skill" : "aswritten/clarify",
+    "landing" : {
+      "landed" : "message"
+    },
+    "recipient" : {
+      "name" : "Xena ExpertGH",
+      "role" : "submitter",
+      "status" : "routed",
+      "channels_not" : {
+        "sms" : "no verified phone opted in to texts",
+        "teams" : "no Teams identity in the home tenant"
+      },
+      "roles" : [ "submitter" ],
+      "seated" : true,
+      "test-identity" : true,
+      "via" : [ {
+        "how" : "saved",
+        "as" : "saver"
+      } ]
+    },
+    "reason" : "Bare staging test entry reading only \"Second version\" with no substantive content; no term, decision, or figure is left open for the perspective to guess at, so there is nothing to ask.",
+    "status" : "silent",
+    "gate" : {
+      "score" : 0.85,
+      "evidence" : [ "aswr:qualityFlag \"principal:unresolved\"", "skos:note \"Single-line document body; a statement of the document's version status.\"", "oa:exact \"Second version\"" ],
+      "why" : "The delta's single committed expression carries the flag `principal:unresolved` on the document's own prose (\"Second version\"), which is exactly the flagged-unresolved-statement case the `when`'s second branch names — the one question being whose position that prose states — and `prior` is empty so nothing here has already been reacted to."
+    },
+    "length_stops" : 0,
+    "plan_id" : "reaction:bb07e006fea3:clarify:758a4afc1da9",
+    "pass" : "reaction:clarify",
+    "ms" : 4278,
+    "reask" : {
+      "attempted" : false,
+      "withheld" : false
+    },
+    "model" : "anthropic/claude-haiku-5.5"
+  }, {
+    "job_key" : "bb07e006fea3:aswritten/review-message:u17592186058512",
+    "turn_attempts" : 1,
+    "n8n_execution_id" : "162576",
+    "skill" : "aswritten/review-message",
+    "landing" : {
+      "landed" : "message"
+    },
+    "recipient" : {
+      "name" : "Xena ExpertGH",
+      "role" : "submitter",
+      "status" : "routed",
+      "channels_not" : {
+        "sms" : "no verified phone opted in to texts",
+        "teams" : "no Teams identity in the home tenant"
+      },
+      "roles" : [ "submitter" ],
+      "seated" : true,
+      "test-identity" : true,
+      "via" : [ {
+        "how" : "saved",
+        "as" : "saver"
+      } ]
+    },
+    "reason" : "Staging test entry: the memory is the bare line \"Second version\" with no substantive content. The run minted no positions, touched no earlier statements, and the digest reports no perspective shift, so there is nothing to tell the submitter.",
+    "status" : "silent",
+    "gate" : { },
+    "length_stops" : 0,
+    "plan_id" : "reaction:bb07e006fea3:review-message:e6396d1ca197",
+    "pass" : "reaction:review-message",
+    "ms" : 5019,
+    "reask" : {
+      "attempted" : false,
+      "withheld" : false
+    },
+    "model" : "anthropic/claude-haiku-5.5"
+  } ],
+  "spend" : {
+    "cost_usd" : 0.009393,
+    "passes" : [ {
+      "pass" : "reaction:_score",
+      "llm_calls" : 1,
+      "cost_usd" : 0.00370598,
+      "null_cost_calls" : 0
+    }, {
+      "pass" : "reaction:clarify",
+      "llm_calls" : 1,
+      "cost_usd" : 0.00278261,
+      "null_cost_calls" : 0
+    }, {
+      "pass" : "reaction:review-message",
+      "llm_calls" : 1,
+      "cost_usd" : 0.00290399,
+      "null_cost_calls" : 0
+    } ]
+  },
+  "bundle" : {
+    "items" : 0,
+    "recipients" : 1,
+    "sent" : [ ]
+  },
+  "counters" : { },
+  "at" : "2026-10-16T11:30:58.867942467Z",
+  "context" : {
+    "roster" : [ {
+      "name" : "Xena ExpertGH",
+      "role" : "submitter",
+      "status" : "routed",
+      "channels_not" : {
+        "sms" : "no verified phone opted in to texts",
+        "teams" : "no Teams identity in the home tenant"
+      },
+      "roles" : [ "submitter" ],
+      "seated" : true,
+      "test-identity" : true,
+      "via" : [ {
+        "how" : "saved",
+        "as" : "saver"
+      } ]
+    } ],
+    "inputs" : {
+      "we_said" : 1,
+      "new_positions" : 0,
+      "touches" : 0,
+      "threads" : 0,
+      "reaches" : 0
+    },
+    "navigation" : {
+      "source" : "engine",
+      "context_chars" : 4971
+    }
+  },
+  "scorer" : {
+    "attempts" : [ {
+      "disposition" : "ok",
+      "elapsed_ms" : 18316,
+      "content_chars" : 676
+    } ]
+  }
+}
