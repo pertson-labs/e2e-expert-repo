@@ -1,0 +1,225 @@
+{
+  "schema_version" : 1,
+  "run_id" : "mp-eng-e320e0d2",
+  "live_run_id" : "d5c1008f0936",
+  "stream" : "e2e-forget-1792150491327",
+  "policy" : {
+    "mode" : "on",
+    "source" : "default",
+    "version" : 1,
+    "skills" : { },
+    "lands" : { },
+    "audience" : "owner-setting",
+    "warn_per_run_usd" : 0.25,
+    "channels" : [ "email", "sms", "teams" ]
+  },
+  "gates" : [ {
+    "id" : "aswritten/clarify",
+    "run?" : true,
+    "gate" : 2,
+    "score" : 0.8,
+    "evidence" : [ "aswr:qualityFlag \"principal:unresolved\"", "skos:note \"Record bullet restating the instrument decision\"", "skos:note \"Record bullet restating the calibration decision\"", "oa:exact \"**Instrument**: Kestrelwood spectrograph\"", "oa:exact \"**Calibration**: 88.4 MHz, verified against June reference plates\"" ],
+    "why" : "Two of the three committed expressions — the Key decisions record bullets, which carry no narr:actor unlike the Quill quote — are flagged aswr:qualityFlag \"principal:unresolved\" (features count unresolved: 2), so the submission left open whose position the document's own prose states, which is exactly the skill's flagged-unresolved trigger and nothing on this stream (prior is empty) has addressed it."
+  }, {
+    "id" : "aswritten/merge-suggest",
+    "run?" : false,
+    "gate" : 1,
+    "reason" : "skill off"
+  }, {
+    "id" : "aswritten/refract",
+    "run?" : false,
+    "gate" : 1,
+    "reason" : "skill off"
+  }, {
+    "id" : "aswritten/review-message",
+    "run?" : true,
+    "gate" : 2,
+    "reason" : "predicate only"
+  }, {
+    "id" : "aswritten/review-request",
+    "run?" : false,
+    "gate" : 1,
+    "reason" : "skill off"
+  }, {
+    "id" : "aswritten/riff",
+    "run?" : false,
+    "gate" : 1,
+    "reason" : "skill off"
+  } ],
+  "jobs" : [ {
+    "job_key" : "d5c1008f0936:aswritten/clarify:u17592186058512",
+    "turn_attempts" : 1,
+    "n8n_execution_id" : "162648",
+    "skill" : "aswritten/clarify",
+    "landing" : {
+      "landed" : "message"
+    },
+    "recipient" : {
+      "name" : "Xena ExpertGH",
+      "role" : "submitter",
+      "status" : "routed",
+      "channels_not" : {
+        "sms" : "no verified phone opted in to texts",
+        "teams" : "no Teams identity in the home tenant"
+      },
+      "roles" : [ "submitter" ],
+      "seated" : true,
+      "test-identity" : true,
+      "via" : [ {
+        "how" : "saved",
+        "as" : "saver"
+      } ]
+    },
+    "reason" : "Nothing in the memory is left open: the calibration value (88.4 MHz), the verification against June reference plates, and the instrument name are each stated plainly, with no conflicting statements or disputed figures for the record to have guessed at.",
+    "status" : "silent",
+    "gate" : {
+      "score" : 0.8,
+      "evidence" : [ "aswr:qualityFlag \"principal:unresolved\"", "skos:note \"Record bullet restating the instrument decision\"", "skos:note \"Record bullet restating the calibration decision\"", "oa:exact \"**Instrument**: Kestrelwood spectrograph\"", "oa:exact \"**Calibration**: 88.4 MHz, verified against June reference plates\"" ],
+      "why" : "Two of the three committed expressions — the Key decisions record bullets, which carry no narr:actor unlike the Quill quote — are flagged aswr:qualityFlag \"principal:unresolved\" (features count unresolved: 2), so the submission left open whose position the document's own prose states, which is exactly the skill's flagged-unresolved trigger and nothing on this stream (prior is empty) has addressed it."
+    },
+    "length_stops" : 0,
+    "plan_id" : "reaction:d5c1008f0936:clarify:85e5d3a8fbac",
+    "pass" : "reaction:clarify",
+    "ms" : 5653,
+    "reask" : {
+      "attempted" : false,
+      "withheld" : false
+    },
+    "model" : "anthropic/claude-haiku-5.5"
+  }, {
+    "job_key" : "d5c1008f0936:aswritten/review-message:u17592186058512",
+    "turn_attempts" : 1,
+    "n8n_execution_id" : "162647",
+    "skill" : "aswritten/review-message",
+    "landing" : {
+      "landed" : "message"
+    },
+    "recipient" : {
+      "name" : "Xena ExpertGH",
+      "role" : "submitter",
+      "status" : "routed",
+      "channels_not" : {
+        "sms" : "no verified phone opted in to texts",
+        "teams" : "no Teams identity in the home tenant"
+      },
+      "roles" : [ "submitter" ],
+      "seated" : true,
+      "test-identity" : true,
+      "via" : [ {
+        "how" : "saved",
+        "as" : "saver"
+      } ]
+    },
+    "cite_missing" : [ "email" ],
+    "output" : {
+      "beats" : {
+        "we_said" : "Quill Ashgrove said on July 6, in the calibration session you saved: \"The Kestrelwood spectrograph is now calibrated at 88.4 MHz. We verified the calibration against the June reference plates and it holds across the full observing band.\"",
+        "that_changes" : "",
+        "so_now" : "The Kestrelwood spectrograph is treated as calibrated at 88.4 MHz, and the June reference plates are the check that makes that setting stand.",
+        "which_means" : "My read is that an instrument counts as calibrated here only once it has been checked against reference evidence. That suggests to me that any other instrument brought to this standard would need its own reference check before anyone calls it calibrated.",
+        "where_does_it_end" : [ "Do the June reference plates cover the whole observing band you use now, or only the part they were taken for?", "Is 88.4 MHz still the setting you would hold the instrument to for the next run?" ]
+      },
+      "email" : {
+        "subject" : "Re: Kestrelwood calibration standard, from July 6",
+        "body" : "Quill Ashgrove said on July 6, in the calibration session you saved: \"The Kestrelwood spectrograph is now calibrated at 88.4 MHz. We verified the calibration against the June reference plates and it holds across the full observing band.\" The key decisions you saved with it name the instrument and the setting the same way: 88.4 MHz, verified against June reference plates.\n\nNothing earlier was touched, so there is no earlier word of yours that this changes.\n\nAs it stands, the Kestrelwood spectrograph is treated as calibrated at 88.4 MHz, and the June reference plates are the check that makes that setting stand. The work now rests on that check rather than on the setting alone.\n\nMy read is that an instrument counts as calibrated here only once it has been checked against reference evidence. That suggests to me that any other instrument brought to this standard would need its own reference check before anyone calls it calibrated. If that holds, the full-band claim is the part most worth looking at again, since the plates are what carry it.\n\nDo the June reference plates cover the whole observing band you use now, or only the part they were taken for? Is 88.4 MHz still the setting you would hold the instrument to for the next run?\n\nThe conversation, with everyone's words: https://dev.api.aswritten.ai/live/conversation/2026-10-16-1-forget-lifecycle-target"
+      },
+      "self_check" : {
+        "forbidden_words_outside_quotes" : [ ],
+        "quotations_verified_exact" : true,
+        "question_count" : {
+          "chat" : 0,
+          "email" : 2
+        }
+      }
+    },
+    "status" : "ok",
+    "gate" : { },
+    "length_stops" : 0,
+    "plan_id" : "reaction:d5c1008f0936:review-message:393b683a81dd",
+    "pass" : "reaction:review-message",
+    "ms" : 55409,
+    "reask" : {
+      "attempted" : false,
+      "withheld" : false
+    },
+    "model" : "anthropic/claude-haiku-5.5"
+  } ],
+  "spend" : {
+    "cost_usd" : 0.019373,
+    "passes" : [ {
+      "pass" : "reaction:_score",
+      "llm_calls" : 1,
+      "cost_usd" : 0.00303963,
+      "null_cost_calls" : 0
+    }, {
+      "pass" : "reaction:clarify",
+      "llm_calls" : 1,
+      "cost_usd" : 0.00332571,
+      "null_cost_calls" : 0
+    }, {
+      "pass" : "reaction:review-message",
+      "llm_calls" : 2,
+      "cost_usd" : 0.00637084,
+      "null_cost_calls" : 0
+    }, {
+      "pass" : "reaction:review-message:cite",
+      "llm_calls" : 9,
+      "cost_usd" : 0.0066371999999999985,
+      "null_cost_calls" : 0
+    } ]
+  },
+  "bundle" : {
+    "items" : 1,
+    "recipients" : 1,
+    "sent" : [ {
+      "items" : [ {
+        "kind" : "reaction",
+        "skill" : "aswritten/review-message",
+        "audience" : "touched"
+      } ],
+      "handle" : "xena+staging@aswritten.ai",
+      "channel" : "email",
+      "recipient" : "Xena ExpertGH",
+      "h" : "e099da2f28:aswritten/review-message",
+      "status" : "skipped: test identity"
+    } ]
+  },
+  "counters" : { },
+  "at" : "2026-10-16T11:37:39.923737069Z",
+  "context" : {
+    "roster" : [ {
+      "name" : "Xena ExpertGH",
+      "role" : "submitter",
+      "status" : "routed",
+      "channels_not" : {
+        "sms" : "no verified phone opted in to texts",
+        "teams" : "no Teams identity in the home tenant"
+      },
+      "roles" : [ "submitter" ],
+      "seated" : true,
+      "test-identity" : true,
+      "via" : [ {
+        "how" : "saved",
+        "as" : "saver"
+      } ]
+    } ],
+    "inputs" : {
+      "we_said" : 3,
+      "new_positions" : 1,
+      "touches" : 0,
+      "threads" : 1,
+      "reaches" : 0
+    },
+    "navigation" : {
+      "source" : "engine",
+      "context_chars" : 2093
+    }
+  },
+  "scorer" : {
+    "attempts" : [ {
+      "disposition" : "ok",
+      "elapsed_ms" : 24413,
+      "content_chars" : 902
+    } ]
+  }
+}
