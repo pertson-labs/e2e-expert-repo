@@ -1,0 +1,34 @@
+{
+  "placements" : [ {
+    "verdict" : "mint",
+    "leaf" : "Narrative_CalibrationVerifiedAgainstReferencePlates",
+    "title" : "A calibration claim is only as strong as the reference it was checked against",
+    "frame" : "What reference standard was the instrument checked against, and does the calibration hold across the full band it will be used in?",
+    "under" : null,
+    "supporting_positions" : [ "KestrelwoodCalibrationState" ],
+    "why" : "The envelope's contribution is not the 88.4 MHz figure itself — that is position-grain evidence — but the standing subject it evidences: that an observatory instrument's calibration is stated together with the reference plates it was verified against and the band over which it holds. That is a subject future envelopes (other instruments, other reference sets, recalibrations) will keep feeding, so it passes the grain test as a leaf rather than a fact. Nothing exists in the supplied structure to reuse, and nothing is close enough to extend, so it stands foundational.",
+    "consulted" : [ ]
+  } ],
+  "unplaced" : [ ],
+  "weighed" : [ ],
+  "strata" : {
+    "mints" : [ {
+      "name" : "InstrumentCalibration",
+      "type" : "thematic",
+      "title" : "Instrument calibration, the frequency it is set at, and the reference plates it is verified against",
+      "why" : "The envelope's leaf and its position are both about one subject — an instrument's calibration state and the verification that backs it — and no existing stratum holds that grouping. Naming it in the organization's own words (instrument, calibration, reference plates) gives later instruments and recalibrations a place to connect."
+    } ],
+    "connections" : [ {
+      "member" : "Narrative_CalibrationVerifiedAgainstReferencePlates",
+      "strata" : [ "InstrumentCalibration" ],
+      "why" : "The leaf's whole subject is calibration stated with its verification reference and band, which is exactly what this stratum groups."
+    }, {
+      "member" : "Position_KestrelwoodCalibrationState",
+      "strata" : [ "InstrumentCalibration" ],
+      "why" : "The position holds the concrete calibration state — 88.4 MHz, verified against June reference plates, holding across the observing band — the instance this stratum collects."
+    } ],
+    "disconnections" : [ ],
+    "unconnected" : [ ]
+  },
+  "_source_sha256" : "11c71e91b030138ed3fe0d70a428aa6618e3e938b3dbc60028fc8f8d6407afc2"
+}
