@@ -1,0 +1,35 @@
+{
+  "placements" : [ {
+    "verdict" : "mint",
+    "leaf" : "Narrative_AsyncRememberContract",
+    "title" : "Remember hands back a receipt, not a result",
+    "frame" : "What does remember hand back the moment it is called, and how does the caller learn the extraction finished?",
+    "under" : null,
+    "supporting_positions" : [ "AsyncRememberContract" ],
+    "why" : "The envelope's only position, AsyncRememberContract, states the ratified shape of remember's async contract: an immediate receipt in seconds, extraction watched by polling a cursor, no blocking call, and no lost work if the client drops the receipt, with dispatch followed by either polling the run or a reaction piggybacked on a later call. That is a subject future envelopes will keep feeding — the contract of the remember call — not a one-time measurement or proof point, so it mints a leaf rather than sitting as a fact. No narrative leaves are supplied by the graph structure, so the mint stands foundational with no parent.",
+    "consulted" : [ ]
+  } ],
+  "unplaced" : [ ],
+  "weighed" : [ ],
+  "strata" : {
+    "mints" : [ {
+      "name" : "AsyncJobContract",
+      "type" : "categorical",
+      "title" : "Interface design: the contract a call exposes — what it returns immediately and how its progress is observed",
+      "coordinate" : [ "Interfaces" ],
+      "why" : "The position and its leaf are interface-design thinking: the contract a call exposes, what it hands back immediately, and how its progress is observed afterwards. No existing stratum holds this grouping, and the kind of thinking is legible in the scheme's Interfaces coordinate (methods and surfaces that expose primitives safely and predictably). The name is the org's own term — 'the async job contract'."
+    } ],
+    "connections" : [ {
+      "member" : "Narrative_AsyncRememberContract",
+      "strata" : [ "AsyncJobContract" ],
+      "why" : "The leaf is the narrative of the async job contract for remember; the stratum groups it with the org's interface-design thinking about what a call returns and how its progress is watched."
+    }, {
+      "member" : "Position_AsyncRememberContract",
+      "strata" : [ "AsyncJobContract" ],
+      "why" : "AsyncRememberContract is the interface-design decision the stratum groups: the ratified contract of the remember call, its immediate receipt, and its cursor-watched extraction."
+    } ],
+    "disconnections" : [ ],
+    "unconnected" : [ ]
+  },
+  "_source_sha256" : "77d6d919259273e81ac98bd959d3abc23c5668169f2882122e8ff556b69dd030"
+}
