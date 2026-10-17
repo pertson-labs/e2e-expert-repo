@@ -1,0 +1,59 @@
+PREFIX narr: <https://aswritten.ai/narrative#>
+PREFIX aswr: <https://aswritten.ai/aswr#>
+PREFIX rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX prov: <http://www.w3.org/ns/prov#>
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+PREFIX dct:  <http://purl.org/dc/terms/>
+PREFIX xsd:  <http://www.w3.org/2001/XMLSchema#>
+PREFIX oa:   <http://www.w3.org/ns/oa#>
+PREFIX xkos: <http://rdf-vocabulary.ddialliance.org/xkos#>
+
+INSERT DATA {
+  aswr:Tx_20261017T120905Z a prov:Activity ;
+      prov:generatedAtTime "2026-10-17T12:09:05Z"^^xsd:dateTime ;
+      prov:wasAssociatedWith "aswritten.ai" ;
+      prov:wasAttributedTo "xena+staging@aswritten.ai" ;
+      aswr:pipelinePin "3c78c6227b87" ;
+      aswr:originPath ".aswritten/memories/2026-10-17-3-derive-id-explicit-override.md" ;
+      dct:title "Multipass source extraction: Some Other Title That Should Not Win" ;
+      prov:generated narr:Sample_20261017_3_DeriveIdExplicitOverride_hd10c5db7a690, narr:Expr_20261017_3_DeriveIdExplicitOverride_hd10c5db7a690_1 .
+} ;
+INSERT DATA {
+  GRAPH aswr:Tx_20261017T120905Z {
+    narr:Sample_20261017_3_DeriveIdExplicitOverride_hd10c5db7a690 a narr:Sample ;
+        dct:title "Some Other Title That Should Not Win" ;
+        aswr:originPath ".aswritten/memories/2026-10-17-3-derive-id-explicit-override.md" ;
+        aswr:submittedBy narr:Actor_XenaExpertgh ;
+        aswr:account narr:Actor_XenaExpertgh .
+
+    narr:Expr_20261017_3_DeriveIdExplicitOverride_hd10c5db7a690_1 a narr:Expression ;
+        narr:act "assertive" ;
+        narr:context "Sole body sentence of the document, under the title heading." ;
+        aswr:qualityFlag "principal:unresolved" ;
+        oa:hasTarget [ a oa:SpecificResource ;
+            oa:hasSource narr:Sample_20261017_3_DeriveIdExplicitOverride_hd10c5db7a690 ;
+            oa:hasSelector [ a oa:TextQuoteSelector ;
+                oa:exact "Body." ;
+                oa:prefix "er Title That Should Not Win\n\n" ;
+                oa:suffix "" ] ;
+            oa:hasSelector [ a oa:TextPositionSelector ;
+                oa:start "90"^^xsd:integer ;
+                oa:end "95"^^xsd:integer ] ] ;
+        prov:generatedAtTime "2026-10-17T12:09:05Z"^^xsd:dateTime .
+
+    aswr:Run_20261017T120905Z_actors a prov:Activity ;
+        aswr:runPass "actors" ;
+        aswr:draftedBy "deepseek/deepseek-v4.1-flash" ;
+        aswr:artifact "aswritten/runs:runs/1ab4f17f2475/2026-10-17-3-derive-id-explicit-override/actors.json" ;
+        dct:isPartOf aswr:Tx_20261017T120905Z ;
+        prov:generatedAtTime "2026-10-17T12:09:05Z"^^xsd:dateTime .
+
+    aswr:Run_20261017T120905Z_pass1 a prov:Activity ;
+        aswr:runPass "pass1" ;
+        aswr:draftedBy "z-ai/glm-5.3-flash" ;
+        aswr:artifact "aswritten/runs:runs/1ab4f17f2475/2026-10-17-3-derive-id-explicit-override/pass1.json" ;
+        prov:generated narr:Sample_20261017_3_DeriveIdExplicitOverride_hd10c5db7a690, narr:Expr_20261017_3_DeriveIdExplicitOverride_hd10c5db7a690_1 ;
+        dct:isPartOf aswr:Tx_20261017T120905Z ;
+        prov:generatedAtTime "2026-10-17T12:09:05Z"^^xsd:dateTime .
+  }
+}
