@@ -1,0 +1,29 @@
+{
+  "placements" : [ {
+    "verdict" : "reuse",
+    "leaf" : "Narrative_SlugGenerationFromContent",
+    "title" : null,
+    "frame" : null,
+    "under" : null,
+    "supporting_positions" : [ "Position_SlugGenerationWithoutId" ],
+    "why" : "The document's two statements are exactly the leaf's theme: a memory submitted with no id of its own (a ## level heading, no id field, reproducing the prod missing-id pattern) must still be named from what it says — the pipeline must not crash and must produce a valid slug via the LLM id-gen call or the deterministic slugify fallback, and commit the file. The position pass attached both segments to Position_SlugGenerationWithoutId, whose frame is the same question the leaf asks, so the leaf's narrative as it now stands is directly evidenced. No new leaf is warranted: the failure reproduction and the required behavior are position-grain evidence for a theme that already exists.",
+    "consulted" : [ "Narrative_SlugGenerationFromContent", "Position_SlugGenerationWithoutId", "Expr_20261017_1_SampleMemoryWithDistinctiveHeading_ha4d0a1772db9_1", "Expr_20261017_1_SampleMemoryWithDistinctiveHeading_ha4d0a1772db9_2", "Thematic (0 areas)", "Documents (1)" ]
+  } ],
+  "unplaced" : [ ],
+  "weighed" : [ ],
+  "strata" : {
+    "mints" : [ ],
+    "connections" : [ ],
+    "disconnections" : [ ],
+    "unconnected" : [ {
+      "member" : "Narrative_SlugGenerationFromContent",
+      "why" : "No existing strata exist, and this document offers a single position about one test case's required behavior — the cause (a reproduced prod missing-id failure) and its consequence (must not crash, must produce a valid slug) both live inside that one position's two members, so no cross-graph grouping relationship is legible yet. Minting a stratum over one position would duplicate the leaf's own theme; the leaf stays unconnected until further envelopes give a grouping something to hold."
+    } ]
+  },
+  "strata_flags" : [ {
+    "flag" : "unconnected",
+    "subject" : "Narrative_SlugGenerationFromContent",
+    "detail" : "placed with no stratum"
+  } ],
+  "_source_sha256" : "2ff9c9c46e8b42d5dc79a187b8f1092028a33e6eba052c8be1b86e44ec905fe6"
+}
