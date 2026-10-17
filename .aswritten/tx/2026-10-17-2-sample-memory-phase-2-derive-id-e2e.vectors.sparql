@@ -1,0 +1,214 @@
+PREFIX narr: <https://aswritten.ai/narrative#>
+PREFIX aswr: <https://aswritten.ai/aswr#>
+PREFIX rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX prov: <http://www.w3.org/ns/prov#>
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+PREFIX dct:  <http://purl.org/dc/terms/>
+PREFIX xsd:  <http://www.w3.org/2001/XMLSchema#>
+PREFIX oa:   <http://www.w3.org/ns/oa#>
+PREFIX xkos: <http://rdf-vocabulary.ddialliance.org/xkos#>
+
+INSERT DATA {
+  aswr:Tx_20261017T120746Z a prov:Activity ;
+      prov:generatedAtTime "2026-10-17T12:07:46Z"^^xsd:dateTime ;
+      prov:wasAssociatedWith "aswritten.ai" ;
+      prov:wasAttributedTo "xena+staging@aswritten.ai" ;
+      aswr:pipelinePin "3c78c6227b87" ;
+      aswr:originPath ".aswritten/memories/2026-10-17-2-sample-memory-phase-2-derive-id-e2e.md" ;
+      dct:title "Multipass fragment: 20261017_2_SampleMemoryPhase2DeriveIdE2E_hc4dc2066c58d" ;
+      prov:generated narr:VecConviction_20261017_2_SampleMemoryPhase2DeriveIdE2E_hc4dc2066c58d_1, narr:VecConviction_20261017_2_SampleMemoryPhase2DeriveIdE2E_hc4dc2066c58d_2, narr:VecTemporal_20261017_2_SampleMemoryPhase2DeriveIdE2E_hc4dc2066c58d_1, narr:VecTemporal_20261017_2_SampleMemoryPhase2DeriveIdE2E_hc4dc2066c58d_2 .
+} ;
+INSERT DATA {
+  GRAPH aswr:Tx_20261017T120746Z {
+    narr:VecConviction_20261017_2_SampleMemoryPhase2DeriveIdE2E_hc4dc2066c58d_1 a narr:VectorObservation ;
+        oa:hasTarget narr:Expr_20261017_2_SampleMemoryPhase2DeriveIdE2E_hc4dc2066c58d_1 ;
+        narr:dimension narr:Dim_Conviction ;
+        narr:region narr:Conviction_Claim ;
+        narr:evidence "plain-assertion: Reproduces the missing-id failure pattern from prod" ;
+        narr:reported false ;
+        skos:note "Flat, unhedged factual assertion about a reproduction; no hedges or settling language, so claim rather than decision." ;
+        prov:generatedAtTime "2026-10-17T12:07:46Z"^^xsd:dateTime .
+
+    narr:VecConviction_20261017_2_SampleMemoryPhase2DeriveIdE2E_hc4dc2066c58d_2 a narr:VectorObservation ;
+        oa:hasTarget narr:Expr_20261017_2_SampleMemoryPhase2DeriveIdE2E_hc4dc2066c58d_2 ;
+        narr:dimension narr:Dim_Conviction ;
+        narr:region narr:Conviction_Claim ;
+        narr:evidence "commitment-marker: Must not crash" ;
+        narr:reported false ;
+        skos:note "Firm requirement wording, but no ratification or performed settling; a position still being specified, so the lower region (claim) is taken over decision." ;
+        prov:generatedAtTime "2026-10-17T12:07:46Z"^^xsd:dateTime .
+
+    narr:VecTemporal_20261017_2_SampleMemoryPhase2DeriveIdE2E_hc4dc2066c58d_1 a narr:VectorObservation ;
+        oa:hasTarget narr:Expr_20261017_2_SampleMemoryPhase2DeriveIdE2E_hc4dc2066c58d_1 ;
+        narr:dimension narr:Dim_Temporal ;
+        narr:region narr:Temporal_Present ;
+        narr:region narr:Temporal_Realis ;
+        narr:region narr:Temporal_Concrete ;
+        narr:evidence "plain-assertion: Reproduces the missing-id failure pattern from prod" ;
+        narr:evidence "lexical-marker: ## level heading" ;
+        narr:reported false ;
+        skos:note "Present-tense report of an observed failure from prod, anchored to a specific heading artifact; 'pattern' is the only abstract touch and is outweighed by the concrete markup cited." ;
+        prov:generatedAtTime "2026-10-17T12:07:46Z"^^xsd:dateTime .
+
+    narr:VecTemporal_20261017_2_SampleMemoryPhase2DeriveIdE2E_hc4dc2066c58d_2 a narr:VectorObservation ;
+        oa:hasTarget narr:Expr_20261017_2_SampleMemoryPhase2DeriveIdE2E_hc4dc2066c58d_2 ;
+        narr:dimension narr:Dim_Temporal ;
+        narr:region narr:Temporal_Future ;
+        narr:region narr:Temporal_Irrealis ;
+        narr:evidence "modal-marker: Must not crash" ;
+        narr:evidence "modal-marker: must produce a valid slug" ;
+        narr:reported false ;
+        skos:note "Deontic 'must' frames desired future outcomes not yet actual; no explicit would/could/might, so modality is retained as irrealis." ;
+        prov:generatedAtTime "2026-10-17T12:07:46Z"^^xsd:dateTime .
+
+    narr:Position_SlugGenerationWithoutId narr:supports narr:Narrative_SlugGenerationFromContent .
+
+    narr:Expr_20261017_2_SampleMemoryPhase2DeriveIdE2E_hc4dc2066c58d_1 narr:supports narr:Position_SlugGenerationWithoutId .
+
+    narr:Expr_20261017_2_SampleMemoryPhase2DeriveIdE2E_hc4dc2066c58d_2 narr:supports narr:Position_SlugGenerationWithoutId .
+
+    aswr:Miss_20261017_2_SampleMemoryPhase2DeriveIdE2E_hc4dc2066c58d_affect_trip a aswr:Miss ;
+        aswr:missPass "affect" ;
+        aswr:missClass "floor" ;
+        aswr:missError "0 of 2 segments marked" ;
+        aswr:missModel "anthropic/claude-haiku-5.5" ;
+        aswr:tripFloor "marked_zero" ;
+        aswr:tripRatio "0.0000"^^xsd:decimal ;
+        aswr:tripOutcome "accepted-flagged" ;
+        aswr:tripFallbackModel "anthropic/claude-sonnet-5.5" ;
+        aswr:missScope narr:Sample_20261017_2_SampleMemoryPhase2DeriveIdE2E_hc4dc2066c58d ;
+        prov:generatedAtTime "2026-10-17T12:07:46Z"^^xsd:dateTime .
+
+    aswr:Miss_20261017_2_SampleMemoryPhase2DeriveIdE2E_hc4dc2066c58d_power_trip a aswr:Miss ;
+        aswr:missPass "power" ;
+        aswr:missClass "floor" ;
+        aswr:missError "0 of 2 segments marked" ;
+        aswr:missModel "anthropic/claude-haiku-5.5" ;
+        aswr:tripFloor "marked_zero" ;
+        aswr:tripRatio "0.0000"^^xsd:decimal ;
+        aswr:tripOutcome "accepted-flagged" ;
+        aswr:tripFallbackModel "anthropic/claude-sonnet-5.5" ;
+        aswr:missScope narr:Sample_20261017_2_SampleMemoryPhase2DeriveIdE2E_hc4dc2066c58d ;
+        prov:generatedAtTime "2026-10-17T12:07:46Z"^^xsd:dateTime .
+
+    aswr:Miss_20261017_2_SampleMemoryPhase2DeriveIdE2E_hc4dc2066c58d_register_trip a aswr:Miss ;
+        aswr:missPass "register" ;
+        aswr:missClass "floor" ;
+        aswr:missError "0 of 2 segments marked" ;
+        aswr:missModel "anthropic/claude-haiku-5.5" ;
+        aswr:tripFloor "marked_zero" ;
+        aswr:tripRatio "0.0000"^^xsd:decimal ;
+        aswr:tripOutcome "accepted-flagged" ;
+        aswr:tripFallbackModel "anthropic/claude-sonnet-5.5" ;
+        aswr:missScope narr:Sample_20261017_2_SampleMemoryPhase2DeriveIdE2E_hc4dc2066c58d ;
+        prov:generatedAtTime "2026-10-17T12:07:46Z"^^xsd:dateTime .
+
+    aswr:Miss_20261017_2_SampleMemoryPhase2DeriveIdE2E_hc4dc2066c58d_relational_trip a aswr:Miss ;
+        aswr:missPass "relational" ;
+        aswr:missClass "floor" ;
+        aswr:missError "0 of 2 segments marked" ;
+        aswr:missModel "anthropic/claude-haiku-5.5" ;
+        aswr:tripFloor "marked_zero" ;
+        aswr:tripRatio "0.0000"^^xsd:decimal ;
+        aswr:tripOutcome "accepted-flagged" ;
+        aswr:tripFallbackModel "anthropic/claude-sonnet-5.5" ;
+        aswr:missScope narr:Sample_20261017_2_SampleMemoryPhase2DeriveIdE2E_hc4dc2066c58d ;
+        prov:generatedAtTime "2026-10-17T12:07:46Z"^^xsd:dateTime .
+
+    aswr:Miss_20261017_2_SampleMemoryPhase2DeriveIdE2E_hc4dc2066c58d_style_trip a aswr:Miss ;
+        aswr:missPass "style" ;
+        aswr:missClass "floor" ;
+        aswr:missError "0 of 2 segments marked" ;
+        aswr:missModel "anthropic/claude-haiku-5.5" ;
+        aswr:tripFloor "marked_zero" ;
+        aswr:tripRatio "0.0000"^^xsd:decimal ;
+        aswr:tripOutcome "accepted-flagged" ;
+        aswr:tripFallbackModel "anthropic/claude-sonnet-5.5" ;
+        aswr:missScope narr:Sample_20261017_2_SampleMemoryPhase2DeriveIdE2E_hc4dc2066c58d ;
+        prov:generatedAtTime "2026-10-17T12:07:46Z"^^xsd:dateTime .
+
+    aswr:Miss_20261017_2_SampleMemoryPhase2DeriveIdE2E_hc4dc2066c58d_value_trip a aswr:Miss ;
+        aswr:missPass "value" ;
+        aswr:missClass "floor" ;
+        aswr:missError "0 of 2 segments marked" ;
+        aswr:missModel "anthropic/claude-haiku-5.5" ;
+        aswr:tripFloor "marked_zero" ;
+        aswr:tripRatio "0.0000"^^xsd:decimal ;
+        aswr:tripOutcome "accepted-flagged" ;
+        aswr:tripFallbackModel "anthropic/claude-sonnet-5.5" ;
+        aswr:missScope narr:Sample_20261017_2_SampleMemoryPhase2DeriveIdE2E_hc4dc2066c58d ;
+        prov:generatedAtTime "2026-10-17T12:07:46Z"^^xsd:dateTime .
+
+    aswr:Run_20261017T120746Z_dim_affect a prov:Activity ;
+        aswr:runPass "dim.affect" ;
+        aswr:draftedBy "anthropic/claude-haiku-5.5" ;
+        aswr:artifact "aswritten/runs:runs/e3f555094bfa/2026-10-17-2-sample-memory-phase-2-derive-id-e2e/dim.affect.json" ;
+        dct:isPartOf aswr:Tx_20261017T120746Z ;
+        prov:generatedAtTime "2026-10-17T12:07:46Z"^^xsd:dateTime .
+
+    aswr:Run_20261017T120746Z_dim_conviction a prov:Activity ;
+        aswr:runPass "dim.conviction" ;
+        aswr:draftedBy "anthropic/claude-haiku-5.5" ;
+        aswr:artifact "aswritten/runs:runs/e3f555094bfa/2026-10-17-2-sample-memory-phase-2-derive-id-e2e/dim.conviction.json" ;
+        prov:generated narr:VecConviction_20261017_2_SampleMemoryPhase2DeriveIdE2E_hc4dc2066c58d_1, narr:VecConviction_20261017_2_SampleMemoryPhase2DeriveIdE2E_hc4dc2066c58d_2 ;
+        dct:isPartOf aswr:Tx_20261017T120746Z ;
+        prov:generatedAtTime "2026-10-17T12:07:46Z"^^xsd:dateTime .
+
+    aswr:Run_20261017T120746Z_dim_power a prov:Activity ;
+        aswr:runPass "dim.power" ;
+        aswr:draftedBy "anthropic/claude-haiku-5.5" ;
+        aswr:artifact "aswritten/runs:runs/e3f555094bfa/2026-10-17-2-sample-memory-phase-2-derive-id-e2e/dim.power.json" ;
+        dct:isPartOf aswr:Tx_20261017T120746Z ;
+        prov:generatedAtTime "2026-10-17T12:07:46Z"^^xsd:dateTime .
+
+    aswr:Run_20261017T120746Z_dim_register a prov:Activity ;
+        aswr:runPass "dim.register" ;
+        aswr:draftedBy "anthropic/claude-haiku-5.5" ;
+        aswr:artifact "aswritten/runs:runs/e3f555094bfa/2026-10-17-2-sample-memory-phase-2-derive-id-e2e/dim.register.json" ;
+        dct:isPartOf aswr:Tx_20261017T120746Z ;
+        prov:generatedAtTime "2026-10-17T12:07:46Z"^^xsd:dateTime .
+
+    aswr:Run_20261017T120746Z_dim_relational a prov:Activity ;
+        aswr:runPass "dim.relational" ;
+        aswr:draftedBy "anthropic/claude-haiku-5.5" ;
+        aswr:artifact "aswritten/runs:runs/e3f555094bfa/2026-10-17-2-sample-memory-phase-2-derive-id-e2e/dim.relational.json" ;
+        dct:isPartOf aswr:Tx_20261017T120746Z ;
+        prov:generatedAtTime "2026-10-17T12:07:46Z"^^xsd:dateTime .
+
+    aswr:Run_20261017T120746Z_dim_style a prov:Activity ;
+        aswr:runPass "dim.style" ;
+        aswr:draftedBy "anthropic/claude-haiku-5.5" ;
+        aswr:artifact "aswritten/runs:runs/e3f555094bfa/2026-10-17-2-sample-memory-phase-2-derive-id-e2e/dim.style.json" ;
+        dct:isPartOf aswr:Tx_20261017T120746Z ;
+        prov:generatedAtTime "2026-10-17T12:07:46Z"^^xsd:dateTime .
+
+    aswr:Run_20261017T120746Z_dim_temporal a prov:Activity ;
+        aswr:runPass "dim.temporal" ;
+        aswr:draftedBy "anthropic/claude-haiku-5.5" ;
+        aswr:artifact "aswritten/runs:runs/e3f555094bfa/2026-10-17-2-sample-memory-phase-2-derive-id-e2e/dim.temporal.json" ;
+        prov:generated narr:VecTemporal_20261017_2_SampleMemoryPhase2DeriveIdE2E_hc4dc2066c58d_1, narr:VecTemporal_20261017_2_SampleMemoryPhase2DeriveIdE2E_hc4dc2066c58d_2 ;
+        dct:isPartOf aswr:Tx_20261017T120746Z ;
+        prov:generatedAtTime "2026-10-17T12:07:46Z"^^xsd:dateTime .
+
+    aswr:Run_20261017T120746Z_dim_value a prov:Activity ;
+        aswr:runPass "dim.value" ;
+        aswr:draftedBy "anthropic/claude-haiku-5.5" ;
+        aswr:artifact "aswritten/runs:runs/e3f555094bfa/2026-10-17-2-sample-memory-phase-2-derive-id-e2e/dim.value.json" ;
+        dct:isPartOf aswr:Tx_20261017T120746Z ;
+        prov:generatedAtTime "2026-10-17T12:07:46Z"^^xsd:dateTime .
+
+    aswr:Run_20261017T120746Z_pass5 a prov:Activity ;
+        aswr:runPass "pass5" ;
+        aswr:draftedBy "deepseek/deepseek-v4.1-flash" ;
+        aswr:artifact "aswritten/runs:runs/e3f555094bfa/2026-10-17-2-sample-memory-phase-2-derive-id-e2e/pass5.json" ;
+        dct:isPartOf aswr:Tx_20261017T120746Z ;
+        prov:generatedAtTime "2026-10-17T12:07:46Z"^^xsd:dateTime .
+
+    aswr:Run_20261017T120746Z_position a prov:Activity ;
+        aswr:runPass "position" ;
+        aswr:draftedBy "deepseek/deepseek-v4.1-flash" ;
+        aswr:artifact "aswritten/runs:runs/e3f555094bfa/2026-10-17-2-sample-memory-phase-2-derive-id-e2e/position.json" ;
+        dct:isPartOf aswr:Tx_20261017T120746Z ;
+        prov:generatedAtTime "2026-10-17T12:07:46Z"^^xsd:dateTime .
+  }
+}
