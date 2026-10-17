@@ -1,0 +1,54 @@
+{
+  "placements" : [ {
+    "verdict" : "reuse",
+    "leaf" : "Narrative_CalibrationVerifiedAgainstReferencePlates",
+    "supporting_positions" : [ "Position_KestrelwoodCalibrationState" ],
+    "why" : "This document attaches src-3 ('The observatory never calibrated it.') to Position_KestrelwoodCalibrationState, the position that already sits under this leaf. The leaf asks what reference the instrument was checked against and whether the calibration holds across the band; the denial answers that question at the root — there was no calibration, so no reference and no band coverage. The leaf now carries both the verified 88.4 MHz / June-plates claim and the flat denial of it, which is exactly the tension the leaf's frame is built to hold.",
+    "consulted" : [ "Narrative_CalibrationVerifiedAgainstReferencePlates", "Narrative_FirstWeekRunsOnAChecklistNotAPage", "Position_KestrelwoodCalibrationState", "ForgetKestrelwoodCalibrationRequest" ]
+  }, {
+    "lineage" : {
+      "relation" : "see",
+      "target" : "Narrative_CalibrationVerifiedAgainstReferencePlates"
+    },
+    "under" : null,
+    "supporting_positions" : [ "ForgetKestrelwoodCalibrationRequest", "Position_KestrelwoodCalibrationState" ],
+    "why" : "The document's two directives ('Forget the Kestrelwood spectrograph calibration entirely', 'Remove all knowledge about the Kestrelwood spectrograph, its 88.4 MHz calibration, and Quill Ashgrove's calibration work') and its denial ('The observatory never calibrated it') are not statements about what the calibration is — they are moves against the record of it. That is a subject beyond these words: how a calibration record is contested, erased, or denied, and what the act of asking assumes about the record. No existing leaf holds it; the calibration leaf is close but asks about reference standards, not about the record's standing, so this mint stands beside it with a `see` lineage rather than under it.",
+    "verdict" : "mint",
+    "leaf" : "Narrative_CalibrationRecordCanBeDeniedOrAskedAway",
+    "title" : "A calibration record can be denied outright or asked to be forgotten, and either move is itself a claim about the record it displaces",
+    "frame" : "When a calibration is denied or asked to be forgotten, what does the move assume about the record it is trying to displace?",
+    "consulted" : [ "Narrative_CalibrationVerifiedAgainstReferencePlates", "Narrative_FirstWeekRunsOnAChecklistNotAPage", "Position_KestrelwoodCalibrationState", "ForgetKestrelwoodCalibrationRequest", "InstrumentCalibration" ]
+  } ],
+  "unplaced" : [ ],
+  "weighed" : [ ],
+  "strata" : {
+    "mints" : [ {
+      "name" : "CalibratedOrNeverCalibrated",
+      "type" : "contested",
+      "title" : "The Kestrelwood spectrograph is calibrated at 88.4 MHz against the June reference plates, or the observatory never calibrated it at all",
+      "why" : "The document sets a flat denial against the recorded calibration claim without resolving it: 'The observatory never calibrated it' now sits in the same position as 'The Kestrelwood spectrograph is now calibrated at 88.4 MHz.' No existing stratum holds this tension — InstrumentCalibration groups the calibration subject, not the disagreement over whether it happened — so the contested grouping is minted with both sides named and left unresolved.",
+      "nests_in" : [ "InstrumentCalibration" ]
+    } ],
+    "connections" : [ {
+      "member" : "Narrative_CalibrationRecordCanBeDeniedOrAskedAway",
+      "strata" : [ "InstrumentCalibration", "CalibratedOrNeverCalibrated" ],
+      "why" : "The leaf is about the Kestrelwood calibration record being asked away and denied, so it belongs to the instrument-calibration subject and to the contested grouping that names the two sides."
+    }, {
+      "member" : "Position_ForgetKestrelwoodCalibrationRequest",
+      "strata" : [ "InstrumentCalibration" ],
+      "why" : "The position pass proposed this position under InstrumentCalibration; the request names the instrument, its 88.4 MHz calibration, and Quill Ashgrove's calibration work, so the grouping holds it."
+    }, {
+      "member" : "Position_KestrelwoodCalibrationState",
+      "strata" : [ "CalibratedOrNeverCalibrated" ],
+      "why" : "This document attached the denial to this position, so it now carries both the verified claim and the flat contradiction — the contested stratum's two sides live in it. Its existing InstrumentCalibration connection is left as it stands."
+    } ],
+    "disconnections" : [ ],
+    "unconnected" : [ ]
+  },
+  "strata_flags" : [ {
+    "flag" : "strata_silent",
+    "subject" : "Narrative_CalibrationVerifiedAgainstReferencePlates",
+    "detail" : "placed narrative named in neither connections nor unconnected"
+  } ],
+  "_source_sha256" : "4d500e5d6b5feec7c2de0412ee10e3d0040e5f24c7f88e01af4a063679ac3ee1"
+}
