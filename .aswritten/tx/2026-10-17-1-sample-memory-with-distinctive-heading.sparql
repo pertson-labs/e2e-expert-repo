@@ -1,0 +1,85 @@
+PREFIX narr: <https://aswritten.ai/narrative#>
+PREFIX aswr: <https://aswritten.ai/aswr#>
+PREFIX rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX prov: <http://www.w3.org/ns/prov#>
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+PREFIX dct:  <http://purl.org/dc/terms/>
+PREFIX xsd:  <http://www.w3.org/2001/XMLSchema#>
+PREFIX oa:   <http://www.w3.org/ns/oa#>
+PREFIX xkos: <http://rdf-vocabulary.ddialliance.org/xkos#>
+
+INSERT DATA {
+  aswr:Tx_20261017T120642Z a prov:Activity ;
+      prov:generatedAtTime "2026-10-17T12:06:42Z"^^xsd:dateTime ;
+      prov:wasAssociatedWith "aswritten.ai" ;
+      prov:wasAttributedTo "xena+staging@aswritten.ai" ;
+      aswr:pipelinePin "3c78c6227b87" ;
+      aswr:originPath ".aswritten/memories/2026-10-17-1-sample-memory-with-distinctive-heading.md" ;
+      dct:title "Multipass source extraction: Sample Memory With Distinctive Heading" ;
+      prov:generated narr:Sample_20261017_1_SampleMemoryWithDistinctiveHeading_ha4d0a1772db9, narr:Expr_20261017_1_SampleMemoryWithDistinctiveHeading_ha4d0a1772db9_1, narr:Expr_20261017_1_SampleMemoryWithDistinctiveHeading_ha4d0a1772db9_2, narr:Actor_XenaExpertgh .
+} ;
+INSERT DATA {
+  GRAPH aswr:Tx_20261017T120642Z {
+    narr:Sample_20261017_1_SampleMemoryWithDistinctiveHeading_ha4d0a1772db9 a narr:Sample ;
+        dct:title "Sample Memory With Distinctive Heading" ;
+        aswr:originPath ".aswritten/memories/2026-10-17-1-sample-memory-with-distinctive-heading.md" ;
+        aswr:submittedBy narr:Actor_XenaExpertgh ;
+        aswr:account narr:Actor_XenaExpertgh .
+
+    narr:Expr_20261017_1_SampleMemoryWithDistinctiveHeading_ha4d0a1772db9_1 a narr:Expression ;
+        narr:actor narr:Actor_XenaExpertgh ;
+        narr:act "assertive" ;
+        narr:animator narr:Actor_XenaExpertgh ;
+        narr:author narr:Actor_XenaExpertgh ;
+        narr:context "Note about how this memory document was submitted" ;
+        aswr:qualityFlag "principal:unresolved" ;
+        oa:hasTarget [ a oa:SpecificResource ;
+            oa:hasSource narr:Sample_20261017_1_SampleMemoryWithDistinctiveHeading_ha4d0a1772db9 ;
+            oa:hasSelector [ a oa:TextQuoteSelector ;
+                oa:exact "Submitted without an explicit id field." ;
+                oa:prefix "ory With Distinctive Heading\n\n" ;
+                oa:suffix " The pipeline must produce a\ns" ] ;
+            oa:hasSelector [ a oa:TextPositionSelector ;
+                oa:start "92"^^xsd:integer ;
+                oa:end "131"^^xsd:integer ] ] ;
+        prov:generatedAtTime "2026-10-17T12:06:42Z"^^xsd:dateTime .
+
+    narr:Expr_20261017_1_SampleMemoryWithDistinctiveHeading_ha4d0a1772db9_2 a narr:Expression ;
+        narr:actor narr:Actor_XenaExpertgh ;
+        narr:act "directive" ;
+        narr:animator narr:Actor_XenaExpertgh ;
+        narr:author narr:Actor_XenaExpertgh ;
+        narr:context "Instruction to the pipeline for handling this memory document" ;
+        skos:note "Directive: instructs the pipeline what it must do." ;
+        aswr:qualityFlag "principal:unresolved" ;
+        oa:hasTarget [ a oa:SpecificResource ;
+            oa:hasSource narr:Sample_20261017_1_SampleMemoryWithDistinctiveHeading_ha4d0a1772db9 ;
+            oa:hasSelector [ a oa:TextQuoteSelector ;
+                oa:exact "The pipeline must produce a\nslug from the memory content — either via the LLM id-gen call or the\ndeterministic slugify fallback — and commit the file successfully." ;
+                oa:prefix "without an explicit id field. " ;
+                oa:suffix "" ] ;
+            oa:hasSelector [ a oa:TextPositionSelector ;
+                oa:start "132"^^xsd:integer ;
+                oa:end "295"^^xsd:integer ] ] ;
+        prov:generatedAtTime "2026-10-17T12:06:42Z"^^xsd:dateTime .
+
+    narr:Actor_XenaExpertgh a narr:Actor ;
+        skos:prefLabel "Xena ExpertGH" .
+
+    aswr:Run_20261017T120642Z_actors a prov:Activity ;
+        aswr:runPass "actors" ;
+        aswr:draftedBy "deepseek/deepseek-v4.1-flash" ;
+        aswr:artifact "aswritten/runs:runs/eaf5fe5efb75/2026-10-17-1-sample-memory-with-distinctive-heading/actors.json" ;
+        prov:generated narr:Actor_XenaExpertgh ;
+        dct:isPartOf aswr:Tx_20261017T120642Z ;
+        prov:generatedAtTime "2026-10-17T12:06:42Z"^^xsd:dateTime .
+
+    aswr:Run_20261017T120642Z_pass1 a prov:Activity ;
+        aswr:runPass "pass1" ;
+        aswr:draftedBy "z-ai/glm-5.3-flash" ;
+        aswr:artifact "aswritten/runs:runs/eaf5fe5efb75/2026-10-17-1-sample-memory-with-distinctive-heading/pass1.json" ;
+        prov:generated narr:Sample_20261017_1_SampleMemoryWithDistinctiveHeading_ha4d0a1772db9, narr:Expr_20261017_1_SampleMemoryWithDistinctiveHeading_ha4d0a1772db9_1, narr:Expr_20261017_1_SampleMemoryWithDistinctiveHeading_ha4d0a1772db9_2 ;
+        dct:isPartOf aswr:Tx_20261017T120642Z ;
+        prov:generatedAtTime "2026-10-17T12:06:42Z"^^xsd:dateTime .
+  }
+}
