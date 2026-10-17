@@ -1,0 +1,35 @@
+{
+  "placements" : [ {
+    "verdict" : "mint",
+    "leaf" : "Narrative_SignedManifestDeploymentGate",
+    "title" : "Shipping requires a signature: the release manifest becomes the gate every Meridian deploy must pass",
+    "frame" : "What must be true of an artifact before it is allowed to reach staging or production, which deploys the requirement covers, and who answers for holding the line?",
+    "under" : null,
+    "supporting_positions" : [ "MeridianDeploymentGate" ],
+    "why" : "The graph supplies no narrative leaves at all, so nothing existing can hold this. The content is not a one-time measurement but a standing governance subject: a rule that every Meridian deployment must carry a signed release manifest before it ships, scoped to staging and production, owned by the CTO, and justified by the incident that motivated it. Future envelopes about release integrity, artifact provenance, or deploy gating will keep feeding this leaf, so it passes the grain test. It is minted standalone because the supplied structure is empty — no hub exists or is legible alongside it.",
+    "consulted" : [ "graph structure (empty — no narrative leaves, no hubs)", "EXISTING STRATA (none)", "POSITIONS block (none surfaced)", "POSITION VERDICTS: MeridianDeploymentGate (members src-1, src-2)" ]
+  } ],
+  "unplaced" : [ ],
+  "weighed" : [ ],
+  "strata" : {
+    "mints" : [ {
+      "name" : "UnsignedArtifactsDroveTheGate",
+      "type" : "causal",
+      "title" : "Two unsigned artifacts reached staging last quarter, which set off the signed-manifest requirement on every Meridian deploy",
+      "coordinate" : null,
+      "why" : "The content itself draws the line from cause to effect in the CTO's own words — the unsigned artifacts that reached staging are named as 'the whole reason for the gate'. This is a causal grouping across the graph, not a topic: it links the incident account to the rule it produced, and future envelopes about the gate's justification or its revision will connect here."
+    } ],
+    "connections" : [ {
+      "member" : "Narrative_SignedManifestDeploymentGate",
+      "strata" : [ "UnsignedArtifactsDroveTheGate" ],
+      "why" : "The leaf's narrative is the effect side of the causal grouping: the gate exists because unsigned artifacts reached staging, and the leaf cannot be read apart from that origin."
+    }, {
+      "member" : "Position_MeridianDeploymentGate",
+      "strata" : [ "UnsignedArtifactsDroveTheGate" ],
+      "why" : "The position holds both the performed requirement and the recorded spec entry, and its members carry the causal claim ('that is the whole reason for the gate') that the stratum encodes."
+    } ],
+    "disconnections" : [ ],
+    "unconnected" : [ ]
+  },
+  "_source_sha256" : "03d0fba059551f7346a655f03d07ed2bd78df9aa4a533804f28631856bef1d1e"
+}
